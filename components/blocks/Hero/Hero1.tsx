@@ -50,7 +50,6 @@ export function Hero1({
             className="text-4xl md:text-6xl font-bold mb-6 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 focus:ring-offset-transparent rounded p-1"
             dangerouslySetInnerHTML={{ __html: title }}
           />
-          <br />
           <p 
             contentEditable
             suppressContentEditableWarning
