@@ -1,10 +1,11 @@
 "use client"
 
-import type React from "react"
+import React from "react"
 import { Element, useEditor } from "@craftjs/core"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Badge } from "@/components/ui/badge"
+import { useViewportStore } from "@/lib/store/viewport-store"
 import {
   CraftHero1,
   CraftHero2,
@@ -61,7 +62,38 @@ import {
   CraftContact3,
   CraftContact4,
   CraftContact5,
-} from "./craft-components"
+  CraftTeam1,
+  CraftTeam2,
+  CraftTeam3,
+  CraftTeam4,
+  CraftTeam5,
+  CraftBlogGrid1,
+  CraftBlogGrid2,
+  CraftBlogGrid3,
+  CraftBlogGrid4,
+  CraftBlogGrid5,
+  CraftProductDetails1,
+  CraftProductDetails2,
+  CraftProductDetails3,
+  CraftProductDetails4,
+  CraftProductDetails5,
+  CraftGallery1,
+  CraftGallery2,
+  CraftGallery3,
+  CraftGallery4,
+  CraftGallery5,
+  CraftTestimonial1,
+  CraftTestimonial2,
+  CraftTestimonial3,
+  CraftTestimonial4,
+  CraftTestimonial5,
+  CraftAccount1,
+  CraftNewsletter1,
+  CraftNewsletter2,
+  CraftNewsletter3,
+  CraftNewsletter4,
+  CraftNewsletter5,
+} from "@/components/editor/craft-components"
 
 interface BlockItemProps {
   component: React.ComponentType
@@ -69,42 +101,56 @@ interface BlockItemProps {
   description: string
 }
 
-function BlockItem({ component, name, description }: BlockItemProps) {
-  const { connectors } = useEditor()
+const BlockItem = ({ component: Component, name, description }: { component: any, name: string, description?: string }) => {
+  const {
+    connectors: { create },
+  } = useEditor()
+
+  // Create the element using JSX syntax for proper CraftJS handling
+  const createElement = () => {
+    if (name === "Hero1") {
+      return <Component title="Your Hero Title" subtitle="Your compelling subtitle" backgroundImage="/placeholder-hero.jpg" />
+    }
+    if (name === "Header1") {
+      return <Component />
+    }
+    // Add more specific component creation logic as needed
+    return <Component />
+  }
 
   return (
     <div
       ref={(ref) => {
         if (ref) {
-          console.log(`Setting up drag for ${name}`)
-          connectors.create(ref, <Element is={component} />)
+          create(ref, createElement())
         }
       }}
-      className="group cursor-move border border-gray-200 rounded-lg p-4 hover:border-blue-300 hover:shadow-md transition-all"
-      draggable
-      onDragStart={(e) => {
-        console.log(`Starting drag for ${name}`)
-      }}
+      className="p-3 bg-gray-50 rounded-lg border border-gray-200 cursor-grab hover:bg-gray-100 transition-colors"
+      draggable={false}
     >
-      <div className="flex items-center justify-between mb-2">
-        <h4 className="font-medium text-sm text-gray-900 group-hover:text-blue-600">{name}</h4>
-        <div className="w-6 h-6 bg-gray-100 rounded flex items-center justify-center group-hover:bg-blue-100">
-          <svg
-            className="w-3 h-3 text-gray-500 group-hover:text-blue-500"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-          </svg>
-        </div>
-      </div>
-      <p className="text-xs text-gray-500">{description}</p>
+      <h4 className="font-medium text-sm">{name}</h4>
+      {description && <p className="text-xs text-gray-600 mt-1">{description}</p>}
     </div>
   )
 }
 
 export function EditorSidebar() {
+  const { currentViewport } = useViewportStore()
+  
+  const getViewportInfo = () => {
+    switch (currentViewport) {
+      case 'mobile':
+        return { name: 'Mobile', size: '375px' }
+      case 'tablet':
+        return { name: 'Tablet', size: '768px' }
+      case 'desktop':
+      default:
+        return { name: 'Desktop', size: '100%' }
+    }
+  }
+
+  const viewportInfo = getViewportInfo()
+
   const basicBlocks = [
     { component: CraftHeader1, name: "Header 1", description: "Clean navigation header" },
     { component: CraftHeader2, name: "Header 2", description: "Dark theme header" },
@@ -149,6 +195,31 @@ export function EditorSidebar() {
     { component: CraftBlog3, name: "Blog 3", description: "Dark theme blog" },
     { component: CraftBlog4, name: "Blog 4", description: "Minimal blog layout" },
     { component: CraftBlog5, name: "Blog 5", description: "Eco-friendly blog" },
+    { component: CraftBlogGrid1, name: "Blog Grid 1", description: "Grid layout for blog posts" },
+    { component: CraftBlogGrid2, name: "Blog Grid 2", description: "Masonry blog grid" },
+    { component: CraftBlogGrid3, name: "Blog Grid 3", description: "Dark theme blog grid" },
+    { component: CraftBlogGrid4, name: "Blog Grid 4", description: "Minimal blog grid" },
+    { component: CraftBlogGrid5, name: "Blog Grid 5", description: "Eco-friendly blog grid" },
+    { component: CraftTeam1, name: "Team 1", description: "Team member showcase" },
+    { component: CraftTeam2, name: "Team 2", description: "Team grid layout" },
+    { component: CraftTeam3, name: "Team 3", description: "Dark theme team" },
+    { component: CraftTeam4, name: "Team 4", description: "Minimal team layout" },
+    { component: CraftTeam5, name: "Team 5", description: "Eco-friendly team" },
+    { component: CraftTestimonial1, name: "Testimonial 1", description: "Customer testimonials" },
+    { component: CraftTestimonial2, name: "Testimonial 2", description: "Review carousel" },
+    { component: CraftTestimonial3, name: "Testimonial 3", description: "Dark theme testimonials" },
+    { component: CraftTestimonial4, name: "Testimonial 4", description: "Minimal testimonials" },
+    { component: CraftTestimonial5, name: "Testimonial 5", description: "Eco-friendly testimonials" },
+    { component: CraftGallery1, name: "Gallery 1", description: "Image gallery" },
+    { component: CraftGallery2, name: "Gallery 2", description: "Portfolio showcase" },
+    { component: CraftGallery3, name: "Gallery 3", description: "Dark theme gallery" },
+    { component: CraftGallery4, name: "Gallery 4", description: "Minimal gallery" },
+    { component: CraftGallery5, name: "Gallery 5", description: "Eco-friendly gallery" },
+    { component: CraftNewsletter1, name: "Newsletter 1", description: "Email signup form" },
+    { component: CraftNewsletter2, name: "Newsletter 2", description: "Newsletter subscription" },
+    { component: CraftNewsletter3, name: "Newsletter 3", description: "Dark theme newsletter" },
+    { component: CraftNewsletter4, name: "Newsletter 4", description: "Minimal newsletter" },
+    { component: CraftNewsletter5, name: "Newsletter 5", description: "Eco-friendly newsletter" },
   ]
 
   const ecommerceBlocks = [
@@ -157,6 +228,11 @@ export function EditorSidebar() {
     { component: CraftProducts3, name: "Products 3", description: "Product showcase" },
     { component: CraftProducts4, name: "Products 4", description: "Minimal products" },
     { component: CraftProducts5, name: "Products 5", description: "Eco-friendly products" },
+    { component: CraftProductDetails1, name: "Product Details 1", description: "Detailed product view" },
+    { component: CraftProductDetails2, name: "Product Details 2", description: "Product with gallery" },
+    { component: CraftProductDetails3, name: "Product Details 3", description: "Dark theme product details" },
+    { component: CraftProductDetails4, name: "Product Details 4", description: "Minimal product details" },
+    { component: CraftProductDetails5, name: "Product Details 5", description: "Eco-friendly product details" },
     { component: CraftPricing1, name: "Pricing 1", description: "Simple pricing table" },
     { component: CraftPricing2, name: "Pricing 2", description: "Feature comparison" },
     { component: CraftPricing3, name: "Pricing 3", description: "Toggle pricing" },
@@ -170,6 +246,7 @@ export function EditorSidebar() {
     { component: CraftContact3, name: "Contact 3", description: "Business contact" },
     { component: CraftContact4, name: "Contact 4", description: "Support contact" },
     { component: CraftContact5, name: "Contact 5", description: "Eco-friendly contact" },
+    { component: CraftAccount1, name: "Account 1", description: "User account dashboard" },
   ]
 
   return (
@@ -177,6 +254,12 @@ export function EditorSidebar() {
       <div className="p-4 border-b border-border">
         <h2 className="font-semibold text-foreground mb-1">Components</h2>
         <p className="text-sm text-muted-foreground">Drag components to add them to your page</p>
+        <div className="mt-2 flex items-center space-x-2">
+          <Badge variant="outline" className="text-xs">
+            {viewportInfo.name}
+          </Badge>
+          <span className="text-xs text-muted-foreground">{viewportInfo.size}</span>
+        </div>
       </div>
 
       <ScrollArea className="flex-1">

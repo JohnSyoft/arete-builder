@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Save, Eye, Undo, Redo, Smartphone, Monitor, Tablet, Trash2, ChevronDown, Plus } from "@/components/icons"
+import { useViewportStore, type ViewportType } from "@/lib/store/viewport-store"
 
 interface Page {
   id: string
@@ -40,12 +41,18 @@ export function EditorToolbar({
     selected: state.events.selected,
   }))
 
+  const { currentViewport, setViewport } = useViewportStore()
+
   const handleDelete = () => {
     if (selected.size > 0) {
       selected.forEach((nodeId) => {
         actions.delete(nodeId)
       })
     }
+  }
+
+  const handleViewportChange = (viewport: ViewportType) => {
+    setViewport(viewport)
   }
 
   return (
@@ -111,13 +118,31 @@ export function EditorToolbar({
 
         {/* Viewport Controls */}
         <div className="flex items-center space-x-1 bg-gray-100 rounded-lg p-1">
-          <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className={`h-8 w-8 p-0 ${currentViewport === 'mobile' ? 'bg-white shadow-sm' : ''}`}
+            onClick={() => handleViewportChange('mobile')}
+            title="Mobile View (375px)"
+          >
             <Smartphone className="w-4 h-4" />
           </Button>
-          <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className={`h-8 w-8 p-0 ${currentViewport === 'tablet' ? 'bg-white shadow-sm' : ''}`}
+            onClick={() => handleViewportChange('tablet')}
+            title="Tablet View (768px)"
+          >
             <Tablet className="w-4 h-4" />
           </Button>
-          <Button variant="ghost" size="sm" className="h-8 w-8 p-0 bg-white shadow-sm">
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className={`h-8 w-8 p-0 ${currentViewport === 'desktop' ? 'bg-white shadow-sm' : ''}`}
+            onClick={() => handleViewportChange('desktop')}
+            title="Desktop View (100%)"
+          >
             <Monitor className="w-4 h-4" />
           </Button>
         </div>

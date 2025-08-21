@@ -9,6 +9,7 @@ import { componentResolver } from "@/components/editor/craft-components"
 import { db, type Project, type Page } from "@/lib/db"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft } from "@/components/icons"
+import { useViewportStore } from "@/lib/store/viewport-store"
 
 // Component to handle editor actions inside the Editor context
 function EditorContent({
@@ -27,6 +28,7 @@ function EditorContent({
   onAddPage: () => void
 }) {
   const { actions, query } = useEditor()
+  const { getViewportStyles, currentViewport } = useViewportStore()
 
   const handleSave = () => {
     try {
@@ -40,10 +42,11 @@ function EditorContent({
 
   // Load the initial state when the layout data changes
   useEffect(() => {
-    if (layoutData && Object.keys(layoutData).length > 0) {
-      actions.deserialize(layoutData)
-    }
+    // Let CraftJS handle the initial state through Frame data prop
+    // Don't manually deserialize here as it can cause conflicts
   }, [actions, layoutData])
+
+  const viewportStyles = getViewportStyles()
 
   return (
     <>
@@ -63,18 +66,22 @@ function EditorContent({
 
         <div className="flex-1 overflow-auto">
           <div className="p-8">
-            <div className="max-w-none mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
-              <Frame>
+            <div 
+              className="mx-auto bg-white shadow-lg rounded-lg overflow-hidden"
+              style={viewportStyles}
+            >
+              <Frame data={layoutData}>
                 <Element 
-                  is="Canvas"
+                  is="Container"
                   canvas 
-                  className="min-h-[600px] p-4 border-2 border-dashed border-gray-200 bg-gray-50/50"
+                  className="min-h-[600px] p-4"
                   data-testid="canvas-root"
                 >
-                  <div className="text-center text-gray-500 mt-32">
-                    <div className="text-lg font-medium mb-2">Drop components here</div>
-                    <div className="text-sm">Drag blocks from the sidebar to start building your page</div>
-                  </div>
+                  {currentViewport !== 'desktop' && (
+                    <div className="text-center text-xs text-gray-400 mb-4 py-2 bg-gray-100 rounded">
+                      {currentViewport === 'mobile' ? 'Mobile View (375px)' : 'Tablet View (768px)'}
+                    </div>
+                  )}
                 </Element>
               </Frame>
             </div>

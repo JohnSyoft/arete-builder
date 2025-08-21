@@ -55,12 +55,48 @@ import { Contact2 } from "@/components/blocks/Contact/Contact2"
 import { Contact3 } from "@/components/blocks/Contact/Contact3"
 import { Contact4 } from "@/components/blocks/Contact/Contact4"
 import { Contact5 } from "@/components/blocks/Contact/Contact5"
+import { Team1 } from "@/components/blocks/Team/Team1"
+import { Team2 } from "@/components/blocks/Team/Team2"
+import { Team3 } from "@/components/blocks/Team/Team3"
+import { Team4 } from "@/components/blocks/Team/Team4"
+import { Team5 } from "@/components/blocks/Team/Team5"
+import { BlogGrid1 } from "@/components/blocks/BlogGrid/BlogGrid1"
+import { BlogGrid2 } from "@/components/blocks/BlogGrid/BlogGrid2"
+import { BlogGrid3 } from "@/components/blocks/BlogGrid/BlogGrid3"
+import { BlogGrid4 } from "@/components/blocks/BlogGrid/BlogGrid4"
+import { BlogGrid5 } from "@/components/blocks/BlogGrid/BlogGrid5"
+import { ProductDetails1 } from "@/components/blocks/ProductDetails/ProductDetails1"
+import { ProductDetails2 } from "@/components/blocks/ProductDetails/ProductDetails2"
+import { ProductDetails3 } from "@/components/blocks/ProductDetails/ProductDetails3"
+import { ProductDetails4 } from "@/components/blocks/ProductDetails/ProductDetails4"
+import { ProductDetails5 } from "@/components/blocks/ProductDetails/ProductDetails5"
+import { Gallery1 } from "@/components/blocks/Gallery/Gallery1"
+import { Gallery2 } from "@/components/blocks/Gallery/Gallery2"
+import { Gallery3 } from "@/components/blocks/Gallery/Gallery3"
+import { Gallery4 } from "@/components/blocks/Gallery/Gallery4"
+import { Gallery5 } from "@/components/blocks/Gallery/Gallery5"
+import { Testimonial1 } from "@/components/blocks/Testimonial/Testimonial1"
+import { Testimonial2 } from "@/components/blocks/Testimonial/Testimonial2"
+import { Testimonial3 } from "@/components/blocks/Testimonial/Testimonial3"
+import { Testimonial4 } from "@/components/blocks/Testimonial/Testimonial4"
+import { Testimonial5 } from "@/components/blocks/Testimonial/Testimonial5"
+import { Account1 } from "@/components/blocks/Account/Account1"
+import { Newsletter1 } from "@/components/blocks/Newsletter/Newsletter1"
+import { Newsletter2 } from "@/components/blocks/Newsletter/Newsletter2"
+import { Newsletter3 } from "@/components/blocks/Newsletter/Newsletter3"
+import { Newsletter4 } from "@/components/blocks/Newsletter/Newsletter4"
+import { Newsletter5 } from "@/components/blocks/Newsletter/Newsletter5"
 
-// Container component for the root
-export const Container = ({ children }: { children: React.ReactNode }) => {
+// Container component for wrapping other components
+export const Container = ({ children, className = "", ...props }: { children?: React.ReactNode, className?: string, [key: string]: any }) => {
   const {
     connectors: { connect, drag },
-  } = useNode()
+    selected,
+    hovered,
+  } = useNode((state) => ({
+    selected: state.events.selected,
+    hovered: state.events.hovered,
+  }))
 
   return (
     <div
@@ -69,23 +105,21 @@ export const Container = ({ children }: { children: React.ReactNode }) => {
           connect(drag(ref))
         }
       }}
-      className="min-h-screen w-full"
+      className={`relative ${className}`}
+      style={{
+        minHeight: children ? 'auto' : '200px',
+        border: selected ? '2px solid #3b82f6' : hovered ? '2px solid #93c5fd' : '2px dashed #e5e7eb',
+      }}
+      {...props}
     >
       {children}
+      {selected && (
+        <div className="absolute top-2 left-2 bg-blue-500 text-white text-xs px-2 py-1 rounded z-10">
+          Container
+        </div>
+      )}
     </div>
   )
-}
-
-Container.craft = {
-  displayName: "Container",
-  props: {},
-  rules: {
-    canDrag: () => false,
-    canDrop: () => true,
-    canMoveIn: () => true,
-    canMoveOut: () => true,
-  },
-  isCanvas: true,
 }
 
 // Canvas component for drop zones
@@ -107,6 +141,18 @@ export const Canvas = ({ children, className = "", ...props }: { children?: Reac
       {children}
     </div>
   )
+}
+
+Canvas.craft = {
+  displayName: "Canvas",
+  props: {},
+  rules: {
+    canDrag: () => true,
+    canDrop: () => true,
+    canMoveIn: () => true,
+    canMoveOut: () => true,
+  },
+  isCanvas: true,
 }
 
 Canvas.craft = {
@@ -167,13 +213,13 @@ function createCraftComponent(Component: React.ComponentType, displayName: strin
   return CraftComponent
 }
 
-export const CraftHero1 = createCraftComponent(Hero1, "Hero 1")
+export const CraftHero1 = Hero1
 export const CraftHero2 = createCraftComponent(Hero2, "Hero 2")
 export const CraftHero3 = createCraftComponent(Hero3, "Hero 3")
 export const CraftHero4 = createCraftComponent(Hero4, "Hero 4")
 export const CraftHero5 = createCraftComponent(Hero5, "Hero 5")
 
-export const CraftHeader1 = createCraftComponent(Header1, "Header 1")
+export const CraftHeader1 = Header1
 export const CraftHeader2 = createCraftComponent(Header2, "Header 2")
 export const CraftHeader3 = createCraftComponent(Header3, "Header 3")
 export const CraftHeader4 = createCraftComponent(Header4, "Header 4")
@@ -233,6 +279,44 @@ export const CraftContact3 = createCraftComponent(Contact3, "Contact 3")
 export const CraftContact4 = createCraftComponent(Contact4, "Contact 4")
 export const CraftContact5 = createCraftComponent(Contact5, "Contact 5")
 
+export const CraftTeam1 = createCraftComponent(Team1, "Team 1")
+export const CraftTeam2 = createCraftComponent(Team2, "Team 2")
+export const CraftTeam3 = createCraftComponent(Team3, "Team 3")
+export const CraftTeam4 = createCraftComponent(Team4, "Team 4")
+export const CraftTeam5 = createCraftComponent(Team5, "Team 5")
+
+export const CraftBlogGrid1 = createCraftComponent(BlogGrid1, "Blog Grid 1")
+export const CraftBlogGrid2 = createCraftComponent(BlogGrid2, "Blog Grid 2")
+export const CraftBlogGrid3 = createCraftComponent(BlogGrid3, "Blog Grid 3")
+export const CraftBlogGrid4 = createCraftComponent(BlogGrid4, "Blog Grid 4")
+export const CraftBlogGrid5 = createCraftComponent(BlogGrid5, "Blog Grid 5")
+
+export const CraftProductDetails1 = createCraftComponent(ProductDetails1, "Product Details 1")
+export const CraftProductDetails2 = createCraftComponent(ProductDetails2, "Product Details 2")
+export const CraftProductDetails3 = createCraftComponent(ProductDetails3, "Product Details 3")
+export const CraftProductDetails4 = createCraftComponent(ProductDetails4, "Product Details 4")
+export const CraftProductDetails5 = createCraftComponent(ProductDetails5, "Product Details 5")
+
+export const CraftGallery1 = createCraftComponent(Gallery1, "Gallery 1")
+export const CraftGallery2 = createCraftComponent(Gallery2, "Gallery 2")
+export const CraftGallery3 = createCraftComponent(Gallery3, "Gallery 3")
+export const CraftGallery4 = createCraftComponent(Gallery4, "Gallery 4")
+export const CraftGallery5 = createCraftComponent(Gallery5, "Gallery 5")
+
+export const CraftTestimonial1 = createCraftComponent(Testimonial1, "Testimonial 1")
+export const CraftTestimonial2 = createCraftComponent(Testimonial2, "Testimonial 2")
+export const CraftTestimonial3 = createCraftComponent(Testimonial3, "Testimonial 3")
+export const CraftTestimonial4 = createCraftComponent(Testimonial4, "Testimonial 4")
+export const CraftTestimonial5 = createCraftComponent(Testimonial5, "Testimonial 5")
+
+export const CraftAccount1 = createCraftComponent(Account1, "Account 1")
+
+export const CraftNewsletter1 = createCraftComponent(Newsletter1, "Newsletter 1")
+export const CraftNewsletter2 = createCraftComponent(Newsletter2, "Newsletter 2")
+export const CraftNewsletter3 = createCraftComponent(Newsletter3, "Newsletter 3")
+export const CraftNewsletter4 = createCraftComponent(Newsletter4, "Newsletter 4")
+export const CraftNewsletter5 = createCraftComponent(Newsletter5, "Newsletter 5")
+
 export const componentResolver = {
   Container,
   Canvas,
@@ -291,4 +375,35 @@ export const componentResolver = {
   Contact3: CraftContact3,
   Contact4: CraftContact4,
   Contact5: CraftContact5,
+  Team1: CraftTeam1,
+  Team2: CraftTeam2,
+  Team3: CraftTeam3,
+  Team4: CraftTeam4,
+  Team5: CraftTeam5,
+  BlogGrid1: CraftBlogGrid1,
+  BlogGrid2: CraftBlogGrid2,
+  BlogGrid3: CraftBlogGrid3,
+  BlogGrid4: CraftBlogGrid4,
+  BlogGrid5: CraftBlogGrid5,
+  ProductDetails1: CraftProductDetails1,
+  ProductDetails2: CraftProductDetails2,
+  ProductDetails3: CraftProductDetails3,
+  ProductDetails4: CraftProductDetails4,
+  ProductDetails5: CraftProductDetails5,
+  Gallery1: CraftGallery1,
+  Gallery2: CraftGallery2,
+  Gallery3: CraftGallery3,
+  Gallery4: CraftGallery4,
+  Gallery5: CraftGallery5,
+  Testimonial1: CraftTestimonial1,
+  Testimonial2: CraftTestimonial2,
+  Testimonial3: CraftTestimonial3,
+  Testimonial4: CraftTestimonial4,
+  Testimonial5: CraftTestimonial5,
+  Account1: CraftAccount1,
+  Newsletter1: CraftNewsletter1,
+  Newsletter2: CraftNewsletter2,
+  Newsletter3: CraftNewsletter3,
+  Newsletter4: CraftNewsletter4,
+  Newsletter5: CraftNewsletter5,
 }
