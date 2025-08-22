@@ -1,116 +1,133 @@
 import { Button } from "@/components/ui/button"
-import { useNode } from "@craftjs/core"
+import { useNode, useEditor, Element } from "@craftjs/core"
 import React from "react"
+import { Text as CraftText } from "@/components/blocks/Basic/Text"
+import { Button as CraftButton } from "@/components/blocks/Basic/Button"
+import { Image as CraftImage } from "@/components/blocks/Basic/Image"
+import { Section, SectionProps } from "@/components/blocks/Basic/Section"
 
-interface Hero2Props {
+interface Hero2Props extends SectionProps {
   title?: string
   subtitle?: string
   primaryButtonText?: string
   secondaryButtonText?: string
-  backgroundColor?: string
+  imageUrl?: string
+  imageAlt?: string
 }
 
-export function Hero2({ 
+export function Hero2({
   title = "The Future of Web Design",
   subtitle = "Transform your ideas into beautiful, responsive websites. Our intuitive platform makes web design accessible to everyone.",
   primaryButtonText = "Start Building",
   secondaryButtonText = "View Examples",
-  backgroundColor = "bg-white"
+  imageUrl = "/placeholder.svg?height=400&width=400",
+  imageAlt = "Website Builder Preview",
+  ...props
 }: Hero2Props) {
-  const {
-    connectors: { connect, drag },
-    selected,
-    hovered,
-    actions: { setProp },
-  } = useNode((state) => ({
-    selected: state.events.selected,
-    hovered: state.events.hovered,
-  }))
+  // Set Hero2-specific defaults
+  const heroProps = {
+    backgroundColor: "#ffffff",
+    padding: "4rem 1rem",
+    minHeight: "400px",
+    className: "text-gray-900",
+    hasContentWrapper: true,
+    contentMaxWidth: "7xl",
+    contentPadding: "px-4 sm:px-6 lg:px-8 py-16 lg:py-24",
+    ...props
+  }
 
   return (
-    <section 
-      ref={(ref) => {
-        if (ref) {
-          connect(drag(ref))
-        }
-      }}
-      className={`relative ${backgroundColor} ${
-        selected ? "ring-2 ring-blue-500" : ""
-      } ${hovered ? "ring-1 ring-blue-300" : ""}`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-12 items-center py-16 lg:py-24">
-          <div>
-            <h1 
-              contentEditable
-              suppressContentEditableWarning
-              onBlur={(e: React.FocusEvent<HTMLHeadingElement>) =>
-                setProp((props: Hero2Props) => (props.title = e.currentTarget.textContent || ""))
-              }
-              className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 focus:ring-offset-transparent rounded p-1"
-              dangerouslySetInnerHTML={{ __html: title }}
-            />
-            <p 
-              contentEditable
-              suppressContentEditableWarning
-              onBlur={(e: React.FocusEvent<HTMLParagraphElement>) =>
-                setProp((props: Hero2Props) => (props.subtitle = e.currentTarget.textContent || ""))
-              }
-              className="text-lg text-gray-600 mb-8 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 focus:ring-offset-transparent rounded p-1"
-              dangerouslySetInnerHTML={{ __html: subtitle }}
-            />
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button size="lg" className="bg-blue-600 hover:bg-blue-700">
-                <span
-                  contentEditable
-                  suppressContentEditableWarning
-                  onBlur={(e: React.FocusEvent<HTMLSpanElement>) =>
-                    setProp((props: Hero2Props) => (props.primaryButtonText = e.currentTarget.textContent || ""))
-                  }
-                  className="focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 focus:ring-offset-transparent rounded"
-                  dangerouslySetInnerHTML={{ __html: primaryButtonText }}
-                />
-              </Button>
-              <Button size="lg" variant="outline">
-                <span
-                  contentEditable
-                  suppressContentEditableWarning
-                  onBlur={(e: React.FocusEvent<HTMLSpanElement>) =>
-                    setProp((props: Hero2Props) => (props.secondaryButtonText = e.currentTarget.textContent || ""))
-                  }
-                  className="focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 focus:ring-offset-transparent rounded"
-                  dangerouslySetInnerHTML={{ __html: secondaryButtonText }}
-                />
-              </Button>
-            </div>
-            <div className="flex items-center gap-6 mt-8 text-sm text-gray-500">
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                No Credit Card Required
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                Free Forever Plan
-              </div>
-            </div>
-          </div>
-          <div className="relative">
-            <div className="aspect-square bg-gradient-to-br from-blue-100 to-purple-100 rounded-2xl flex items-center justify-center">
-              <img
-                src="/placeholder.svg?height=400&width=400"
-                alt="Website Builder Preview"
-                className="w-full h-full object-cover rounded-2xl"
+    <Section {...heroProps}>
+      <Element id="hero2Content" is="div" canvas className="grid lg:grid-cols-2 gap-12 items-center">
+        <Element id="hero2TextContent" is="div" canvas>
+          {/* Title */}
+          <Element is="div" className="p-2 hover:ring-1 hover:ring-blue-300 hover:ring-dashed rounded mb-6" canvas={false}>
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900">
+              <CraftText
+                text={title}
+                tagName="span"
+                fontSize="text-4xl md:text-5xl"
+                fontWeight="font-bold"
+                color="text-gray-900"
+                margin=""
               />
-            </div>
-          </div>
-        </div>
-      </div>
-      {(selected || hovered) && (
-        <div className="absolute top-0 left-0 bg-blue-500 text-white text-xs px-2 py-1 rounded-br z-10">
-          Hero 2
-        </div>
-      )}
-    </section>
+            </h1>
+          </Element>
+          
+          {/* Subtitle */}
+          <Element is="div" className="p-2 hover:ring-1 hover:ring-blue-300 hover:ring-dashed rounded mb-8" canvas={false}>
+            <p className="text-lg text-gray-600">
+              <CraftText
+                text={subtitle}
+                tagName="span"
+                fontSize="text-lg"
+                fontWeight="font-normal"
+                color="text-gray-600"
+                margin=""
+              />
+            </p>
+          </Element>
+          
+          {/* Buttons */}
+          <Element is="div" className="flex flex-col sm:flex-row gap-4 mb-8" canvas>
+            <Element is="div" canvas={false}>
+              <CraftButton
+                text={primaryButtonText}
+                variant="default"
+                size="lg"
+                href=""
+              />
+            </Element>
+            <Element is="div" canvas={false}>
+              <CraftButton
+                text={secondaryButtonText}
+                variant="outline"
+                size="lg"
+                href=""
+              />
+            </Element>
+          </Element>
+          
+          {/* Features */}
+          <Element is="div" className="flex items-center gap-6 text-sm text-gray-500" canvas>
+            <Element is="div" className="flex items-center gap-2" canvas={false}>
+              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+              <CraftText
+                text="No Credit Card Required"
+                tagName="span"
+                fontSize="text-sm"
+                fontWeight="font-normal"
+                color="text-gray-500"
+                margin=""
+              />
+            </Element>
+            <Element is="div" className="flex items-center gap-2" canvas={false}>
+              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+              <CraftText
+                text="Free Forever Plan"
+                tagName="span"
+                fontSize="text-sm"
+                fontWeight="font-normal"
+                color="text-gray-500"
+                margin=""
+              />
+            </Element>
+          </Element>
+        </Element>
+        
+        {/* Image Section */}
+        <Element id="hero2ImageContent" is="div" canvas className="relative">
+          <Element is="div" className="aspect-square bg-gradient-to-br from-blue-100 to-purple-100 rounded-2xl flex items-center justify-center" canvas={false}>
+            <CraftImage
+              src={imageUrl}
+              alt={imageAlt}
+              width="w-full"
+              height="h-full"
+            />
+          </Element>
+        </Element>
+      </Element>
+    </Section>
   )
 }
 
@@ -121,7 +138,8 @@ Hero2.craft = {
     subtitle: "Transform your ideas into beautiful, responsive websites. Our intuitive platform makes web design accessible to everyone.",
     primaryButtonText: "Start Building",
     secondaryButtonText: "View Examples",
-    backgroundColor: "bg-white",
+    imageUrl: "/placeholder.svg?height=400&width=400",
+    imageAlt: "Website Builder Preview",
   },
   rules: {
     canDrag: () => true,

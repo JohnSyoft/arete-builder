@@ -17,14 +17,19 @@ export function Hero1(props: Hero1Props) {
     minHeight: "400px",
     overflow: "hidden",
     className: "text-white",
+    // Enable overlay and content wrapper by default for Hero
+    hasOverlay: true,
+    overlayColor: "#000000",
+    overlayOpacity: "0.2",
+    hasContentWrapper: true,
+    contentMaxWidth: "7xl",
+    contentPadding: "px-4 sm:px-6 lg:px-8 py-24 lg:py-32",
     ...props
   }
 
   return (
     <Section {...heroProps}>
-      <div className="absolute inset-0 bg-black/20"></div>
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
-        <Element id="heroContent" is="div" canvas className="text-center">
+      <Element id="heroContent" is="div" canvas className="text-center">
           {/* Title as draggable component with padding for drag area */}
           <Element is="div" className="p-2 hover:ring-1 hover:ring-blue-300 hover:ring-dashed rounded" canvas={false}>
             <h1 className="text-4xl md:text-6xl font-bold mb-6 text-white">
@@ -78,7 +83,6 @@ export function Hero1(props: Hero1Props) {
             />
           </Element>
         </Element>
-      </div>
     </Section>
   )
 }
@@ -91,7 +95,14 @@ Hero1.craft = {
     padding: "4rem 1rem",
     minHeight: "400px",
     overflow: "hidden",
-    className: "text-white"
+    className: "text-white",
+    // Enable overlay and content wrapper by default for Hero
+    hasOverlay: true,
+    overlayColor: "#000000",
+    overlayOpacity: "0.2",
+    hasContentWrapper: true,
+    contentMaxWidth: "7xl",
+    contentPadding: "px-4 sm:px-6 lg:px-8 py-24 lg:py-32"
   },
   rules: {
     canDrag: () => true,

@@ -755,6 +755,119 @@ export function GlobalPropertiesPanel() {
           </Select>
         </div>
       </div>
+
+      {/* Overlay Section */}
+      <div className="space-y-3">
+        <h4 className="text-sm font-medium text-gray-700 border-b pb-1">Overlay</h4>
+        
+        <div>
+          <label className="flex items-center space-x-2">
+            <input
+              type="checkbox"
+              checked={elementProps?.hasOverlay || false}
+              onChange={(e) => handlePropChange('hasOverlay', e.target.checked)}
+            />
+            <span className="text-sm">Enable Overlay</span>
+          </label>
+        </div>
+
+        {elementProps?.hasOverlay && (
+          <>
+            <div>
+              <Label htmlFor="overlayColor">Overlay Color</Label>
+              <Input
+                id="overlayColor"
+                type="color"
+                value={elementProps?.overlayColor || '#000000'}
+                onChange={(e) => handlePropChange('overlayColor', e.target.value)}
+                className="mt-1 h-10"
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="overlayOpacity">Overlay Opacity</Label>
+              <Select value={elementProps?.overlayOpacity || '0.2'} onValueChange={(value) => handlePropChange('overlayOpacity', value)}>
+                <SelectTrigger className="mt-1">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="0">0% (Transparent)</SelectItem>
+                  <SelectItem value="0.1">10%</SelectItem>
+                  <SelectItem value="0.2">20%</SelectItem>
+                  <SelectItem value="0.3">30%</SelectItem>
+                  <SelectItem value="0.4">40%</SelectItem>
+                  <SelectItem value="0.5">50%</SelectItem>
+                  <SelectItem value="0.6">60%</SelectItem>
+                  <SelectItem value="0.7">70%</SelectItem>
+                  <SelectItem value="0.8">80%</SelectItem>
+                  <SelectItem value="0.9">90%</SelectItem>
+                  <SelectItem value="1">100% (Opaque)</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </>
+        )}
+      </div>
+
+      {/* Content Wrapper Section */}
+      <div className="space-y-3">
+        <h4 className="text-sm font-medium text-gray-700 border-b pb-1">Content Wrapper</h4>
+        
+        <div>
+          <label className="flex items-center space-x-2">
+            <input
+              type="checkbox"
+              checked={elementProps?.hasContentWrapper || false}
+              onChange={(e) => handlePropChange('hasContentWrapper', e.target.checked)}
+            />
+            <span className="text-sm">Enable Content Wrapper</span>
+          </label>
+        </div>
+
+        {elementProps?.hasContentWrapper && (
+          <>
+            <div>
+              <Label htmlFor="contentMaxWidth">Max Width</Label>
+              <Select value={elementProps?.contentMaxWidth || '7xl'} onValueChange={(value) => handlePropChange('contentMaxWidth', value)}>
+                <SelectTrigger className="mt-1">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="sm">Small (640px)</SelectItem>
+                  <SelectItem value="md">Medium (768px)</SelectItem>
+                  <SelectItem value="lg">Large (1024px)</SelectItem>
+                  <SelectItem value="xl">Extra Large (1280px)</SelectItem>
+                  <SelectItem value="2xl">2XL (1536px)</SelectItem>
+                  <SelectItem value="3xl">3XL (1600px)</SelectItem>
+                  <SelectItem value="4xl">4XL (1792px)</SelectItem>
+                  <SelectItem value="5xl">5XL (1920px)</SelectItem>
+                  <SelectItem value="6xl">6XL (2048px)</SelectItem>
+                  <SelectItem value="7xl">7XL (2560px)</SelectItem>
+                  <SelectItem value="full">Full Width</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div>
+              <Label htmlFor="contentPadding">Content Padding</Label>
+              <Select value={elementProps?.contentPadding || 'px-4 sm:px-6 lg:px-8 py-24 lg:py-32'} onValueChange={(value) => handlePropChange('contentPadding', value)}>
+                <SelectTrigger className="mt-1">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="p-0">None</SelectItem>
+                  <SelectItem value="p-4">Small</SelectItem>
+                  <SelectItem value="p-8">Medium</SelectItem>
+                  <SelectItem value="px-4 py-8">X-Small, Y-Medium</SelectItem>
+                  <SelectItem value="px-8 py-16">X-Medium, Y-Large</SelectItem>
+                  <SelectItem value="px-4 sm:px-6 lg:px-8 py-12">Responsive Small</SelectItem>
+                  <SelectItem value="px-4 sm:px-6 lg:px-8 py-24 lg:py-32">Responsive Large (Hero)</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </>
+        )}
+      </div>
     </div>
   )
   }
@@ -939,7 +1052,7 @@ export function GlobalPropertiesPanel() {
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-y-0 right-0 w-80 bg-white border-l border-gray-200 shadow-lg z-50 transform transition-transform duration-300">
+    <div className="fixed inset-y-0 right-0 w-80 bg-white border-l border-gray-200 shadow-lg z-50 transform transition-transform duration-300 flex flex-col">
       <div className="flex items-center justify-between p-4 border-b border-gray-200">
         <h3 className="text-lg font-semibold">Properties</h3>
         <Button variant="ghost" size="sm" onClick={closePanel}>
@@ -947,7 +1060,8 @@ export function GlobalPropertiesPanel() {
         </Button>
       </div>
       
-      <ScrollArea className="flex-1 p-4">
+      <ScrollArea className="flex-1 h-0">
+        <div className="p-4">
         {elementType === 'text' && renderTextProperties()}
         {elementType === 'button' && renderButtonProperties()}
         {elementType === 'container' && renderContainerProperties()}
@@ -961,6 +1075,7 @@ export function GlobalPropertiesPanel() {
             <p>Select an element to edit its properties</p>
           </div>
         )}
+        </div>
       </ScrollArea>
     </div>
   )

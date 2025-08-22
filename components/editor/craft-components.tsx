@@ -242,107 +242,107 @@ export const CraftSection = Section
 // Hero blocks
 export const CraftHero1 = Hero1
 export const CraftHero2 = Hero2
-export const CraftHero3 = createCraftComponent(Hero3, "Hero 3")
-export const CraftHero4 = createCraftComponent(Hero4, "Hero 4")
-export const CraftHero5 = createCraftComponent(Hero5, "Hero 5")
+export const CraftHero3 = Hero3
+export const CraftHero4 = Hero4
+export const CraftHero5 = Hero5
 
 export const CraftHeader1 = Header1
 export const CraftHeader2 = Header2
-export const CraftHeader3 = createCraftComponent(Header3, "Header 3")
-export const CraftHeader4 = createCraftComponent(Header4, "Header 4")
-export const CraftHeader5 = createCraftComponent(Header5, "Header 5")
+export const CraftHeader3 = Header3
+export const CraftHeader4 = Header4
+export const CraftHeader5 = Header5
 
-export const CraftFooter1 = createCraftComponent(Footer1, "Footer 1")
-export const CraftFooter2 = createCraftComponent(Footer2, "Footer 2")
-export const CraftFooter3 = createCraftComponent(Footer3, "Footer 3")
-export const CraftFooter4 = createCraftComponent(Footer4, "Footer 4")
-export const CraftFooter5 = createCraftComponent(Footer5, "Footer 5")
+export const CraftFooter1 = Footer1
+export const CraftFooter2 = Footer2
+export const CraftFooter3 = Footer3
+export const CraftFooter4 = Footer4
+export const CraftFooter5 = Footer5
 
-export const CraftCTA1 = createCraftComponent(CTA1, "CTA 1")
-export const CraftCTA2 = createCraftComponent(CTA2, "CTA 2")
-export const CraftCTA3 = createCraftComponent(CTA3, "CTA 3")
-export const CraftCTA4 = createCraftComponent(CTA4, "CTA 4")
-export const CraftCTA5 = createCraftComponent(CTA5, "CTA 5")
+export const CraftCTA1 = CTA1
+export const CraftCTA2 = CTA2
+export const CraftCTA3 = CTA3
+export const CraftCTA4 = CTA4
+export const CraftCTA5 = CTA5
 
-export const CraftFeatures1 = createCraftComponent(Features1, "Features 1")
-export const CraftFeatures2 = createCraftComponent(Features2, "Features 2")
-export const CraftFeatures3 = createCraftComponent(Features3, "Features 3")
-export const CraftFeatures4 = createCraftComponent(Features4, "Features 4")
-export const CraftFeatures5 = createCraftComponent(Features5, "Features 5")
+export const CraftFeatures1 = Features1
+export const CraftFeatures2 = Features2
+export const CraftFeatures3 = Features3
+export const CraftFeatures4 = Features4
+export const CraftFeatures5 = Features5
 
-export const CraftFAQ1 = createCraftComponent(FAQ1, "FAQ 1")
-export const CraftFAQ2 = createCraftComponent(FAQ2, "FAQ 2")
-export const CraftFAQ3 = createCraftComponent(FAQ3, "FAQ 3")
-export const CraftFAQ4 = createCraftComponent(FAQ4, "FAQ 4")
-export const CraftFAQ5 = createCraftComponent(FAQ5, "FAQ 5")
+export const CraftFAQ1 = FAQ1
+export const CraftFAQ2 = FAQ2
+export const CraftFAQ3 = FAQ3
+export const CraftFAQ4 = FAQ4
+export const CraftFAQ5 = FAQ5
 
-export const CraftPageHeader1 = createCraftComponent(PageHeader1, "Page Header 1")
-export const CraftPageHeader2 = createCraftComponent(PageHeader2, "Page Header 2")
-export const CraftPageHeader3 = createCraftComponent(PageHeader3, "Page Header 3")
-export const CraftPageHeader4 = createCraftComponent(PageHeader4, "Page Header 4")
-export const CraftPageHeader5 = createCraftComponent(PageHeader5, "Page Header 5")
+export const CraftPageHeader1 = PageHeader1 
+export const CraftPageHeader2 = PageHeader2 
+export const CraftPageHeader3 = PageHeader3 
+export const CraftPageHeader4 = PageHeader4 
+export const CraftPageHeader5 = PageHeader5 
 
-export const CraftBlog1 = createCraftComponent(Blog1, "Blog 1")
-export const CraftBlog2 = createCraftComponent(Blog2, "Blog 2")
-export const CraftBlog3 = createCraftComponent(Blog3, "Blog 3")
-export const CraftBlog4 = createCraftComponent(Blog4, "Blog 4")
-export const CraftBlog5 = createCraftComponent(Blog5, "Blog 5")
+export const CraftBlog1 = Blog1
+export const CraftBlog2 = Blog2
+export const CraftBlog3 = Blog3
+export const CraftBlog4 = Blog4
+export const CraftBlog5 = Blog5
 
-export const CraftProducts1 = createCraftComponent(Products1, "Products 1")
-export const CraftProducts2 = createCraftComponent(Products2, "Products 2")
-export const CraftProducts3 = createCraftComponent(Products3, "Products 3")
-export const CraftProducts4 = createCraftComponent(Products4, "Products 4")
-export const CraftProducts5 = createCraftComponent(Products5, "Products 5")
+export const CraftProducts1 = Products1
+export const CraftProducts2 = Products2
+export const CraftProducts3 = Products3
+export const CraftProducts4 = Products4
+export const CraftProducts5 = Products5
 
-export const CraftPricing1 = createCraftComponent(Pricing1, "Pricing 1")
-export const CraftPricing2 = createCraftComponent(Pricing2, "Pricing 2")
-export const CraftPricing3 = createCraftComponent(Pricing3, "Pricing 3")
-export const CraftPricing4 = createCraftComponent(Pricing4, "Pricing 4")
-export const CraftPricing5 = createCraftComponent(Pricing5, "Pricing 5")
+export const CraftPricing1 = Pricing1
+export const CraftPricing2 = Pricing2
+export const CraftPricing3 = Pricing3
+export const CraftPricing4 = Pricing4
+export const CraftPricing5 = Pricing5
 
-export const CraftContact1 = createCraftComponent(Contact1, "Contact 1")
-export const CraftContact2 = createCraftComponent(Contact2, "Contact 2")
-export const CraftContact3 = createCraftComponent(Contact3, "Contact 3")
-export const CraftContact4 = createCraftComponent(Contact4, "Contact 4")
-export const CraftContact5 = createCraftComponent(Contact5, "Contact 5")
+export const CraftContact1 = Contact1
+export const CraftContact2 = Contact2
+export const CraftContact3 = Contact3
+export const CraftContact4 = Contact4
+export const CraftContact5 = Contact5
 
-export const CraftTeam1 = createCraftComponent(Team1, "Team 1")
-export const CraftTeam2 = createCraftComponent(Team2, "Team 2")
-export const CraftTeam3 = createCraftComponent(Team3, "Team 3")
-export const CraftTeam4 = createCraftComponent(Team4, "Team 4")
-export const CraftTeam5 = createCraftComponent(Team5, "Team 5")
+export const CraftTeam1 = Team1
+export const CraftTeam2 = Team2
+export const CraftTeam3 = Team3
+export const CraftTeam4 = Team4
+export const CraftTeam5 = Team5
 
-export const CraftBlogGrid1 = createCraftComponent(BlogGrid1, "Blog Grid 1")
-export const CraftBlogGrid2 = createCraftComponent(BlogGrid2, "Blog Grid 2")
-export const CraftBlogGrid3 = createCraftComponent(BlogGrid3, "Blog Grid 3")
-export const CraftBlogGrid4 = createCraftComponent(BlogGrid4, "Blog Grid 4")
-export const CraftBlogGrid5 = createCraftComponent(BlogGrid5, "Blog Grid 5")
+export const CraftBlogGrid1 = BlogGrid1 
+export const CraftBlogGrid2 = BlogGrid2 
+export const CraftBlogGrid3 = BlogGrid3 
+export const CraftBlogGrid4 = BlogGrid4 
+export const CraftBlogGrid5 = BlogGrid5 
 
-export const CraftProductDetails1 = createCraftComponent(ProductDetails1, "Product Details 1")
-export const CraftProductDetails2 = createCraftComponent(ProductDetails2, "Product Details 2")
-export const CraftProductDetails3 = createCraftComponent(ProductDetails3, "Product Details 3")
-export const CraftProductDetails4 = createCraftComponent(ProductDetails4, "Product Details 4")
-export const CraftProductDetails5 = createCraftComponent(ProductDetails5, "Product Details 5")
+export const CraftProductDetails1 = ProductDetails1 
+export const CraftProductDetails2 = ProductDetails2 
+export const CraftProductDetails3 = ProductDetails3 
+export const CraftProductDetails4 = ProductDetails4 
+export const CraftProductDetails5 = ProductDetails5 
 
-export const CraftGallery1 = createCraftComponent(Gallery1, "Gallery 1")
-export const CraftGallery2 = createCraftComponent(Gallery2, "Gallery 2")
-export const CraftGallery3 = createCraftComponent(Gallery3, "Gallery 3")
-export const CraftGallery4 = createCraftComponent(Gallery4, "Gallery 4")
-export const CraftGallery5 = createCraftComponent(Gallery5, "Gallery 5")
+export const CraftGallery1 = Gallery1
+export const CraftGallery2 = Gallery2
+export const CraftGallery3 = Gallery3
+export const CraftGallery4 = Gallery4
+export const CraftGallery5 = Gallery5
 
-export const CraftTestimonial1 = createCraftComponent(Testimonial1, "Testimonial 1")
-export const CraftTestimonial2 = createCraftComponent(Testimonial2, "Testimonial 2")
-export const CraftTestimonial3 = createCraftComponent(Testimonial3, "Testimonial 3")
-export const CraftTestimonial4 = createCraftComponent(Testimonial4, "Testimonial 4")
-export const CraftTestimonial5 = createCraftComponent(Testimonial5, "Testimonial 5")
+export const CraftTestimonial1 = Testimonial1
+export const CraftTestimonial2 = Testimonial2
+export const CraftTestimonial3 = Testimonial3
+export const CraftTestimonial4 = Testimonial4
+export const CraftTestimonial5 = Testimonial5
 
-export const CraftAccount1 = createCraftComponent(Account1, "Account 1")
+export const CraftAccount1 = Account1
 
-export const CraftNewsletter1 = createCraftComponent(Newsletter1, "Newsletter 1")
-export const CraftNewsletter2 = createCraftComponent(Newsletter2, "Newsletter 2")
-export const CraftNewsletter3 = createCraftComponent(Newsletter3, "Newsletter 3")
-export const CraftNewsletter4 = createCraftComponent(Newsletter4, "Newsletter 4")
-export const CraftNewsletter5 = createCraftComponent(Newsletter5, "Newsletter 5")
+export const CraftNewsletter1 = Newsletter1
+export const CraftNewsletter2 = Newsletter2
+export const CraftNewsletter3 = Newsletter3
+export const CraftNewsletter4 = Newsletter4
+export const CraftNewsletter5 = Newsletter5
 
 export const componentResolver = {
   Container,

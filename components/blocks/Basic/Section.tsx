@@ -33,6 +33,14 @@ export interface SectionProps {
   overflow?: string
   // Custom classes
   className?: string
+  // Overlay properties
+  hasOverlay?: boolean
+  overlayColor?: string
+  overlayOpacity?: string
+  // Content wrapper properties
+  hasContentWrapper?: boolean
+  contentMaxWidth?: string
+  contentPadding?: string
 }
 
 export function Section({
@@ -64,7 +72,15 @@ export function Section({
   // Overflow
   overflow = "visible",
   // Custom classes
-  className = ""
+  className = "",
+  // Overlay properties
+  hasOverlay = false,
+  overlayColor = "#000000",
+  overlayOpacity = "0.2",
+  // Content wrapper properties
+  hasContentWrapper = false,
+  contentMaxWidth = "7xl",
+  contentPadding = "px-4 sm:px-6 lg:px-8 py-24 lg:py-32"
 }: SectionProps) {
   const {
     connectors: { connect, drag },
@@ -102,7 +118,13 @@ export function Section({
       maxHeight,
       boxShadow,
       opacity,
-      overflow
+      overflow,
+      hasOverlay,
+      overlayColor,
+      overlayOpacity,
+      hasContentWrapper,
+      contentMaxWidth,
+      contentPadding
     }, id, (newProps) => {
       Object.keys(newProps).forEach(key => {
         setProp((props: SectionProps) => {
@@ -157,7 +179,25 @@ export function Section({
       } ${hovered ? "ring-1 ring-blue-300" : ""}`}
       style={sectionStyles}
     >
-      {children}
+      {/* Conditional overlay */}
+      {hasOverlay && (
+        <div 
+          className="absolute inset-0"
+          style={{
+            backgroundColor: overlayColor,
+            opacity: parseFloat(overlayOpacity)
+          }}
+        />
+      )}
+      
+      {/* Conditional content wrapper */}
+      {hasContentWrapper ? (
+        <div className={`relative max-w-${contentMaxWidth} mx-auto ${contentPadding}`}>
+          {children}
+        </div>
+      ) : (
+        children
+      )}
       
       {/* Floating toolbar shown on hover/selection */}
       {(selected || hovered) && (
@@ -212,7 +252,15 @@ Section.craft = {
     // Overflow
     overflow: "visible",
     // Custom classes
-    className: ""
+    className: "",
+    // Overlay properties
+    hasOverlay: false,
+    overlayColor: "#000000",
+    overlayOpacity: "0.2",
+    // Content wrapper properties
+    hasContentWrapper: false,
+    contentMaxWidth: "7xl",
+    contentPadding: "px-4 sm:px-6 lg:px-8 py-24 lg:py-32"
   },
   rules: {
     canDrag: () => true,
