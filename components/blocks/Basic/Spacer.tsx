@@ -45,24 +45,7 @@ export function Spacer({
   }
 
   const handleHeightChange = () => {
-    const heights = [
-      { label: "Extra Small (4px)", value: "h-1" },
-      { label: "Small (8px)", value: "h-2" },
-      { label: "Medium (16px)", value: "h-4" },
-      { label: "Large (32px)", value: "h-8" },
-      { label: "Extra Large (64px)", value: "h-16" },
-      { label: "XXL (128px)", value: "h-32" },
-    ]
-    
-    const selection = prompt(
-      `Select height:\n${heights.map((h, i) => `${i + 1}. ${h.label}`).join('\n')}\n\nEnter number (1-${heights.length}):`,
-      "4"
-    )
-    
-    const index = parseInt(selection || "4") - 1
-    if (index >= 0 && index < heights.length) {
-      setProp((props: SpacerProps) => (props.height = heights[index].value))
-    }
+    handleShowProperties()
   }
 
   return (

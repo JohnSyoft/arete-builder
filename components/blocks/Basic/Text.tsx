@@ -85,10 +85,6 @@ export function Text({
           ${textAlign} 
           ${margin} 
           ${padding}
-          focus:outline-none 
-          focus:ring-2 
-          focus:ring-blue-300 
-          focus:ring-offset-2 
           rounded 
           min-h-[1.5rem]
         `}

@@ -17,8 +17,8 @@ interface ImageProps {
 export function Image({
   src = "/placeholder.svg?height=200&width=300",
   alt = "Image",
-  width = "w-full",
-  height = "h-48",
+  width = "300px",
+  height = "200px",
   objectFit = "object-cover",
   borderRadius = "rounded-lg",
   margin = "my-2",
@@ -60,18 +60,12 @@ export function Image({
   }
 
   const handleImageClick = () => {
-    const newSrc = prompt("Enter image URL:", src)
-    if (newSrc !== null) {
-      setProp((props: ImageProps) => (props.src = newSrc))
-    }
+    handleShowProperties()
   }
 
   const handleAltClick = (e: React.MouseEvent) => {
     e.stopPropagation()
-    const newAlt = prompt("Enter alt text:", alt)
-    if (newAlt !== null) {
-      setProp((props: ImageProps) => (props.alt = newAlt))
-    }
+    handleShowProperties()
   }
 
   return (
@@ -81,9 +75,11 @@ export function Image({
           connect(drag(ref))
         }
       }}
+      style={{
+        width: width,
+      }}
       className={`
         relative 
-        ${width} 
         ${margin} 
         ${padding}
         ${selected ? "ring-2 ring-blue-500" : ""} 
@@ -93,9 +89,11 @@ export function Image({
       <img
         src={src}
         alt={alt}
+        style={{
+          width: width,
+          height: height,
+        }}
         className={`
-          ${width} 
-          ${height} 
           ${objectFit} 
           ${borderRadius}
           cursor-pointer
@@ -147,8 +145,8 @@ Image.craft = {
   props: {
     src: "/placeholder.svg?height=200&width=300",
     alt: "Image",
-    width: "w-full",
-    height: "h-48",
+    width: "300px",
+    height: "200px",
     objectFit: "object-cover",
     borderRadius: "rounded-lg",
     margin: "my-2",

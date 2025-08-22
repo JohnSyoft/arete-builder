@@ -12,10 +12,7 @@ import {
   ContainerProperties,
   VideoProperties,
   SpacerProperties,
-  DividerProperties,
-  ColumnsProperties,
-  LinkProperties,
-  MapProperties
+  DividerProperties
 } from "./property-panels"
 
 export function GlobalPropertiesPanel() {
@@ -54,9 +51,6 @@ export function GlobalPropertiesPanel() {
           {elementType === 'video' && <VideoProperties elementProps={elementProps} onPropChange={handlePropChange} />}
           {elementType === 'spacer' && <SpacerProperties elementProps={elementProps} onPropChange={handlePropChange} />}
           {elementType === 'divider' && <DividerProperties elementProps={elementProps} onPropChange={handlePropChange} />}
-          {elementType === 'columns' && <ColumnsProperties elementProps={elementProps} onPropChange={handlePropChange} />}
-          {elementType === 'link' && <LinkProperties elementProps={elementProps} onPropChange={handlePropChange} />}
-          {elementType === 'map' && <MapProperties elementProps={elementProps} onPropChange={handlePropChange} />}
           {!elementType && (
             <div className="text-center text-gray-500 mt-8">
               <p>Select an element to edit its properties</p>

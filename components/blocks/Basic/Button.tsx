@@ -71,10 +71,7 @@ export function Button({
 
   const handleHrefClick = (e: React.MouseEvent) => {
     e.stopPropagation()
-    const newHref = prompt("Enter link URL:", href)
-    if (newHref !== null) {
-      setProp((props: ButtonProps) => (props.href = newHref))
-    }
+    handleShowProperties()
   }
 
   const customStyles = {

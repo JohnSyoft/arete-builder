@@ -20,7 +20,7 @@ export function Hero2({
   subtitle = "Transform your ideas into beautiful, responsive websites. Our intuitive platform makes web design accessible to everyone.",
   primaryButtonText = "Start Building",
   secondaryButtonText = "View Examples",
-  imageUrl = "/placeholder.svg?height=400&width=400",
+  imageUrl = "https://images.unsplash.com/photo-1741177364683-1ce4be9352a1?q=80&w=3132&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   imageAlt = "Website Builder Preview",
   ...props
 }: Hero2Props) {
@@ -136,7 +136,7 @@ Hero2.craft = {
     subtitle: "Transform your ideas into beautiful, responsive websites. Our intuitive platform makes web design accessible to everyone.",
     primaryButtonText: "Start Building",
     secondaryButtonText: "View Examples",
-    imageUrl: "/placeholder.svg?height=400&width=400",
+    imageUrl: "https://images.unsplash.com/photo-1741177364683-1ce4be9352a1?q=80&w=3132&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     imageAlt: "Website Builder Preview",
   },
   rules: {

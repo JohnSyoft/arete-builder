@@ -32,7 +32,7 @@ export function Hero1(props: Hero1Props) {
     <Section {...heroProps}>
       <Element id="heroContent" is="div" canvas className="text-center">
           {/* Title as draggable component with padding for drag area */}
-          <Element is="div" className="p-2 hover:ring-1 hover:ring-blue-300 hover:ring-dashed rounded" canvas={false}>
+          <Element is="div" className="p-2 rounded" canvas={false}>
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 text-white leading-tight">
               <CraftText
                 text="Build Amazing Websites"
@@ -46,7 +46,7 @@ export function Hero1(props: Hero1Props) {
           </Element>
           
           {/* Subtitle as draggable component with padding for drag area */}
-          <Element is="div" className="p-2 hover:ring-1 hover:ring-blue-300 hover:ring-dashed rounded max-w-2xl sm:max-w-3xl mx-auto" canvas={false}>
+          <Element is="div" className="p-2 rounded max-w-2xl sm:max-w-3xl mx-auto" canvas={false}>
             <p className="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 text-blue-100 leading-relaxed px-2">
               <CraftText
                 text="Create stunning, professional websites with our powerful drag-and-drop builder. No coding required."

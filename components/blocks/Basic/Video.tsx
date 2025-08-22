@@ -72,10 +72,7 @@ export function Video({
   }
 
   const handleVideoClick = () => {
-    const newSrc = prompt("Enter video URL (mp4, webm, ogg) or YouTube/Vimeo embed URL:", src)
-    if (newSrc !== null) {
-      setProp((props: VideoProps) => (props.src = newSrc))
-    }
+    handleShowProperties()
   }
 
   const isYouTubeUrl = (url: string) => {

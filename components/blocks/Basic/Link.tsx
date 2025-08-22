@@ -66,10 +66,7 @@ export function Link({
   }
 
   const handleQuickEdit = () => {
-    const newHref = prompt("Enter link URL:", href)
-    if (newHref !== null) {
-      setProp((props: LinkProps) => (props.href = newHref))
-    }
+    handleShowProperties()
   }
 
   return (

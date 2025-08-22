@@ -51,21 +51,7 @@ export function Divider({
   }
 
   const handleStyleChange = () => {
-    const styles = [
-      { label: "Solid Line", value: "solid" },
-      { label: "Dashed Line", value: "dashed" },
-      { label: "Dotted Line", value: "dotted" },
-    ]
-    
-    const selection = prompt(
-      `Select style:\n${styles.map((s, i) => `${i + 1}. ${s.label}`).join('\n')}\n\nEnter number (1-${styles.length}):`,
-      "1"
-    )
-    
-    const index = parseInt(selection || "1") - 1
-    if (index >= 0 && index < styles.length) {
-      setProp((props: DividerProps) => (props.style = styles[index].value as any))
-    }
+    handleShowProperties()
   }
 
   const borderStyle = {

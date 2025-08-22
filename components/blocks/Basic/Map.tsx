@@ -72,11 +72,7 @@ export function Map({
   }
 
   const handleAddressClick = () => {
-    const newAddress = prompt("Enter address or location:", address)
-    if (newAddress !== null) {
-      setProp((props: MapProps) => (props.address = newAddress))
-      // In a real implementation, you'd geocode the address to get lat/lng
-    }
+    handleShowProperties()
   }
 
   const getGoogleMapsEmbedUrl = () => {

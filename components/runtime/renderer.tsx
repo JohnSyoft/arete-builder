@@ -2,7 +2,6 @@
 
 import type React from "react"
 import {Header1Runtime as Header1} from "@/components/blocks/Header/Header1Runtime"
-import {Hero1Runtime as Hero1Component} from "@/components/blocks/Hero/Hero1Runtime"
 // Import basic runtime components
 import {TextRuntime as Text} from "@/components/blocks/Basic/TextRuntime"
 import {ButtonRuntime as Button} from "@/components/blocks/Basic/ButtonRuntime"
@@ -20,8 +19,6 @@ import {VideoRuntime as Video} from "@/components/blocks/Basic/VideoRuntime"
 const componentMap: Record<string, React.ComponentType<any>> = {
   // Header components that have runtime versions
   Header1,
-  // Hero components
-  Hero1: Hero1Component,
   // Basic components
   Text,
   Button,
@@ -73,17 +70,17 @@ function renderNode(nodeId: string, nodes: any): React.ReactNode {
   // Handle regular components
   const Component = componentMap[componentName]
   if (!Component) {
-    console.warn(`Component ${componentName} not found in component map, rendering children only`)
-    // If component not found, still render children as a div wrapper
+    console.warn(`Component ${componentName} not found in component map, wrapping in Section`)
+    // If component not found, wrap in SectionRuntime with the component's props
     const children = [
       ...(childNodes?.map((childId: string) => renderNode(childId, nodes)) || []),
       ...(linkedNodes ? Object.values(linkedNodes).map((linkedId: unknown) => renderNode(linkedId as string, nodes)) : [])
     ]
     
     return (
-      <div key={nodeId} {...props}>
+      <Section key={nodeId} {...props}>
         {children.length > 0 ? children : null}
-      </div>
+      </Section>
     )
   }
 
