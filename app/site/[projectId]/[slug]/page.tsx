@@ -40,9 +40,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default function PublicPage({ params }: PageProps) {
+  console.log("Rendering PublicPage with params:", params)
   const project = db.projects.getById(params.projectId)
   const page = project?.pages.find((p) => p.slug === params.slug)
-
+  console.log({page})
   if (!project || !page) {
     notFound()
   }

@@ -1,69 +1,39 @@
 "use client"
 
 import type React from "react"
-import {Hero1Runtime as Hero1} from "@/components/blocks/Hero/Hero1Runtime"
-import {Hero2} from "@/components/blocks/Hero/Hero2"
-import {Hero3} from "@/components/blocks/Hero/Hero3"
-import {Hero4} from "@/components/blocks/Hero/Hero4"
-import {Hero5} from "@/components/blocks/Hero/Hero5"
 import {Header1Runtime as Header1} from "@/components/blocks/Header/Header1Runtime"
-import {Header2} from "@/components/blocks/Header/Header2"
-import {Header3} from "@/components/blocks/Header/Header3"
-import {Header4} from "@/components/blocks/Header/Header4"
-import {Header5} from "@/components/blocks/Header/Header5"
-import {Footer1} from "@/components/blocks/Footer/Footer1"
-import {Footer2} from "@/components/blocks/Footer/Footer2"
-import {Footer3} from "@/components/blocks/Footer/Footer3"
-import {Footer4} from "@/components/blocks/Footer/Footer4"
-import {Footer5} from "@/components/blocks/Footer/Footer5"
-import {CTA1} from "@/components/blocks/CTA/CTA1"
-import {CTA2} from "@/components/blocks/CTA/CTA2"
-import {CTA3} from "@/components/blocks/CTA/CTA3"
-import {CTA4} from "@/components/blocks/CTA/CTA4"
-import {CTA5} from "@/components/blocks/CTA/CTA5"
-import {Features1} from "@/components/blocks/Features/Features1"
-import {Features2} from "@/components/blocks/Features/Features2"
-import {Features3} from "@/components/blocks/Features/Features3"
-import {Features4} from "@/components/blocks/Features/Features4"
-import {Features5} from "@/components/blocks/Features/Features5"
-import {FAQ1} from "@/components/blocks/FAQ/FAQ1"
-import {FAQ2} from "@/components/blocks/FAQ/FAQ2"
-import {FAQ3} from "@/components/blocks/FAQ/FAQ3"
-import {FAQ4} from "@/components/blocks/FAQ/FAQ4"
-import {FAQ5} from "@/components/blocks/FAQ/FAQ5"
+import {Hero1Runtime as Hero1Component} from "@/components/blocks/Hero/Hero1Runtime"
+// Import basic runtime components
+import {TextRuntime as Text} from "@/components/blocks/Basic/TextRuntime"
+import {ButtonRuntime as Button} from "@/components/blocks/Basic/ButtonRuntime"
+import {SectionRuntime as Section} from "@/components/blocks/Basic/SectionRuntime"
+import {ContainerRuntime as Container} from "@/components/blocks/Basic/ContainerRuntime"
+import {ColumnsRuntime as Columns} from "@/components/blocks/Basic/ColumnsRuntime"
+import {DividerRuntime as Divider} from "@/components/blocks/Basic/DividerRuntime"
+import {ImageRuntime as Image} from "@/components/blocks/Basic/ImageRuntime"
+import {LinkRuntime as Link} from "@/components/blocks/Basic/LinkRuntime"
+import {MapRuntime as Map} from "@/components/blocks/Basic/MapRuntime"
+import {SpacerRuntime as Spacer} from "@/components/blocks/Basic/SpacerRuntime"
+import {VideoRuntime as Video} from "@/components/blocks/Basic/VideoRuntime"
 
 // Component mapping for runtime rendering
 const componentMap: Record<string, React.ComponentType<any>> = {
-  Hero1,
-  Hero2,
-  Hero3,
-  Hero4,
-  Hero5,
+  // Header components that have runtime versions
   Header1,
-  Header2,
-  Header3,
-  Header4,
-  Header5,
-  Footer1,
-  Footer2,
-  Footer3,
-  Footer4,
-  Footer5,
-  CTA1,
-  CTA2,
-  CTA3,
-  CTA4,
-  CTA5,
-  Features1,
-  Features2,
-  Features3,
-  Features4,
-  Features5,
-  FAQ1,
-  FAQ2,
-  FAQ3,
-  FAQ4,
-  FAQ5,
+  // Hero components
+  Hero1: Hero1Component,
+  // Basic components
+  Text,
+  Button,
+  Section,
+  Container,
+  Columns,
+  Divider,
+  Image,
+  Link,
+  Map,
+  Spacer,
+  Video,
 }
 
 interface RendererProps {
@@ -71,32 +41,67 @@ interface RendererProps {
 }
 
 function renderNode(nodeId: string, nodes: any): React.ReactNode {
+  console.log({nodeId})
   const node = nodes[nodeId]
+  console.log({node})
   if (!node) return null
 
-  const { type, props, nodes: childNodes } = node
+  const { type, props, nodes: childNodes, linkedNodes } = node
   const componentName = type?.resolvedName
 
   // Handle Container (root element)
-  if (componentName === "Wrapper") {
+  if (componentName === "Container" || componentName === "Wrapper") {
     return (
       <div key={nodeId} className="min-h-screen">
         {childNodes?.map((childId: string) => renderNode(childId, nodes))}
+        {linkedNodes && Object.values(linkedNodes).map((linkedId: unknown) => renderNode(linkedId as string, nodes))}
       </div>
+    )
+  }
+
+  // Handle HTML elements (div, h1, p, etc.)
+  if (typeof type === "string") {
+    const Tag = type as keyof JSX.IntrinsicElements
+    return (
+      <Tag key={nodeId} {...props}>
+        {childNodes?.map((childId: string) => renderNode(childId, nodes))}
+        {linkedNodes && Object.values(linkedNodes).map((linkedId: unknown) => renderNode(linkedId as string, nodes))}
+      </Tag>
     )
   }
 
   // Handle regular components
   const Component = componentMap[componentName]
   if (!Component) {
-    console.warn(`Component ${componentName} not found in component map`)
-    return null
+    console.warn(`Component ${componentName} not found in component map, rendering children only`)
+    // If component not found, still render children as a div wrapper
+    const children = [
+      ...(childNodes?.map((childId: string) => renderNode(childId, nodes)) || []),
+      ...(linkedNodes ? Object.values(linkedNodes).map((linkedId: unknown) => renderNode(linkedId as string, nodes)) : [])
+    ]
+    
+    return (
+      <div key={nodeId} {...props}>
+        {children.length > 0 ? children : null}
+      </div>
+    )
   }
 
-  return <Component key={nodeId} {...props} />
+  // Render children if the component has them
+  const children = [
+    ...(childNodes?.map((childId: string) => renderNode(childId, nodes)) || []),
+    ...(linkedNodes ? Object.values(linkedNodes).map((linkedId: unknown) => renderNode(linkedId as string, nodes)) : [])
+  ]
+
+  return (
+    <Component key={nodeId} {...props}>
+      {children.length > 0 ? children : null}
+    </Component>
+  )
 }
 
 export function RuntimeRenderer({ layout }: RendererProps) {
+
   if (!layout || !layout.ROOT) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -107,6 +112,6 @@ export function RuntimeRenderer({ layout }: RendererProps) {
       </div>
     )
   }
-
+console.log(renderNode("ROOT", layout),"ROOT Render")
   return <div className="runtime-renderer">{renderNode("ROOT", layout)}</div>
 }
