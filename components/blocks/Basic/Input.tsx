@@ -26,16 +26,16 @@ export function Input({
   type = "text",
   value = "",
   disabled = false,
-  backgroundColor = "bg-white",
-  borderColor = "border-gray-300",
-  borderRadius = "rounded-md",
-  borderWidth = "border",
-  textColor = "text-gray-900",
-  fontSize = "text-sm",
-  fontWeight = "font-normal",
-  padding = "px-3 py-2",
+  backgroundColor = "#ffffff",
+  borderColor = "#d1d5db",
+  borderRadius = "0.375rem",
+  borderWidth = "1px",
+  textColor = "#111827",
+  fontSize = "0.875rem",
+  fontWeight = "400",
+  padding = "0.5rem 0.75rem",
   margin = "",
-  width = "w-full",
+  width = "100%",
   className = "",
   ...props
 }: InputProps) {
@@ -57,7 +57,34 @@ export function Input({
     setProp((props: InputProps) => (props.value = e.target.value))
   }
 
-  const combinedClassName = `${backgroundColor} ${borderColor} ${borderRadius} ${borderWidth} ${textColor} ${fontSize} ${fontWeight} ${padding} ${margin} ${width} ${className}`.trim()
+  // Create custom styles object for proper styling
+  const customStyles = {
+    backgroundColor: backgroundColor.startsWith('#') ? backgroundColor : undefined,
+    borderColor: borderColor.startsWith('#') ? borderColor : undefined,
+    borderRadius: borderRadius.includes('rem') || borderRadius.includes('px') ? borderRadius : undefined,
+    borderWidth: borderWidth.includes('px') ? borderWidth : undefined,
+    color: textColor.startsWith('#') ? textColor : undefined,
+    fontSize: fontSize.includes('rem') || fontSize.includes('px') ? fontSize : undefined,
+    fontWeight: fontWeight,
+    padding: padding.includes('rem') || padding.includes('px') ? padding : undefined,
+    margin: margin.includes('rem') || margin.includes('px') ? margin : undefined,
+    width: width.includes('%') || width.includes('px') || width.includes('rem') ? width : undefined,
+  }
+
+  // Fallback classes for Tailwind classes that can't be converted to inline styles
+  const fallbackClasses = []
+  if (backgroundColor.startsWith('bg-')) fallbackClasses.push(backgroundColor)
+  if (borderColor.startsWith('border-')) fallbackClasses.push(borderColor)
+  if (borderRadius.startsWith('rounded')) fallbackClasses.push(borderRadius)
+  if (borderWidth === 'border') fallbackClasses.push('border')
+  if (textColor.startsWith('text-')) fallbackClasses.push(textColor)
+  if (fontSize.startsWith('text-')) fallbackClasses.push(fontSize)
+  if (fontWeight.startsWith('font-')) fallbackClasses.push(fontWeight)
+  if (padding.startsWith('p-') || padding.startsWith('px-') || padding.startsWith('py-')) fallbackClasses.push(padding)
+  if (margin.startsWith('m-') || margin.startsWith('mx-') || margin.startsWith('my-')) fallbackClasses.push(margin)
+  if (width.startsWith('w-')) fallbackClasses.push(width)
+
+  const combinedClassName = `${fallbackClasses.join(' ')} ${className}`.trim()
 
   return (
     <div
@@ -75,6 +102,7 @@ export function Input({
         disabled={disabled || !enabled}
         onChange={handleChange}
         className={combinedClassName}
+        style={customStyles}
         {...props}
       />
       {enabled && (selected || isHovered) && (
@@ -172,16 +200,16 @@ Input.craft = {
     type: "text",
     value: "",
     disabled: false,
-    backgroundColor: "bg-white",
-    borderColor: "border-gray-300",
-    borderRadius: "rounded-md",
-    borderWidth: "border",
-    textColor: "text-gray-900",
-    fontSize: "text-sm",
-    fontWeight: "font-normal",
-    padding: "px-3 py-2",
+    backgroundColor: "#ffffff",
+    borderColor: "#d1d5db",
+    borderRadius: "0.375rem",
+    borderWidth: "1px",
+    textColor: "#111827",
+    fontSize: "0.875rem",
+    fontWeight: "400",
+    padding: "0.5rem 0.75rem",
     margin: "",
-    width: "w-full",
+    width: "100%",
     className: ""
   },
   related: {
