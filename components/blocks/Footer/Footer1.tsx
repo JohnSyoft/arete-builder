@@ -1,95 +1,21 @@
-import { useNode, useEditor, Element } from "@craftjs/core"
-import React from "react"
-import { Text as CraftText } from "@/components/blocks/Basic/Text"
-import { Link as CraftLink } from "@/components/blocks/Basic/Link"
-import { Section, SectionProps } from "@/components/blocks/Basic/Section"
-
-interface Footer1Props extends SectionProps {
-  brandName?: string
-  brandDescription?: string
-  productTitle?: string
-  productLink1?: string
-  productLink2?: string
-  productLink3?: string
-  productLink4?: string
-  supportTitle?: string
-  supportLink1?: string
-  supportLink2?: string
-  supportLink3?: string
-  supportLink4?: string
-  copyrightText?: string
-}
-
-export function Footer1({
-  brandName = "WebBuilder",
-  brandDescription = "Create stunning websites with our intuitive drag-and-drop builder. No coding required.",
-  productTitle = "Product",
-  productLink1 = "Features",
-  productLink2 = "Templates",
-  productLink3 = "Integrations",
-  productLink4 = "Pricing",
-  supportTitle = "Support",
-  supportLink1 = "Help Center",
-  supportLink2 = "Contact Us",
-  supportLink3 = "Status",
-  supportLink4 = "Community",
-  copyrightText = "© 2024 WebBuilder. All rights reserved.",
-  ...props
-}: Footer1Props) {
-  // Set Footer1-specific defaults
-  const footerProps = {
-    backgroundColor: "bg-gray-900",
-    className: "text-white",
-    hasContentWrapper: true,
-    contentMaxWidth: "7xl",
-    contentPadding: "px-4 sm:px-6 lg:px-8 py-12",
-    ...props
-  }
-
+export function Footer1() {
   return (
-    <Section {...footerProps}>
-      <Element id="footer1Content" is="footer" canvas>
-        {/* Main Footer Content */}
-        <Element is="div" className="grid grid-cols-1 md:grid-cols-4 gap-8" canvas>
-          {/* Brand Section */}
-          <Element is="div" className="col-span-1 md:col-span-2" canvas>
-            {/* Brand Name */}
-            <Element is="div" className="p-2 hover:ring-1 hover:ring-blue-300 hover:ring-dashed rounded mb-4" canvas={false}>
-              <div className="text-2xl font-bold">
-                <CraftText
-                  text={brandName}
-                  tagName="span"
-                  fontSize="text-2xl"
-                  fontWeight="font-bold"
-                  color="text-white"
-                  margin=""
-                />
-              </div>
-            </Element>
-
-            {/* Brand Description */}
-            <Element is="div" className="p-2 hover:ring-1 hover:ring-blue-300 hover:ring-dashed rounded mb-6" canvas={false}>
-              <p className="text-gray-400 max-w-md">
-                <CraftText
-                  text={brandDescription}
-                  tagName="span"
-                  fontSize="text-base"
-                  fontWeight="font-normal"
-                  color="text-gray-400"
-                  margin=""
-                />
-              </p>
-            </Element>
-
-            {/* Social Links */}
-            <Element is="div" className="flex space-x-4" canvas>
-              <Element is="a" href="#" className="text-gray-400 hover:text-white" canvas={false}>
+    <footer className="bg-gray-900 text-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="col-span-1 md:col-span-2">
+            <div className="text-2xl font-bold mb-4">WebBuilder</div>
+            <p className="text-gray-400 mb-6 max-w-md">
+              Create stunning websites with our intuitive drag-and-drop builder. No coding required.
+            </p>
+            <div className="flex space-x-4">
+              <a href="#" className="text-gray-400 hover:text-white">
                 <span className="sr-only">Twitter</span>
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
                 </svg>
-              </Element>
-              <Element is="a" href="#" className="text-gray-400 hover:text-white" canvas={false}>
+              </a>
+              <a href="#" className="text-gray-400 hover:text-white">
                 <span className="sr-only">GitHub</span>
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                   <path
@@ -98,143 +24,64 @@ export function Footer1({
                     clipRule="evenodd"
                   />
                 </svg>
-              </Element>
-            </Element>
-          </Element>
-
-          {/* Product Column */}
-          <Element is="div" canvas>
-            <Element is="div" className="p-2 hover:ring-1 hover:ring-blue-300 hover:ring-dashed rounded mb-4" canvas={false}>
-              <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">
-                <CraftText
-                  text={productTitle}
-                  tagName="span"
-                  fontSize="text-sm"
-                  fontWeight="font-semibold"
-                  color="text-gray-400"
-                  margin=""
-                />
-              </h3>
-            </Element>
-            <Element is="ul" className="space-y-3" canvas>
-              <Element is="li" canvas={false}>
-                <CraftLink
-                  href="#"
-                  text={productLink1}
-                  color="text-gray-300"
-                />
-              </Element>
-              <Element is="li" canvas={false}>
-                <CraftLink
-                  href="#"
-                  text={productLink2}
-                  color="text-gray-300"
-                />
-              </Element>
-              <Element is="li" canvas={false}>
-                <CraftLink
-                  href="#"
-                  text={productLink3}
-                  color="text-gray-300"
-                />
-              </Element>
-              <Element is="li" canvas={false}>
-                <CraftLink
-                  href="#"
-                  text={productLink4}
-                  color="text-gray-300"
-                />
-              </Element>
-            </Element>
-          </Element>
-
-          {/* Support Column */}
-          <Element is="div" canvas>
-            <Element is="div" className="p-2 hover:ring-1 hover:ring-blue-300 hover:ring-dashed rounded mb-4" canvas={false}>
-              <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">
-                <CraftText
-                  text={supportTitle}
-                  tagName="span"
-                  fontSize="text-sm"
-                  fontWeight="font-semibold"
-                  color="text-gray-400"
-                  margin=""
-                />
-              </h3>
-            </Element>
-            <Element is="ul" className="space-y-3" canvas>
-              <Element is="li" canvas={false}>
-                <CraftLink
-                  href="#"
-                  text={supportLink1}
-                  color="text-gray-300"
-                />
-              </Element>
-              <Element is="li" canvas={false}>
-                <CraftLink
-                  href="#"
-                  text={supportLink2}
-                  color="text-gray-300"
-                />
-              </Element>
-              <Element is="li" canvas={false}>
-                <CraftLink
-                  href="#"
-                  text={supportLink3}
-                  color="text-gray-300"
-                />
-              </Element>
-              <Element is="li" canvas={false}>
-                <CraftLink
-                  href="#"
-                  text={supportLink4}
-                  color="text-gray-300"
-                />
-              </Element>
-            </Element>
-          </Element>
-        </Element>
-
-        {/* Copyright Section */}
-        <Element is="div" className="border-t border-gray-800 mt-12 pt-8" canvas>
-          <Element is="div" className="p-2 hover:ring-1 hover:ring-blue-300 hover:ring-dashed rounded text-center" canvas={false}>
-            <p className="text-gray-400 text-sm">
-              <CraftText
-                text={copyrightText}
-                tagName="span"
-                fontSize="text-sm"
-                fontWeight="font-normal"
-                color="text-gray-400"
-                margin=""
-              />
-            </p>
-          </Element>
-        </Element>
-      </Element>
-    </Section>
+              </a>
+            </div>
+          </div>
+          <div>
+            <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase mb-4">Product</h3>
+            <ul className="space-y-3">
+              <li>
+                <a href="#" className="text-gray-300 hover:text-white">
+                  Features
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-gray-300 hover:text-white">
+                  Templates
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-gray-300 hover:text-white">
+                  Integrations
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-gray-300 hover:text-white">
+                  Pricing
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase mb-4">Support</h3>
+            <ul className="space-y-3">
+              <li>
+                <a href="#" className="text-gray-300 hover:text-white">
+                  Help Center
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-gray-300 hover:text-white">
+                  Contact Us
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-gray-300 hover:text-white">
+                  Status
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-gray-300 hover:text-white">
+                  Community
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div className="border-t border-gray-800 mt-12 pt-8">
+          <p className="text-gray-400 text-sm text-center">© 2024 WebBuilder. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
   )
-}
-
-Footer1.craft = {
-  displayName: "Footer 1",
-  props: {
-    brandName: "WebBuilder",
-    brandDescription: "Create stunning websites with our intuitive drag-and-drop builder. No coding required.",
-    productTitle: "Product",
-    productLink1: "Features",
-    productLink2: "Templates",
-    productLink3: "Integrations",
-    productLink4: "Pricing",
-    supportTitle: "Support",
-    supportLink1: "Help Center",
-    supportLink2: "Contact Us",
-    supportLink3: "Status",
-    supportLink4: "Community",
-    copyrightText: "© 2024 WebBuilder. All rights reserved.",
-  },
-  rules: {
-    canDrag: () => true,
-    canMoveIn: () => false,
-    canMoveOut: () => true,
-  },
 }

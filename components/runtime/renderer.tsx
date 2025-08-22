@@ -19,7 +19,6 @@ import {VideoRuntime as Video} from "@/components/blocks/Basic/VideoRuntime"
 const componentMap: Record<string, React.ComponentType<any>> = {
   // Header components that have runtime versions
   Header1,
-  // Basic components
   Text,
   Button,
   Section,
