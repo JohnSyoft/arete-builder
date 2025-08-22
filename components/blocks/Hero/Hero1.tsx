@@ -1,21 +1,17 @@
 import { Button } from "@/components/ui/button"
-import { useNode } from "@craftjs/core"
+import { useNode, Element } from "@craftjs/core"
 import React from "react"
+import { Text as CraftText } from "@/components/blocks/Basic/Text"
+import { Button as CraftButton } from "@/components/blocks/Basic/Button"
 
 interface Hero1Props {
-  title?: string
-  subtitle?: string
-  primaryButtonText?: string
-  secondaryButtonText?: string
   backgroundColor?: string
+  padding?: string
+  minHeight?: string
 }
 
 export function Hero1({ 
-  title = "Build Amazing Websites",
-  subtitle = "Create stunning, professional websites with our powerful drag-and-drop builder. No coding required.",
-  primaryButtonText = "Get Started Free",
-  secondaryButtonText = "Watch Demo",
-  backgroundColor = "from-blue-600 to-purple-600"
+  backgroundColor = "from-blue-600 to-purple-600",
 }: Hero1Props) {
   const {
     connectors: { connect, drag },
@@ -40,54 +36,60 @@ export function Hero1({
     >
       <div className="absolute inset-0 bg-black/20"></div>
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
-        <div className="text-center">
-          <h1 
-            contentEditable
-            suppressContentEditableWarning
-            onBlur={(e: React.FocusEvent<HTMLHeadingElement>) =>
-              setProp((props: Hero1Props) => (props.title = e.currentTarget.textContent || ""))
-            }
-            className="text-4xl md:text-6xl font-bold mb-6 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 focus:ring-offset-transparent rounded p-1"
-            dangerouslySetInnerHTML={{ __html: title }}
-          />
-          <p 
-            contentEditable
-            suppressContentEditableWarning
-            onBlur={(e: React.FocusEvent<HTMLParagraphElement>) =>
-              setProp((props: Hero1Props) => (props.subtitle = e.currentTarget.textContent || ""))
-            }
-            className="text-xl md:text-2xl mb-8 text-blue-100 max-w-3xl mx-auto focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 focus:ring-offset-transparent rounded p-1"
-            dangerouslySetInnerHTML={{ __html: subtitle }}
-          />
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50">
-              <span
-                contentEditable
-                suppressContentEditableWarning
-                onBlur={(e: React.FocusEvent<HTMLSpanElement>) =>
-                  setProp((props: Hero1Props) => (props.primaryButtonText = e.currentTarget.textContent || ""))
-                }
-                className="focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 focus:ring-offset-transparent rounded"
-                dangerouslySetInnerHTML={{ __html: primaryButtonText }}
+        <Element id="heroContent" is="div" canvas className="text-center">
+          {/* Title as draggable component with padding for drag area */}
+          <Element is="div" className="p-2 hover:ring-1 hover:ring-blue-300 hover:ring-dashed rounded" canvas={false}>
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 text-white">
+              <CraftText
+                text="Build Amazing Websites"
+                tagName="span"
+                fontSize=""
+                fontWeight=""
+                color=""
+                margin=""
               />
-            </Button>
-            <Button
+            </h1>
+          </Element>
+          
+          {/* Subtitle as draggable component with padding for drag area */}
+          <Element is="div" className="p-2 hover:ring-1 hover:ring-blue-300 hover:ring-dashed rounded max-w-3xl mx-auto" canvas={false}>
+            <p className="text-xl md:text-2xl mb-8 text-blue-100">
+              <CraftText
+                text="Create stunning, professional websites with our powerful drag-and-drop builder. No coding required."
+                tagName="span"
+                fontSize=""
+                fontWeight=""
+                color=""
+                margin=""
+              />
+            </p>
+          </Element>
+          
+          {/* Buttons container with individual draggable buttons */}
+          <Element is="div" className="flex flex-col sm:flex-row gap-4 justify-center" canvas>
+            <CraftButton
+              text="Get Started Free"
               size="lg"
+              backgroundColor="white"
+              textColor="#2563eb"
+              borderRadius="8px"
+              margin=""
+              padding="px-6 py-3"
+              width="w-auto"
+            />
+            <CraftButton
+              text="Watch Demo"
               variant="outline"
-              className="border-white text-white hover:bg-white hover:text-blue-600 bg-transparent"
-            >
-              <span
-                contentEditable
-                suppressContentEditableWarning
-                onBlur={(e: React.FocusEvent<HTMLSpanElement>) =>
-                  setProp((props: Hero1Props) => (props.secondaryButtonText = e.currentTarget.textContent || ""))
-                }
-                className="focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 focus:ring-offset-transparent rounded"
-                dangerouslySetInnerHTML={{ __html: secondaryButtonText }}
-              />
-            </Button>
-          </div>
-        </div>
+              size="lg"
+              backgroundColor="transparent"
+              textColor="white"
+              borderRadius="8px"
+              margin=""
+              padding="px-6 py-3"
+              width="w-auto"
+            />
+          </Element>
+        </Element>
       </div>
       {(selected || hovered) && (
         <div className="absolute top-0 left-0 bg-blue-500 text-white text-xs px-2 py-1 rounded-br z-10">
@@ -101,15 +103,12 @@ export function Hero1({
 Hero1.craft = {
   displayName: "Hero 1",
   props: {
-    title: "Build Amazing Websites",
-    subtitle: "Create stunning, professional websites with our powerful drag-and-drop builder. No coding required.",
-    primaryButtonText: "Get Started Free",
-    secondaryButtonText: "Watch Demo",
     backgroundColor: "from-blue-600 to-purple-600",
   },
   rules: {
     canDrag: () => true,
-    canMoveIn: () => false,
+    canMoveIn: () => true, // Allow components to be dropped into the hero canvas
     canMoveOut: () => true,
   },
+  isCanvas: false, // The Hero container is not a canvas, but it contains one
 }

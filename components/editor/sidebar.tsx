@@ -7,86 +7,114 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Badge } from "@/components/ui/badge"
 import { useViewportStore } from "@/lib/store/viewport-store"
 import {
+  // Basic blocks
+  CraftText,
+  CraftImage,
+  CraftButton,
+  CraftSpacer,
+  CraftDivider,
+  CraftContainer,
+  CraftColumns,
+  CraftLink,
+  CraftVideo,
+  CraftMap,
+  // Hero blocks
   CraftHero1,
   CraftHero2,
   CraftHero3,
   CraftHero4,
   CraftHero5,
+  // Header blocks
   CraftHeader1,
   CraftHeader2,
   CraftHeader3,
   CraftHeader4,
   CraftHeader5,
+  // Footer blocks
   CraftFooter1,
   CraftFooter2,
   CraftFooter3,
   CraftFooter4,
   CraftFooter5,
+  // CTA blocks
   CraftCTA1,
   CraftCTA2,
   CraftCTA3,
   CraftCTA4,
   CraftCTA5,
+  // Features blocks
   CraftFeatures1,
   CraftFeatures2,
   CraftFeatures3,
   CraftFeatures4,
   CraftFeatures5,
+  // FAQ blocks
   CraftFAQ1,
   CraftFAQ2,
   CraftFAQ3,
   CraftFAQ4,
   CraftFAQ5,
+  // Page Header blocks
   CraftPageHeader1,
   CraftPageHeader2,
   CraftPageHeader3,
   CraftPageHeader4,
   CraftPageHeader5,
+  // Blog blocks
   CraftBlog1,
   CraftBlog2,
   CraftBlog3,
   CraftBlog4,
   CraftBlog5,
+  // Products blocks
   CraftProducts1,
   CraftProducts2,
   CraftProducts3,
   CraftProducts4,
   CraftProducts5,
+  // Pricing blocks
   CraftPricing1,
   CraftPricing2,
   CraftPricing3,
   CraftPricing4,
   CraftPricing5,
+  // Contact blocks
   CraftContact1,
   CraftContact2,
   CraftContact3,
   CraftContact4,
   CraftContact5,
+  // Team blocks
   CraftTeam1,
   CraftTeam2,
   CraftTeam3,
   CraftTeam4,
   CraftTeam5,
+  // Blog Grid blocks
   CraftBlogGrid1,
   CraftBlogGrid2,
   CraftBlogGrid3,
   CraftBlogGrid4,
   CraftBlogGrid5,
+  // Product Details blocks
   CraftProductDetails1,
   CraftProductDetails2,
   CraftProductDetails3,
   CraftProductDetails4,
   CraftProductDetails5,
+  // Gallery blocks
   CraftGallery1,
   CraftGallery2,
   CraftGallery3,
   CraftGallery4,
   CraftGallery5,
+  // Testimonial blocks
   CraftTestimonial1,
   CraftTestimonial2,
   CraftTestimonial3,
   CraftTestimonial4,
   CraftTestimonial5,
+  // Other blocks
   CraftAccount1,
   CraftNewsletter1,
   CraftNewsletter2,
@@ -106,24 +134,11 @@ const BlockItem = ({ component: Component, name, description }: { component: any
     connectors: { create },
   } = useEditor()
 
-  // Create the element using JSX syntax for proper CraftJS handling
-  const createElement = () => {
-    return <Component/>
-    // if (name === "Hero1") {
-    //   return <Component title="Your Hero Title" subtitle="Your compelling subtitle" backgroundImage="/placeholder-hero.jpg" />
-    // }
-    // if (name === "Header1") {
-    //   return <Component />
-    // }
-    // // Add more specific component creation logic as needed
-    // return <Component />
-  }
-
   return (
     <div
       ref={(ref) => {
         if (ref) {
-          create(ref, createElement())
+          create(ref, React.createElement(Component))
         }
       }}
       className="p-3 bg-gray-50 rounded-lg border border-gray-200 cursor-grab hover:bg-gray-100 transition-colors"
@@ -152,7 +167,22 @@ export function EditorSidebar() {
 
   const viewportInfo = getViewportInfo()
 
+  // Essential basic building blocks
   const basicBlocks = [
+    { component: CraftContainer, name: "Container", description: "Flexible container with styling options" },
+    { component: CraftText, name: "Text", description: "Editable text element" },
+    { component: CraftImage, name: "Image", description: "Responsive image block" },
+    { component: CraftButton, name: "Button", description: "Interactive button element" },
+    { component: CraftSpacer, name: "Spacer", description: "Vertical spacing element" },
+    { component: CraftDivider, name: "Divider", description: "Horizontal line separator" },
+    { component: CraftColumns, name: "Columns", description: "Responsive column layout" },
+    { component: CraftLink, name: "Link", description: "Clickable link element" },
+    { component: CraftVideo, name: "Video", description: "Embedded video player" },
+    { component: CraftMap, name: "Map", description: "Interactive map display" },
+  ]
+
+  // Layout and structural blocks
+  const layoutBlocks = [
     { component: CraftHeader1, name: "Header 1", description: "Clean navigation header" },
     { component: CraftHeader2, name: "Header 2", description: "Dark theme header" },
     { component: CraftHeader3, name: "Header 3", description: "Gradient header with logo" },
@@ -264,11 +294,11 @@ export function EditorSidebar() {
       </div>
 
       <ScrollArea className="flex-1">
-        <Accordion type="multiple" defaultValue={["basic", "content", "ecommerce", "other"]} className="p-4">
+        <Accordion type="multiple" defaultValue={["basic", "layout", "content", "ecommerce", "other"]} className="p-4">
           <AccordionItem value="basic">
             <AccordionTrigger className="text-sm font-medium">
               <div className="flex items-center">
-                Basic
+                Basic Elements
                 <Badge variant="secondary" className="ml-2 text-xs">
                   {basicBlocks.length}
                 </Badge>
@@ -276,6 +306,22 @@ export function EditorSidebar() {
             </AccordionTrigger>
             <AccordionContent className="space-y-3 pt-3">
               {basicBlocks.map((block, index) => (
+                <BlockItem key={index} component={block.component} name={block.name} description={block.description} />
+              ))}
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem value="layout">
+            <AccordionTrigger className="text-sm font-medium">
+              <div className="flex items-center">
+                Layout & Structure
+                <Badge variant="secondary" className="ml-2 text-xs">
+                  {layoutBlocks.length}
+                </Badge>
+              </div>
+            </AccordionTrigger>
+            <AccordionContent className="space-y-3 pt-3">
+              {layoutBlocks.map((block, index) => (
                 <BlockItem key={index} component={block.component} name={block.name} description={block.description} />
               ))}
             </AccordionContent>

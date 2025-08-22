@@ -7,6 +7,7 @@ import { Separator } from "@/components/ui/separator"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Save, Eye, Undo, Redo, Smartphone, Monitor, Tablet, Trash2, ChevronDown, Plus } from "@/components/icons"
 import { useViewportStore, type ViewportType } from "@/lib/store/viewport-store"
+import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store"
 
 interface Page {
   id: string
@@ -42,6 +43,7 @@ export function EditorToolbar({
   }))
 
   const { currentViewport, setViewport } = useViewportStore()
+  const { openPanel } = usePropertiesPanelStore()
 
   const handleDelete = () => {
     if (selected.size > 0) {
@@ -158,6 +160,18 @@ export function EditorToolbar({
             <Separator orientation="vertical" className="h-6" />
           </>
         )}
+
+        {/* Test Properties Panel Button */}
+        {/* <Button 
+          variant="outline" 
+          size="sm" 
+          onClick={() => openPanel('text', { text: 'Test text', tagName: 'p' }, 'test-id', () => {})}
+          className="bg-yellow-100 hover:bg-yellow-200"
+        >
+          Test Panel
+        </Button> */}
+
+        <Separator orientation="vertical" className="h-6" />
 
         {/* Action Buttons */}
         <Button variant="outline" onClick={onPreview}>

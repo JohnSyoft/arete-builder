@@ -1,20 +1,35 @@
 import type React from "react"
 import { useNode } from "@craftjs/core"
+// Basic blocks
+import { Text } from "@/components/blocks/Basic/Text"
+import { Image } from "@/components/blocks/Basic/Image"
+import { Button } from "@/components/blocks/Basic/Button"
+import { Spacer } from "@/components/blocks/Basic/Spacer"
+import { Divider } from "@/components/blocks/Basic/Divider"
+import { Columns } from "@/components/blocks/Basic/Columns"
+import { Link } from "@/components/blocks/Basic/Link"
+import { Video } from "@/components/blocks/Basic/Video"
+import { Map } from "@/components/blocks/Basic/Map"
+import { Container as BasicContainer } from "@/components/blocks/Basic/Container"
+// Hero blocks
 import { Hero1 } from "@/components/blocks/Hero/Hero1"
 import { Hero2 } from "@/components/blocks/Hero/Hero2"
 import { Hero3 } from "@/components/blocks/Hero/Hero3"
 import { Hero4 } from "@/components/blocks/Hero/Hero4"
 import { Hero5 } from "@/components/blocks/Hero/Hero5"
+// Header blocks
 import { Header1 } from "@/components/blocks/Header/Header1"
 import { Header2 } from "@/components/blocks/Header/Header2"
 import { Header3 } from "@/components/blocks/Header/Header3"
 import { Header4 } from "@/components/blocks/Header/Header4"
 import { Header5 } from "@/components/blocks/Header/Header5"
+// Footer blocks
 import { Footer1 } from "@/components/blocks/Footer/Footer1"
 import { Footer2 } from "@/components/blocks/Footer/Footer2"
 import { Footer3 } from "@/components/blocks/Footer/Footer3"
 import { Footer4 } from "@/components/blocks/Footer/Footer4"
 import { Footer5 } from "@/components/blocks/Footer/Footer5"
+// CTA blocks
 import { CTA1 } from "@/components/blocks/CTA/CTA1"
 import { CTA2 } from "@/components/blocks/CTA/CTA2"
 import { CTA3 } from "@/components/blocks/CTA/CTA3"
@@ -147,18 +162,6 @@ Canvas.craft = {
   displayName: "Canvas",
   props: {},
   rules: {
-    canDrag: () => true,
-    canDrop: () => true,
-    canMoveIn: () => true,
-    canMoveOut: () => true,
-  },
-  isCanvas: true,
-}
-
-Canvas.craft = {
-  displayName: "Canvas",
-  props: {},
-  rules: {
     canDrag: () => false,
     canDrop: () => true,
     canMoveIn: () => true,
@@ -187,7 +190,6 @@ function createCraftComponent(Component: React.ComponentType, displayName: strin
           }
         }}
         className={`relative ${selected ? "ring-2 ring-blue-500" : ""} ${hovered ? "ring-1 ring-blue-300" : ""}`}
-        style={{ minHeight: '50px' }}
       >
         <Component {...props} />
         {(selected || hovered) && (
@@ -213,14 +215,27 @@ function createCraftComponent(Component: React.ComponentType, displayName: strin
   return CraftComponent
 }
 
+// Basic blocks (with full CraftJS integration)
+export const CraftText = Text
+export const CraftImage = Image
+export const CraftButton = Button
+export const CraftSpacer = Spacer
+export const CraftDivider = Divider
+export const CraftContainer = BasicContainer
+export const CraftColumns = Columns
+export const CraftLink = Link
+export const CraftVideo = Video
+export const CraftMap = Map
+
+// Hero blocks
 export const CraftHero1 = Hero1
-export const CraftHero2 = createCraftComponent(Hero2, "Hero 2")
+export const CraftHero2 = Hero2
 export const CraftHero3 = createCraftComponent(Hero3, "Hero 3")
 export const CraftHero4 = createCraftComponent(Hero4, "Hero 4")
 export const CraftHero5 = createCraftComponent(Hero5, "Hero 5")
 
 export const CraftHeader1 = Header1
-export const CraftHeader2 = createCraftComponent(Header2, "Header 2")
+export const CraftHeader2 = Header2
 export const CraftHeader3 = createCraftComponent(Header3, "Header 3")
 export const CraftHeader4 = createCraftComponent(Header4, "Header 4")
 export const CraftHeader5 = createCraftComponent(Header5, "Header 5")
@@ -317,84 +332,125 @@ export const CraftNewsletter3 = createCraftComponent(Newsletter3, "Newsletter 3"
 export const CraftNewsletter4 = createCraftComponent(Newsletter4, "Newsletter 4")
 export const CraftNewsletter5 = createCraftComponent(Newsletter5, "Newsletter 5")
 
+// Debug: Check for undefined components
+console.log('CraftJS Component Debug:', {
+  CraftContainer: typeof CraftContainer,
+  Canvas: typeof Canvas,
+  CraftText: typeof CraftText,
+  CraftImage: typeof CraftImage,
+  CraftButton: typeof CraftButton,
+  CraftSpacer: typeof CraftSpacer,
+  CraftDivider: typeof CraftDivider,
+  CraftColumns: typeof CraftColumns,
+  CraftLink: typeof CraftLink,
+  CraftVideo: typeof CraftVideo,
+  CraftMap: typeof CraftMap,
+})
+
 export const componentResolver = {
-  Container,
+  Container: CraftContainer,
   Canvas,
+  // Basic blocks
+  Text: CraftText,
+  Image: CraftImage,
+  Button: CraftButton,
+  Spacer: CraftSpacer,
+  Divider: CraftDivider,
+  Columns: CraftColumns,
+  Link: CraftLink,
+  Video: CraftVideo,
+  Map: CraftMap,
+  // Hero blocks
   Hero1: CraftHero1,
   Hero2: CraftHero2,
   Hero3: CraftHero3,
   Hero4: CraftHero4,
   Hero5: CraftHero5,
+  // Header blocks
   Header1: CraftHeader1,
   Header2: CraftHeader2,
   Header3: CraftHeader3,
   Header4: CraftHeader4,
   Header5: CraftHeader5,
+  // Footer blocks
   Footer1: CraftFooter1,
   Footer2: CraftFooter2,
   Footer3: CraftFooter3,
   Footer4: CraftFooter4,
   Footer5: CraftFooter5,
+  // CTA blocks
   CTA1: CraftCTA1,
   CTA2: CraftCTA2,
   CTA3: CraftCTA3,
   CTA4: CraftCTA4,
   CTA5: CraftCTA5,
+  // Features blocks
   Features1: CraftFeatures1,
   Features2: CraftFeatures2,
   Features3: CraftFeatures3,
   Features4: CraftFeatures4,
   Features5: CraftFeatures5,
+  // FAQ blocks
   FAQ1: CraftFAQ1,
   FAQ2: CraftFAQ2,
   FAQ3: CraftFAQ3,
   FAQ4: CraftFAQ4,
   FAQ5: CraftFAQ5,
+  // Page Header blocks
   PageHeader1: CraftPageHeader1,
   PageHeader2: CraftPageHeader2,
   PageHeader3: CraftPageHeader3,
   PageHeader4: CraftPageHeader4,
   PageHeader5: CraftPageHeader5,
+  // Blog blocks
   Blog1: CraftBlog1,
   Blog2: CraftBlog2,
   Blog3: CraftBlog3,
   Blog4: CraftBlog4,
   Blog5: CraftBlog5,
+  // Products blocks
   Products1: CraftProducts1,
   Products2: CraftProducts2,
   Products3: CraftProducts3,
   Products4: CraftProducts4,
   Products5: CraftProducts5,
+  // Pricing blocks
   Pricing1: CraftPricing1,
   Pricing2: CraftPricing2,
   Pricing3: CraftPricing3,
   Pricing4: CraftPricing4,
   Pricing5: CraftPricing5,
+  // Contact blocks
   Contact1: CraftContact1,
   Contact2: CraftContact2,
   Contact3: CraftContact3,
   Contact4: CraftContact4,
   Contact5: CraftContact5,
+  // Team blocks
   Team1: CraftTeam1,
   Team2: CraftTeam2,
   Team3: CraftTeam3,
   Team4: CraftTeam4,
   Team5: CraftTeam5,
+  // Blog Grid blocks
   BlogGrid1: CraftBlogGrid1,
   BlogGrid2: CraftBlogGrid2,
   BlogGrid3: CraftBlogGrid3,
   BlogGrid4: CraftBlogGrid4,
   BlogGrid5: CraftBlogGrid5,
+  // Product Details blocks
   ProductDetails1: CraftProductDetails1,
   ProductDetails2: CraftProductDetails2,
   ProductDetails3: CraftProductDetails3,
   ProductDetails4: CraftProductDetails4,
   ProductDetails5: CraftProductDetails5,
+  // Gallery blocks
   Gallery1: CraftGallery1,
   Gallery2: CraftGallery2,
   Gallery3: CraftGallery3,
   Gallery4: CraftGallery4,
   Gallery5: CraftGallery5,
+  // Testimonial blocks
   Testimonial1: CraftTestimonial1,
   Testimonial2: CraftTestimonial2,
   Testimonial3: CraftTestimonial3,

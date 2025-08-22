@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation"
 import { Editor, Frame, Element, useEditor } from "@craftjs/core"
 import { EditorSidebar } from "@/components/editor/sidebar"
 import { EditorToolbar } from "@/components/editor/toolbar"
+import { GlobalPropertiesPanel } from "@/components/editor/global-properties-panel"
 import { componentResolver } from "@/components/editor/craft-components"
 import { db, type Project, type Page } from "@/lib/db"
 import { Button } from "@/components/ui/button"
@@ -87,6 +88,8 @@ function EditorContent({
             </div>
           </div>
         </div>
+
+        <GlobalPropertiesPanel />
       </div>
     </>
   )
