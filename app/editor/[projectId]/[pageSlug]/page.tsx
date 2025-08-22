@@ -33,7 +33,8 @@ function EditorContent({
 
   const handleSave = () => {
     try {
-      const serializedState = query.serialize()
+      const serializedState = JSON.parse(query.serialize())
+      console.log({serializedState})
       db.pages.update(currentPage.id, { layout: serializedState })
       console.log("Page saved successfully!")
     } catch (error) {

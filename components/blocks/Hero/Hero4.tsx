@@ -45,7 +45,6 @@ export function Hero4({
   // Set Hero4-specific defaults
   const heroProps = {
     gradient: "linear-gradient(135deg, #fed7aa, #fce7f3)", // orange-50 to pink-50
-    padding: "4rem 1rem",
     hasContentWrapper: true,
     contentMaxWidth: "7xl",
     contentPadding: "px-4 sm:px-6 lg:px-8 py-16 lg:py-24",

@@ -27,8 +27,6 @@ export function Hero2({
   // Set Hero2-specific defaults
   const heroProps = {
     backgroundColor: "#ffffff",
-    padding: "4rem 1rem",
-    minHeight: "400px",
     className: "text-gray-900",
     hasContentWrapper: true,
     contentMaxWidth: "7xl",
