@@ -13,7 +13,6 @@ import {
   CraftButton,
   CraftSpacer,
   CraftDivider,
-  CraftContainer,
   CraftColumns,
   CraftLink,
   CraftVideo,
@@ -169,7 +168,6 @@ export function EditorSidebar() {
 
   // Essential basic building blocks
   const basicBlocks = [
-    { component: CraftContainer, name: "Container", description: "Flexible container with styling options" },
     { component: CraftText, name: "Text", description: "Editable text element" },
     { component: CraftImage, name: "Image", description: "Responsive image block" },
     { component: CraftButton, name: "Button", description: "Interactive button element" },

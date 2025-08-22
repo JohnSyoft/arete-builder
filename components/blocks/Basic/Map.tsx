@@ -43,12 +43,9 @@ export function Map({
     id: state.id
   }))
 
-  const { openPanel } = usePropertiesPanelStore()
   const { actions } = useEditor()
 
-  const handleDelete = () => {
-    actions.delete(id)
-  }
+  const { openPanel } = usePropertiesPanelStore()
 
   const handleShowProperties = () => {
     console.log('Map handleShowProperties called', { address, lat, lng, zoom, width, height, mapType, showMarker, margin, padding, borderRadius, id })
@@ -157,7 +154,7 @@ export function Map({
             onSettings={handleShowProperties}
             onMove={() => {}}
             onLink={() => {}}
-            onDelete={handleDelete}
+            onDelete={() => actions.delete(id)}
             position={{ x: 0, y: 0 }}
           />
         </div>

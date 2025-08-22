@@ -78,7 +78,7 @@ function renderNode(nodeId: string, nodes: any): React.ReactNode {
   const componentName = type?.resolvedName
 
   // Handle Container (root element)
-  if (componentName === "Container") {
+  if (componentName === "Wrapper") {
     return (
       <div key={nodeId} className="min-h-screen">
         {childNodes?.map((childId: string) => renderNode(childId, nodes))}

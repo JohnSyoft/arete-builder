@@ -39,12 +39,9 @@ export function Link({
     id: state.id
   }))
 
-  const { openPanel } = usePropertiesPanelStore()
   const { actions } = useEditor()
 
-  const handleDelete = () => {
-    actions.delete(id)
-  }
+  const { openPanel } = usePropertiesPanelStore()
 
   const handleShowProperties = () => {
     console.log('Link handleShowProperties called', { text, href, target, color, fontSize, fontWeight, textDecoration, margin, padding, id })
@@ -122,7 +119,7 @@ export function Link({
             onSettings={handleShowProperties}
             onMove={() => {}}
             onLink={handleQuickEdit}
-            onDelete={handleDelete}
+            onDelete={() => actions.delete(id)}
             position={{ x: 0, y: 0 }}
           />
         </div>

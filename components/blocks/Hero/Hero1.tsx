@@ -1,39 +1,27 @@
 import { Button } from "@/components/ui/button"
-import { useNode, Element } from "@craftjs/core"
+import { useNode, useEditor, Element } from "@craftjs/core"
 import React from "react"
 import { Text as CraftText } from "@/components/blocks/Basic/Text"
 import { Button as CraftButton } from "@/components/blocks/Basic/Button"
+import { Section, SectionProps } from "@/components/blocks/Basic/Section"
 
-interface Hero1Props {
-  backgroundColor?: string
-  padding?: string
-  minHeight?: string
+interface Hero1Props extends SectionProps {
+  // Hero1 can inherit all Section properties and add any specific ones if needed
 }
 
-export function Hero1({ 
-  backgroundColor = "from-blue-600 to-purple-600",
-}: Hero1Props) {
-  const {
-    connectors: { connect, drag },
-    selected,
-    hovered,
-    actions: { setProp },
-  } = useNode((state) => ({
-    selected: state.events.selected,
-    hovered: state.events.hovered,
-  }))
+export function Hero1(props: Hero1Props) {
+  // Set Hero-specific defaults
+  const heroProps = {
+    gradient: "linear-gradient(45deg, #2563eb, #7c3aed)",
+    padding: "4rem 1rem",
+    minHeight: "400px",
+    overflow: "hidden",
+    className: "text-white",
+    ...props
+  }
 
   return (
-    <section 
-      ref={(ref) => {
-        if (ref) {
-          connect(drag(ref))
-        }
-      }}
-      className={`relative bg-gradient-to-r ${backgroundColor} text-white ${
-        selected ? "ring-2 ring-blue-500" : ""
-      } ${hovered ? "ring-1 ring-blue-300" : ""}`}
-    >
+    <Section {...heroProps}>
       <div className="absolute inset-0 bg-black/20"></div>
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
         <Element id="heroContent" is="div" canvas className="text-center">
@@ -91,24 +79,24 @@ export function Hero1({
           </Element>
         </Element>
       </div>
-      {(selected || hovered) && (
-        <div className="absolute top-0 left-0 bg-blue-500 text-white text-xs px-2 py-1 rounded-br z-10">
-          Hero 1
-        </div>
-      )}
-    </section>
+    </Section>
   )
 }
 
 Hero1.craft = {
   displayName: "Hero 1",
   props: {
-    backgroundColor: "from-blue-600 to-purple-600",
+    // Use Section's default props with Hero-specific overrides
+    gradient: "linear-gradient(45deg, #2563eb, #7c3aed)",
+    padding: "4rem 1rem",
+    minHeight: "400px",
+    overflow: "hidden",
+    className: "text-white"
   },
   rules: {
     canDrag: () => true,
-    canMoveIn: () => true, // Allow components to be dropped into the hero canvas
+    canMoveIn: () => true,
     canMoveOut: () => true,
   },
-  isCanvas: false, // The Hero container is not a canvas, but it contains one
+  isCanvas: false,
 }

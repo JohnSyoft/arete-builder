@@ -10,7 +10,7 @@ import { Columns } from "@/components/blocks/Basic/Columns"
 import { Link } from "@/components/blocks/Basic/Link"
 import { Video } from "@/components/blocks/Basic/Video"
 import { Map } from "@/components/blocks/Basic/Map"
-import { Container as BasicContainer } from "@/components/blocks/Basic/Container"
+import { Section } from "@/components/blocks/Basic/Section"
 // Hero blocks
 import { Hero1 } from "@/components/blocks/Hero/Hero1"
 import { Hero2 } from "@/components/blocks/Hero/Hero2"
@@ -162,6 +162,18 @@ Canvas.craft = {
   displayName: "Canvas",
   props: {},
   rules: {
+    canDrag: () => true,
+    canDrop: () => true,
+    canMoveIn: () => true,
+    canMoveOut: () => true,
+  },
+  isCanvas: true,
+}
+
+Canvas.craft = {
+  displayName: "Canvas",
+  props: {},
+  rules: {
     canDrag: () => false,
     canDrop: () => true,
     canMoveIn: () => true,
@@ -221,11 +233,11 @@ export const CraftImage = Image
 export const CraftButton = Button
 export const CraftSpacer = Spacer
 export const CraftDivider = Divider
-export const CraftContainer = BasicContainer
 export const CraftColumns = Columns
 export const CraftLink = Link
 export const CraftVideo = Video
 export const CraftMap = Map
+export const CraftSection = Section
 
 // Hero blocks
 export const CraftHero1 = Hero1
@@ -332,23 +344,8 @@ export const CraftNewsletter3 = createCraftComponent(Newsletter3, "Newsletter 3"
 export const CraftNewsletter4 = createCraftComponent(Newsletter4, "Newsletter 4")
 export const CraftNewsletter5 = createCraftComponent(Newsletter5, "Newsletter 5")
 
-// Debug: Check for undefined components
-console.log('CraftJS Component Debug:', {
-  CraftContainer: typeof CraftContainer,
-  Canvas: typeof Canvas,
-  CraftText: typeof CraftText,
-  CraftImage: typeof CraftImage,
-  CraftButton: typeof CraftButton,
-  CraftSpacer: typeof CraftSpacer,
-  CraftDivider: typeof CraftDivider,
-  CraftColumns: typeof CraftColumns,
-  CraftLink: typeof CraftLink,
-  CraftVideo: typeof CraftVideo,
-  CraftMap: typeof CraftMap,
-})
-
 export const componentResolver = {
-  Container: CraftContainer,
+  Container,
   Canvas,
   // Basic blocks
   Text: CraftText,
@@ -360,6 +357,7 @@ export const componentResolver = {
   Link: CraftLink,
   Video: CraftVideo,
   Map: CraftMap,
+  Section: CraftSection,
   // Hero blocks
   Hero1: CraftHero1,
   Hero2: CraftHero2,

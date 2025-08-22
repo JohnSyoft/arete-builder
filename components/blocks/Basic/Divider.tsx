@@ -1,4 +1,4 @@
-import { useNode } from "@craftjs/core"
+import { useNode, useEditor } from "@craftjs/core"
 import React from "react"
 import { FloatingToolbar } from "@/components/editor/floating-toolbar"
 import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store"
@@ -29,6 +29,8 @@ export function Divider({
     hovered: state.events.hovered,
     id: state.id
   }))
+
+  const { actions } = useEditor()
 
   const { openPanel } = usePropertiesPanelStore()
 
@@ -107,6 +109,7 @@ export function Divider({
             onSettings={handleShowProperties}
             onMove={() => {}}
             onLink={() => {}}
+            onDelete={() => actions.delete(id)}
             position={{ x: 0, y: 0 }}
           />
         </div>

@@ -43,12 +43,9 @@ export function Video({
     id: state.id
   }))
 
-  const { openPanel } = usePropertiesPanelStore()
   const { actions } = useEditor()
 
-  const handleDelete = () => {
-    actions.delete(id)
-  }
+  const { openPanel } = usePropertiesPanelStore()
 
   const handleShowProperties = () => {
     console.log('Video handleShowProperties called', { src, poster, width, height, autoplay, controls, loop, muted, margin, padding, borderRadius, id })
@@ -163,7 +160,7 @@ export function Video({
             onSettings={handleShowProperties}
             onMove={() => {}}
             onLink={() => {}}
-            onDelete={handleDelete}
+            onDelete={() => actions.delete(id)}
             position={{ x: 0, y: 0 }}
           />
         </div>

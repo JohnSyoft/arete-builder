@@ -43,12 +43,9 @@ export function Button({
     id: state.id
   }))
 
-  const { openPanel } = usePropertiesPanelStore()
   const { actions } = useEditor()
 
-  const handleDelete = () => {
-    actions.delete(id)
-  }
+  const { openPanel } = usePropertiesPanelStore()
 
   const handleShowProperties = () => {
     openPanel('button', {
@@ -131,7 +128,7 @@ export function Button({
             onSettings={handleShowProperties}
             onMove={() => {}}
             onLink={() => handleHrefClick({} as React.MouseEvent)}
-            onDelete={handleDelete}
+            onDelete={() => actions.delete(id)}
             position={{ x: 0, y: 0 }}
           />
         </div>

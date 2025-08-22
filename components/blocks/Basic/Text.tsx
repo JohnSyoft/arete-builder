@@ -1,8 +1,7 @@
-import { useNode } from "@craftjs/core"
+import { useNode, useEditor } from "@craftjs/core"
 import React from "react"
 import { FloatingToolbar } from "@/components/editor/floating-toolbar"
 import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store"
-import { useEditor } from "@craftjs/core"
 
 interface TextProps {
   text?: string
@@ -37,12 +36,9 @@ export function Text({
     id: state.id
   }))
 
-  const { openPanel } = usePropertiesPanelStore()
   const { actions } = useEditor()
 
-  const handleDelete = () => {
-    actions.delete(id)
-  }
+  const { openPanel } = usePropertiesPanelStore()
 
   const handleShowProperties = () => {
     console.log('Text handleShowProperties called', { text, tagName, fontSize, fontWeight, color, textAlign, margin, padding, id })
@@ -109,7 +105,7 @@ export function Text({
             onSettings={handleShowProperties}
             onMove={() => {}}
             onLink={() => {}}
-            onDelete={handleDelete}
+            onDelete={() => actions.delete(id)}
             position={{ x: 0, y: 0 }}
           />
         </div>

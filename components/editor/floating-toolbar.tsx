@@ -4,6 +4,14 @@ import React from 'react'
 import { Edit, Sparkles, Settings, Move, Link, HelpCircle, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
+interface ToolbarButton {
+  icon: React.ComponentType<{ className?: string }>
+  label: string
+  onClick?: () => void
+  show: boolean
+  className?: string
+}
+
 interface FloatingToolbarProps {
   elementType: 'text' | 'button' | 'image' | 'container' | 'columns' | 'link' | 'video' | 'map'
   onEdit?: () => void
@@ -11,7 +19,7 @@ interface FloatingToolbarProps {
   onSettings: () => void
   onMove: () => void
   onLink: () => void
-  onDelete?: () => void
+  onDelete: () => void
   onHelp?: () => void
   position: { x: number; y: number }
 }
@@ -27,53 +35,48 @@ export function FloatingToolbar({
   onHelp,
   position
 }: FloatingToolbarProps) {
-  const getToolbarButtons = () => {
-    const baseButtons = [
+  const getToolbarButtons = (): ToolbarButton[] => {
+    const baseButtons: ToolbarButton[] = [
       {
         icon: Settings,
         label: "Settings",
         onClick: onSettings,
-        show: true,
-        variant: undefined as "ghost" | "destructive" | undefined
+        show: true
       },
       {
         icon: Move,
         label: "Move",
         onClick: onMove,
-        show: true,
-        variant: undefined as "ghost" | "destructive" | undefined
+        show: true
       },
       {
         icon: Link,
         label: "Link",
         onClick: onLink,
-        show: true,
-        variant: undefined as "ghost" | "destructive" | undefined
+        show: true
       },
       {
         icon: Trash2,
         label: "Delete",
         onClick: onDelete,
-        show: !!onDelete,
-        variant: "destructive" as "ghost" | "destructive" | undefined
+        show: true,
+        className: "hover:bg-red-100 hover:text-red-600"
       }
     ]
 
-    const typeSpecificButtons = {
+    const typeSpecificButtons: Record<string, ToolbarButton[]> = {
       text: [
         {
           icon: Edit,
           label: "Edit Text",
           onClick: onEdit,
-          show: true,
-          variant: undefined as "ghost" | "destructive" | undefined
+          show: true
         },
         {
           icon: Sparkles,
           label: "Generate AI",
           onClick: onGenerateAI,
-          show: true,
-          variant: undefined as "ghost" | "destructive" | undefined
+          show: true
         }
       ],
       button: [
@@ -81,8 +84,7 @@ export function FloatingToolbar({
           icon: Edit,
           label: "Edit",
           onClick: onEdit,
-          show: true,
-          variant: undefined as "ghost" | "destructive" | undefined
+          show: true
         }
       ],
       image: [
@@ -90,8 +92,7 @@ export function FloatingToolbar({
           icon: Edit,
           label: "Edit",
           onClick: onEdit,
-          show: true,
-          variant: undefined as "ghost" | "destructive" | undefined
+          show: true
         }
       ],
       container: [],
@@ -100,8 +101,7 @@ export function FloatingToolbar({
           icon: Edit,
           label: "Edit Columns",
           onClick: onEdit,
-          show: true,
-          variant: undefined as "ghost" | "destructive" | undefined
+          show: true
         }
       ],
       link: [
@@ -109,8 +109,7 @@ export function FloatingToolbar({
           icon: Edit,
           label: "Edit Link",
           onClick: onEdit,
-          show: true,
-          variant: undefined as "ghost" | "destructive" | undefined
+          show: true
         }
       ],
       video: [
@@ -118,8 +117,7 @@ export function FloatingToolbar({
           icon: Edit,
           label: "Edit Video",
           onClick: onEdit,
-          show: true,
-          variant: undefined as "ghost" | "destructive" | undefined
+          show: true
         }
       ],
       map: [
@@ -127,8 +125,7 @@ export function FloatingToolbar({
           icon: Edit,
           label: "Edit Map",
           onClick: onEdit,
-          show: true,
-          variant: undefined as "ghost" | "destructive" | undefined
+          show: true
         }
       ]
     }
@@ -151,11 +148,7 @@ export function FloatingToolbar({
           key={index}
           variant="ghost"
           size="sm"
-          className={`h-8 w-8 p-0 ${
-            button.variant === "destructive" 
-              ? "hover:bg-gray-100 text-red-600 hover:text-red-700" 
-              : "hover:bg-gray-100 text-gray-700 hover:text-gray-900"
-          }`}
+          className={`h-8 w-8 p-0 hover:bg-gray-100 text-gray-700 hover:text-gray-900 ${button.className || ''}`}
           onClick={button.onClick}
           title={button.label}
         >

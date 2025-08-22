@@ -1,4 +1,4 @@
-import { useNode, Element, useEditor } from "@craftjs/core"
+import { useNode, useEditor, Element } from "@craftjs/core"
 import React from "react"
 import { FloatingToolbar } from "@/components/editor/floating-toolbar"
 import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store"
@@ -32,12 +32,9 @@ export function Columns({
     id: state.id
   }))
 
-  const { openPanel } = usePropertiesPanelStore()
   const { actions } = useEditor()
 
-  const handleDelete = () => {
-    actions.delete(id)
-  }
+  const { openPanel } = usePropertiesPanelStore()
 
   const handleShowProperties = () => {
     console.log('Columns handleShowProperties called', { columnCount, gap, alignment, minHeight, padding, margin, id })
@@ -117,7 +114,7 @@ export function Columns({
             onSettings={handleShowProperties}
             onMove={() => {}}
             onLink={() => {}}
-            onDelete={handleDelete}
+            onDelete={() => actions.delete(id)}
             position={{ x: 0, y: 0 }}
           />
         </div>

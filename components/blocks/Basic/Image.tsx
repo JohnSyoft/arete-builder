@@ -36,12 +36,9 @@ export function Image({
     id: state.id
   }))
 
-  const { openPanel } = usePropertiesPanelStore()
   const { actions } = useEditor()
 
-  const handleDelete = () => {
-    actions.delete(id)
-  }
+  const { openPanel } = usePropertiesPanelStore()
 
   const handleShowProperties = () => {
     openPanel('image', {
@@ -121,7 +118,7 @@ export function Image({
             onSettings={handleShowProperties}
             onMove={() => {}}
             onLink={() => {}}
-            onDelete={handleDelete}
+            onDelete={() => actions.delete(id)}
             position={{ x: 0, y: 0 }}
           />
         </div>
