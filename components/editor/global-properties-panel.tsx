@@ -490,6 +490,275 @@ export function GlobalPropertiesPanel() {
     </div>
   )
 
+  const renderContainerProperties = () => {
+    console.log('renderContainerProperties called', { elementProps })
+    return (
+    <div className="space-y-4">
+      {/* Background Section */}
+      <div className="space-y-3">
+        <h4 className="text-sm font-medium text-gray-700 border-b pb-1">Background</h4>
+        
+        <div>
+          <Label htmlFor="backgroundColor">Background Color</Label>
+          <Input
+            id="backgroundColor"
+            type="color"
+            value={elementProps?.backgroundColor || '#ffffff'}
+            onChange={(e) => handlePropChange('backgroundColor', e.target.value)}
+            className="mt-1 h-10"
+          />
+        </div>
+
+        <div>
+          <Label htmlFor="backgroundImage">Background Image URL</Label>
+          <Input
+            id="backgroundImage"
+            value={elementProps?.backgroundImage || ''}
+            onChange={(e) => handlePropChange('backgroundImage', e.target.value)}
+            placeholder="https://example.com/image.jpg"
+            className="mt-1"
+          />
+        </div>
+
+        <div>
+          <Label htmlFor="gradient">Gradient (CSS)</Label>
+          <Input
+            id="gradient"
+            value={elementProps?.gradient || ''}
+            onChange={(e) => handlePropChange('gradient', e.target.value)}
+            placeholder="linear-gradient(45deg, #ff0000, #0000ff)"
+            className="mt-1"
+          />
+        </div>
+
+        <div>
+          <Label htmlFor="backgroundSize">Background Size</Label>
+          <Select value={elementProps?.backgroundSize || 'cover'} onValueChange={(value) => handlePropChange('backgroundSize', value)}>
+            <SelectTrigger className="mt-1">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="cover">Cover</SelectItem>
+              <SelectItem value="contain">Contain</SelectItem>
+              <SelectItem value="auto">Auto</SelectItem>
+              <SelectItem value="100% 100%">Stretch</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div>
+          <Label htmlFor="backgroundPosition">Background Position</Label>
+          <Select value={elementProps?.backgroundPosition || 'center'} onValueChange={(value) => handlePropChange('backgroundPosition', value)}>
+            <SelectTrigger className="mt-1">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="center">Center</SelectItem>
+              <SelectItem value="top">Top</SelectItem>
+              <SelectItem value="bottom">Bottom</SelectItem>
+              <SelectItem value="left">Left</SelectItem>
+              <SelectItem value="right">Right</SelectItem>
+              <SelectItem value="top left">Top Left</SelectItem>
+              <SelectItem value="top right">Top Right</SelectItem>
+              <SelectItem value="bottom left">Bottom Left</SelectItem>
+              <SelectItem value="bottom right">Bottom Right</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
+      {/* Border Section */}
+      <div className="space-y-3">
+        <h4 className="text-sm font-medium text-gray-700 border-b pb-1">Border</h4>
+        
+        <div>
+          <Label htmlFor="borderWidth">Border Width</Label>
+          <Select value={elementProps?.borderWidth || '0px'} onValueChange={(value) => handlePropChange('borderWidth', value)}>
+            <SelectTrigger className="mt-1">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="0px">None</SelectItem>
+              <SelectItem value="1px">1px</SelectItem>
+              <SelectItem value="2px">2px</SelectItem>
+              <SelectItem value="4px">4px</SelectItem>
+              <SelectItem value="8px">8px</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div>
+          <Label htmlFor="borderStyle">Border Style</Label>
+          <Select value={elementProps?.borderStyle || 'solid'} onValueChange={(value) => handlePropChange('borderStyle', value)}>
+            <SelectTrigger className="mt-1">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="solid">Solid</SelectItem>
+              <SelectItem value="dashed">Dashed</SelectItem>
+              <SelectItem value="dotted">Dotted</SelectItem>
+              <SelectItem value="double">Double</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div>
+          <Label htmlFor="borderColor">Border Color</Label>
+          <Input
+            id="borderColor"
+            type="color"
+            value={elementProps?.borderColor || '#e5e7eb'}
+            onChange={(e) => handlePropChange('borderColor', e.target.value)}
+            className="mt-1 h-10"
+          />
+        </div>
+
+        <div>
+          <Label htmlFor="borderRadius">Border Radius</Label>
+          <Select value={elementProps?.borderRadius || '0px'} onValueChange={(value) => handlePropChange('borderRadius', value)}>
+            <SelectTrigger className="mt-1">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="0px">None</SelectItem>
+              <SelectItem value="4px">Small</SelectItem>
+              <SelectItem value="8px">Medium</SelectItem>
+              <SelectItem value="12px">Large</SelectItem>
+              <SelectItem value="16px">Extra Large</SelectItem>
+              <SelectItem value="50%">Circle/Pill</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
+      {/* Spacing Section */}
+      <div className="space-y-3">
+        <h4 className="text-sm font-medium text-gray-700 border-b pb-1">Spacing</h4>
+        
+        <div>
+          <Label htmlFor="padding">Padding</Label>
+          <Select value={elementProps?.padding || '16px'} onValueChange={(value) => handlePropChange('padding', value)}>
+            <SelectTrigger className="mt-1">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="0px">None</SelectItem>
+              <SelectItem value="4px">XS (4px)</SelectItem>
+              <SelectItem value="8px">SM (8px)</SelectItem>
+              <SelectItem value="12px">Base (12px)</SelectItem>
+              <SelectItem value="16px">MD (16px)</SelectItem>
+              <SelectItem value="20px">LG (20px)</SelectItem>
+              <SelectItem value="24px">XL (24px)</SelectItem>
+              <SelectItem value="32px">2XL (32px)</SelectItem>
+              <SelectItem value="48px">3XL (48px)</SelectItem>
+              <SelectItem value="4rem 1rem">Hero Default</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div>
+          <Label htmlFor="margin">Margin</Label>
+          <Select value={elementProps?.margin || '0px'} onValueChange={(value) => handlePropChange('margin', value)}>
+            <SelectTrigger className="mt-1">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="0px">None</SelectItem>
+              <SelectItem value="4px">XS (4px)</SelectItem>
+              <SelectItem value="8px">SM (8px)</SelectItem>
+              <SelectItem value="12px">Base (12px)</SelectItem>
+              <SelectItem value="16px">MD (16px)</SelectItem>
+              <SelectItem value="20px">LG (20px)</SelectItem>
+              <SelectItem value="24px">XL (24px)</SelectItem>
+              <SelectItem value="32px">2XL (32px)</SelectItem>
+              <SelectItem value="48px">3XL (48px)</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
+      {/* Size Section */}
+      <div className="space-y-3">
+        <h4 className="text-sm font-medium text-gray-700 border-b pb-1">Size</h4>
+        
+        <div>
+          <Label htmlFor="width">Width</Label>
+          <Input
+            id="width"
+            value={elementProps?.width || '100%'}
+            onChange={(e) => handlePropChange('width', e.target.value)}
+            placeholder="100%, 300px, auto"
+            className="mt-1"
+          />
+        </div>
+
+        <div>
+          <Label htmlFor="minHeight">Min Height</Label>
+          <Input
+            id="minHeight"
+            value={elementProps?.minHeight || '200px'}
+            onChange={(e) => handlePropChange('minHeight', e.target.value)}
+            placeholder="200px, auto, 500px"
+            className="mt-1"
+          />
+        </div>
+      </div>
+
+      {/* Effects Section */}
+      <div className="space-y-3">
+        <h4 className="text-sm font-medium text-gray-700 border-b pb-1">Effects</h4>
+        
+        <div>
+          <Label htmlFor="boxShadow">Box Shadow</Label>
+          <Select value={elementProps?.boxShadow || 'none'} onValueChange={(value) => handlePropChange('boxShadow', value)}>
+            <SelectTrigger className="mt-1">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="none">None</SelectItem>
+              <SelectItem value="0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)">Small</SelectItem>
+              <SelectItem value="0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)">Medium</SelectItem>
+              <SelectItem value="0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)">Large</SelectItem>
+              <SelectItem value="0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)">Extra Large</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div>
+          <Label htmlFor="opacity">Opacity</Label>
+          <Select value={elementProps?.opacity || '1'} onValueChange={(value) => handlePropChange('opacity', value)}>
+            <SelectTrigger className="mt-1">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="0">0% (Invisible)</SelectItem>
+              <SelectItem value="0.25">25%</SelectItem>
+              <SelectItem value="0.5">50%</SelectItem>
+              <SelectItem value="0.75">75%</SelectItem>
+              <SelectItem value="1">100% (Opaque)</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div>
+          <Label htmlFor="overflow">Overflow</Label>
+          <Select value={elementProps?.overflow || 'visible'} onValueChange={(value) => handlePropChange('overflow', value)}>
+            <SelectTrigger className="mt-1">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="visible">Visible</SelectItem>
+              <SelectItem value="hidden">Hidden</SelectItem>
+              <SelectItem value="scroll">Scroll</SelectItem>
+              <SelectItem value="auto">Auto</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+    </div>
+  )
+  }
+
   const renderImageProperties = () => (
     <div className="space-y-4">
       <div>
@@ -681,6 +950,7 @@ export function GlobalPropertiesPanel() {
       <ScrollArea className="flex-1 p-4">
         {elementType === 'text' && renderTextProperties()}
         {elementType === 'button' && renderButtonProperties()}
+        {elementType === 'container' && renderContainerProperties()}
         {elementType === 'image' && renderImageProperties()}
         {elementType === 'columns' && renderColumnsProperties()}
         {elementType === 'link' && renderLinkProperties()}
