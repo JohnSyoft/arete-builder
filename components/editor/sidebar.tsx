@@ -108,14 +108,15 @@ const BlockItem = ({ component: Component, name, description }: { component: any
 
   // Create the element using JSX syntax for proper CraftJS handling
   const createElement = () => {
-    if (name === "Hero1") {
-      return <Component title="Your Hero Title" subtitle="Your compelling subtitle" backgroundImage="/placeholder-hero.jpg" />
-    }
-    if (name === "Header1") {
-      return <Component />
-    }
-    // Add more specific component creation logic as needed
-    return <Component />
+    return <Component/>
+    // if (name === "Hero1") {
+    //   return <Component title="Your Hero Title" subtitle="Your compelling subtitle" backgroundImage="/placeholder-hero.jpg" />
+    // }
+    // if (name === "Header1") {
+    //   return <Component />
+    // }
+    // // Add more specific component creation logic as needed
+    // return <Component />
   }
 
   return (
