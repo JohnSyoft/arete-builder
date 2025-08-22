@@ -2,13 +2,13 @@ import { create } from 'zustand'
 
 interface PropertiesPanelState {
   isOpen: boolean
-  elementType: 'text' | 'button' | 'image' | 'spacer' | 'divider' | 'container' | 'columns' | 'link' | 'video' | 'map' | null
+  elementType: 'text' | 'button' | 'image' | 'spacer' | 'divider' | 'container' | 'columns' | 'link' | 'video' | 'map' | 'badge' | 'input' | null
   elementProps: any
   elementId: string | null
   onPropsChange: ((props: any) => void) | null
   
   openPanel: (
-    elementType: 'text' | 'button' | 'image' | 'spacer' | 'divider' | 'container' | 'columns' | 'link' | 'video' | 'map',
+    elementType: 'text' | 'button' | 'image' | 'spacer' | 'divider' | 'container' | 'columns' | 'link' | 'video' | 'map' | 'badge' | 'input',
     elementProps: any,
     elementId: string,
     onPropsChange: (props: any) => void

@@ -17,6 +17,8 @@ import {
   CraftLink,
   CraftVideo,
   CraftMap,
+  CraftBadge,
+  CraftInput,
   // Hero blocks
   CraftHero1,
   CraftHero2,
@@ -171,6 +173,8 @@ export function EditorSidebar() {
     { component: CraftText, name: "Text", description: "Editable text element" },
     { component: CraftImage, name: "Image", description: "Responsive image block" },
     { component: CraftButton, name: "Button", description: "Interactive button element" },
+    { component: CraftBadge, name: "Badge", description: "Small label or tag element" },
+    { component: CraftInput, name: "Input", description: "Form input field" },
     { component: CraftSpacer, name: "Spacer", description: "Vertical spacing element" },
     { component: CraftDivider, name: "Divider", description: "Horizontal line separator" },
     { component: CraftColumns, name: "Columns", description: "Responsive column layout" },

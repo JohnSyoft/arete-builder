@@ -5,6 +5,8 @@ import {Header1Runtime as Header1} from "@/components/blocks/Header/Header1Runti
 // Import basic runtime components
 import {TextRuntime as Text} from "@/components/blocks/Basic/TextRuntime"
 import {ButtonRuntime as Button} from "@/components/blocks/Basic/ButtonRuntime"
+import {BadgeRuntime as Badge} from "@/components/blocks/Basic/BadgeRuntime"
+import {InputRuntime as Input} from "@/components/blocks/Basic/InputRuntime"
 import {SectionRuntime as Section} from "@/components/blocks/Basic/SectionRuntime"
 import {ContainerRuntime as Container} from "@/components/blocks/Basic/ContainerRuntime"
 import {ColumnsRuntime as Columns} from "@/components/blocks/Basic/ColumnsRuntime"
@@ -21,6 +23,8 @@ const componentMap: Record<string, React.ComponentType<any>> = {
   Header1,
   Text,
   Button,
+  Badge,
+  Input,
   Section,
   Container,
   Columns,

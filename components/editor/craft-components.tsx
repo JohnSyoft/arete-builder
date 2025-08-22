@@ -11,6 +11,8 @@ import { Link } from "@/components/blocks/Basic/Link"
 import { Video } from "@/components/blocks/Basic/Video"
 import { Map } from "@/components/blocks/Basic/Map"
 import { Section } from "@/components/blocks/Basic/Section"
+import { Badge } from "@/components/blocks/Basic/Badge"
+import { Input } from "@/components/blocks/Basic/Input"
 // Hero blocks
 import { Hero1 } from "@/components/blocks/Hero/Hero1"
 import { Hero2 } from "@/components/blocks/Hero/Hero2"
@@ -238,6 +240,8 @@ export const CraftLink = Link
 export const CraftVideo = Video
 export const CraftMap = Map
 export const CraftSection = Section
+export const CraftBadge = Badge
+export const CraftInput = Input
 
 // Hero blocks
 export const CraftHero1 = Hero1
@@ -358,6 +362,8 @@ export const componentResolver = {
   Video: CraftVideo,
   Map: CraftMap,
   Section: CraftSection,
+  Badge: CraftBadge,
+  Input: CraftInput,
   // Hero blocks
   Hero1: CraftHero1,
   Hero2: CraftHero2,

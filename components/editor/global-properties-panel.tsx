@@ -15,7 +15,9 @@ import {
   DividerProperties,
   ColumnsProperties,
   LinkProperties,
-  MapProperties
+  MapProperties,
+  BadgeProperties,
+  InputProperties
 } from "./property-panels"
 
 export function GlobalPropertiesPanel() {
@@ -57,6 +59,8 @@ export function GlobalPropertiesPanel() {
           {elementType === 'columns' && <ColumnsProperties elementProps={elementProps} onPropChange={handlePropChange} />}
           {elementType === 'link' && <LinkProperties elementProps={elementProps} onPropChange={handlePropChange} />}
           {elementType === 'map' && <MapProperties elementProps={elementProps} onPropChange={handlePropChange} />}
+          {elementType === 'badge' && <BadgeProperties elementProps={elementProps} onPropChange={handlePropChange} />}
+          {elementType === 'input' && <InputProperties elementProps={elementProps} onPropChange={handlePropChange} />}
           {!elementType && (
             <div className="text-center text-gray-500 mt-8">
               <p>Select an element to edit its properties</p>
