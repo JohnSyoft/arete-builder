@@ -2,6 +2,7 @@ import { useNode, useEditor } from "@craftjs/core"
 import React from "react"
 import { Input as ShadcnInput } from "@/components/ui/input"
 import { FloatingToolbar } from "@/components/editor/floating-toolbar"
+import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store"
 
 export interface InputProps {
   placeholder?: string
@@ -43,15 +44,50 @@ export function Input({
     connectors: { connect, drag },
     actions: { setProp },
     selected,
-    isHovered
+    isHovered,
+    id
   } = useNode((state) => ({
     selected: state.events.selected,
-    isHovered: state.events.hovered
+    isHovered: state.events.hovered,
+    id: state.id
   }))
 
-  const { enabled } = useEditor((state) => ({
-    enabled: state.options.enabled
+  const { enabled, actions } = useEditor((state, query) => ({
+    enabled: state.options.enabled,
+    actions: query
   }))
+
+  const { openPanel } = usePropertiesPanelStore()
+
+  const handleShowProperties = () => {
+    openPanel('input', {
+      placeholder,
+      type,
+      value,
+      disabled,
+      backgroundColor,
+      borderColor,
+      borderRadius,
+      borderWidth,
+      textColor,
+      fontSize,
+      fontWeight,
+      padding,
+      margin,
+      width,
+      className
+    }, id, (newProps) => {
+      Object.keys(newProps).forEach(key => {
+        setProp((props: InputProps) => {
+          (props as any)[key] = newProps[key]
+        })
+      })
+    })
+  }
+
+  const handleDelete = () => {
+    actions.delete(id)
+  }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setProp((props: InputProps) => (props.value = e.target.value))
@@ -93,7 +129,9 @@ export function Input({
           connect(drag(ref))
         }
       }}
-      className="relative inline-block"
+      className={`relative inline-block ${
+        selected ? "ring-2 ring-blue-500" : ""
+      } ${isHovered ? "ring-1 ring-blue-300" : ""}`}
     >
       <ShadcnInput
         placeholder={placeholder}
@@ -108,10 +146,10 @@ export function Input({
       {enabled && (selected || isHovered) && (
         <FloatingToolbar
           elementType="text"
-          onSettings={() => {}}
+          onSettings={handleShowProperties}
           onMove={() => {}}
           onLink={() => {}}
-          onDelete={() => {}}
+          onDelete={handleDelete}
           position={{ x: 0, y: 0 }}
         />
       )}

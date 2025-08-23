@@ -5,62 +5,92 @@ import { Link as CraftLink } from "@/components/blocks/Basic/Link"
 import { Section, SectionProps } from "@/components/blocks/Basic/Section"
 
 interface Footer1Props extends SectionProps {
-  // Footer1 can inherit all Section properties and add any specific ones if needed
+  brandName?: string
+  brandDescription?: string
+  productTitle?: string
+  productLinks?: { text: string; href: string }[]
+  supportTitle?: string
+  supportLinks?: { text: string; href: string }[]
+  copyrightText?: string
+  twitterUrl?: string
+  githubUrl?: string
 }
 
-export function Footer1(props: Footer1Props) {
-  // Set Footer-specific defaults
+export function Footer1({
+  brandName = "WebBuilder",
+  brandDescription = "Create stunning websites with our intuitive drag-and-drop builder. No coding required.",
+  productTitle = "Product",
+  productLinks = [
+    { text: "Features", href: "#" },
+    { text: "Templates", href: "#" },
+    { text: "Integrations", href: "#" },
+    { text: "Pricing", href: "#" }
+  ],
+  supportTitle = "Support",
+  supportLinks = [
+    { text: "Help Center", href: "#" },
+    { text: "Contact Us", href: "#" },
+    { text: "Status", href: "#" },
+    { text: "Community", href: "#" }
+  ],
+  copyrightText = "© 2024 WebBuilder. All rights reserved.",
+  twitterUrl = "#",
+  githubUrl = "#",
+  ...props
+}: Footer1Props) {
+  // Set Footer-specific defaults to match the original design exactly
   const footerProps = {
     backgroundColor: "#111827", // gray-900
-    padding: "py-12",
+    padding: "0",
     hasContentWrapper: true,
     contentMaxWidth: "7xl",
-    contentPadding: "px-4 sm:px-6 lg:px-8",
+    contentPadding: "px-4 sm:px-6 lg:px-8 py-12",
+    className: "text-white",
     ...props
   }
 
   return (
     <Section {...footerProps}>
-      <Element id="footerContent" is="div" canvas className="space-y-12">
+      <Element id="footerContent" is="div" canvas>
         {/* Main Footer Content */}
         <Element is="div" className="grid grid-cols-1 md:grid-cols-4 gap-8" canvas>
           {/* Brand Section */}
-          <Element is="div" className="col-span-1 md:col-span-2 space-y-4" canvas>
+          <Element is="div" className="col-span-1 md:col-span-2" canvas>
             {/* Brand Name */}
-            <Element is="div" className="mb-4" canvas={false}>
+            <div className="text-2xl font-bold mb-4">
               <CraftText
-                text="WebBuilder"
-                tagName="h2"
-                fontSize="text-2xl"
-                fontWeight="font-bold"
-                color="text-white"
+                text={brandName}
+                tagName="span"
+                fontSize=""
+                fontWeight=""
+                color=""
                 margin=""
                 padding=""
               />
-            </Element>
+            </div>
             
             {/* Brand Description */}
-            <Element is="div" className="p-2 rounded max-w-md" canvas={false}>
+            <p className="text-gray-400 mb-6 max-w-md">
               <CraftText
-                text="Create stunning websites with our intuitive drag-and-drop builder. No coding required."
-                tagName="p"
-                fontSize="text-base"
-                fontWeight="font-normal"
-                color="text-gray-400"
-                margin="mb-6"
+                text={brandDescription}
+                tagName="span"
+                fontSize=""
+                fontWeight=""
+                color=""
+                margin=""
                 padding=""
               />
-            </Element>
+            </p>
 
             {/* Social Links */}
-            <Element is="div" className="flex space-x-4" canvas>
-              <Element is="a" href="#" className="text-gray-400 hover:text-white" canvas={false}>
+            <div className="flex space-x-4">
+              <a href={twitterUrl} className="text-gray-400 hover:text-white">
                 <span className="sr-only">Twitter</span>
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
                 </svg>
-              </Element>
-              <Element is="a" href="#" className="text-gray-400 hover:text-white" canvas={false}>
+              </a>
+              <a href={githubUrl} className="text-gray-400 hover:text-white">
                 <span className="sr-only">GitHub</span>
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                   <path
@@ -69,139 +99,89 @@ export function Footer1(props: Footer1Props) {
                     clipRule="evenodd"
                   />
                 </svg>
-              </Element>
-            </Element>
+              </a>
+            </div>
           </Element>
 
           {/* Product Links */}
-          <Element is="div" className="space-y-4" canvas>
-            <Element is="div" className="tracking-wider uppercase" canvas={false}>
+          <Element is="div" canvas>
+            <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase mb-4">
               <CraftText
-                text="Product"
-                tagName="h3"
-                fontSize="text-sm"
-                fontWeight="font-semibold"
-                color="text-gray-400"
-                margin="mb-4"
+                text={productTitle}
+                tagName="span"
+                fontSize=""
+                fontWeight=""
+                color=""
+                margin=""
                 padding=""
               />
-            </Element>
-            <Element is="ul" className="space-y-3" canvas>
-              <li>
-                <CraftLink
-                  text="Features"
-                  href="#"
-                  color="text-gray-300 hover:text-white"
-                  textDecoration="no-underline"
-                  margin=""
-                  padding=""
-                />
-              </li>
-              <li>
-                <CraftLink
-                  text="Templates"
-                  href="#"
-                  color="text-gray-300 hover:text-white"
-                  textDecoration="no-underline"
-                  margin=""
-                  padding=""
-                />
-              </li>
-              <li>
-                <CraftLink
-                  text="Integrations"
-                  href="#"
-                  color="text-gray-300 hover:text-white"
-                  textDecoration="no-underline"
-                  margin=""
-                  padding=""
-                />
-              </li>
-              <li>
-                <CraftLink
-                  text="Pricing"
-                  href="#"
-                  color="text-gray-300 hover:text-white"
-                  textDecoration="no-underline"
-                  margin=""
-                  padding=""
-                />
-              </li>
-            </Element>
+            </h3>
+            <ul className="space-y-3">
+              {productLinks.map((link, index) => (
+                <li key={index}>
+                  <a href={link.href} className="text-gray-300 hover:text-white">
+                    <CraftText
+                      text={link.text}
+                      tagName="span"
+                      fontSize=""
+                      fontWeight=""
+                      color=""
+                      margin=""
+                      padding=""
+                    />
+                  </a>
+                </li>
+              ))}
+            </ul>
           </Element>
 
           {/* Support Links */}
-          <Element is="div" className="space-y-4" canvas>
-            <Element is="div" className="tracking-wider uppercase" canvas={false}>
+          <Element is="div" canvas>
+            <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase mb-4">
               <CraftText
-                text="Support"
-                tagName="h3"
-                fontSize="text-sm"
-                fontWeight="font-semibold"
-                color="text-gray-400"
-                margin="mb-4"
+                text={supportTitle}
+                tagName="span"
+                fontSize=""
+                fontWeight=""
+                color=""
+                margin=""
                 padding=""
               />
-            </Element>
-            <Element is="ul" className="space-y-3" canvas>
-              <li>
-                <CraftLink
-                  text="Help Center"
-                  href="#"
-                  color="text-gray-300 hover:text-white"
-                  textDecoration="no-underline"
-                  margin=""
-                  padding=""
-                />
-              </li>
-              <li>
-                <CraftLink
-                  text="Contact Us"
-                  href="#"
-                  color="text-gray-300 hover:text-white"
-                  textDecoration="no-underline"
-                  margin=""
-                  padding=""
-                />
-              </li>
-              <li>
-                <CraftLink
-                  text="Status"
-                  href="#"
-                  color="text-gray-300 hover:text-white"
-                  textDecoration="no-underline"
-                  margin=""
-                  padding=""
-                />
-              </li>
-              <li>
-                <CraftLink
-                  text="Community"
-                  href="#"
-                  color="text-gray-300 hover:text-white"
-                  textDecoration="no-underline"
-                  margin=""
-                  padding=""
-                />
-              </li>
-            </Element>
+            </h3>
+            <ul className="space-y-3">
+              {supportLinks.map((link, index) => (
+                <li key={index}>
+                  <a href={link.href} className="text-gray-300 hover:text-white">
+                    <CraftText
+                      text={link.text}
+                      tagName="span"
+                      fontSize=""
+                      fontWeight=""
+                      color=""
+                      margin=""
+                      padding=""
+                    />
+                  </a>
+                </li>
+              ))}
+            </ul>
           </Element>
         </Element>
 
         {/* Footer Bottom */}
-        <Element is="div" className="border-t border-gray-800 mt-12 pt-8" canvas>
-          <Element is="div" className="text-center" canvas={false}>
+        <div className="border-t border-gray-800 mt-12 pt-8">
+          <p className="text-gray-400 text-sm text-center">
             <CraftText
-              text="© 2024 WebBuilder. All rights reserved."
-              tagName="p"
-              fontSize="text-sm"
-              fontWeight="font-normal"
-              color="text-gray-400"
+              text={copyrightText}
+              tagName="span"
+              fontSize=""
+              fontWeight=""
+              color=""
               margin=""
               padding=""
             />
-          </Element>
-        </Element>
+          </p>
+        </div>
       </Element>
     </Section>
   )

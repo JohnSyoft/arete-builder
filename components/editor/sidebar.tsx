@@ -122,6 +122,7 @@ import {
   CraftNewsletter3,
   CraftNewsletter4,
   CraftNewsletter5,
+  CraftSection,
 } from "@/components/editor/craft-components"
 
 interface BlockItemProps {
@@ -171,6 +172,7 @@ export function EditorSidebar() {
   // Essential basic building blocks
   const basicBlocks = [
     { component: CraftText, name: "Text", description: "Editable text element" },
+    { component: CraftSection, name: "Section", description: "Flexible container element" },
     { component: CraftImage, name: "Image", description: "Responsive image block" },
     { component: CraftButton, name: "Button", description: "Interactive button element" },
     { component: CraftBadge, name: "Badge", description: "Small label or tag element" },

@@ -1,102 +1,115 @@
-import { Button } from "@/components/ui/button"
-import { useNode } from "@craftjs/core"
+import { Element, useNode } from "@craftjs/core"
 import React from "react"
+import { Section, SectionProps } from "@/components/blocks/Basic/Section"
+import { CraftText } from "../../editor/craft-components"
+import { Button as CraftButton } from "@/components/blocks/Basic/Button"
 
 interface Header1Props {
   brandName?: string
-  navItems?: string[]
+  navItems?: Array<{ text: string; href: string }>
   signInText?: string
+  signInHref?: string
   ctaText?: string
+  ctaHref?: string
+  backgroundColor?: string
+  textColor?: string
+  borderColor?: string
 }
 
 export function Header1({
   brandName = "WebBuilder",
-  navItems = ["Features", "Templates", "Pricing", "About"],
+  navItems = [
+    { text: "Features", href: "#features" },
+    { text: "Templates", href: "#templates" },
+    { text: "Pricing", href: "#pricing" },
+    { text: "About", href: "#about" }
+  ],
   signInText = "Sign In",
-  ctaText = "Get Started"
+  signInHref = "/login",
+  ctaText = "Get Started", 
+  ctaHref = "/signup",
+  backgroundColor = "#ffffff",
+  textColor = "#111827",
+  borderColor = "#e5e7eb"
 }: Header1Props) {
   const {
-    connectors: { connect, drag },
-    selected,
-    hovered,
-    actions: { setProp },
-  } = useNode((state) => ({
-    selected: state.events.selected,
-    hovered: state.events.hovered,
-  }))
+    connectors: { connect, drag }
+  } = useNode()
+
+  const headerProps = {
+    backgroundColor,
+    color: textColor,
+    borderBottomColor: borderColor,
+    borderBottomWidth: "1px",
+    borderBottomStyle: "solid"
+  }
 
   return (
-    <header 
-      ref={(ref) => {
-        if (ref) {
-          connect(drag(ref))
-        }
-      }}
-      className={`bg-white border-b border-gray-200 relative ${
-        selected ? "ring-2 ring-blue-500" : ""
-      } ${hovered ? "ring-1 ring-blue-300" : ""}`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          <div className="flex items-center">
-            <div 
-              contentEditable
-              suppressContentEditableWarning
-              onBlur={(e: React.FocusEvent<HTMLDivElement>) =>
-                setProp((props: Header1Props) => (props.brandName = e.currentTarget.textContent || ""))
-              }
-              className="text-xl font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 rounded p-1"
-              dangerouslySetInnerHTML={{ __html: brandName }}
-            />
-          </div>
-          <nav className="hidden md:flex space-x-8">
-            {navItems.map((item, index) => (
-              <span
-                key={index}
-                contentEditable
-                suppressContentEditableWarning
-                onBlur={(e: React.FocusEvent<HTMLSpanElement>) => {
-                  const newItems = [...navItems]
-                  newItems[index] = e.currentTarget.textContent || ""
-                  setProp((props: Header1Props) => (props.navItems = newItems))
-                }}
-                className="text-gray-700 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 rounded p-1 cursor-text"
-                dangerouslySetInnerHTML={{ __html: item }}
+    <Section {...headerProps}>
+      <Element id="headerContent" is="div" canvas>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            {/* Brand */}
+            <div className="flex items-center">
+              <div className="text-xl font-bold">
+                <CraftText
+                  text={brandName}
+                  tagName="span"
+                  fontSize=""
+                  fontWeight=""
+                  color=""
+                  margin=""
+                  padding=""
+                />
+              </div>
+            </div>
+
+            {/* Navigation */}
+            <nav className="hidden md:flex space-x-8">
+              {navItems.map((item, index) => (
+                <a key={index} href={item.href} className="text-gray-700 hover:text-gray-900">
+                  <CraftText
+                    text={item.text}
+                    tagName="span"
+                    fontSize=""
+                    fontWeight=""
+                    color=""
+                    margin=""
+                    padding=""
+                  />
+                </a>
+              ))}
+            </nav>
+
+            {/* Actions */}
+            <div className="flex items-center space-x-4">
+              <CraftButton
+                text={signInText}
+                href={signInHref}
+                variant="ghost"
+                size="default"
+                backgroundColor=""
+                textColor=""
+                borderRadius=""
+                margin=""
+                padding=""
               />
-            ))}
-          </nav>
-          <div className="flex items-center space-x-4">
-            <Button variant="ghost">
-              <span
-                contentEditable
-                suppressContentEditableWarning
-                onBlur={(e: React.FocusEvent<HTMLSpanElement>) =>
-                  setProp((props: Header1Props) => (props.signInText = e.currentTarget.textContent || ""))
-                }
-                className="focus:outline-none"
-                dangerouslySetInnerHTML={{ __html: signInText }}
+              <CraftButton
+                text={ctaText}
+                href={ctaHref}
+                variant="default"
+                size="default"
+                backgroundColor=""
+                textColor=""
+                borderRadius=""
+                margin=""
+                padding=""
               />
-            </Button>
-            <Button>
-              <span
-                contentEditable
-                suppressContentEditableWarning
-                onBlur={(e: React.FocusEvent<HTMLSpanElement>) =>
-                  setProp((props: Header1Props) => (props.ctaText = e.currentTarget.textContent || ""))
-                }
-                className="focus:outline-none"
-                dangerouslySetInnerHTML={{ __html: ctaText }}
-              />
-            </Button>
+            </div>
           </div>
         </div>
-      </div>
-      {(selected || hovered) && (
-        <div className="absolute top-0 left-0 bg-blue-500 text-white text-xs px-2 py-1 rounded-br z-10">
-          Header 1
-        </div>
-      )}
-    </header>
+      </Element>
+    </Section>
   )
 }
 
@@ -104,9 +117,19 @@ Header1.craft = {
   displayName: "Header 1",
   props: {
     brandName: "WebBuilder",
-    navItems: ["Features", "Templates", "Pricing", "About"],
+    navItems: [
+      { text: "Features", href: "#features" },
+      { text: "Templates", href: "#templates" },
+      { text: "Pricing", href: "#pricing" },
+      { text: "About", href: "#about" }
+    ],
     signInText: "Sign In",
+    signInHref: "/login",
     ctaText: "Get Started",
+    ctaHref: "/signup",
+    backgroundColor: "#ffffff",
+    textColor: "#111827",
+    borderColor: "#e5e7eb"
   },
   rules: {
     canDrag: () => true,
