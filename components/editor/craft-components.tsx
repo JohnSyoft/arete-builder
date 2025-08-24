@@ -57,6 +57,7 @@ import { Blog2 } from "@/components/blocks/Blog/Blog2"
 import { Blog3 } from "@/components/blocks/Blog/Blog3"
 import { Blog4 } from "@/components/blocks/Blog/Blog4"
 import { Blog5 } from "@/components/blocks/Blog/Blog5"
+import { BlogContent1 } from "@/components/blocks/BlogContent/BlogContent1"
 import { Products1 } from "@/components/blocks/Products/Products1"
 import { Products2 } from "@/components/blocks/Products/Products2"
 import { Products3 } from "@/components/blocks/Products/Products3"
@@ -291,6 +292,7 @@ export const CraftBlog2 = Blog2
 export const CraftBlog3 = Blog3
 export const CraftBlog4 = Blog4
 export const CraftBlog5 = Blog5
+export const CraftBlogContent1 = BlogContent1
 
 export const CraftProducts1 = Products1
 export const CraftProducts2 = Products2
@@ -412,6 +414,8 @@ export const componentResolver = {
   Blog3: CraftBlog3,
   Blog4: CraftBlog4,
   Blog5: CraftBlog5,
+  //Blog content
+  BlogContent1: CraftBlogContent1,
   // Products blocks
   Products1: CraftProducts1,
   Products2: CraftProducts2,

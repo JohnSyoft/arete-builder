@@ -24,6 +24,33 @@ export interface Template {
   layout: any // Craft.js serialized state
 }
 
+export interface Theme {
+  id: string
+  name: string
+  description: string
+  category: "minimal" | "modern" | "creative" | "professional" | "eco-friendly"
+  thumbnail: string
+  colors: {
+    primary: string
+    secondary: string
+    accent: string
+    background: string
+    foreground: string
+    muted: string
+  }
+  typography: {
+    fontFamily: string
+    headingWeight: string
+    bodyWeight: string
+  }
+  spacing: {
+    sectionPadding: string
+    elementSpacing: string
+  }
+  borderRadius: string
+  shadows: boolean
+}
+
 // Mock data storage
 let projects: Project[] = [
   {
@@ -2147,6 +2174,139 @@ const templates: Template[] = [
   },
 ]
 
+const themes: Theme[] = [
+  {
+    id: "minimal",
+    name: "Minimal",
+    description: "Clean, minimal design with lots of white space and subtle typography",
+    category: "minimal",
+    thumbnail: "/placeholder.svg?height=200&width=300",
+    colors: {
+      primary: "#000000",
+      secondary: "#6b7280",
+      accent: "#3b82f6",
+      background: "#ffffff",
+      foreground: "#000000",
+      muted: "#f9fafb"
+    },
+    typography: {
+      fontFamily: "Inter",
+      headingWeight: "font-light",
+      bodyWeight: "font-normal"
+    },
+    spacing: {
+      sectionPadding: "py-24",
+      elementSpacing: "space-y-8"
+    },
+    borderRadius: "rounded-none",
+    shadows: false
+  },
+  {
+    id: "modern",
+    name: "Modern",
+    description: "Contemporary design with bold typography and vibrant colors",
+    category: "modern",
+    thumbnail: "/placeholder.svg?height=200&width=300",
+    colors: {
+      primary: "#3b82f6",
+      secondary: "#8b5cf6",
+      accent: "#06b6d4",
+      background: "#ffffff",
+      foreground: "#1f2937",
+      muted: "#f8fafc"
+    },
+    typography: {
+      fontFamily: "Inter",
+      headingWeight: "font-bold",
+      bodyWeight: "font-medium"
+    },
+    spacing: {
+      sectionPadding: "py-20",
+      elementSpacing: "space-y-6"
+    },
+    borderRadius: "rounded-lg",
+    shadows: true
+  },
+  {
+    id: "creative",
+    name: "Creative",
+    description: "Artistic design with unique layouts and creative color combinations",
+    category: "creative",
+    thumbnail: "/placeholder.svg?height=200&width=300",
+    colors: {
+      primary: "#f59e0b",
+      secondary: "#ef4444",
+      accent: "#8b5cf6",
+      background: "#fef7ed",
+      foreground: "#78350f",
+      muted: "#fed7aa"
+    },
+    typography: {
+      fontFamily: "Poppins",
+      headingWeight: "font-extrabold",
+      bodyWeight: "font-normal"
+    },
+    spacing: {
+      sectionPadding: "py-16",
+      elementSpacing: "space-y-4"
+    },
+    borderRadius: "rounded-2xl",
+    shadows: true
+  },
+  {
+    id: "professional",
+    name: "Professional",
+    description: "Corporate design perfect for business and professional services",
+    category: "professional",
+    thumbnail: "/placeholder.svg?height=200&width=300",
+    colors: {
+      primary: "#1e40af",
+      secondary: "#374151",
+      accent: "#059669",
+      background: "#ffffff",
+      foreground: "#111827",
+      muted: "#f3f4f6"
+    },
+    typography: {
+      fontFamily: "Inter",
+      headingWeight: "font-semibold",
+      bodyWeight: "font-normal"
+    },
+    spacing: {
+      sectionPadding: "py-20",
+      elementSpacing: "space-y-6"
+    },
+    borderRadius: "rounded-md",
+    shadows: false
+  },
+  {
+    id: "eco-friendly",
+    name: "Eco-Friendly",
+    description: "Nature-inspired design with earth tones and organic shapes",
+    category: "eco-friendly",
+    thumbnail: "/placeholder.svg?height=200&width=300",
+    colors: {
+      primary: "#059669",
+      secondary: "#92400e",
+      accent: "#0d9488",
+      background: "#f0fdf4",
+      foreground: "#14532d",
+      muted: "#dcfce7"
+    },
+    typography: {
+      fontFamily: "Inter",
+      headingWeight: "font-medium",
+      bodyWeight: "font-normal"
+    },
+    spacing: {
+      sectionPadding: "py-24",
+      elementSpacing: "space-y-8"
+    },
+    borderRadius: "rounded-xl",
+    shadows: false
+  }
+]
+
 // Project CRUD operations
 export const db = {
   projects: {
@@ -2178,6 +2338,11 @@ export const db = {
     getAll: () => templates,
     getById: (id: string) => templates.find((t) => t.id === id),
     getByCategory: (category: Template["category"]) => templates.filter((t) => t.category === category),
+  },
+  themes: {
+    getAll: () => themes,
+    getById: (id: string) => themes.find((t) => t.id === id),
+    getByCategory: (category: Theme["category"]) => themes.filter((t) => t.category === category),
   },
   pages: {
     getByProjectId: (projectId: string) => {

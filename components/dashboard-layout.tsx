@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
@@ -23,46 +23,46 @@ import {
   Zap,
   CreditCard,
   HelpCircle,
+  Palette,
 } from "lucide-react"
-import { auth } from "@/lib/auth"
+import { useAuth } from "@/hooks/useAuth"
 import { cn } from "@/lib/utils"
 import { ThemeToggle } from "@/components/theme-toggle"
 
 interface DashboardLayoutProps {
   children: React.ReactNode
-  activeTab?: "projects" | "templates" | "settings"
+  activeTab?: "projects" | "templates" | "themes" | "settings"
 }
 
 export function DashboardLayout({ children, activeTab = "projects" }: DashboardLayoutProps) {
-  const [user, setUser] = useState<any | null>(null)
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const router = useRouter()
+  const { user, isAuthenticated, isLoading, logout } = useAuth()
 
-  useEffect(() => {
-    const currentUser = auth.getCurrentUser()
-    if (!currentUser) {
-      router.push("/login")
-    } else {
-      setUser(currentUser)
-    }
-  }, [router])
-
-  const handleLogout = () => {
-    auth.logout()
-    router.push("/login")
-  }
-
-  if (!user) {
+  // Show loading spinner while checking authentication
+  if (isLoading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-foreground">Loading...</div>
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
       </div>
     )
+  }
+
+  // Redirect to login if not authenticated
+  if (!isAuthenticated || !user) {
+    router.replace("/login")
+    return null
+  }
+
+  const handleLogout = () => {
+    logout()
+    router.replace("/login")
   }
 
   const navigation = [
     { name: "Projects", href: "/dashboard", icon: FolderOpen, key: "projects" },
     { name: "Templates", href: "/dashboard/templates", icon: Template, key: "templates" },
+    { name: "Themes", href: "/dashboard/themes", icon: Palette, key: "themes" },
     { name: "Settings", href: "/dashboard/settings", icon: Settings, key: "settings" },
   ]
 
