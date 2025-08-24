@@ -6,6 +6,7 @@ import { Editor, Frame, Element, useEditor } from "@craftjs/core"
 import { EditorSidebar } from "@/components/editor/sidebar"
 import { EditorToolbar } from "@/components/editor/toolbar"
 import { GlobalPropertiesPanel } from "@/components/editor/global-properties-panel"
+import { CreateEditPageDialog } from "@/components/dialogs/page/CreateEditPageDialog"
 import { componentResolver } from "@/components/editor/craft-components"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft } from "@/components/icons"
@@ -31,6 +32,7 @@ function EditorContent({
   onPreview,
   onPageChange,
   onAddPage,
+  onEditPage,
   onSave,
 }: {
   project: Project
@@ -40,6 +42,7 @@ function EditorContent({
   onPreview: () => void
   onPageChange: (slug: string) => void
   onAddPage: () => void
+  onEditPage: () => void
   onSave: (layout: any) => void
 }) {
   const { actions, query } = useEditor()
@@ -60,18 +63,17 @@ function EditorContent({
 
   return (
     <>
-      <EditorToolbar
-        onSave={handleSave}
-        onPreview={onPreview}
-        projectName={project.name}
-        pageName={currentPage.name}
-        pages={pages}
-        currentPageSlug={currentPage.slug}
-        onPageChange={onPageChange}
-        onAddPage={onAddPage}
-      />
-
-      <div className="flex h-[calc(100vh-4rem)]">
+        <EditorToolbar
+          onSave={handleSave}
+          onPreview={onPreview}
+          projectName={project.name}
+          pageName={currentPage.name}
+          pages={pages}
+          currentPageSlug={currentPage.slug}
+          onPageChange={onPageChange}
+          onAddPage={onAddPage}
+          onEditPage={onEditPage}
+        />      <div className="flex h-[calc(100vh-4rem)]">
         <EditorSidebar />
 
         <div className="flex-1 overflow-auto">
@@ -109,6 +111,8 @@ export default function EditorPage() {
   const router = useRouter()
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
   const [currentPage, setCurrentPage] = useState<ApiPage | null>(null)
+  const [pageDialogOpen, setPageDialogOpen] = useState(false)
+  const [pageDialogMode, setPageDialogMode] = useState<"create" | "edit">("create")
 
   const projectId = params.projectId as string
   const pageSlug = params.pageSlug as string
@@ -158,46 +162,27 @@ export default function EditorPage() {
   }
 
   const handleAddPage = async () => {
+    setPageDialogMode("create")
+    setPageDialogOpen(true)
+  }
+
+  const handleEditPage = () => {
+    setPageDialogMode("edit")
+    setPageDialogOpen(true)
+  }
+
+  const handlePageDialogSuccess = (page: ApiPage) => {
     if (!project) return
-
-    const pageName = prompt("Enter page name:")
-    if (!pageName) return
-
-    const pageSlug = pageName
-      .toLowerCase()
-      .replace(/\s+/g, "-")
-      .replace(/[^a-z0-9-]/g, "")
-
-    // Check if page already exists
-    if (pages.some((p) => p.slug === pageSlug)) {
-      alert("A page with this name already exists!")
-      return
-    }
-
-    try {
-      await createPageMutation.mutateAsync({
-        project: project._id,
-        name: pageName,
-        slug: pageSlug,
-        layout: JSON.stringify({
-          ROOT: {
-            type: { resolvedName: "Container" },
-            isCanvas: true,
-            props: {},
-            displayName: "Container",
-            custom: {},
-            hidden: false,
-            nodes: [],
-            linkedNodes: {},
-          },
-        }),
-        isHomePage: false,
-      })
-
-      router.push(`/editor/${project._id}/${pageSlug}`)
-    } catch (error) {
-      console.error("Error creating page:", error)
-      alert("Failed to create page. Please try again.")
+    
+    if (pageDialogMode === "create") {
+      // Navigate to the new page
+      router.push(`/editor/${project._id}/${page.slug}`)
+    } else {
+      // If editing current page and slug changed, navigate to new URL
+      if (page.slug !== currentPageData?.slug) {
+        router.push(`/editor/${project._id}/${page.slug}`)
+      }
+      // Otherwise, the page data will be refreshed automatically via React Query
     }
   }
 
@@ -313,9 +298,19 @@ export default function EditorPage() {
           onPreview={handlePreview}
           onPageChange={handlePageChange}
           onAddPage={handleAddPage}
+          onEditPage={handleEditPage}
           onSave={handleSave}
         />
       </Editor>
+
+      <CreateEditPageDialog
+        open={pageDialogOpen}
+        onClose={() => setPageDialogOpen(false)}
+        projectId={projectId}
+        page={pageDialogMode === "edit" ? currentPageData : null}
+        pages={pages}
+        onSave={handlePageDialogSuccess}
+      />
     </div>
   )
 }

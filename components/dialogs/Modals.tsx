@@ -3,12 +3,15 @@
 import React from "react"
 import { useModalStore } from "@/lib/store/modalStore"
 import { CreateEditProjectDialog } from "@/components/dialogs/project/CreateEditProjectDialog"
+import { CreateEditPageDialog } from "@/components/dialogs/page/CreateEditPageDialog"
 import { ConfirmationDialog } from "@/components/dialogs/confirmation/ConfirmationDialog"
 
 // Modal registry
 const modals: Record<string, React.ComponentType<any>> = {
   createProject: CreateEditProjectDialog,
   editProject: CreateEditProjectDialog,
+  createPage: CreateEditPageDialog,
+  editPage: CreateEditPageDialog,
   confirmation: ConfirmationDialog,
   // Add more dialogs here as needed
 }

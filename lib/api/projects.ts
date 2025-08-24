@@ -79,8 +79,8 @@ export interface ProjectResponse {
 export interface CreateProjectRequest {
   name: string;
   description?: string;
-  templateId?: string;
-  themeId?: string;
+  template?: string;
+  theme?: string;
 }
 
 export interface UpdateProjectRequest {

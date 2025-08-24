@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Save, Eye, Undo, Redo, Smartphone, Monitor, Tablet, Trash2, ChevronDown, Plus } from "@/components/icons"
+import { Save, Eye, Undo, Redo, Smartphone, Monitor, Tablet, Trash2, ChevronDown, Plus, Settings } from "@/components/icons"
 import { useViewportStore, type ViewportType } from "@/lib/store/viewport-store"
 import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store"
 
@@ -24,6 +24,7 @@ interface EditorToolbarProps {
   currentPageSlug?: string
   onPageChange?: (pageSlug: string) => void
   onAddPage?: () => void
+  onEditPage?: () => void
 }
 
 export function EditorToolbar({
@@ -35,6 +36,7 @@ export function EditorToolbar({
   currentPageSlug,
   onPageChange,
   onAddPage,
+  onEditPage,
 }: EditorToolbarProps) {
   const { actions, query, canUndo, canRedo, selected } = useEditor((state, query) => ({
     canUndo: query.history.canUndo(),
@@ -99,6 +101,12 @@ export function EditorToolbar({
               </DropdownMenu>
             ) : (
               <span className="text-sm text-gray-500">{pageName}</span>
+            )}
+            {onEditPage && (
+              <Button variant="ghost" size="sm" onClick={onEditPage} className="text-xs h-6 px-2">
+                <Settings className="w-3 h-3 mr-1" />
+                Edit
+              </Button>
             )}
             <Badge variant="secondary" className="text-xs">
               Draft

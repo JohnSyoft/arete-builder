@@ -46,7 +46,7 @@ cd arete-builder && npm run dev  # Starts on :3000
 ### Adding New Features
 1. **New API Endpoint**: Create controller function → validation rules → add route in `index.js`
 2. **New Frontend Feature**: Create API functions in `/lib/api/` → React Query hook in `/hooks/` → component integration
-3. **New Modal**: Create dialog component → register in `/components/dialogs/Modals.tsx` → use `useModalStore().openModal()`
+3. **New Modal**: Create dialog component → register in `/components/dialogs/Modals.tsx` → use `useModalStore().openModal()` → use `CreteEditDialog*Name*` 
 
 ### Component Splitting Guidelines
 When components exceed 200-300 lines or handle multiple responsibilities, split them using these strategies:
