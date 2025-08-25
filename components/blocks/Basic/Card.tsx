@@ -4,30 +4,28 @@ import { FloatingToolbar } from "@/components/editor/floating-toolbar"
 import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store"
 
 interface CardProps {
-  shadow?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
-  rounded?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full'
-  border?: boolean
-  borderColor?: string
+  variant?: 'default' | 'outlined' | 'elevated' | 'flat'
+  shadow?: 'none' | 'sm' | 'md' | 'lg' | 'xl'
+  borderRadius?: string
   backgroundColor?: string
+  borderColor?: string
   padding?: string
   margin?: string
-  width?: string
-  height?: string
-  hoverEffect?: boolean
+  hoverable?: boolean
+  clickable?: boolean
   children?: React.ReactNode
 }
 
 export function Card({
+  variant = 'default',
   shadow = 'md',
-  rounded = 'lg',
-  border = true,
-  borderColor = 'border-gray-200',
-  backgroundColor = 'bg-white',
-  padding = 'p-6',
-  margin = 'my-4',
-  width = 'w-full',
-  height = 'h-auto',
-  hoverEffect = false,
+  borderRadius = '8px',
+  backgroundColor = '#ffffff',
+  borderColor = '#e5e7eb',
+  padding = '16px',
+  margin = '8px',
+  hoverable = false,
+  clickable = false,
   children
 }: CardProps) {
   const {
@@ -47,16 +45,15 @@ export function Card({
 
   const handleShowProperties = () => {
     openPanel('card', {
+      variant,
       shadow,
-      rounded,
-      border,
-      borderColor,
+      borderRadius,
       backgroundColor,
+      borderColor,
       padding,
       margin,
-      width,
-      height,
-      hoverEffect
+      hoverable,
+      clickable
     }, id, (newProps) => {
       Object.keys(newProps).forEach(key => {
         setProp((props: CardProps) => {
@@ -66,6 +63,15 @@ export function Card({
     })
   }
 
+  const getVariantStyles = (variant: string) => {
+    switch (variant) {
+      case 'outlined': return 'border-2'
+      case 'elevated': return 'shadow-lg'
+      case 'flat': return 'shadow-none border-0'
+      default: return 'border'
+    }
+  }
+
   const getShadowClass = (shadowSize: string) => {
     switch (shadowSize) {
       case 'none': return 'shadow-none'
@@ -73,21 +79,7 @@ export function Card({
       case 'md': return 'shadow-md'
       case 'lg': return 'shadow-lg'
       case 'xl': return 'shadow-xl'
-      case '2xl': return 'shadow-2xl'
       default: return 'shadow-md'
-    }
-  }
-
-  const getRoundedClass = (roundedSize: string) => {
-    switch (roundedSize) {
-      case 'none': return 'rounded-none'
-      case 'sm': return 'rounded-sm'
-      case 'md': return 'rounded-md'
-      case 'lg': return 'rounded-lg'
-      case 'xl': return 'rounded-xl'
-      case '2xl': return 'rounded-2xl'
-      case 'full': return 'rounded-full'
-      default: return 'rounded-lg'
     }
   }
 
@@ -98,18 +90,23 @@ export function Card({
           connect(drag(ref))
         }
       }}
-      className={`relative group ${margin} ${width} ${height} ${selected ? "ring-2 ring-blue-500" : ""} ${hovered ? "ring-1 ring-blue-300" : ""}`}
+      className={`relative group ${selected ? "ring-2 ring-blue-500" : ""} ${hovered ? "ring-1 ring-blue-300" : ""}`}
+      style={{ margin }}
     >
       <div 
         className={`
-          ${backgroundColor} 
-          ${padding} 
-          ${getShadowClass(shadow)} 
-          ${getRoundedClass(rounded)}
-          ${border ? `border ${borderColor}` : ''}
-          ${hoverEffect ? 'transition-all duration-200 hover:shadow-lg hover:-translate-y-1' : ''}
+          ${getVariantStyles(variant)}
+          ${getShadowClass(shadow)}
+          ${hoverable ? 'transition-all duration-200 hover:shadow-lg hover:-translate-y-1' : ''}
+          ${clickable ? 'cursor-pointer' : ''}
           ${!children ? 'min-h-[200px] border-2 border-dashed border-gray-300 bg-gray-50/50' : ''}
         `}
+        style={{
+          backgroundColor,
+          borderColor: variant !== 'flat' ? borderColor : undefined,
+          borderRadius,
+          padding
+        }}
       >
         {children || (
           <div className="flex items-center justify-center h-full text-center text-gray-500">
@@ -146,16 +143,15 @@ export function Card({
 Card.craft = {
   displayName: "Card",
   props: {
+    variant: 'default',
     shadow: 'md',
-    rounded: 'lg',
-    border: true,
-    borderColor: 'border-gray-200',
-    backgroundColor: 'bg-white',
-    padding: 'p-6',
-    margin: 'my-4',
-    width: 'w-full',
-    height: 'h-auto',
-    hoverEffect: false,
+    borderRadius: '8px',
+    backgroundColor: '#ffffff',
+    borderColor: '#e5e7eb',
+    padding: '16px',
+    margin: '8px',
+    hoverable: false,
+    clickable: false,
   },
   rules: {
     canDrag: () => true,

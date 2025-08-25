@@ -2,13 +2,13 @@ import { create } from 'zustand'
 
 interface PropertiesPanelState {
   isOpen: boolean
-  elementType: 'text' | 'button' | 'image' | 'spacer' | 'divider' | 'container' | 'columns' | 'link' | 'video' | 'map' | 'badge' | 'input' | 'row' | 'card' | 'heading' | 'select' | 'checkbox' | 'textarea' | 'linebreak' | 'icon' | 'grid' | 'navigation' | 'list' | 'alert' | 'flexrow' | null
+  elementType: 'text' | 'button' | 'image' | 'spacer' | 'divider' | 'container' | 'columns' | 'link' | 'video' | 'map' | 'badge' | 'input' | 'row' | 'card' | 'heading' | 'select' | 'checkbox' | 'textarea' | 'linebreak' | 'icon' | 'grid' | 'navigation' | 'list' | 'alert' | 'flexrow' | 'flex' | null
   elementProps: any
   elementId: string | null
   onPropsChange: ((props: any) => void) | null
   
   openPanel: (
-    elementType: 'text' | 'button' | 'image' | 'spacer' | 'divider' | 'container' | 'columns' | 'link' | 'video' | 'map' | 'badge' | 'input' | 'row' | 'card' | 'heading' | 'select' | 'checkbox' | 'textarea' | 'linebreak' | 'icon' | 'grid' | 'navigation' | 'list' | 'alert' | 'flexrow',
+    elementType: 'text' | 'button' | 'image' | 'spacer' | 'divider' | 'container' | 'columns' | 'link' | 'video' | 'map' | 'badge' | 'input' | 'row' | 'card' | 'heading' | 'select' | 'checkbox' | 'textarea' | 'linebreak' | 'icon' | 'grid' | 'navigation' | 'list' | 'alert' | 'flexrow' | 'flex',
     elementProps: any,
     elementId: string,
     onPropsChange: (props: any) => void

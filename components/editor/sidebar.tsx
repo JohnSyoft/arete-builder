@@ -14,6 +14,7 @@ import {
   CraftSpacer,
   CraftDivider,
   CraftColumns,
+  CraftFlex,
   CraftLink,
   CraftVideo,
   CraftMap,
@@ -21,7 +22,6 @@ import {
   CraftInput,
   CraftTextarea,
   CraftLineBreak,
-  CraftRow,
   CraftCard,
   CraftHeading,
   CraftSelect,
@@ -49,7 +49,6 @@ import {
   // Contact blocks
   CraftContact1,
   CraftSection,
-  CraftFlexRow,
 } from "@/components/editor/craft-components"
 
 interface BlockItemProps {
@@ -149,8 +148,7 @@ export function EditorSidebar() {
       ),
       items: [
         { component: CraftSection, name: "Container", description: "Flexible container element" },
-        { component: CraftColumns, name: "Columns", description: "Responsive column layout" },
-        { component: CraftRow, name: "Row", description: "Horizontal flex container" },
+        { component: CraftFlex, name: "Flex", description: "Flexible layout container (row/column)" },
         { component: CraftGrid, name: "Grid", description: "Advanced grid layout" },
         { component: CraftSpacer, name: "Spacer", description: "Vertical spacing element" },
         { component: CraftDivider, name: "Divider", description: "Horizontal line separator" },

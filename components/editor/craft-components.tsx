@@ -26,6 +26,7 @@ import { Checkbox } from "../blocks/Basic/Checkbox"
 import { List } from "../blocks/Basic/List"
 import { Alert } from "../blocks/Basic/Alert"
 import { FlexRow } from "../blocks/Basic/FlexRow"
+import { Flex } from "../blocks/Basic/Flex"
 // Hero blocks
 import { Hero1 } from "@/components/blocks/Hero/Hero1"
 import { Hero2 } from "@/components/blocks/Hero/Hero2"
@@ -195,6 +196,7 @@ export const CraftCheckbox = Checkbox
 export const CraftList = List
 export const CraftAlert = Alert
 export const CraftFlexRow = FlexRow
+export const CraftFlex = Flex
 
 // Hero blocks
 export const CraftHero1 = Hero1
@@ -243,6 +245,7 @@ export const componentResolver = {
   List: CraftList,
   Alert: CraftAlert,
   FlexRow: CraftFlexRow,
+  Flex: CraftFlex,
   // Hero blocks
   Hero1: CraftHero1,
   Hero2: CraftHero2,
