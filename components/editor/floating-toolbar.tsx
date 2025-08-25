@@ -13,7 +13,7 @@ interface ToolbarButton {
 }
 
 interface FloatingToolbarProps {
-  elementType: 'text' | 'button' | 'image' | 'container' | 'columns' | 'link' | 'video' | 'map'
+  elementType: 'text' | 'button' | 'image' | 'container' | 'columns' | 'link' | 'video' | 'map' | 'row' | 'card' | 'heading' | 'select' | 'checkbox' | 'textarea' | 'linebreak' | 'icon' | 'grid' | 'navigation' | 'list' | 'alert' | 'spacer' | 'divider' | 'badge' | 'input' | 'section'
   onEdit?: () => void
   onGenerateAI?: () => void
   onSettings: () => void

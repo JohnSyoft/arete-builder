@@ -19,6 +19,18 @@ import {
   CraftMap,
   CraftBadge,
   CraftInput,
+  CraftTextarea,
+  CraftLineBreak,
+  CraftRow,
+  CraftCard,
+  CraftHeading,
+  CraftSelect,
+  CraftIcon,
+  CraftGrid,
+  CraftNavigation,
+  CraftCheckbox,
+  CraftList,
+  CraftAlert,
   // Hero blocks
   CraftHero1,
   CraftHero2,
@@ -88,7 +100,7 @@ import {
   // Team blocks
   CraftTeam1,
   CraftTeam2,
-  CraftTeam3,
+  // CraftTeam3,
   CraftTeam4,
   CraftTeam5,
   // Blog Grid blocks
@@ -118,11 +130,12 @@ import {
   // Other blocks
   CraftAccount1,
   CraftNewsletter1,
-  CraftNewsletter2,
+  // CraftNewsletter2,
   CraftNewsletter3,
   CraftNewsletter4,
   CraftNewsletter5,
   CraftSection,
+  CraftFlexRow,
 } from "@/components/editor/craft-components"
 
 interface BlockItemProps {
@@ -154,7 +167,7 @@ const BlockItem = ({ component: Component, name, description }: { component: any
 
 export function EditorSidebar() {
   const { currentViewport } = useViewportStore()
-  
+
   const getViewportInfo = () => {
     switch (currentViewport) {
       case 'mobile':
@@ -172,18 +185,32 @@ export function EditorSidebar() {
   // Essential basic building blocks
   const basicBlocks = [
     { component: CraftText, name: "Text", description: "Editable text element" },
+    { component: CraftHeading, name: "Heading", description: "H1-H6 heading elements" },
+    { component: CraftList, name: "List", description: "Ordered/unordered lists" },
     { component: CraftSection, name: "Section", description: "Flexible container element" },
+    { component: CraftCard, name: "Card", description: "Content container with styling" },
     { component: CraftImage, name: "Image", description: "Responsive image block" },
     { component: CraftButton, name: "Button", description: "Interactive button element" },
+    { component: CraftIcon, name: "Icon", description: "Scalable icon element" },
     { component: CraftBadge, name: "Badge", description: "Small label or tag element" },
     { component: CraftInput, name: "Input", description: "Form input field" },
+    { component: CraftTextarea, name: "Textarea", description: "Multi-line text input" },
+    { component: CraftSelect, name: "Select", description: "Dropdown selection input" },
+    { component: CraftCheckbox, name: "Checkbox", description: "Checkbox input element" },
     { component: CraftSpacer, name: "Spacer", description: "Vertical spacing element" },
+    { component: CraftLineBreak, name: "Line Break", description: "Line break element" },
     { component: CraftDivider, name: "Divider", description: "Horizontal line separator" },
     { component: CraftColumns, name: "Columns", description: "Responsive column layout" },
+    { component: CraftRow, name: "Rows", description: "Vertical stacking layout" },
+    { component: CraftGrid, name: "Grid", description: "Advanced grid layout" },
+    { component: CraftNavigation, name: "Navigation", description: "Menu/navbar component" },
     { component: CraftLink, name: "Link", description: "Clickable link element" },
     { component: CraftVideo, name: "Video", description: "Embedded video player" },
     { component: CraftMap, name: "Map", description: "Interactive map display" },
+    { component: CraftAlert, name: "Alert", description: "Alert messages and notifications" },
+    { component: CraftFlexRow, name: "Flex Row", description: "Horizontal flex container for arranging items in a row" },
   ]
+
 
   // Layout and structural blocks
   const layoutBlocks = [
@@ -235,11 +262,11 @@ export function EditorSidebar() {
     { component: CraftBlogGrid3, name: "Blog Grid 3", description: "Dark theme blog grid" },
     { component: CraftBlogGrid4, name: "Blog Grid 4", description: "Minimal blog grid" },
     { component: CraftBlogGrid5, name: "Blog Grid 5", description: "Eco-friendly blog grid" },
-    { component: CraftTeam1, name: "Team 1", description: "Team member showcase" },
-    { component: CraftTeam2, name: "Team 2", description: "Team grid layout" },
-    { component: CraftTeam3, name: "Team 3", description: "Dark theme team" },
-    { component: CraftTeam4, name: "Team 4", description: "Minimal team layout" },
-    { component: CraftTeam5, name: "Team 5", description: "Eco-friendly team" },
+    { component: CraftTeam1, name: "Team 1", description: "Basic team layout" },
+    { component: CraftTeam2, name: "Team 2", description: "Professional team" },
+    // { component: CraftTeam3, name: "Team 3", description: "Dark theme team" },
+    { component: CraftTeam4, name: "Team 4", description: "Creative team" },
+    { component: CraftTeam5, name: "Team 5", description: "Modern team" },
     { component: CraftTestimonial1, name: "Testimonial 1", description: "Customer testimonials" },
     { component: CraftTestimonial2, name: "Testimonial 2", description: "Review carousel" },
     { component: CraftTestimonial3, name: "Testimonial 3", description: "Dark theme testimonials" },
@@ -250,11 +277,11 @@ export function EditorSidebar() {
     { component: CraftGallery3, name: "Gallery 3", description: "Dark theme gallery" },
     { component: CraftGallery4, name: "Gallery 4", description: "Minimal gallery" },
     { component: CraftGallery5, name: "Gallery 5", description: "Eco-friendly gallery" },
-    { component: CraftNewsletter1, name: "Newsletter 1", description: "Email signup form" },
-    { component: CraftNewsletter2, name: "Newsletter 2", description: "Newsletter subscription" },
-    { component: CraftNewsletter3, name: "Newsletter 3", description: "Dark theme newsletter" },
-    { component: CraftNewsletter4, name: "Newsletter 4", description: "Minimal newsletter" },
-    { component: CraftNewsletter5, name: "Newsletter 5", description: "Eco-friendly newsletter" },
+    { component: CraftNewsletter1, name: "Newsletter 1", description: "Basic newsletter signup" },
+    // { component: CraftNewsletter2, name: "Newsletter 2", description: "Newsletter subscription" },
+    { component: CraftNewsletter3, name: "Newsletter 3", description: "Modern newsletter" },
+    { component: CraftNewsletter4, name: "Newsletter 4", description: "Feature-rich newsletter" },
+    { component: CraftNewsletter5, name: "Newsletter 5", description: "CTA newsletter" },
   ]
 
   const ecommerceBlocks = [

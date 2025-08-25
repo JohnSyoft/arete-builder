@@ -142,6 +142,7 @@ export function SectionRuntime({
 
   return (
     <section 
+ 
       style={sectionStyles} 
       className={className}
     >

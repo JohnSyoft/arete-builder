@@ -4,6 +4,8 @@ import { Section, SectionProps } from "@/components/blocks/Basic/Section"
 import { CraftText } from "../../editor/craft-components"
 import { Input as CraftInput } from "@/components/blocks/Basic/Input"
 import { Button as CraftButton } from "@/components/blocks/Basic/Button"
+import { Textarea as CraftTextarea } from "@/components/blocks/Basic/Textarea"
+import { LineBreak } from "@/components/blocks/Basic/LineBreak"
 
 interface Contact1Props extends SectionProps {
   title?: string
@@ -134,7 +136,7 @@ export function Contact1({
                             margin=""
                             padding=""
                           />
-                          {index < contactInfo.address.lines.length - 1 && <br />}
+                          {/* {index < contactInfo.address.lines.length - 1 && <br />} */}
                         </div>
                       ))}
                     </div>
@@ -251,6 +253,8 @@ export function Contact1({
                   />
                 </div>
                 
+                <LineBreak height="h-2" margin="my-2" />
+                
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Subject</label>
                   <CraftInput
@@ -263,11 +267,13 @@ export function Contact1({
                 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Message</label>
-                  <textarea
-                    rows={6}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  <CraftTextarea
                     placeholder="Your message..."
-                  ></textarea>
+                    rows={6}
+                    margin=""
+                    padding="0.75rem"
+                    width="100%"
+                  />
                 </div>
                 
                 <CraftButton

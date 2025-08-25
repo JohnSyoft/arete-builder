@@ -13,6 +13,19 @@ import { Map } from "@/components/blocks/Basic/Map"
 import { Section } from "@/components/blocks/Basic/Section"
 import { Badge } from "@/components/blocks/Basic/Badge"
 import { Input } from "@/components/blocks/Basic/Input"
+import { Textarea } from "../blocks/Basic/Textarea"
+import { LineBreak } from "../blocks/Basic/LineBreak"
+import { Row } from "../blocks/Basic/Row"
+import { Card } from "../blocks/Basic/Card"
+import { Heading } from "../blocks/Basic/Heading"
+import { Select } from "../blocks/Basic/Select"
+import { Icon } from "../blocks/Basic/Icon"
+import { Grid } from "../blocks/Basic/Grid"
+import { Navigation } from "../blocks/Basic/Navigation"
+import { Checkbox } from "../blocks/Basic/Checkbox"
+import { List } from "../blocks/Basic/List"
+import { Alert } from "../blocks/Basic/Alert"
+import { FlexRow } from "../blocks/Basic/FlexRow"
 // Hero blocks
 import { Hero1 } from "@/components/blocks/Hero/Hero1"
 import { Hero2 } from "@/components/blocks/Hero/Hero2"
@@ -75,7 +88,7 @@ import { Contact4 } from "@/components/blocks/Contact/Contact4"
 import { Contact5 } from "@/components/blocks/Contact/Contact5"
 import { Team1 } from "@/components/blocks/Team/Team1"
 import { Team2 } from "@/components/blocks/Team/Team2"
-import { Team3 } from "@/components/blocks/Team/Team3"
+// import { Team3 } from "@/components/blocks/Team/Team3"
 import { Team4 } from "@/components/blocks/Team/Team4"
 import { Team5 } from "@/components/blocks/Team/Team5"
 import { BlogGrid1 } from "@/components/blocks/BlogGrid/BlogGrid1"
@@ -100,7 +113,7 @@ import { Testimonial4 } from "@/components/blocks/Testimonial/Testimonial4"
 import { Testimonial5 } from "@/components/blocks/Testimonial/Testimonial5"
 import { Account1 } from "@/components/blocks/Account/Account1"
 import { Newsletter1 } from "@/components/blocks/Newsletter/Newsletter1"
-import { Newsletter2 } from "@/components/blocks/Newsletter/Newsletter2"
+// import { Newsletter2 } from "@/components/blocks/Newsletter/Newsletter2"
 import { Newsletter3 } from "@/components/blocks/Newsletter/Newsletter3"
 import { Newsletter4 } from "@/components/blocks/Newsletter/Newsletter4"
 import { Newsletter5 } from "@/components/blocks/Newsletter/Newsletter5"
@@ -243,6 +256,19 @@ export const CraftMap = Map
 export const CraftSection = Section
 export const CraftBadge = Badge
 export const CraftInput = Input
+export const CraftTextarea = Textarea
+export const CraftLineBreak = LineBreak
+export const CraftRow = Row
+export const CraftCard = Card
+export const CraftHeading = Heading
+export const CraftSelect = Select
+export const CraftIcon = Icon
+export const CraftGrid = Grid
+export const CraftNavigation = Navigation
+export const CraftCheckbox = Checkbox
+export const CraftList = List
+export const CraftAlert = Alert
+export const CraftFlexRow = FlexRow
 
 // Hero blocks
 export const CraftHero1 = Hero1
@@ -314,7 +340,7 @@ export const CraftContact5 = Contact5
 
 export const CraftTeam1 = Team1
 export const CraftTeam2 = Team2
-export const CraftTeam3 = Team3
+// export const CraftTeam3 = Team3
 export const CraftTeam4 = Team4
 export const CraftTeam5 = Team5
 
@@ -345,7 +371,7 @@ export const CraftTestimonial5 = Testimonial5
 export const CraftAccount1 = Account1
 
 export const CraftNewsletter1 = Newsletter1
-export const CraftNewsletter2 = Newsletter2
+// export const CraftNewsletter2 = Newsletter2
 export const CraftNewsletter3 = Newsletter3
 export const CraftNewsletter4 = Newsletter4
 export const CraftNewsletter5 = Newsletter5
@@ -366,6 +392,19 @@ export const componentResolver = {
   Section: CraftSection,
   Badge: CraftBadge,
   Input: CraftInput,
+  Textarea: CraftTextarea,
+  LineBreak: CraftLineBreak,
+  Row: CraftRow,
+  Card: CraftCard,
+  Heading: CraftHeading,
+  Select: CraftSelect,
+  Icon: CraftIcon,
+  Grid: CraftGrid,
+  Navigation: CraftNavigation,
+  Checkbox: CraftCheckbox,
+  List: CraftList,
+  Alert: CraftAlert,
+  FlexRow: CraftFlexRow,
   // Hero blocks
   Hero1: CraftHero1,
   Hero2: CraftHero2,
@@ -437,7 +476,7 @@ export const componentResolver = {
   // Team blocks
   Team1: CraftTeam1,
   Team2: CraftTeam2,
-  Team3: CraftTeam3,
+  // Team3: CraftTeam3,
   Team4: CraftTeam4,
   Team5: CraftTeam5,
   // Blog Grid blocks
@@ -466,7 +505,7 @@ export const componentResolver = {
   Testimonial5: CraftTestimonial5,
   Account1: CraftAccount1,
   Newsletter1: CraftNewsletter1,
-  Newsletter2: CraftNewsletter2,
+  // Newsletter2: CraftNewsletter2,
   Newsletter3: CraftNewsletter3,
   Newsletter4: CraftNewsletter4,
   Newsletter5: CraftNewsletter5,

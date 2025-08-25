@@ -23,7 +23,7 @@ export function ColumnsRuntime({
   const alignmentClass = `items-${alignment}`
   
   return (
-    <div className={`grid ${gridCols} ${gap} ${alignmentClass} ${minHeight} ${padding} ${margin}`}>
+    <div  className={`grid ${gridCols} ${gap} ${alignmentClass} ${minHeight} ${padding} ${margin}`}>
       {children}
     </div>
   )

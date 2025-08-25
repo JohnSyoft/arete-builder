@@ -16,6 +16,19 @@ import {LinkRuntime as Link} from "@/components/blocks/Basic/LinkRuntime"
 import {MapRuntime as Map} from "@/components/blocks/Basic/MapRuntime"
 import {SpacerRuntime as Spacer} from "@/components/blocks/Basic/SpacerRuntime"
 import {VideoRuntime as Video} from "@/components/blocks/Basic/VideoRuntime"
+import {RowRuntime as Row} from "@/components/blocks/Basic/RowRuntime"
+import {CardRuntime as Card} from "@/components/blocks/Basic/CardRuntime"
+import {HeadingRuntime as Heading} from "@/components/blocks/Basic/HeadingRuntime"
+import {SelectRuntime as Select} from "@/components/blocks/Basic/SelectRuntime"
+import {IconRuntime as Icon} from "@/components/blocks/Basic/IconRuntime"
+import {GridRuntime as Grid} from "@/components/blocks/Basic/GridRuntime"
+import {NavigationRuntime as Navigation} from "@/components/blocks/Basic/NavigationRuntime"
+import {CheckboxRuntime as Checkbox} from "@/components/blocks/Basic/CheckboxRuntime"
+import {ListRuntime as List} from "@/components/blocks/Basic/ListRuntime"
+import {AlertRuntime as Alert} from "@/components/blocks/Basic/AlertRuntime"
+import {TextareaRuntime as Textarea} from "@/components/blocks/Basic/TextareaRuntime"
+import {LineBreakRuntime as LineBreak} from "@/components/blocks/Basic/LineBreakRuntime"
+import {FlexRowRuntime as FlexRow} from "@/components/blocks/Basic/FlexRowRuntime"
 
 // Component mapping for runtime rendering
 const componentMap: Record<string, React.ComponentType<any>> = {
@@ -34,6 +47,19 @@ const componentMap: Record<string, React.ComponentType<any>> = {
   Map,
   Spacer,
   Video,
+  Row,
+  Card,
+  Heading,
+  Select,
+  Icon,
+  Grid,
+  Navigation,
+  Checkbox,
+  List,
+  Alert,
+  Textarea,
+  LineBreak,
+  FlexRow,
 }
 
 interface RendererProps {

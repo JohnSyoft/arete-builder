@@ -17,7 +17,8 @@ import {
   LinkProperties,
   MapProperties,
   BadgeProperties,
-  InputProperties
+  InputProperties,
+  FlexRowProperties
 } from "./property-panels"
 
 export function GlobalPropertiesPanel() {
@@ -61,6 +62,20 @@ export function GlobalPropertiesPanel() {
           {elementType === 'map' && <MapProperties elementProps={elementProps} onPropChange={handlePropChange} />}
           {elementType === 'badge' && <BadgeProperties elementProps={elementProps} onPropChange={handlePropChange} />}
           {elementType === 'input' && <InputProperties elementProps={elementProps} onPropChange={handlePropChange} />}
+          {/* New components - using existing property panels that best match their functionality */}
+          {elementType === 'row' && <ContainerProperties elementProps={elementProps} onPropChange={handlePropChange} />}
+          {elementType === 'card' && <ContainerProperties elementProps={elementProps} onPropChange={handlePropChange} />}
+          {elementType === 'heading' && <TextProperties elementProps={elementProps} onPropChange={handlePropChange} />}
+          {elementType === 'select' && <InputProperties elementProps={elementProps} onPropChange={handlePropChange} />}
+          {elementType === 'checkbox' && <InputProperties elementProps={elementProps} onPropChange={handlePropChange} />}
+          {elementType === 'textarea' && <InputProperties elementProps={elementProps} onPropChange={handlePropChange} />}
+          {elementType === 'linebreak' && <SpacerProperties elementProps={elementProps} onPropChange={handlePropChange} />}
+          {elementType === 'icon' && <ButtonProperties elementProps={elementProps} onPropChange={handlePropChange} />}
+          {elementType === 'grid' && <ContainerProperties elementProps={elementProps} onPropChange={handlePropChange} />}
+          {elementType === 'navigation' && <ContainerProperties elementProps={elementProps} onPropChange={handlePropChange} />}
+          {elementType === 'list' && <TextProperties elementProps={elementProps} onPropChange={handlePropChange} />}
+          {elementType === 'alert' && <ContainerProperties elementProps={elementProps} onPropChange={handlePropChange} />}
+          {elementType === 'flexrow' && <FlexRowProperties elementProps={elementProps} onPropChange={handlePropChange} />}
           {!elementType && (
             <div className="text-center text-gray-500 mt-8">
               <p>Select an element to edit its properties</p>
