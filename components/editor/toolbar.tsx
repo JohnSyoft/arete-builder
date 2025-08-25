@@ -1,11 +1,12 @@
 "use client"
 
+import { useRouter } from "next/navigation"
 import { useEditor } from "@craftjs/core"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Save, Eye, Undo, Redo, Smartphone, Monitor, Tablet, Trash2, ChevronDown, Plus, Settings } from "@/components/icons"
+import { Save, Eye, Undo, Redo, Smartphone, Monitor, Tablet, Trash2, ChevronDown, Plus, Settings, ArrowLeft } from "@/components/icons"
 import { useViewportStore, type ViewportType } from "@/lib/store/viewport-store"
 import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store"
 
@@ -38,6 +39,8 @@ export function EditorToolbar({
   onAddPage,
   onEditPage,
 }: EditorToolbarProps) {
+  const router = useRouter()
+  
   const { actions, query, canUndo, canRedo, selected } = useEditor((state, query) => ({
     canUndo: query.history.canUndo(),
     canRedo: query.history.canRedo(),
@@ -46,6 +49,10 @@ export function EditorToolbar({
 
   const { currentViewport, setViewport } = useViewportStore()
   const { openPanel } = usePropertiesPanelStore()
+
+  const handleBackToDashboard = () => {
+    router.push('/dashboard')
+  }
 
   const handleDelete = () => {
     if (selected.size > 0) {
@@ -62,6 +69,19 @@ export function EditorToolbar({
   return (
     <div className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6">
       <div className="flex items-center space-x-4">
+        {/* Back to Dashboard Button */}
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          onClick={handleBackToDashboard}
+          className="text-gray-600 hover:text-gray-900"
+          title="Back to Dashboard"
+        >
+          <ArrowLeft className="w-4 h-4" />
+        </Button>
+        
+        <Separator orientation="vertical" className="h-6" />
+        
         <div>
           <h1 className="font-semibold text-gray-900">{projectName}</h1>
           <div className="flex items-center space-x-2">

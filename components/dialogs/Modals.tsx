@@ -25,6 +25,7 @@ export interface ModalsProps {
 
 export function Modals() {
   const { open, modalName, modalProps, closeModal } = useModalStore();
+  console.log({modalName, modalProps, open})
   const ModalComponent = modalName ? modals[modalName] : null;
   console.log({open})
   if (!ModalComponent) return null;

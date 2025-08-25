@@ -41,9 +41,7 @@ interface RendererProps {
 }
 
 function renderNode(nodeId: string, nodes: any): React.ReactNode {
-  console.log({nodeId})
   const node = nodes[nodeId]
-  console.log({node})
   if (!node) return null
 
   const { type, props, nodes: childNodes, linkedNodes } = node
@@ -112,6 +110,6 @@ export function RuntimeRenderer({ layout }: RendererProps) {
       </div>
     )
   }
-console.log(renderNode("ROOT", layout),"ROOT Render")
+// console.log(renderNode("ROOT", layout),"ROOT Render")
   return <div className="runtime-renderer">{renderNode("ROOT", layout)}</div>
 }

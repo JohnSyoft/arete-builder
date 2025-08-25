@@ -39,7 +39,7 @@ export function Hero2({
       <Element id="hero2Content" is="div" canvas className="grid lg:grid-cols-2 gap-12 items-center">
         <Element id="hero2TextContent" is="div" canvas>
           {/* Title */}
-          <Element is="div" className="p-2 hover:ring-1 hover:ring-blue-300 hover:ring-dashed rounded mb-6" canvas={false}>
+          <Element is="div" className="p-2 rounded mb-6" canvas={false}>
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900">
               <CraftText
                 text={title}
@@ -53,7 +53,7 @@ export function Hero2({
           </Element>
           
           {/* Subtitle */}
-          <Element is="div" className="p-2 hover:ring-1 hover:ring-blue-300 hover:ring-dashed rounded mb-8" canvas={false}>
+          <Element is="div" className="p-2 rounded mb-8" canvas={false}>
             <p className="text-lg text-gray-600">
               <CraftText
                 text={subtitle}

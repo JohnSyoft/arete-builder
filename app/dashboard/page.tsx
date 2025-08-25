@@ -7,7 +7,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Plus, FolderOpen, Loader2, Edit } from "lucide-react"
 import { DashboardLayout } from "@/components/dashboard-layout"
 import { useModalStore } from "@/lib/store/modalStore"
-import { useProjects, useCreateProject, useUpdateProject, useDeleteProject } from "@/hooks/useProjects"
+import { useProjects, useDeleteProject } from "@/hooks/useProjects"
 import { type Project } from "@/lib/api/projects"
 import { ProjectCard } from "@/components/projects/ProjectCard"
 
@@ -18,57 +18,9 @@ export default function DashboardPage() {
 
   // API hooks
   const { data: projectsResponse, isLoading, error } = useProjects()
-  const createProjectMutation = useCreateProject()
-  const updateProjectMutation = useUpdateProject()
   const deleteProjectMutation = useDeleteProject()
   
   const projects = projectsResponse?.data?.projects || []
-
-  const handleCreateProject = async (data: {
-    name: string;
-    description?: string;
-  }) => {
-    try {
-      await createProjectMutation.mutateAsync(data)
-      modalStore.closeModal()
-      // Note: No toast notification since sonner is not available
-      console.log('Project created successfully')
-    } catch (error) {
-      console.error('Failed to create project:', error)
-    }
-  }
-
-  const handleUpdateProject = async (data: {
-    name: string;
-    description?: string;
-    status?: 'draft' | 'published' | 'archived';
-    isPublic?: boolean;
-  }) => {
-    if (!selectedProject) return
-    
-    try {
-      await updateProjectMutation.mutateAsync({
-        id: selectedProject._id,
-        projectData: {
-          name: data.name,
-          description: data.description,
-          settings: {
-            ...selectedProject.settings,
-            isPublic: data.isPublic
-          },
-          deployment: {
-            ...selectedProject.deployment,
-            status: data.status || selectedProject.deployment.status
-          }
-        }
-      })
-      modalStore.closeModal()
-      setSelectedProject(null)
-      console.log('Project updated successfully')
-    } catch (error) {
-      console.error('Failed to update project:', error)
-    }
-  }
 
   const handleDeleteProject = async (id: string) => {
     try {
@@ -87,8 +39,9 @@ export default function DashboardPage() {
     setSelectedProject(null)
     modalStore.openModal("createProject", {
       project: null,
-      onSave: handleCreateProject,
-      isLoading: createProjectMutation.isPending,
+      onSuccess: () => {
+        // Optional: Add any success handling here
+      }
     })
   }
 
@@ -96,8 +49,10 @@ export default function DashboardPage() {
     setSelectedProject(project)
     modalStore.openModal("editProject", {
       project,
-      onSave: handleUpdateProject,
-      isLoading: updateProjectMutation.isPending,
+      onSuccess: () => {
+        setSelectedProject(null)
+        // Optional: Add any success handling here
+      }
     })
   }
 
@@ -225,7 +180,6 @@ export default function DashboardPage() {
             <Button
               onClick={openCreateDialog}
               className="font-medium px-8 h-11"
-              disabled={createProjectMutation.isPending}
             >
               <Plus className="mr-2 h-5 w-5" />
               Create Your First Project
