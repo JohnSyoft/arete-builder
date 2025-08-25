@@ -25,8 +25,22 @@ import { Navigation } from "../blocks/Basic/Navigation"
 import { Checkbox } from "../blocks/Basic/Checkbox"
 import { List } from "../blocks/Basic/List"
 import { Alert } from "../blocks/Basic/Alert"
-import { FlexRow } from "../blocks/Basic/FlexRow"
 import { Flex } from "../blocks/Basic/Flex"
+// Form blocks
+import { DropDown } from "@/components/blocks/Forms/DropDown"
+import { Switch } from "@/components/blocks/Forms/Switch"
+import { RadioButton } from "@/components/blocks/Forms/RadioButton"
+import { Slider } from "@/components/blocks/Forms/Slider"
+import { RatingBar } from "@/components/blocks/Forms/RatingBar"
+import { CounterButton } from "@/components/blocks/Forms/CounterButton"
+import { PinCode } from "@/components/blocks/Forms/PinCode"
+import { ChoiceChips } from "@/components/blocks/Forms/ChoiceChips"
+import { CheckboxListTile } from "@/components/blocks/Forms/CheckboxListTile"
+import { SwitchListTile } from "@/components/blocks/Forms/SwitchListTile"
+import { CheckboxGroup } from "@/components/blocks/Forms/CheckboxGroup"
+import { CreditCardForm } from "@/components/blocks/Forms/CreditCardForm"
+import { Signature } from "@/components/blocks/Forms/Signature"
+import { Form } from "@/components/blocks/Forms/Form"
 // Hero blocks
 import { Hero1 } from "@/components/blocks/Hero/Hero1"
 import { Hero2 } from "@/components/blocks/Hero/Hero2"
@@ -195,8 +209,24 @@ export const CraftNavigation = Navigation
 export const CraftCheckbox = Checkbox
 export const CraftList = List
 export const CraftAlert = Alert
-export const CraftFlexRow = FlexRow
+// export const CraftFlexRow = FlexRow
 export const CraftFlex = Flex
+
+// Form blocks
+export const CraftDropDown = DropDown
+export const CraftSwitch = Switch
+export const CraftRadioButton = RadioButton
+export const CraftSlider = Slider
+export const CraftRatingBar = RatingBar
+export const CraftCounterButton = CounterButton
+export const CraftPinCode = PinCode
+export const CraftChoiceChips = ChoiceChips
+export const CraftCheckboxListTile = CheckboxListTile
+export const CraftSwitchListTile = SwitchListTile
+export const CraftCheckboxGroup = CheckboxGroup
+export const CraftCreditCardForm = CreditCardForm
+export const CraftSignature = Signature
+export const CraftForm = Form
 
 // Hero blocks
 export const CraftHero1 = Hero1
@@ -244,8 +274,23 @@ export const componentResolver = {
   Checkbox: CraftCheckbox,
   List: CraftList,
   Alert: CraftAlert,
-  FlexRow: CraftFlexRow,
+  // FlexRow: CraftFlexRow,
   Flex: CraftFlex,
+  // Form blocks
+  DropDown: CraftDropDown,
+  Switch: CraftSwitch,
+  RadioButton: CraftRadioButton,
+  Slider: CraftSlider,
+  RatingBar: CraftRatingBar,
+  CounterButton: CraftCounterButton,
+  PinCode: CraftPinCode,
+  ChoiceChips: CraftChoiceChips,
+  CheckboxListTile: CraftCheckboxListTile,
+  SwitchListTile: CraftSwitchListTile,
+  CheckboxGroup: CraftCheckboxGroup,
+  CreditCardForm: CraftCreditCardForm,
+  Signature: CraftSignature,
+  Form: CraftForm,
   // Hero blocks
   Hero1: CraftHero1,
   Hero2: CraftHero2,

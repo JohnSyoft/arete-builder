@@ -1,5 +1,4 @@
 import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 
@@ -10,28 +9,11 @@ interface FlexPropertiesProps {
 
 export function FlexProperties({ elementProps, onPropChange }: FlexPropertiesProps) {
   return (
-    <Accordion type="multiple" defaultValue={["layout", "style"]} className="w-full">
+    <Accordion type="multiple" defaultValue={["layout", "spacing", "advanced"]} className="w-full">
       {/* Layout Section */}
       <AccordionItem value="layout">
         <AccordionTrigger className="text-sm font-medium">Layout</AccordionTrigger>
         <AccordionContent className="space-y-3">
-          <div>
-            <Label htmlFor="itemCount">Number of Items</Label>
-            <Select value={elementProps?.itemCount?.toString() || '3'} onValueChange={(value) => onPropChange('itemCount', parseInt(value))}>
-              <SelectTrigger className="mt-1">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="1">1 Item</SelectItem>
-                <SelectItem value="2">2 Items</SelectItem>
-                <SelectItem value="3">3 Items</SelectItem>
-                <SelectItem value="4">4 Items</SelectItem>
-                <SelectItem value="5">5 Items</SelectItem>
-                <SelectItem value="6">6 Items</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
           <div>
             <Label htmlFor="flexDirection">Direction</Label>
             <Select value={elementProps?.flexDirection || 'row'} onValueChange={(value) => onPropChange('flexDirection', value)}>
@@ -54,13 +36,30 @@ export function FlexProperties({ elementProps, onPropChange }: FlexPropertiesPro
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="gap-0">No Gap</SelectItem>
-                <SelectItem value="gap-1">Tiny (4px)</SelectItem>
-                <SelectItem value="gap-2">Small (8px)</SelectItem>
-                <SelectItem value="gap-4">Medium (16px)</SelectItem>
-                <SelectItem value="gap-6">Large (24px)</SelectItem>
-                <SelectItem value="gap-8">Extra Large (32px)</SelectItem>
-                <SelectItem value="gap-12">Huge (48px)</SelectItem>
+                <SelectItem value="gap-0">No Gap (0px)</SelectItem>
+                <SelectItem value="gap-px">1px</SelectItem>
+                <SelectItem value="gap-0.5">2px</SelectItem>
+                <SelectItem value="gap-1">4px</SelectItem>
+                <SelectItem value="gap-1.5">6px</SelectItem>
+                <SelectItem value="gap-2">8px</SelectItem>
+                <SelectItem value="gap-2.5">10px</SelectItem>
+                <SelectItem value="gap-3">12px</SelectItem>
+                <SelectItem value="gap-3.5">14px</SelectItem>
+                <SelectItem value="gap-4">16px</SelectItem>
+                <SelectItem value="gap-5">20px</SelectItem>
+                <SelectItem value="gap-6">24px</SelectItem>
+                <SelectItem value="gap-7">28px</SelectItem>
+                <SelectItem value="gap-8">32px</SelectItem>
+                <SelectItem value="gap-9">36px</SelectItem>
+                <SelectItem value="gap-10">40px</SelectItem>
+                <SelectItem value="gap-11">44px</SelectItem>
+                <SelectItem value="gap-12">48px</SelectItem>
+                <SelectItem value="gap-14">56px</SelectItem>
+                <SelectItem value="gap-16">64px</SelectItem>
+                <SelectItem value="gap-20">80px</SelectItem>
+                <SelectItem value="gap-24">96px</SelectItem>
+                <SelectItem value="gap-28">112px</SelectItem>
+                <SelectItem value="gap-32">128px</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -114,68 +113,84 @@ export function FlexProperties({ elementProps, onPropChange }: FlexPropertiesPro
         </AccordionContent>
       </AccordionItem>
 
-      {/* Style Section */}
-      <AccordionItem value="style">
-        <AccordionTrigger className="text-sm font-medium">Style</AccordionTrigger>
+      {/* Advanced Flex Properties */}
+      <AccordionItem value="advanced">
+        <AccordionTrigger className="text-sm font-medium">Advanced Flex</AccordionTrigger>
         <AccordionContent className="space-y-3">
           <div>
-            <Label htmlFor="backgroundColor">Background Color</Label>
-            <Input
-              id="backgroundColor"
-              type="color"
-              value={elementProps?.backgroundColor === 'transparent' ? '#ffffff' : elementProps?.backgroundColor || '#ffffff'}
-              onChange={(e) => onPropChange('backgroundColor', e.target.value)}
-              className="mt-1 h-10"
-            />
-          </div>
-
-          <div>
-            <Label htmlFor="borderRadius">Border Radius</Label>
-            <Select value={elementProps?.borderRadius || '0px'} onValueChange={(value) => onPropChange('borderRadius', value)}>
+            <Label htmlFor="flexGrow">Flex Grow (for child items)</Label>
+            <Select value={elementProps?.flexGrow || 'default'} onValueChange={(value) => onPropChange('flexGrow', value === 'default' ? '' : value)}>
               <SelectTrigger className="mt-1">
-                <SelectValue />
+                <SelectValue placeholder="Default" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="0px">None</SelectItem>
-                <SelectItem value="4px">Small (4px)</SelectItem>
-                <SelectItem value="8px">Medium (8px)</SelectItem>
-                <SelectItem value="12px">Large (12px)</SelectItem>
-                <SelectItem value="16px">Extra Large (16px)</SelectItem>
-                <SelectItem value="24px">Huge (24px)</SelectItem>
+                <SelectItem value="default">Default</SelectItem>
+                <SelectItem value="grow-0">No Growth (0)</SelectItem>
+                <SelectItem value="grow">Grow (1)</SelectItem>
+                <SelectItem value="grow-[2]">Grow 2x</SelectItem>
+                <SelectItem value="grow-[3]">Grow 3x</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           <div>
-            <Label htmlFor="border">Border</Label>
-            <Select value={elementProps?.border || 'none'} onValueChange={(value) => onPropChange('border', value)}>
+            <Label htmlFor="flexShrink">Flex Shrink (for child items)</Label>
+            <Select value={elementProps?.flexShrink || 'default'} onValueChange={(value) => onPropChange('flexShrink', value === 'default' ? '' : value)}>
               <SelectTrigger className="mt-1">
-                <SelectValue />
+                <SelectValue placeholder="Default" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="none">None</SelectItem>
-                <SelectItem value="1px solid #e5e7eb">Light Border</SelectItem>
-                <SelectItem value="2px solid #d1d5db">Medium Border</SelectItem>
-                <SelectItem value="2px solid #9ca3af">Dark Border</SelectItem>
-                <SelectItem value="2px dashed #d1d5db">Dashed Border</SelectItem>
-                <SelectItem value="2px dotted #d1d5db">Dotted Border</SelectItem>
+                <SelectItem value="default">Default</SelectItem>
+                <SelectItem value="shrink-0">No Shrink (0)</SelectItem>
+                <SelectItem value="shrink">Shrink (1)</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           <div>
-            <Label htmlFor="minHeight">Minimum Height</Label>
-            <Select value={elementProps?.minHeight || 'min-h-[60px]'} onValueChange={(value) => onPropChange('minHeight', value)}>
+            <Label htmlFor="flexBasis">Flex Basis (initial size)</Label>
+            <Select value={elementProps?.flexBasis || 'default'} onValueChange={(value) => onPropChange('flexBasis', value === 'default' ? '' : value)}>
               <SelectTrigger className="mt-1">
-                <SelectValue />
+                <SelectValue placeholder="Auto" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="min-h-[40px]">Small (40px)</SelectItem>
-                <SelectItem value="min-h-[60px]">Medium (60px)</SelectItem>
-                <SelectItem value="min-h-[80px]">Large (80px)</SelectItem>
-                <SelectItem value="min-h-[100px]">Extra Large (100px)</SelectItem>
-                <SelectItem value="min-h-[150px]">Huge (150px)</SelectItem>
-                <SelectItem value="min-h-[200px]">Massive (200px)</SelectItem>
+                <SelectItem value="default">Auto</SelectItem>
+                <SelectItem value="basis-0">0</SelectItem>
+                <SelectItem value="basis-1/2">50%</SelectItem>
+                <SelectItem value="basis-1/3">33.33%</SelectItem>
+                <SelectItem value="basis-2/3">66.66%</SelectItem>
+                <SelectItem value="basis-1/4">25%</SelectItem>
+                <SelectItem value="basis-3/4">75%</SelectItem>
+                <SelectItem value="basis-full">100%</SelectItem>
+                <SelectItem value="basis-[100px]">100px</SelectItem>
+                <SelectItem value="basis-[200px]">200px</SelectItem>
+                <SelectItem value="basis-[300px]">300px</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div>
+            <Label htmlFor="order">Flex Order</Label>
+            <Select value={elementProps?.order || 'default'} onValueChange={(value) => onPropChange('order', value === 'default' ? '' : value)}>
+              <SelectTrigger className="mt-1">
+                <SelectValue placeholder="Default" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="default">Default</SelectItem>
+                <SelectItem value="order-first">First (-9999)</SelectItem>
+                <SelectItem value="order-last">Last (9999)</SelectItem>
+                <SelectItem value="order-1">1</SelectItem>
+                <SelectItem value="order-2">2</SelectItem>
+                <SelectItem value="order-3">3</SelectItem>
+                <SelectItem value="order-4">4</SelectItem>
+                <SelectItem value="order-5">5</SelectItem>
+                <SelectItem value="order-6">6</SelectItem>
+                <SelectItem value="order-7">7</SelectItem>
+                <SelectItem value="order-8">8</SelectItem>
+                <SelectItem value="order-9">9</SelectItem>
+                <SelectItem value="order-10">10</SelectItem>
+                <SelectItem value="order-11">11</SelectItem>
+                <SelectItem value="order-12">12</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -193,13 +208,32 @@ export function FlexProperties({ elementProps, onPropChange }: FlexPropertiesPro
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="p-0">None</SelectItem>
-                <SelectItem value="p-1">Tiny (4px)</SelectItem>
-                <SelectItem value="p-2">Small (8px)</SelectItem>
-                <SelectItem value="p-4">Medium (16px)</SelectItem>
-                <SelectItem value="p-6">Large (24px)</SelectItem>
-                <SelectItem value="p-8">Extra Large (32px)</SelectItem>
-                <SelectItem value="p-12">Huge (48px)</SelectItem>
+                <SelectItem value="p-0">No Padding (0px)</SelectItem>
+                <SelectItem value="p-px">1px</SelectItem>
+                <SelectItem value="p-0.5">2px</SelectItem>
+                <SelectItem value="p-1">4px</SelectItem>
+                <SelectItem value="p-1.5">6px</SelectItem>
+                <SelectItem value="p-2">8px</SelectItem>
+                <SelectItem value="p-2.5">10px</SelectItem>
+                <SelectItem value="p-3">12px</SelectItem>
+                <SelectItem value="p-3.5">14px</SelectItem>
+                <SelectItem value="p-4">16px</SelectItem>
+                <SelectItem value="p-5">20px</SelectItem>
+                <SelectItem value="p-6">24px</SelectItem>
+                <SelectItem value="p-7">28px</SelectItem>
+                <SelectItem value="p-8">32px</SelectItem>
+                <SelectItem value="p-9">36px</SelectItem>
+                <SelectItem value="p-10">40px</SelectItem>
+                <SelectItem value="p-11">44px</SelectItem>
+                <SelectItem value="p-12">48px</SelectItem>
+                <SelectItem value="p-14">56px</SelectItem>
+                <SelectItem value="p-16">64px</SelectItem>
+                <SelectItem value="p-20">80px</SelectItem>
+                <SelectItem value="p-24">96px</SelectItem>
+                <SelectItem value="px-4">Horizontal 16px</SelectItem>
+                <SelectItem value="py-4">Vertical 16px</SelectItem>
+                <SelectItem value="px-6 py-4">H: 24px, V: 16px</SelectItem>
+                <SelectItem value="px-8 py-6">H: 32px, V: 24px</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -211,13 +245,65 @@ export function FlexProperties({ elementProps, onPropChange }: FlexPropertiesPro
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="my-0">None</SelectItem>
-                <SelectItem value="my-1">Tiny (4px)</SelectItem>
-                <SelectItem value="my-2">Small (8px)</SelectItem>
-                <SelectItem value="my-4">Medium (16px)</SelectItem>
-                <SelectItem value="my-6">Large (24px)</SelectItem>
-                <SelectItem value="my-8">Extra Large (32px)</SelectItem>
-                <SelectItem value="my-12">Huge (48px)</SelectItem>
+                <SelectItem value="m-0">No Margin (0px)</SelectItem>
+                <SelectItem value="m-px">1px All</SelectItem>
+                <SelectItem value="m-0.5">2px All</SelectItem>
+                <SelectItem value="m-1">4px All</SelectItem>
+                <SelectItem value="m-2">8px All</SelectItem>
+                <SelectItem value="m-3">12px All</SelectItem>
+                <SelectItem value="m-4">16px All</SelectItem>
+                <SelectItem value="m-5">20px All</SelectItem>
+                <SelectItem value="m-6">24px All</SelectItem>
+                <SelectItem value="m-8">32px All</SelectItem>
+                <SelectItem value="m-10">40px All</SelectItem>
+                <SelectItem value="m-12">48px All</SelectItem>
+                <SelectItem value="mx-0">No Horizontal</SelectItem>
+                <SelectItem value="mx-1">4px Horizontal</SelectItem>
+                <SelectItem value="mx-2">8px Horizontal</SelectItem>
+                <SelectItem value="mx-4">16px Horizontal</SelectItem>
+                <SelectItem value="mx-6">24px Horizontal</SelectItem>
+                <SelectItem value="mx-8">32px Horizontal</SelectItem>
+                <SelectItem value="mx-auto">Auto Horizontal</SelectItem>
+                <SelectItem value="my-0">No Vertical</SelectItem>
+                <SelectItem value="my-1">4px Vertical</SelectItem>
+                <SelectItem value="my-2">8px Vertical</SelectItem>
+                <SelectItem value="my-4">16px Vertical</SelectItem>
+                <SelectItem value="my-6">24px Vertical</SelectItem>
+                <SelectItem value="my-8">32px Vertical</SelectItem>
+                <SelectItem value="my-12">48px Vertical</SelectItem>
+                <SelectItem value="mt-4">Top 16px</SelectItem>
+                <SelectItem value="mb-4">Bottom 16px</SelectItem>
+                <SelectItem value="ml-4">Left 16px</SelectItem>
+                <SelectItem value="mr-4">Right 16px</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div>
+            <Label htmlFor="minHeight">Minimum Height</Label>
+            <Select value={elementProps?.minHeight || 'min-h-[60px]'} onValueChange={(value) => onPropChange('minHeight', value)}>
+              <SelectTrigger className="mt-1">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="min-h-0">No Min Height</SelectItem>
+                <SelectItem value="min-h-[20px]">20px</SelectItem>
+                <SelectItem value="min-h-[30px]">30px</SelectItem>
+                <SelectItem value="min-h-[40px]">40px</SelectItem>
+                <SelectItem value="min-h-[50px]">50px</SelectItem>
+                <SelectItem value="min-h-[60px]">60px</SelectItem>
+                <SelectItem value="min-h-[80px]">80px</SelectItem>
+                <SelectItem value="min-h-[100px]">100px</SelectItem>
+                <SelectItem value="min-h-[120px]">120px</SelectItem>
+                <SelectItem value="min-h-[150px]">150px</SelectItem>
+                <SelectItem value="min-h-[200px]">200px</SelectItem>
+                <SelectItem value="min-h-[250px]">250px</SelectItem>
+                <SelectItem value="min-h-[300px]">300px</SelectItem>
+                <SelectItem value="min-h-[400px]">400px</SelectItem>
+                <SelectItem value="min-h-[500px]">500px</SelectItem>
+                <SelectItem value="min-h-screen">Full Screen</SelectItem>
+                <SelectItem value="min-h-[50vh]">50% Viewport</SelectItem>
+                <SelectItem value="min-h-[75vh]">75% Viewport</SelectItem>
               </SelectContent>
             </Select>
           </div>

@@ -1,7 +1,7 @@
-import React from "react"
+import React from 'react'
 
-interface FlexRowRuntimeProps {
-  itemCount?: number
+interface FlexRuntimeProps {
+  flexDirection?: 'row' | 'column' | 'row-reverse' | 'column-reverse'
   gap?: string
   justifyContent?: 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly'
   alignItems?: 'start' | 'center' | 'end' | 'stretch' | 'baseline'
@@ -9,10 +9,20 @@ interface FlexRowRuntimeProps {
   minHeight?: string
   padding?: string
   margin?: string
+  // Advanced flex properties
+  flexGrow?: string
+  flexShrink?: string
+  flexBasis?: string
+  order?: string
+  // Legacy properties (not used but prevent errors from old data)
+  backgroundColor?: string
+  borderRadius?: string
+  border?: string
   children?: React.ReactNode
 }
 
-export function FlexRowRuntime({
+export function FlexRuntime({
+  flexDirection = 'row',
   gap = 'gap-4',
   justifyContent = 'start',
   alignItems = 'center',
@@ -20,8 +30,27 @@ export function FlexRowRuntime({
   minHeight = 'min-h-[60px]',
   padding = 'p-4',
   margin = 'my-4',
+  flexGrow = '',
+  flexShrink = '',
+  flexBasis = '',
+  order = '',
+  // Legacy properties (destructure but ignore)
+  backgroundColor,
+  borderRadius,
+  border,
   children
-}: FlexRowRuntimeProps) {
+}: FlexRuntimeProps) {
+  
+  const getFlexDirectionClass = (direction: string) => {
+    switch (direction) {
+      case 'row': return 'flex-row'
+      case 'column': return 'flex-col'
+      case 'row-reverse': return 'flex-row-reverse'
+      case 'column-reverse': return 'flex-col-reverse'
+      default: return 'flex-row'
+    }
+  }
+
   const getJustifyClass = (justify: string) => {
     switch (justify) {
       case 'start': return 'justify-start'
@@ -54,15 +83,31 @@ export function FlexRowRuntime({
     }
   }
 
+  const getAdvancedFlexClasses = () => {
+    let classes = []
+    if (flexGrow) classes.push(flexGrow)
+    if (flexShrink) classes.push(flexShrink)
+    if (flexBasis) classes.push(flexBasis)
+    if (order) classes.push(order)
+    return classes.join(' ')
+  }
+
   return (
-    <div className={`${padding} ${margin}`}>
+    <div 
+      className={`
+        ${padding} 
+        ${margin}
+      `}
+    >
       <div className={`
         flex 
+        ${getFlexDirectionClass(flexDirection)}
         ${gap} 
         ${getJustifyClass(justifyContent)} 
         ${getAlignClass(alignItems)} 
         ${getWrapClass(wrap)}
         ${minHeight}
+        ${getAdvancedFlexClasses()}
       `}>
         {children}
       </div>

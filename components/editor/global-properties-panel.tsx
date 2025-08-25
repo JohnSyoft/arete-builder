@@ -1,6 +1,5 @@
 "use client"
 
-import React from 'react'
 import { X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
@@ -23,7 +22,22 @@ import {
   CardProperties,
   GridProperties,
   AlertProperties,
-  NavigationProperties
+  NavigationProperties,
+  // Form Component Properties
+  DropDownProperties,
+  SwitchProperties,
+  RadioButtonProperties,
+  SliderProperties,
+  RatingBarProperties,
+  CounterButtonProperties,
+  PinCodeProperties,
+  ChoiceChipsProperties,
+  CheckboxListTileProperties,
+  SwitchListTileProperties,
+  CheckboxGroupProperties,
+  CreditCardFormProperties,
+  SignatureProperties,
+  FormProperties
 } from "./property-panels"
 
 export function GlobalPropertiesPanel() {
@@ -67,6 +81,23 @@ export function GlobalPropertiesPanel() {
           {elementType === 'map' && <MapProperties elementProps={elementProps} onPropChange={handlePropChange} />}
           {elementType === 'badge' && <BadgeProperties elementProps={elementProps} onPropChange={handlePropChange} />}
           {elementType === 'input' && <InputProperties elementProps={elementProps} onPropChange={handlePropChange} />}
+          
+          {/* Form Components */}
+          {elementType === 'dropdown' && <DropDownProperties elementProps={elementProps} onPropChange={handlePropChange} />}
+          {elementType === 'switch' && <SwitchProperties elementProps={elementProps} onPropChange={handlePropChange} />}
+          {elementType === 'radiobutton' && <RadioButtonProperties elementProps={elementProps} onPropChange={handlePropChange} />}
+          {elementType === 'slider' && <SliderProperties elementProps={elementProps} onPropChange={handlePropChange} />}
+          {elementType === 'ratingbar' && <RatingBarProperties elementProps={elementProps} onPropChange={handlePropChange} />}
+          {elementType === 'counterbutton' && <CounterButtonProperties elementProps={elementProps} onPropChange={handlePropChange} />}
+          {elementType === 'pincode' && <PinCodeProperties elementProps={elementProps} onPropChange={handlePropChange} />}
+          {elementType === 'choicechips' && <ChoiceChipsProperties elementProps={elementProps} onPropChange={handlePropChange} />}
+          {elementType === 'checkboxlisttile' && <CheckboxListTileProperties elementProps={elementProps} onPropChange={handlePropChange} />}
+          {elementType === 'switchlisttile' && <SwitchListTileProperties elementProps={elementProps} onPropChange={handlePropChange} />}
+          {elementType === 'checkboxgroup' && <CheckboxGroupProperties elementProps={elementProps} onPropChange={handlePropChange} />}
+          {elementType === 'creditcardform' && <CreditCardFormProperties elementProps={elementProps} onPropChange={handlePropChange} />}
+          {elementType === 'signature' && <SignatureProperties elementProps={elementProps} onPropChange={handlePropChange} />}
+          {elementType === 'form' && <FormProperties elementProps={elementProps} onPropChange={handlePropChange} />}
+          
           {/* Components with specific property panels */}
           {elementType === 'row' && <FlexRowProperties elementProps={elementProps} onPropChange={handlePropChange} />}
           {elementType === 'card' && <CardProperties elementProps={elementProps} onPropChange={handlePropChange} />}
@@ -80,7 +111,6 @@ export function GlobalPropertiesPanel() {
           {elementType === 'navigation' && <NavigationProperties elementProps={elementProps} onPropChange={handlePropChange} />}
           {elementType === 'list' && <TextProperties elementProps={elementProps} onPropChange={handlePropChange} />}
           {elementType === 'alert' && <AlertProperties elementProps={elementProps} onPropChange={handlePropChange} />}
-          {elementType === 'flexrow' && <FlexRowProperties elementProps={elementProps} onPropChange={handlePropChange} />}
           {elementType === 'flex' && <FlexProperties elementProps={elementProps} onPropChange={handlePropChange} />}
           {!elementType && (
             <div className="text-center text-gray-500 mt-8">

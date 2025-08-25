@@ -1,55 +1,68 @@
 "use client"
 
-import React from "react"
-import { Element, useEditor } from "@craftjs/core"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { Badge } from "@/components/ui/badge"
-import { useViewportStore } from "@/lib/store/viewport-store"
 import {
-  // Basic blocks
-  CraftText,
-  CraftImage,
-  CraftButton,
-  CraftSpacer,
-  CraftDivider,
-  CraftColumns,
-  CraftFlex,
-  CraftLink,
-  CraftVideo,
-  CraftMap,
-  CraftBadge,
-  CraftInput,
-  CraftTextarea,
-  CraftLineBreak,
-  CraftCard,
-  CraftHeading,
-  CraftSelect,
-  CraftIcon,
-  CraftGrid,
-  CraftNavigation,
-  CraftCheckbox,
-  CraftList,
   CraftAlert,
-  // Hero blocks
-  CraftHero1,
-  CraftHero2,
-  // Header blocks
-  CraftHeader1,
-  CraftHeader2,
-  // Footer blocks
-  CraftFooter1,
-  CraftFooter2,
+  CraftBadge,
+  CraftButton,
+  CraftCard,
+  CraftCheckbox,
+  CraftCheckboxGroup,
+  CraftCheckboxListTile,
+  CraftChoiceChips,
+  // Contact blocks
+  CraftContact1,
+  CraftCounterButton,
+  CraftCreditCardForm,
+  CraftForm,
   // CTA blocks
   CraftCTA1,
   CraftCTA2,
+  CraftDivider,
+  CraftDropDown,
   // Features blocks
   CraftFeatures1,
   CraftFeatures2,
-  // Contact blocks
-  CraftContact1,
+  CraftFlex,
+  // Footer blocks
+  CraftFooter1,
+  CraftFooter2,
+  CraftGrid,
+  // Header blocks
+  CraftHeader1,
+  CraftHeader2,
+  CraftHeading,
+  // Hero blocks
+  CraftHero1,
+  CraftHero2,
+  CraftIcon,
+  CraftImage,
+  CraftInput,
+  CraftLink,
+  CraftList,
+  CraftMap,
+  CraftPinCode,
+  CraftRadioButton,
+  CraftRatingBar,
   CraftSection,
+  CraftSelect,
+  CraftSignature,
+  CraftSlider,
+  CraftSpacer,
+  CraftSwitch,
+  CraftSwitchListTile,
+  // Basic blocks
+  CraftText,
+  CraftTextarea,
+  CraftVideo
 } from "@/components/editor/craft-components"
+import { Badge } from "@/components/ui/badge"
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { Button } from "@/components/ui/button"
+import { useViewportStore } from "@/lib/store/viewport-store"
+import { useSidebarStore } from "@/lib/store/sidebar-store"
+import { useEditor } from "@craftjs/core"
+import { ChevronLeft, ChevronRight } from "lucide-react"
+import React from "react"
 
 interface BlockItemProps {
   component: React.ComponentType
@@ -101,6 +114,7 @@ const SimpleBlockItem = ({ component: Component, name }: { component: any, name:
 
 export function EditorSidebar() {
   const { currentViewport } = useViewportStore()
+  const { isOpen, toggleSidebar } = useSidebarStore()
   const [activeCategory, setActiveCategory] = React.useState("elements")
 
   const getViewportInfo = () => {
@@ -195,10 +209,24 @@ export function EditorSidebar() {
         </svg>
       ),
       items: [
+        { component: CraftForm, name: "Form", description: "Form container with API submission" },
         { component: CraftInput, name: "Input", description: "Form input field" },
         { component: CraftTextarea, name: "Textarea", description: "Multi-line text input" },
+        { component: CraftDropDown, name: "Drop Down", description: "Select dropdown with options" },
         { component: CraftSelect, name: "Select", description: "Dropdown selection input" },
         { component: CraftCheckbox, name: "Checkbox", description: "Checkbox input element" },
+        { component: CraftCheckboxGroup, name: "Checkbox Group", description: "Group of checkboxes" },
+        { component: CraftCheckboxListTile, name: "Checkbox List Tile", description: "Checkbox list with titles" },
+        { component: CraftSwitch, name: "Switch", description: "Toggle switch component" },
+        { component: CraftSwitchListTile, name: "Switch List Tile", description: "Switch list with titles" },
+        { component: CraftRadioButton, name: "Radio Button", description: "Radio button group" },
+        { component: CraftSlider, name: "Slider", description: "Range slider input" },
+        { component: CraftRatingBar, name: "Rating Bar", description: "Star rating component" },
+        { component: CraftCounterButton, name: "Counter Button", description: "Number counter with +/- buttons" },
+        { component: CraftPinCode, name: "Pin Code", description: "PIN/OTP input fields" },
+        { component: CraftChoiceChips, name: "Choice Chips", description: "Selectable chip buttons" },
+        { component: CraftCreditCardForm, name: "Credit Card Form", description: "Complete credit card form" },
+        { component: CraftSignature, name: "Signature", description: "Signature drawing pad" },
       ]
     }
   }
@@ -206,64 +234,86 @@ export function EditorSidebar() {
   const currentCategory = allCategories[activeCategory as keyof typeof allCategories]
 
   return (
-    <div className="flex border-r border-border h-full">
-      {/* Narrow Icon Sidebar */}
-      <div className="w-16 bg-card border-r border-border flex flex-col">
-        <div className="p-3 border-b border-border">
-          <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-            <span className="text-primary-foreground font-bold text-sm">B</span>
-          </div>
-        </div>
-        
-        <div className="flex flex-col p-2 space-y-2">
-          {Object.entries(allCategories).map(([key, category]) => (
-            <button
-              key={key}
-              onClick={() => setActiveCategory(key)}
-              className={`w-12 h-12 rounded-lg flex items-center justify-center group transition-colors ${
-                activeCategory === key 
-                  ? 'bg-primary text-primary-foreground' 
-                  : 'bg-muted hover:bg-muted/80 text-muted-foreground hover:text-foreground'
-              }`}
-              title={category.name}
-            >
-              {category.icon}
-            </button>
-          ))}
-        </div>
-        
-        {/* Viewport indicator at bottom */}
-        <div className="mt-auto p-2 border-t border-border">
-          <div className="text-center">
-            <Badge variant="outline" className="text-xs rotate-90 origin-center transform">
-              {viewportInfo.name}
-            </Badge>
-          </div>
-        </div>
-      </div>
+    <>
+      {/* Toggle Button - Always visible */}
+      <Button
+        onClick={toggleSidebar}
+        variant="outline"
+        size="sm"
+        className={`fixed top-4 z-50 transition-all duration-300 ${
+          isOpen ? 'left-[calc(24rem+0.5rem)]' : 'left-2'
+        }`}
+        title={`${isOpen ? 'Hide' : 'Show'} sidebar (Ctrl/Cmd + B)`}
+      >
+        {isOpen ? (
+          <ChevronLeft className="h-4 w-4" />
+        ) : (
+          <ChevronRight className="h-4 w-4" />
+        )}
+      </Button>
 
-      {/* Content Area - Shows components based on selected category */}
-      <div className="w-80 bg-card flex flex-col h-full">
-        <div className="p-4 border-b border-border">
-          <h2 className="font-semibold text-foreground mb-1">{currentCategory?.name}</h2>
-          <p className="text-sm text-muted-foreground">
-            {currentCategory?.items.length} components available
-          </p>
-        </div>
-
-        <ScrollArea className="flex-1">
-          <div className="p-4 space-y-3">
-            {currentCategory?.items.map((item, index) => (
-              <BlockItem 
-                key={index} 
-                component={item.component} 
-                name={item.name} 
-                description={item.description} 
-              />
+      {/* Sidebar */}
+      <div className={`flex border-r border-border h-full transition-transform duration-300 ${
+        isOpen ? 'translate-x-0' : '-translate-x-full'
+      } ${!isOpen ? 'absolute -z-10' : 'relative z-0'}`}>
+        {/* Narrow Icon Sidebar */}
+        <div className="w-16 bg-card border-r border-border flex flex-col">
+          <div className="p-3 border-b border-border">
+            <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+              <span className="text-primary-foreground font-bold text-sm">B</span>
+            </div>
+          </div>
+          
+          <div className="flex flex-col p-2 space-y-2">
+            {Object.entries(allCategories).map(([key, category]) => (
+              <button
+                key={key}
+                onClick={() => setActiveCategory(key)}
+                className={`w-12 h-12 rounded-lg flex items-center justify-center group transition-colors ${
+                  activeCategory === key 
+                    ? 'bg-primary text-primary-foreground' 
+                    : 'bg-muted hover:bg-muted/80 text-muted-foreground hover:text-foreground'
+                }`}
+                title={category.name}
+              >
+                {category.icon}
+              </button>
             ))}
           </div>
-        </ScrollArea>
+          
+          {/* Viewport indicator at bottom */}
+          <div className="mt-auto p-2 border-t border-border">
+            <div className="text-center">
+              <Badge variant="outline" className="text-xs rotate-90 origin-center transform">
+                {viewportInfo.name}
+              </Badge>
+            </div>
+          </div>
+        </div>
+
+        {/* Content Area - Shows components based on selected category */}
+        <div className="w-80 bg-card flex flex-col h-full">
+          <div className="p-4 border-b border-border">
+            <h2 className="font-semibold text-foreground mb-1">{currentCategory?.name}</h2>
+            <p className="text-sm text-muted-foreground">
+              {currentCategory?.items.length} components available
+            </p>
+          </div>
+
+          <ScrollArea className="flex-1">
+            <div className="p-4 space-y-3">
+              {currentCategory?.items.map((item, index) => (
+                <BlockItem 
+                  key={index} 
+                  component={item.component} 
+                  name={item.name} 
+                  description={item.description} 
+                />
+              ))}
+            </div>
+          </ScrollArea>
+        </div>
       </div>
-    </div>
+    </>
   )
 }

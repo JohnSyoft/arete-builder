@@ -52,7 +52,6 @@ export default async function PublicPage({ params }: PageProps) {
     getProjectPages(params.projectId)
   ])
 
-  console.log({  pages })
 
   // Not found state
   if (!project || !page) {

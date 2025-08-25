@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useMemo, useEffect } from "react"
 import { useParams, useRouter } from "next/navigation"
 import { Editor, Frame, Element, useEditor } from "@craftjs/core"
 import { EditorSidebar } from "@/components/editor/sidebar"
@@ -10,6 +10,7 @@ import { componentResolver } from "@/components/editor/craft-components"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft } from "@/components/icons"
 import { useViewportStore } from "@/lib/store/viewport-store"
+import { useSidebarStore } from "@/lib/store/sidebar-store"
 import { useProject } from "@/hooks/useProjects"
 import { useProjectPages, usePageBySlug, useUpdatePage } from "@/hooks/usePages"
 import { type Project } from "@/lib/api/projects"
@@ -30,31 +31,36 @@ function EditorContent({
   layoutData,
   onPreview,
   onPageChange,
-  onSave,
+  onSave
 }: {
   project: Project
   currentPage: ApiPage
   pages: ToolbarPage[]
   layoutData: any
   onPreview: () => void
-  onPageChange: (slug: string) => void
+  onPageChange: (pageSlug: string) => void
   onSave: (layout: any) => void
 }) {
   const { actions, query } = useEditor()
-  const { getViewportStyles, currentViewport } = useViewportStore()
+  const { currentViewport } = useViewportStore()
+  const { isOpen: sidebarOpen } = useSidebarStore()
 
   const handleSave = () => {
-    try {
-      const serializedState = query.serialize()
-      // console.log({ serializedState })
-      onSave(serializedState)
-      console.log("Page saved successfully!")
-    } catch (error) {
-      console.error("Error saving page:", error)
-    }
+    const layout = query.serialize()
+    onSave(layout)
   }
 
-  const viewportStyles = getViewportStyles()
+  const viewportStyles = useMemo(() => {
+    switch (currentViewport) {
+      case 'mobile':
+        return { width: '375px', margin: '0 auto' }
+      case 'tablet':
+        return { width: '768px', margin: '0 auto' }
+      case 'desktop':
+      default:
+        return { width: '100%', maxWidth: 'none' }
+    }
+  }, [currentViewport])
 
   return (
     <>
@@ -68,10 +74,12 @@ function EditorContent({
           pages={pages}
           currentPageSlug={currentPage.slug}
           onPageChange={onPageChange}
-        />      <div className="flex h-[calc(100vh-4rem)]">
+        />      <div className="flex h-[calc(100vh-4rem)] relative">
         <EditorSidebar />
 
-        <div className="flex-1 overflow-auto">
+        <div className={`flex-1 overflow-auto transition-all duration-300 ${
+          sidebarOpen ? 'ml-0' : 'ml-0'
+        }`}>
           <div className="">
             <div
               className="mx-auto bg-white shadow-lg rounded-lg overflow-hidden"
@@ -104,9 +112,25 @@ function EditorContent({
 export default function EditorPage() {
   const params = useParams()
   const router = useRouter()
+  const { toggleSidebar } = useSidebarStore()
 
   const projectId = params.projectId as string
   const pageSlug = params.pageSlug as string
+
+  // Add keyboard shortcut for toggling sidebar
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      // Ctrl/Cmd + B to toggle sidebar
+      if ((event.metaKey || event.ctrlKey) && event.key === 'b') {
+        event.preventDefault()
+        toggleSidebar()
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [toggleSidebar])
+
   console.log({ projectId })
   // API hooks
   const { data: projectResponse, isLoading: projectLoading, error: projectError } = useProject(projectId)
