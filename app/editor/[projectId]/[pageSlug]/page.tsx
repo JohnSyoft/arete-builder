@@ -121,9 +121,6 @@ export default function EditorPage() {
   const isLoading = projectLoading || pagesLoading || pageLoading
   const error = projectError || pagesError || pageError
 
-  console.log("[v0] Editor loading with params:", { projectId, pageSlug })
-  console.log("[v0] Project:", project)
-  console.log("[v0] Current page:", currentPageData)
 
   const handleSave = async (layout: any) => {
     if (!currentPageData) return

@@ -110,7 +110,8 @@ export function Button({
             onBlur={(e: React.FocusEvent<HTMLSpanElement>) =>
               setProp((props: ButtonProps) => (props.text = e.currentTarget.textContent || ""))
             }
-            className="focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 rounded"
+            style={{ outline: 'none', cursor: 'text' }}
+            className="rounded"
             dangerouslySetInnerHTML={{ __html: text }}
           />
         </a>

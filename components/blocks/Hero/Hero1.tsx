@@ -3,6 +3,7 @@ import { useNode, useEditor, Element } from "@craftjs/core"
 import React from "react"
 import { Text as CraftText } from "@/components/blocks/Basic/Text"
 import { Button as CraftButton } from "@/components/blocks/Basic/Button"
+import { FlexRow as CraftFlexRow } from "@/components/blocks/Basic/FlexRow"
 import { Section, SectionProps } from "@/components/blocks/Basic/Section"
 
 interface Hero1Props extends SectionProps {
@@ -31,36 +32,36 @@ export function Hero1(props: Hero1Props) {
   return (
     <Section {...heroProps}>
       <Element id="heroContent" is="div" canvas className="text-center">
-          {/* Title as draggable component with padding for drag area */}
+          {/* Title as draggable component */}
           <Element is="div" className="p-2 rounded" canvas={false}>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 text-white leading-tight">
-              <CraftText
-                text="Build Amazing Websites"
-                tagName="span"
-                fontSize=""
-                fontWeight=""
-                color=""
-                margin=""
-              />
-            </h1>
+            <CraftText
+              text="Build Amazing Websites"
+              tagName="h1"
+              fontSize="text-3xl sm:text-4xl md:text-5xl lg:text-6xl"
+              textAlign="text-center"
+              fontWeight="font-bold"
+              color="text-white"
+              margin="mb-4 sm:mb-6"
+              lineHeight="leading-tight"
+            />
           </Element>
           
-          {/* Subtitle as draggable component with padding for drag area */}
+          {/* Subtitle as draggable component */}
           <Element is="div" className="p-2 rounded max-w-2xl sm:max-w-3xl mx-auto" canvas={false}>
-            <p className="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 text-blue-100 leading-relaxed px-2">
-              <CraftText
-                text="Create stunning, professional websites with our powerful drag-and-drop builder. No coding required."
-                tagName="span"
-                fontSize=""
-                fontWeight=""
-                color=""
-                margin=""
-              />
-            </p>
+            <CraftText
+              text="Create stunning, professional websites with our powerful drag-and-drop builder. No coding required."
+              tagName="p"
+              fontSize="text-lg sm:text-xl md:text-2xl"
+              fontWeight="font-normal"
+              color="text-blue-100"
+              margin="mb-6 sm:mb-8"
+              padding="px-2"
+              lineHeight="leading-relaxed"
+            />
           </Element>
           
-          {/* Buttons container with individual draggable buttons */}
-          <Element is="div" className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center w-full max-w-md sm:max-w-none mx-auto" canvas>
+          {/* Buttons container with pre-populated buttons */}
+          <Element is="div" className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center w-full max-w-md sm:max-w-none mx-auto p-2 mt-4" canvas>
             <CraftButton
               text="Get Started Free"
               size="lg"

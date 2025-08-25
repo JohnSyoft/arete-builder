@@ -12,6 +12,16 @@ interface TextProps {
   tagName?: "p" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "span"
   margin?: string
   padding?: string
+  fontFamily?: string
+  lineHeight?: string
+  letterSpacing?: string
+  textTransform?: string
+  textDecoration?: string
+  backgroundColor?: string
+  textShadow?: string
+  opacity?: string
+  borderRadius?: string
+  border?: string
 }
 
 export function Text({
@@ -22,7 +32,17 @@ export function Text({
   textAlign = "text-left",
   tagName = "p",
   margin = "my-2",
-  padding = "px-0 py-0"
+  padding = "px-0 py-0",
+  fontFamily = "",
+  lineHeight = "",
+  letterSpacing = "",
+  textTransform = "",
+  textDecoration = "",
+  backgroundColor = "",
+  textShadow = "",
+  opacity = "",
+  borderRadius = "",
+  border = ""
 }: TextProps) {
   const {
     connectors: { connect, drag },
@@ -41,7 +61,11 @@ export function Text({
   const { openPanel } = usePropertiesPanelStore()
 
   const handleShowProperties = () => {
-    console.log('Text handleShowProperties called', { text, tagName, fontSize, fontWeight, color, textAlign, margin, padding, id })
+    console.log('Text handleShowProperties called', { 
+      text, tagName, fontSize, fontWeight, color, textAlign, margin, padding,
+      fontFamily, lineHeight, letterSpacing, textTransform, textDecoration,
+      backgroundColor, textShadow, opacity, borderRadius, border, id 
+    })
     openPanel('text', {
       text,
       tagName,
@@ -50,7 +74,17 @@ export function Text({
       color,
       textAlign,
       margin,
-      padding
+      padding,
+      fontFamily,
+      lineHeight,
+      letterSpacing,
+      textTransform,
+      textDecoration,
+      backgroundColor,
+      textShadow,
+      opacity,
+      borderRadius,
+      border
     }, id, (newProps) => {
       console.log('Text props change callback called', newProps)
       Object.keys(newProps).forEach(key => {
@@ -85,9 +119,20 @@ export function Text({
           ${textAlign} 
           ${margin} 
           ${padding}
+          ${fontFamily}
+          ${lineHeight}
+          ${letterSpacing}
+          ${textTransform}
+          ${textDecoration}
+          ${backgroundColor}
+          ${textShadow}
+          ${opacity}
+          ${borderRadius}
+          ${border}
           rounded 
           min-h-[1.5rem]
-        `}
+        `.trim().replace(/\s+/g, ' ')}
+        style={{ outline: 'none', cursor: 'text' }}
         dangerouslySetInnerHTML={{ __html: text }}
       />
       
@@ -127,6 +172,16 @@ Text.craft = {
     tagName: "p",
     margin: "my-2",
     padding: "px-0 py-0",
+    fontFamily: "",
+    lineHeight: "",
+    letterSpacing: "",
+    textTransform: "",
+    textDecoration: "",
+    backgroundColor: "",
+    textShadow: "",
+    opacity: "",
+    borderRadius: "",
+    border: ""
   },
   rules: {
     canDrag: () => true,
