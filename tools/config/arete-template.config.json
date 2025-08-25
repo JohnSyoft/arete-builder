@@ -1,0 +1,304 @@
+{
+  "project": {
+    "name": "arete-builder",
+    "version": "1.0.0",
+    "outputDirectory": "./components/blocks",
+    "componentPrefix": ""
+  },
+  "defaults": {
+    "sectionProps": {
+      "hasContentWrapper": true,
+      "contentMaxWidth": "7xl",
+      "contentPadding": "px-4 sm:px-6 lg:px-8 py-16 lg:py-24",
+      "backgroundColor": "#ffffff",
+      "padding": "py-16 px-4"
+    },
+    "responsive": {
+      "breakpoints": {
+        "mobile": "640px",
+        "tablet": "768px", 
+        "desktop": "1024px"
+      },
+      "spacing": {
+        "mobile": "px-4 py-12",
+        "tablet": "px-6 py-16",
+        "desktop": "px-8 py-24"
+      }
+    }
+  },
+  "mappings": {
+    "elements": {
+      "h1": {
+        "component": "CraftText",
+        "wrapInElement": true,
+        "defaultProps": {
+          "tagName": "h1",
+          "fontSize": "text-4xl md:text-6xl",
+          "fontWeight": "font-bold"
+        }
+      },
+      "h2": {
+        "component": "CraftText",
+        "wrapInElement": true,
+        "defaultProps": {
+          "tagName": "h2",
+          "fontSize": "text-3xl md:text-5xl",
+          "fontWeight": "font-bold"
+        }
+      },
+      "h3": {
+        "component": "CraftText",
+        "wrapInElement": true,
+        "defaultProps": {
+          "tagName": "h3",
+          "fontSize": "text-2xl md:text-4xl",
+          "fontWeight": "font-semibold"
+        }
+      },
+      "p": {
+        "component": "CraftText",
+        "wrapInElement": true,
+        "defaultProps": {
+          "tagName": "p",
+          "fontSize": "text-base md:text-lg"
+        }
+      },
+      "span": {
+        "component": "CraftText",
+        "wrapInElement": false,
+        "defaultProps": {
+          "tagName": "span"
+        }
+      },
+      "button": {
+        "component": "CraftButton",
+        "wrapInElement": false,
+        "defaultProps": {
+          "size": "md",
+          "backgroundColor": "#2563eb",
+          "textColor": "#ffffff",
+          "borderRadius": "8px"
+        }
+      },
+      "a": {
+        "component": "CraftButton",
+        "wrapInElement": false,
+        "defaultProps": {
+          "variant": "link"
+        }
+      },
+      "img": {
+        "component": "CraftImage",
+        "wrapInElement": false,
+        "defaultProps": {
+          "alt": "Image"
+        }
+      },
+      "input": {
+        "component": "CraftInput",
+        "wrapInElement": false,
+        "defaultProps": {
+          "type": "text"
+        }
+      },
+      "textarea": {
+        "component": "CraftTextarea",
+        "wrapInElement": false,
+        "defaultProps": {}
+      }
+    },
+    "classes": {
+      "text": {
+        "text-xs": "text-xs",
+        "text-sm": "text-sm", 
+        "text-base": "text-base",
+        "text-lg": "text-lg",
+        "text-xl": "text-xl",
+        "text-2xl": "text-2xl",
+        "text-3xl": "text-3xl",
+        "text-4xl": "text-4xl",
+        "text-5xl": "text-5xl",
+        "text-6xl": "text-6xl"
+      },
+      "background": {
+        "bg-white": "#ffffff",
+        "bg-gray-50": "#f9fafb",
+        "bg-gray-100": "#f3f4f6",
+        "bg-blue-500": "#3b82f6",
+        "bg-blue-600": "#2563eb",
+        "bg-purple-600": "#9333ea"
+      },
+      "spacing": {
+        "p-0": "p-0",
+        "p-1": "p-1",
+        "p-2": "p-2",
+        "p-4": "p-4",
+        "p-8": "p-8",
+        "py-12": "py-12",
+        "py-16": "py-16",
+        "py-20": "py-20",
+        "py-24": "py-24"
+      }
+    }
+  },
+  "templates": [
+    {
+      "name": "Hero",
+      "category": "Hero",
+      "description": "Standard hero section with title, subtitle, and CTA",
+      "structure": {
+        "layout": "hero",
+        "sections": [
+          {
+            "type": "text",
+            "id": "title",
+            "props": {
+              "text": "Your Amazing Headline",
+              "tagName": "h1",
+              "fontSize": "text-4xl md:text-6xl",
+              "fontWeight": "font-bold",
+              "color": "text-white",
+              "margin": "mb-6"
+            }
+          },
+          {
+            "type": "text", 
+            "id": "subtitle",
+            "props": {
+              "text": "Supporting text that explains your value proposition",
+              "tagName": "p",
+              "fontSize": "text-lg md:text-xl",
+              "color": "text-blue-100",
+              "margin": "mb-8"
+            }
+          },
+          {
+            "type": "button",
+            "id": "cta",
+            "props": {
+              "text": "Get Started",
+              "size": "lg",
+              "backgroundColor": "#ffffff",
+              "textColor": "#2563eb"
+            }
+          }
+        ]
+      },
+      "defaultProps": {
+        "gradient": "linear-gradient(to right, #2563eb, #9333ea)",
+        "hasContentWrapper": true,
+        "contentMaxWidth": "7xl",
+        "contentPadding": "px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-32"
+      },
+      "variants": [
+        {
+          "name": "dark",
+          "props": {
+            "backgroundColor": "#1f2937"
+          }
+        },
+        {
+          "name": "gradient-purple",
+          "props": {
+            "gradient": "linear-gradient(to bottom right, #8b5cf6, #3b82f6)"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Features",
+      "category": "Features",
+      "description": "Feature grid with icons and descriptions",
+      "structure": {
+        "layout": "grid",
+        "sections": [
+          {
+            "type": "text",
+            "id": "title",
+            "props": {
+              "text": "Amazing Features",
+              "tagName": "h2",
+              "fontSize": "text-3xl md:text-4xl",
+              "fontWeight": "font-bold",
+              "margin": "mb-12",
+              "textAlign": "text-center"
+            }
+          },
+          {
+            "type": "custom",
+            "id": "featureGrid",
+            "props": {
+              "gridCols": "grid-cols-1 md:grid-cols-3",
+              "gap": "gap-8"
+            },
+            "children": [
+              {
+                "type": "text",
+                "id": "feature1",
+                "props": {
+                  "text": "Feature 1",
+                  "tagName": "h3",
+                  "fontSize": "text-xl",
+                  "fontWeight": "font-semibold"
+                }
+              },
+              {
+                "type": "text",
+                "id": "feature2", 
+                "props": {
+                  "text": "Feature 2",
+                  "tagName": "h3",
+                  "fontSize": "text-xl",
+                  "fontWeight": "font-semibold"
+                }
+              },
+              {
+                "type": "text",
+                "id": "feature3",
+                "props": {
+                  "text": "Feature 3",
+                  "tagName": "h3",
+                  "fontSize": "text-xl",
+                  "fontWeight": "font-semibold"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "defaultProps": {
+        "backgroundColor": "#ffffff",
+        "hasContentWrapper": true,
+        "contentMaxWidth": "7xl",
+        "contentPadding": "px-4 py-16 sm:px-6 lg:px-8"
+      }
+    }
+  ],
+  "libraries": [
+    {
+      "name": "TailwindUI",
+      "url": "https://tailwindui.com/api/templates",
+      "enabled": false,
+      "categories": ["marketing", "application-ui", "page-examples"]
+    },
+    {
+      "name": "HyperUI",
+      "url": "https://hyperui.dev/api/components",
+      "enabled": true,
+      "categories": ["components", "marketing", "application"]
+    },
+    {
+      "name": "Headless UI",
+      "url": "https://headlessui.com/api/components", 
+      "enabled": true,
+      "categories": ["components"]
+    }
+  ],
+  "ai": {
+    "enabled": false,
+    "provider": "openai",
+    "model": "gpt-4",
+    "maxTokens": 4000,
+    "temperature": 0.1
+  }
+}

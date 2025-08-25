@@ -1,0 +1,107 @@
+{
+  "name": "arete-template-converter",
+  "displayName": "Arete Template Converter",
+  "description": "Convert Tailwind templates to CraftJS components for Arete Builder",
+  "version": "1.0.0",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:arete.convertTemplate",
+    "onCommand:arete.generateFromTemplate",
+    "onCommand:arete.importFromLibrary"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "arete.convertTemplate",
+        "title": "Convert Tailwind to CraftJS",
+        "category": "Arete"
+      },
+      {
+        "command": "arete.generateFromTemplate",
+        "title": "Generate Component from Template",
+        "category": "Arete"
+      },
+      {
+        "command": "arete.importFromLibrary",
+        "title": "Import from Template Library",
+        "category": "Arete"
+      },
+      {
+        "command": "arete.previewComponent",
+        "title": "Preview Component",
+        "category": "Arete"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "when": "resourceExtname == .html || resourceExtname == .tsx || resourceExtname == .jsx",
+          "command": "arete.convertTemplate",
+          "group": "arete"
+        }
+      ],
+      "explorer/context": [
+        {
+          "when": "resourceExtname == .html",
+          "command": "arete.convertTemplate",
+          "group": "arete"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Arete Template Converter",
+      "properties": {
+        "arete.outputDirectory": {
+          "type": "string",
+          "default": "./components/blocks",
+          "description": "Directory where converted components will be saved"
+        },
+        "arete.componentPrefix": {
+          "type": "string",
+          "default": "",
+          "description": "Prefix for generated component names"
+        },
+        "arete.defaultProps": {
+          "type": "object",
+          "default": {
+            "hasContentWrapper": true,
+            "contentMaxWidth": "7xl",
+            "contentPadding": "px-4 sm:px-6 lg:px-8 py-16 lg:py-24"
+          },
+          "description": "Default props for Section components"
+        },
+        "arete.autoUpdateRegistry": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically update component registry files"
+        }
+      }
+    },
+    "snippets": [
+      {
+        "language": "typescript",
+        "path": "./snippets/arete-components.json"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.74.0",
+    "@types/node": "16.x",
+    "typescript": "^4.9.4"
+  },
+  "dependencies": {
+    "jsdom": "^20.0.0",
+    "prettier": "^2.8.0"
+  }
+}

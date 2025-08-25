@@ -44,6 +44,7 @@ export const useViewportStore = create<ViewportState>((set, get) => ({
           width: '100%',
           maxWidth: 'none',
           margin: '0',
+          padding: "16px",
           transition: 'all 0.3s ease',
         }
     }

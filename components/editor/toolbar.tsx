@@ -9,6 +9,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Save, Eye, Undo, Redo, Smartphone, Monitor, Tablet, Trash2, ChevronDown, Plus, Settings, ArrowLeft } from "@/components/icons"
 import { useViewportStore, type ViewportType } from "@/lib/store/viewport-store"
 import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store"
+import { useModalStore } from "@/lib/store/modalStore"
 
 interface Page {
   id: string
@@ -21,11 +22,11 @@ interface EditorToolbarProps {
   onPreview: () => void
   projectName: string
   pageName: string
+  projectId: string
+  currentPageId: string
   pages?: Page[]
   currentPageSlug?: string
   onPageChange?: (pageSlug: string) => void
-  onAddPage?: () => void
-  onEditPage?: () => void
 }
 
 export function EditorToolbar({
@@ -33,13 +34,14 @@ export function EditorToolbar({
   onPreview,
   projectName,
   pageName,
+  projectId,
+  currentPageId,
   pages = [],
   currentPageSlug,
   onPageChange,
-  onAddPage,
-  onEditPage,
 }: EditorToolbarProps) {
   const router = useRouter()
+  const { openModal } = useModalStore()
   
   const { actions, query, canUndo, canRedo, selected } = useEditor((state, query) => ({
     canUndo: query.history.canUndo(),
@@ -64,6 +66,39 @@ export function EditorToolbar({
 
   const handleViewportChange = (viewport: ViewportType) => {
     setViewport(viewport)
+  }
+
+  const handleAddPage = () => {
+    openModal("createPage", {
+      projectId,
+      pages: pages.map(p => ({ _id: p.id, name: p.name, slug: p.slug })), // Convert to API format
+      onSave: (page: any) => {
+        // Navigate to the new page after creation
+        if (onPageChange) {
+          onPageChange(page.slug)
+        }
+      }
+    })
+  }
+
+  const handleEditPage = () => {
+    // Find the current page object from pages array
+    const currentPage = pages.find(page => page.slug === currentPageSlug)
+    if (currentPage) {
+      // We need to convert our toolbar page to the API page format
+      // Since the toolbar doesn't have full page data, we'll let the dialog handle loading
+      openModal("editPage", {
+        projectId,
+        pages: pages.map(p => ({ _id: p.id, name: p.name, slug: p.slug })), // Convert to API format
+        page: { _id: currentPage.id, name: currentPage.name, slug: currentPage.slug }, // Minimal page object
+        onSave: (page: any) => {
+          // Navigate to the updated page if slug changed
+          if (onPageChange && page.slug !== currentPageSlug) {
+            onPageChange(page.slug)
+          }
+        }
+      })
+    }
   }
 
   return (
@@ -97,7 +132,7 @@ export function EditorToolbar({
                   {pages.map((page) => (
                     <DropdownMenuItem
                       key={page.id}
-                      onClick={() => onPageChange(page.slug)}
+                      onClick={() => onPageChange && onPageChange(page.slug)}
                       className={currentPageSlug === page.slug ? "bg-gray-100" : ""}
                     >
                       {page.name}
@@ -108,26 +143,20 @@ export function EditorToolbar({
                       )}
                     </DropdownMenuItem>
                   ))}
-                  {onAddPage && (
-                    <>
-                      <Separator className="my-1" />
-                      <DropdownMenuItem onClick={onAddPage}>
-                        <Plus className="w-4 h-4 mr-2" />
-                        Add Page
-                      </DropdownMenuItem>
-                    </>
-                  )}
+                  <Separator className="my-1" />
+                  <DropdownMenuItem onClick={handleAddPage}>
+                    <Plus className="w-4 h-4 mr-2" />
+                    Add Page
+                  </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
               <span className="text-sm text-gray-500">{pageName}</span>
             )}
-            {onEditPage && (
-              <Button variant="ghost" size="sm" onClick={onEditPage} className="text-xs h-6 px-2">
-                <Settings className="w-3 h-3 mr-1" />
-                Edit
-              </Button>
-            )}
+            <Button variant="ghost" size="sm" onClick={handleEditPage} className="text-xs h-6 px-2">
+              <Settings className="w-3 h-3 mr-1" />
+              Edit
+            </Button>
             <Badge variant="secondary" className="text-xs">
               Draft
             </Badge>

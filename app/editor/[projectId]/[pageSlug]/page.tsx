@@ -6,13 +6,12 @@ import { Editor, Frame, Element, useEditor } from "@craftjs/core"
 import { EditorSidebar } from "@/components/editor/sidebar"
 import { EditorToolbar } from "@/components/editor/toolbar"
 import { GlobalPropertiesPanel } from "@/components/editor/global-properties-panel"
-import { CreateEditPageDialog } from "@/components/dialogs/page/CreateEditPageDialog"
 import { componentResolver } from "@/components/editor/craft-components"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft } from "@/components/icons"
 import { useViewportStore } from "@/lib/store/viewport-store"
 import { useProject } from "@/hooks/useProjects"
-import { useProjectPages, usePageBySlug, useCreatePage, useUpdatePage } from "@/hooks/usePages"
+import { useProjectPages, usePageBySlug, useUpdatePage } from "@/hooks/usePages"
 import { type Project } from "@/lib/api/projects"
 import { type Page as ApiPage } from "@/lib/api/pages"
 
@@ -31,8 +30,6 @@ function EditorContent({
   layoutData,
   onPreview,
   onPageChange,
-  onAddPage,
-  onEditPage,
   onSave,
 }: {
   project: Project
@@ -41,8 +38,6 @@ function EditorContent({
   layoutData: any
   onPreview: () => void
   onPageChange: (slug: string) => void
-  onAddPage: () => void
-  onEditPage: () => void
   onSave: (layout: any) => void
 }) {
   const { actions, query } = useEditor()
@@ -68,16 +63,16 @@ function EditorContent({
           onPreview={onPreview}
           projectName={project.name}
           pageName={currentPage.name}
+          projectId={project._id}
+          currentPageId={currentPage._id}
           pages={pages}
           currentPageSlug={currentPage.slug}
           onPageChange={onPageChange}
-          onAddPage={onAddPage}
-          onEditPage={onEditPage}
         />      <div className="flex h-[calc(100vh-4rem)]">
         <EditorSidebar />
 
         <div className="flex-1 overflow-auto">
-          <div className="p-8">
+          <div className="">
             <div
               className="mx-auto bg-white shadow-lg rounded-lg overflow-hidden"
               style={viewportStyles}
@@ -109,10 +104,6 @@ function EditorContent({
 export default function EditorPage() {
   const params = useParams()
   const router = useRouter()
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null)
-  const [currentPage, setCurrentPage] = useState<ApiPage | null>(null)
-  const [pageDialogOpen, setPageDialogOpen] = useState(false)
-  const [pageDialogMode, setPageDialogMode] = useState<"create" | "edit">("create")
 
   const projectId = params.projectId as string
   const pageSlug = params.pageSlug as string
@@ -121,7 +112,6 @@ export default function EditorPage() {
   const { data: projectResponse, isLoading: projectLoading, error: projectError } = useProject(projectId)
   const { data: pagesResponse, isLoading: pagesLoading, error: pagesError } = useProjectPages(projectId)
   const { data: pageResponse, isLoading: pageLoading, error: pageError } = usePageBySlug(projectId, pageSlug)
-  const createPageMutation = useCreatePage()
   const updatePageMutation = useUpdatePage()
 
   const project = projectResponse?.data?.project
@@ -158,31 +148,6 @@ export default function EditorPage() {
   const handlePageChange = (newPageSlug: string) => {
     if (project) {
       router.push(`/editor/${project._id}/${newPageSlug}`)
-    }
-  }
-
-  const handleAddPage = async () => {
-    setPageDialogMode("create")
-    setPageDialogOpen(true)
-  }
-
-  const handleEditPage = () => {
-    setPageDialogMode("edit")
-    setPageDialogOpen(true)
-  }
-
-  const handlePageDialogSuccess = (page: ApiPage) => {
-    if (!project) return
-    
-    if (pageDialogMode === "create") {
-      // Navigate to the new page
-      router.push(`/editor/${project._id}/${page.slug}`)
-    } else {
-      // If editing current page and slug changed, navigate to new URL
-      if (page.slug !== currentPageData?.slug) {
-        router.push(`/editor/${project._id}/${page.slug}`)
-      }
-      // Otherwise, the page data will be refreshed automatically via React Query
     }
   }
 
@@ -259,7 +224,6 @@ export default function EditorPage() {
     return currentPageData.layout
   }, [currentPageData])
 
-  console.log({ layoutData })
 
   if (isLoading) {
     return (
@@ -297,20 +261,9 @@ export default function EditorPage() {
           layoutData={layoutData}
           onPreview={handlePreview}
           onPageChange={handlePageChange}
-          onAddPage={handleAddPage}
-          onEditPage={handleEditPage}
           onSave={handleSave}
         />
       </Editor>
-
-      <CreateEditPageDialog
-        open={pageDialogOpen}
-        onClose={() => setPageDialogOpen(false)}
-        projectId={projectId}
-        page={pageDialogMode === "edit" ? currentPageData : null}
-        pages={pages}
-        onSave={handlePageDialogSuccess}
-      />
     </div>
   )
 }

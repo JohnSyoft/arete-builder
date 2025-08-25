@@ -1,0 +1,178 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Arete Template Configuration",
+  "description": "Configuration for converting Tailwind templates to CraftJS components",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "version": { "type": "string" },
+        "outputDirectory": { "type": "string", "default": "./components/blocks" },
+        "componentPrefix": { "type": "string", "default": "" }
+      },
+      "required": ["name"]
+    },
+    "defaults": {
+      "type": "object",
+      "properties": {
+        "sectionProps": {
+          "type": "object",
+          "properties": {
+            "hasContentWrapper": { "type": "boolean", "default": true },
+            "contentMaxWidth": { "type": "string", "default": "7xl" },
+            "contentPadding": { "type": "string", "default": "px-4 sm:px-6 lg:px-8 py-16 lg:py-24" },
+            "backgroundColor": { "type": "string", "default": "#ffffff" },
+            "padding": { "type": "string", "default": "py-16 px-4" }
+          }
+        },
+        "responsive": {
+          "type": "object",
+          "properties": {
+            "breakpoints": {
+              "type": "object",
+              "properties": {
+                "mobile": { "type": "string", "default": "640px" },
+                "tablet": { "type": "string", "default": "768px" },
+                "desktop": { "type": "string", "default": "1024px" }
+              }
+            },
+            "spacing": {
+              "type": "object",
+              "properties": {
+                "mobile": { "type": "string", "default": "px-4 py-12" },
+                "tablet": { "type": "string", "default": "px-6 py-16" },
+                "desktop": { "type": "string", "default": "px-8 py-24" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "mappings": {
+      "type": "object",
+      "properties": {
+        "elements": {
+          "type": "object",
+          "patternProperties": {
+            "^[a-z]+$": {
+              "type": "object",
+              "properties": {
+                "component": { "type": "string" },
+                "wrapInElement": { "type": "boolean", "default": false },
+                "defaultProps": { "type": "object" }
+              },
+              "required": ["component"]
+            }
+          }
+        },
+        "classes": {
+          "type": "object",
+          "properties": {
+            "text": {
+              "type": "object",
+              "patternProperties": {
+                "^text-": { "type": "string" }
+              }
+            },
+            "background": {
+              "type": "object", 
+              "patternProperties": {
+                "^bg-": { "type": "string" }
+              }
+            },
+            "spacing": {
+              "type": "object",
+              "patternProperties": {
+                "^(p|m)[trblxy]?-": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "templates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "category": { "type": "string" },
+          "description": { "type": "string" },
+          "structure": {
+            "type": "object",
+            "properties": {
+              "layout": { 
+                "type": "string", 
+                "enum": ["single-column", "two-column", "grid", "hero", "card-grid", "custom"] 
+              },
+              "sections": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "type": { "type": "string" },
+                    "id": { "type": "string" },
+                    "props": { "type": "object" },
+                    "children": { "type": "array" },
+                    "responsive": { "type": "object" }
+                  },
+                  "required": ["type", "id"]
+                }
+              }
+            },
+            "required": ["layout", "sections"]
+          },
+          "defaultProps": { "type": "object" },
+          "variants": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "props": { "type": "object" },
+                "overrides": { "type": "object" }
+              },
+              "required": ["name"]
+            }
+          }
+        },
+        "required": ["name", "category", "structure"]
+      }
+    },
+    "libraries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "url": { "type": "string" },
+          "apiKey": { "type": "string" },
+          "enabled": { "type": "boolean", "default": true },
+          "categories": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "required": ["name", "url"]
+      }
+    },
+    "ai": {
+      "type": "object",
+      "properties": {
+        "enabled": { "type": "boolean", "default": false },
+        "provider": { 
+          "type": "string", 
+          "enum": ["openai", "anthropic", "local"],
+          "default": "openai"
+        },
+        "apiKey": { "type": "string" },
+        "model": { "type": "string", "default": "gpt-4" },
+        "maxTokens": { "type": "number", "default": 4000 },
+        "temperature": { "type": "number", "default": 0.1 }
+      }
+    }
+  },
+  "required": ["project", "defaults", "mappings"]
+}
