@@ -1,66 +1,75 @@
-import type React from "react"
-import { useNode } from "@craftjs/core"
+import type React from "react";
+import { useNode } from "@craftjs/core";
 // Basic blocks
-import { Text } from "@/components/blocks/Basic/Text"
-import { Image } from "@/components/blocks/Basic/Image"
-import { Button } from "@/components/blocks/Basic/Button"
-import { Spacer } from "@/components/blocks/Basic/Spacer"
-import { Divider } from "@/components/blocks/Basic/Divider"
-import { Columns } from "@/components/blocks/Basic/Columns"
-import { Link } from "@/components/blocks/Basic/Link"
-import { Video } from "@/components/blocks/Basic/Video"
-import { Map } from "@/components/blocks/Basic/Map"
-import { Section } from "@/components/blocks/Basic/Section"
-import { Badge } from "@/components/blocks/Basic/Badge"
-import { Input } from "@/components/blocks/Basic/Input"
-import { Textarea } from "../blocks/Basic/Textarea"
-import { LineBreak } from "../blocks/Basic/LineBreak"
-import { Row } from "../blocks/Basic/Row"
-import { Card } from "../blocks/Basic/Card"
-import { Heading } from "../blocks/Basic/Heading"
-import { Select } from "../blocks/Basic/Select"
-import { Icon } from "../blocks/Basic/Icon"
-import { Grid } from "../blocks/Basic/Grid"
-import { Navigation } from "../blocks/Basic/Navigation"
-import { Checkbox } from "../blocks/Basic/Checkbox"
-import { List } from "../blocks/Basic/List"
-import { Alert } from "../blocks/Basic/Alert"
-import { Flex } from "../blocks/Basic/Flex"
+import { Text } from "@/components/blocks/Basic/Text";
+import { Image } from "@/components/blocks/Basic/Image";
+import { Button } from "@/components/blocks/Basic/Button";
+import { Spacer } from "@/components/blocks/Basic/Spacer";
+import { Divider } from "@/components/blocks/Basic/Divider";
+import { Columns } from "@/components/blocks/Basic/Columns";
+import { Link } from "@/components/blocks/Basic/Link";
+import { Video } from "@/components/blocks/Basic/Video";
+import { Map } from "@/components/blocks/Basic/Map";
+import { Section } from "@/components/blocks/Basic/Section";
+import { Badge } from "@/components/blocks/Basic/Badge";
+import { Input } from "@/components/blocks/Basic/Input";
+import { Textarea } from "../blocks/Basic/Textarea";
+import { LineBreak } from "../blocks/Basic/LineBreak";
+import { Row } from "../blocks/Basic/Row";
+import { Card } from "../blocks/Basic/Card";
+import { Heading } from "../blocks/Basic/Heading";
+import { Select } from "../blocks/Basic/Select";
+import { Icon } from "../blocks/Basic/Icon";
+import { Grid } from "../blocks/Basic/Grid";
+import { Navigation } from "../blocks/Basic/Navigation";
+import { Checkbox } from "../blocks/Basic/Checkbox";
+import { List } from "../blocks/Basic/List";
+import { Alert } from "../blocks/Basic/Alert";
+import { Flex } from "../blocks/Basic/Flex";
 // Form blocks
-import { DropDown } from "@/components/blocks/Forms/DropDown"
-import { Switch } from "@/components/blocks/Forms/Switch"
-import { RadioButton } from "@/components/blocks/Forms/RadioButton"
-import { Slider } from "@/components/blocks/Forms/Slider"
-import { RatingBar } from "@/components/blocks/Forms/RatingBar"
-import { CounterButton } from "@/components/blocks/Forms/CounterButton"
-import { PinCode } from "@/components/blocks/Forms/PinCode"
-import { ChoiceChips } from "@/components/blocks/Forms/ChoiceChips"
-import { CheckboxListTile } from "@/components/blocks/Forms/CheckboxListTile"
-import { SwitchListTile } from "@/components/blocks/Forms/SwitchListTile"
-import { CheckboxGroup } from "@/components/blocks/Forms/CheckboxGroup"
-import { CreditCardForm } from "@/components/blocks/Forms/CreditCardForm"
-import { Signature } from "@/components/blocks/Forms/Signature"
-import { Form } from "@/components/blocks/Forms/Form"
+import { DropDown } from "@/components/blocks/Forms/DropDown";
+import { Switch } from "@/components/blocks/Forms/Switch";
+import { RadioButton } from "@/components/blocks/Forms/RadioButton";
+import { Slider } from "@/components/blocks/Forms/Slider";
+import { RatingBar } from "@/components/blocks/Forms/RatingBar";
+import { CounterButton } from "@/components/blocks/Forms/CounterButton";
+import { PinCode } from "@/components/blocks/Forms/PinCode";
+import { ChoiceChips } from "@/components/blocks/Forms/ChoiceChips";
+import { CheckboxListTile } from "@/components/blocks/Forms/CheckboxListTile";
+import { SwitchListTile } from "@/components/blocks/Forms/SwitchListTile";
+import { CheckboxGroup } from "@/components/blocks/Forms/CheckboxGroup";
+import { CreditCardForm } from "@/components/blocks/Forms/CreditCardForm";
+import { Signature } from "@/components/blocks/Forms/Signature";
+import { Form } from "@/components/blocks/Forms/Form";
 // Hero blocks
-import { Hero1 } from "@/components/blocks/Hero/Hero1"
-import { Hero2 } from "@/components/blocks/Hero/Hero2"
+import { Hero1 } from "@/components/blocks/Hero/Hero1";
+import { Hero2 } from "@/components/blocks/Hero/Hero2";
+import { Hero4 } from "@/components/blocks/Hero/Hero4";
 // Header blocks
-import { Header1 } from "@/components/blocks/Header/Header1"
-import { Header2 } from "@/components/blocks/Header/Header2"
+import { Header1 } from "@/components/blocks/Header/Header1";
+import { Header2 } from "@/components/blocks/Header/Header2";
 // Footer blocks
-import { Footer1 } from "@/components/blocks/Footer/Footer1"
-import { Footer2 } from "@/components/blocks/Footer/Footer2"
+import { Footer1 } from "@/components/blocks/Footer/Footer1";
+import { Footer2 } from "@/components/blocks/Footer/Footer2";
 // CTA blocks
-import { CTA1 } from "@/components/blocks/CTA/CTA1"
-import { CTA2 } from "@/components/blocks/CTA/CTA2"
+import { CTA1 } from "@/components/blocks/CTA/CTA1";
+import { CTA2 } from "@/components/blocks/CTA/CTA2";
 // Features blocks
-import { Features1 } from "@/components/blocks/Features/Features1"
-import { Features2 } from "@/components/blocks/Features/Features2"
-// Contact blocks  
-import { Contact1 } from "@/components/blocks/Contact/Contact1"
+import { Features1 } from "@/components/blocks/Features/Features1";
+import { Features2 } from "@/components/blocks/Features/Features2";
+// Contact blocks
+import { Contact1 } from "@/components/blocks/Contact/Contact1";
 
 // Container component for wrapping other components
-export const Container = ({ children, className = "", ...props }: { children?: React.ReactNode, className?: string, [key: string]: any }) => {
+export const Container = ({
+  children,
+  className = "",
+  ...props
+}: {
+  children?: React.ReactNode;
+  className?: string;
+  [key: string]: any;
+}) => {
   const {
     connectors: { connect, drag },
     selected,
@@ -68,19 +77,23 @@ export const Container = ({ children, className = "", ...props }: { children?: R
   } = useNode((state) => ({
     selected: state.events.selected,
     hovered: state.events.hovered,
-  }))
+  }));
 
   return (
     <div
       ref={(ref) => {
         if (ref) {
-          connect(drag(ref))
+          connect(drag(ref));
         }
       }}
       className={`relative ${className}`}
       style={{
-        minHeight: children ? 'auto' : '200px',
-        border: selected ? '2px solid #3b82f6' : hovered ? '2px solid #93c5fd' : '2px dashed #e5e7eb',
+        minHeight: children ? "auto" : "200px",
+        border: selected
+          ? "2px solid #3b82f6"
+          : hovered
+          ? "2px solid #93c5fd"
+          : "2px dashed #e5e7eb",
       }}
       {...props}
     >
@@ -91,20 +104,28 @@ export const Container = ({ children, className = "", ...props }: { children?: R
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
 // Canvas component for drop zones
-export const Canvas = ({ children, className = "", ...props }: { children?: React.ReactNode, className?: string, [key: string]: any }) => {
+export const Canvas = ({
+  children,
+  className = "",
+  ...props
+}: {
+  children?: React.ReactNode;
+  className?: string;
+  [key: string]: any;
+}) => {
   const {
     connectors: { connect, drag },
-  } = useNode()
+  } = useNode();
 
   return (
     <div
       ref={(ref) => {
         if (ref) {
-          connect(drag(ref))
+          connect(drag(ref));
         }
       }}
       className={`min-h-[200px] w-full ${className}`}
@@ -112,8 +133,8 @@ export const Canvas = ({ children, className = "", ...props }: { children?: Reac
     >
       {children}
     </div>
-  )
-}
+  );
+};
 
 Canvas.craft = {
   displayName: "Canvas",
@@ -125,7 +146,7 @@ Canvas.craft = {
     canMoveOut: () => true,
   },
   isCanvas: true,
-}
+};
 
 Canvas.craft = {
   displayName: "Canvas",
@@ -137,10 +158,13 @@ Canvas.craft = {
     canMoveOut: () => true,
   },
   isCanvas: true,
-}
+};
 
 // Wrapper function to make components draggable and selectable
-function createCraftComponent(Component: React.ComponentType, displayName: string) {
+function createCraftComponent(
+  Component: React.ComponentType,
+  displayName: string
+) {
   const CraftComponent = (props: any) => {
     const {
       connectors: { connect, drag },
@@ -149,16 +173,18 @@ function createCraftComponent(Component: React.ComponentType, displayName: strin
     } = useNode((state) => ({
       selected: state.events.selected,
       hovered: state.events.hovered,
-    }))
+    }));
 
     return (
       <div
         ref={(ref) => {
           if (ref) {
-            connect(drag(ref))
+            connect(drag(ref));
           }
         }}
-        className={`relative ${selected ? "ring-2 ring-blue-500" : ""} ${hovered ? "ring-1 ring-blue-300" : ""}`}
+        className={`relative ${selected ? "ring-2 ring-blue-500" : ""} ${
+          hovered ? "ring-1 ring-blue-300" : ""
+        }`}
       >
         <Component {...props} />
         {(selected || hovered) && (
@@ -167,8 +193,8 @@ function createCraftComponent(Component: React.ComponentType, displayName: strin
           </div>
         )}
       </div>
-    )
-  }
+    );
+  };
 
   CraftComponent.craft = {
     displayName,
@@ -179,74 +205,75 @@ function createCraftComponent(Component: React.ComponentType, displayName: strin
       canMoveIn: () => false,
       canMoveOut: () => true,
     },
-  }
+  };
 
-  return CraftComponent
+  return CraftComponent;
 }
 
 // Basic blocks (with full CraftJS integration)
-export const CraftText = Text
-export const CraftImage = Image
-export const CraftButton = Button
-export const CraftSpacer = Spacer
-export const CraftDivider = Divider
-export const CraftColumns = Columns
-export const CraftLink = Link
-export const CraftVideo = Video
-export const CraftMap = Map
-export const CraftSection = Section
-export const CraftBadge = Badge
-export const CraftInput = Input
-export const CraftTextarea = Textarea
-export const CraftLineBreak = LineBreak
-export const CraftRow = Row
-export const CraftCard = Card
-export const CraftHeading = Heading
-export const CraftSelect = Select
-export const CraftIcon = Icon
-export const CraftGrid = Grid
-export const CraftNavigation = Navigation
-export const CraftCheckbox = Checkbox
-export const CraftList = List
-export const CraftAlert = Alert
+export const CraftText = Text;
+export const CraftImage = Image;
+export const CraftButton = Button;
+export const CraftSpacer = Spacer;
+export const CraftDivider = Divider;
+export const CraftColumns = Columns;
+export const CraftLink = Link;
+export const CraftVideo = Video;
+export const CraftMap = Map;
+export const CraftSection = Section;
+export const CraftBadge = Badge;
+export const CraftInput = Input;
+export const CraftTextarea = Textarea;
+export const CraftLineBreak = LineBreak;
+export const CraftRow = Row;
+export const CraftCard = Card;
+export const CraftHeading = Heading;
+export const CraftSelect = Select;
+export const CraftIcon = Icon;
+export const CraftGrid = Grid;
+export const CraftNavigation = Navigation;
+export const CraftCheckbox = Checkbox;
+export const CraftList = List;
+export const CraftAlert = Alert;
 // export const CraftFlexRow = FlexRow
-export const CraftFlex = Flex
+export const CraftFlex = Flex;
 
 // Form blocks
-export const CraftDropDown = DropDown
-export const CraftSwitch = Switch
-export const CraftRadioButton = RadioButton
-export const CraftSlider = Slider
-export const CraftRatingBar = RatingBar
-export const CraftCounterButton = CounterButton
-export const CraftPinCode = PinCode
-export const CraftChoiceChips = ChoiceChips
-export const CraftCheckboxListTile = CheckboxListTile
-export const CraftSwitchListTile = SwitchListTile
-export const CraftCheckboxGroup = CheckboxGroup
-export const CraftCreditCardForm = CreditCardForm
-export const CraftSignature = Signature
-export const CraftForm = Form
+export const CraftDropDown = DropDown;
+export const CraftSwitch = Switch;
+export const CraftRadioButton = RadioButton;
+export const CraftSlider = Slider;
+export const CraftRatingBar = RatingBar;
+export const CraftCounterButton = CounterButton;
+export const CraftPinCode = PinCode;
+export const CraftChoiceChips = ChoiceChips;
+export const CraftCheckboxListTile = CheckboxListTile;
+export const CraftSwitchListTile = SwitchListTile;
+export const CraftCheckboxGroup = CheckboxGroup;
+export const CraftCreditCardForm = CreditCardForm;
+export const CraftSignature = Signature;
+export const CraftForm = Form;
 
 // Hero blocks
-export const CraftHero1 = Hero1
-export const CraftHero2 = Hero2
+export const CraftHero1 = Hero1;
+export const CraftHero2 = Hero2;
+export const CraftHero4 = Hero4;
+export const CraftHeader1 = Header1;
+export const CraftHeader2 = Header2;
 
-export const CraftHeader1 = Header1
-export const CraftHeader2 = Header2
+export const CraftFooter1 = Footer1;
+export const CraftFooter2 = Footer2;
 
-export const CraftFooter1 = Footer1
-export const CraftFooter2 = Footer2
+export const CraftCTA1 = CTA1;
+export const CraftCTA2 = CTA2;
 
-export const CraftCTA1 = CTA1
-export const CraftCTA2 = CTA2
+export const CraftFeatures1 = Features1;
+export const CraftFeatures2 = Features2;
 
-export const CraftFeatures1 = Features1
-export const CraftFeatures2 = Features2
+export const CraftContact1 = Contact1;
 
-export const CraftContact1 = Contact1
-
-export const componentResolver = {
+// Mutable resolver that can be extended with user-created components
+export const componentResolver: Record<string, React.ComponentType> = {
   Container,
   Canvas,
   // Basic blocks
@@ -294,6 +321,7 @@ export const componentResolver = {
   // Hero blocks
   Hero1: CraftHero1,
   Hero2: CraftHero2,
+  Hero4: CraftHero4,
   // Header blocks
   Header1: CraftHeader1,
   Header2: CraftHeader2,
@@ -308,4 +336,14 @@ export const componentResolver = {
   Features2: CraftFeatures2,
   // Contact blocks
   Contact1: CraftContact1,
+};
+
+// Helper function to register a user-created component
+export function registerUserComponent(id: string, component: React.ComponentType) {
+  componentResolver[id] = component;
+}
+
+// Helper function to unregister a user-created component
+export function unregisterUserComponent(id: string) {
+  delete componentResolver[id];
 }

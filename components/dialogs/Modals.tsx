@@ -1,10 +1,11 @@
-"use client"
+"use client";
 
-import React from "react"
-import { useModalStore } from "@/lib/store/modalStore"
-import { CreateEditProjectDialog } from "@/components/dialogs/project/CreateEditProjectDialog"
-import { CreateEditPageDialog } from "@/components/dialogs/page/CreateEditPageDialog"
-import { ConfirmationDialog } from "@/components/dialogs/confirmation/ConfirmationDialog"
+import React from "react";
+import { useModalStore } from "@/lib/store/modalStore";
+import { CreateEditProjectDialog } from "@/components/dialogs/project/CreateEditProjectDialog";
+import { CreateEditPageDialog } from "@/components/dialogs/page/CreateEditPageDialog";
+import { ConfirmationDialog } from "@/components/dialogs/confirmation/ConfirmationDialog";
+import { CreateBlockDialog } from "@/components/dialogs/CreateBlockDialog";
 
 // Modal registry
 const modals: Record<string, React.ComponentType<any>> = {
@@ -13,8 +14,9 @@ const modals: Record<string, React.ComponentType<any>> = {
   createPage: CreateEditPageDialog,
   editPage: CreateEditPageDialog,
   confirmation: ConfirmationDialog,
+  createBlock: CreateBlockDialog,
   // Add more dialogs here as needed
-}
+};
 
 export interface ModalsProps {
   modalName: string;
@@ -25,9 +27,9 @@ export interface ModalsProps {
 
 export function Modals() {
   const { open, modalName, modalProps, closeModal } = useModalStore();
-  console.log({modalName, modalProps, open})
+  console.log({ modalName, modalProps, open });
   const ModalComponent = modalName ? modals[modalName] : null;
-  console.log({open})
+  console.log({ open });
   if (!ModalComponent) return null;
   return <ModalComponent {...modalProps} open={open} onClose={closeModal} />;
 }

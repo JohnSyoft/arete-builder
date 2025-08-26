@@ -1,9 +1,6 @@
-import { Button } from "@/components/ui/button"
-import { useNode, useEditor, Element } from "@craftjs/core"
-import React from "react"
+import { Element } from "@craftjs/core"
 import { Text as CraftText } from "@/components/blocks/Basic/Text"
 import { Button as CraftButton } from "@/components/blocks/Basic/Button"
-import { FlexRow as CraftFlexRow } from "@/components/blocks/Basic/FlexRow"
 import { Section, SectionProps } from "@/components/blocks/Basic/Section"
 
 interface Hero1Props extends SectionProps {

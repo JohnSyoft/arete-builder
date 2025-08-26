@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   CraftAlert,
@@ -53,55 +53,75 @@ import {
   // Basic blocks
   CraftText,
   CraftTextarea,
-  CraftVideo
-} from "@/components/editor/craft-components"
-import { Badge } from "@/components/ui/badge"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Button } from "@/components/ui/button"
-import { useViewportStore } from "@/lib/store/viewport-store"
-import { useSidebarStore } from "@/lib/store/sidebar-store"
-import { useEditor } from "@craftjs/core"
-import { ChevronLeft, ChevronRight } from "lucide-react"
-import React from "react"
+  CraftVideo,
+  CraftHero4,
+} from "@/components/editor/craft-components";
+import { Badge } from "@/components/ui/badge";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Button } from "@/components/ui/button";
+import { useViewportStore } from "@/lib/store/viewport-store";
+import { useSidebarStore } from "@/lib/store/sidebar-store";
+import { useUserBlocksStore } from "@/lib/store/user-blocks-store";
+import { componentResolver } from "@/components/editor/craft-components";
+import { useModalStore } from "@/lib/store/modalStore";
+import { useEditor } from "@craftjs/core";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import React from "react";
 
 interface BlockItemProps {
-  component: React.ComponentType
-  name: string
-  description: string
+  component: React.ComponentType;
+  name: string;
+  description: string;
 }
 
-const BlockItem = ({ component: Component, name, description }: { component: any, name: string, description?: string }) => {
+const BlockItem = ({
+  component: Component,
+  name,
+  description,
+}: {
+  component: any;
+  name: string;
+  description?: string;
+}) => {
   const {
     connectors: { create },
-  } = useEditor()
+  } = useEditor();
 
   return (
     <div
       ref={(ref) => {
         if (ref) {
-          create(ref, React.createElement(Component))
+          create(ref, React.createElement(Component));
         }
       }}
       className="p-3 bg-gray-50 rounded-lg border border-gray-200 cursor-grab hover:bg-gray-100 transition-colors"
       draggable={false}
     >
       <h4 className="font-medium text-sm">{name}</h4>
-      {description && <p className="text-xs text-gray-600 mt-1">{description}</p>}
+      {description && (
+        <p className="text-xs text-gray-600 mt-1">{description}</p>
+      )}
     </div>
-  )
-}
+  );
+};
 
 // Simple block item for narrow sidebar
-const SimpleBlockItem = ({ component: Component, name }: { component: any, name: string }) => {
+const SimpleBlockItem = ({
+  component: Component,
+  name,
+}: {
+  component: any;
+  name: string;
+}) => {
   const {
     connectors: { create },
-  } = useEditor()
+  } = useEditor();
 
   return (
     <div
       ref={(ref) => {
         if (ref) {
-          create(ref, React.createElement(Component))
+          create(ref, React.createElement(Component));
         }
       }}
       className="p-2 bg-gray-50 rounded border border-gray-200 cursor-grab hover:bg-gray-100 transition-colors"
@@ -109,30 +129,84 @@ const SimpleBlockItem = ({ component: Component, name }: { component: any, name:
     >
       <span className="text-xs font-medium">{name}</span>
     </div>
-  )
-}
+  );
+};
 
 export function EditorSidebar() {
-  const { currentViewport } = useViewportStore()
-  const { isOpen, toggleSidebar } = useSidebarStore()
-  const [activeCategory, setActiveCategory] = React.useState("elements")
+  const { currentViewport } = useViewportStore();
+  const { isOpen, toggleSidebar } = useSidebarStore();
+  const { blocks, addBlock } = useUserBlocksStore();
+  const { openModal } = useModalStore();
+  const [activeCategory, setActiveCategory] = React.useState("elements");
+
+  const handleCreateBlock = (blockData: {
+    name: string;
+    description: string;
+    component: React.ComponentType;
+    htmlSource: string;
+  }) => {
+    addBlock({
+      ...blockData,
+      tags: [],
+    });
+  };
+
+  // Generate components for user blocks dynamically
+  const getUserBlockItems = React.useMemo(() => {
+    return blocks.map((block) => {
+      // Use the block ID as the component key in the main resolver
+      const ComponentFromResolver = componentResolver[block.id];
+      
+      if (ComponentFromResolver) {
+        return {
+          component: ComponentFromResolver,
+          name: block.name,
+          description: block.description,
+        };
+      }
+
+      // Fallback if component not found in resolver
+      return {
+        component: () =>
+          React.createElement(
+            "div",
+            {
+              className:
+                "p-4 bg-red-50 border border-red-200 rounded text-red-600 text-sm",
+            },
+            `Block not registered: ${block.name}`
+          ),
+        name: block.name,
+        description: block.description,
+      };
+    });
+  }, [blocks]);
 
   const getViewportInfo = () => {
     switch (currentViewport) {
-      case 'mobile':
-        return { name: 'Mobile', size: '375px' }
-      case 'tablet':
-        return { name: 'Tablet', size: '768px' }
-      case 'desktop':
+      case "mobile":
+        return { name: "Mobile", size: "375px" };
+      case "tablet":
+        return { name: "Tablet", size: "768px" };
+      case "desktop":
       default:
-        return { name: 'Desktop', size: '100%' }
+        return { name: "Desktop", size: "100%" };
     }
-  }
+  };
 
-  const viewportInfo = getViewportInfo()
+  const viewportInfo = getViewportInfo();
 
   // All component categories
   const allCategories = {
+    userBlocks: {
+      name: "My Custom Blocks",
+      icon: (
+        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0z" />
+        </svg>
+      ),
+      items: getUserBlockItems,
+    },
     elements: {
       name: "Commonly Used Elements",
       icon: (
@@ -141,17 +215,57 @@ export function EditorSidebar() {
         </svg>
       ),
       items: [
-        { component: CraftText, name: "Text", description: "Editable text element" },
-        { component: CraftHeading, name: "Heading", description: "H1-H6 heading elements" },
-        { component: CraftImage, name: "Image", description: "Responsive image block" },
-        { component: CraftButton, name: "Button", description: "Interactive button element" },
-        { component: CraftLink, name: "Link", description: "Clickable link element" },
-        { component: CraftIcon, name: "Icon", description: "Scalable icon element" },
-        { component: CraftBadge, name: "Badge", description: "Small label or tag element" },
-        { component: CraftList, name: "List", description: "Ordered/unordered lists" },
-        { component: CraftCard, name: "Card", description: "Content container with styling" },
-        { component: CraftAlert, name: "Alert", description: "Alert messages and notifications" },
-      ]
+        {
+          component: CraftText,
+          name: "Text",
+          description: "Editable text element",
+        },
+        {
+          component: CraftHeading,
+          name: "Heading",
+          description: "H1-H6 heading elements",
+        },
+        {
+          component: CraftImage,
+          name: "Image",
+          description: "Responsive image block",
+        },
+        {
+          component: CraftButton,
+          name: "Button",
+          description: "Interactive button element",
+        },
+        {
+          component: CraftLink,
+          name: "Link",
+          description: "Clickable link element",
+        },
+        {
+          component: CraftIcon,
+          name: "Icon",
+          description: "Scalable icon element",
+        },
+        {
+          component: CraftBadge,
+          name: "Badge",
+          description: "Small label or tag element",
+        },
+        {
+          component: CraftList,
+          name: "List",
+          description: "Ordered/unordered lists",
+        },
+        {
+          component: CraftCard,
+          name: "Card",
+          description: "Content container with styling",
+        },
+        {
+          component: CraftAlert,
+          name: "Alert",
+          description: "Alert messages and notifications",
+        },
+      ],
     },
     layout: {
       name: "Layout Elements",
@@ -161,24 +275,56 @@ export function EditorSidebar() {
         </svg>
       ),
       items: [
-        { component: CraftSection, name: "Container", description: "Flexible container element" },
-        { component: CraftFlex, name: "Flex", description: "Flexible layout container (row/column)" },
-        { component: CraftGrid, name: "Grid", description: "Advanced grid layout" },
-        { component: CraftSpacer, name: "Spacer", description: "Vertical spacing element" },
-        { component: CraftDivider, name: "Divider", description: "Horizontal line separator" },
-      ]
+        {
+          component: CraftSection,
+          name: "Container",
+          description: "Flexible container element",
+        },
+        {
+          component: CraftFlex,
+          name: "Flex",
+          description: "Flexible layout container (row/column)",
+        },
+        {
+          component: CraftGrid,
+          name: "Grid",
+          description: "Advanced grid layout",
+        },
+        {
+          component: CraftSpacer,
+          name: "Spacer",
+          description: "Vertical spacing element",
+        },
+        {
+          component: CraftDivider,
+          name: "Divider",
+          description: "Horizontal line separator",
+        },
+      ],
     },
     base: {
       name: "Base Elements",
       icon: (
         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-          <path fillRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
+          <path
+            fillRule="evenodd"
+            d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+            clipRule="evenodd"
+          />
         </svg>
       ),
       items: [
-        { component: CraftVideo, name: "Video", description: "Embedded video player" },
-        { component: CraftMap, name: "Map", description: "Interactive map display" },
-      ]
+        {
+          component: CraftVideo,
+          name: "Video",
+          description: "Embedded video player",
+        },
+        {
+          component: CraftMap,
+          name: "Map",
+          description: "Interactive map display",
+        },
+      ],
     },
     page: {
       name: "Page Elements",
@@ -188,18 +334,68 @@ export function EditorSidebar() {
         </svg>
       ),
       items: [
-        { component: CraftHero1, name: "Hero 1", description: "Gradient hero with call-to-action" },
-        { component: CraftHero2, name: "Hero 2", description: "Split layout hero section" },
-        { component: CraftHeader1, name: "Header 1", description: "Clean navigation header" },
-        { component: CraftHeader2, name: "Header 2", description: "Dark theme header" },
-        { component: CraftFooter1, name: "Footer 1", description: "Comprehensive footer" },
-        { component: CraftFooter2, name: "Footer 2", description: "Clean business footer" },
-        { component: CraftFeatures1, name: "Features 1", description: "Icon grid features" },
-        { component: CraftFeatures2, name: "Features 2", description: "Step-by-step features" },
-        { component: CraftCTA1, name: "CTA 1", description: "Simple call-to-action" },
-        { component: CraftCTA2, name: "CTA 2", description: "Feature-rich CTA" },
-        { component: CraftContact1, name: "Contact 1", description: "Simple contact form" },
-      ]
+        {
+          component: CraftHero1,
+          name: "Hero 1",
+          description: "Gradient hero with call-to-action",
+        },
+        {
+          component: CraftHero2,
+          name: "Hero 2",
+          description: "Split layout hero section",
+        },
+        {
+          component: CraftHero4,
+          name: "Hero 4",
+          description: "Split layout hero section",
+        },
+
+        {
+          component: CraftHeader1,
+          name: "Header 1",
+          description: "Clean navigation header",
+        },
+        {
+          component: CraftHeader2,
+          name: "Header 2",
+          description: "Dark theme header",
+        },
+        {
+          component: CraftFooter1,
+          name: "Footer 1",
+          description: "Comprehensive footer",
+        },
+        {
+          component: CraftFooter2,
+          name: "Footer 2",
+          description: "Clean business footer",
+        },
+        {
+          component: CraftFeatures1,
+          name: "Features 1",
+          description: "Icon grid features",
+        },
+        {
+          component: CraftFeatures2,
+          name: "Features 2",
+          description: "Step-by-step features",
+        },
+        {
+          component: CraftCTA1,
+          name: "CTA 1",
+          description: "Simple call-to-action",
+        },
+        {
+          component: CraftCTA2,
+          name: "CTA 2",
+          description: "Feature-rich CTA",
+        },
+        {
+          component: CraftContact1,
+          name: "Contact 1",
+          description: "Simple contact form",
+        },
+      ],
     },
     forms: {
       name: "Form Elements",
@@ -209,29 +405,102 @@ export function EditorSidebar() {
         </svg>
       ),
       items: [
-        { component: CraftForm, name: "Form", description: "Form container with API submission" },
-        { component: CraftInput, name: "Input", description: "Form input field" },
-        { component: CraftTextarea, name: "Textarea", description: "Multi-line text input" },
-        { component: CraftDropDown, name: "Drop Down", description: "Select dropdown with options" },
-        { component: CraftSelect, name: "Select", description: "Dropdown selection input" },
-        { component: CraftCheckbox, name: "Checkbox", description: "Checkbox input element" },
-        { component: CraftCheckboxGroup, name: "Checkbox Group", description: "Group of checkboxes" },
-        { component: CraftCheckboxListTile, name: "Checkbox List Tile", description: "Checkbox list with titles" },
-        { component: CraftSwitch, name: "Switch", description: "Toggle switch component" },
-        { component: CraftSwitchListTile, name: "Switch List Tile", description: "Switch list with titles" },
-        { component: CraftRadioButton, name: "Radio Button", description: "Radio button group" },
-        { component: CraftSlider, name: "Slider", description: "Range slider input" },
-        { component: CraftRatingBar, name: "Rating Bar", description: "Star rating component" },
-        { component: CraftCounterButton, name: "Counter Button", description: "Number counter with +/- buttons" },
-        { component: CraftPinCode, name: "Pin Code", description: "PIN/OTP input fields" },
-        { component: CraftChoiceChips, name: "Choice Chips", description: "Selectable chip buttons" },
-        { component: CraftCreditCardForm, name: "Credit Card Form", description: "Complete credit card form" },
-        { component: CraftSignature, name: "Signature", description: "Signature drawing pad" },
-      ]
-    }
-  }
+        {
+          component: CraftForm,
+          name: "Form",
+          description: "Form container with API submission",
+        },
+        {
+          component: CraftInput,
+          name: "Input",
+          description: "Form input field",
+        },
+        {
+          component: CraftTextarea,
+          name: "Textarea",
+          description: "Multi-line text input",
+        },
+        {
+          component: CraftDropDown,
+          name: "Drop Down",
+          description: "Select dropdown with options",
+        },
+        {
+          component: CraftSelect,
+          name: "Select",
+          description: "Dropdown selection input",
+        },
+        {
+          component: CraftCheckbox,
+          name: "Checkbox",
+          description: "Checkbox input element",
+        },
+        {
+          component: CraftCheckboxGroup,
+          name: "Checkbox Group",
+          description: "Group of checkboxes",
+        },
+        {
+          component: CraftCheckboxListTile,
+          name: "Checkbox List Tile",
+          description: "Checkbox list with titles",
+        },
+        {
+          component: CraftSwitch,
+          name: "Switch",
+          description: "Toggle switch component",
+        },
+        {
+          component: CraftSwitchListTile,
+          name: "Switch List Tile",
+          description: "Switch list with titles",
+        },
+        {
+          component: CraftRadioButton,
+          name: "Radio Button",
+          description: "Radio button group",
+        },
+        {
+          component: CraftSlider,
+          name: "Slider",
+          description: "Range slider input",
+        },
+        {
+          component: CraftRatingBar,
+          name: "Rating Bar",
+          description: "Star rating component",
+        },
+        {
+          component: CraftCounterButton,
+          name: "Counter Button",
+          description: "Number counter with +/- buttons",
+        },
+        {
+          component: CraftPinCode,
+          name: "Pin Code",
+          description: "PIN/OTP input fields",
+        },
+        {
+          component: CraftChoiceChips,
+          name: "Choice Chips",
+          description: "Selectable chip buttons",
+        },
+        {
+          component: CraftCreditCardForm,
+          name: "Credit Card Form",
+          description: "Complete credit card form",
+        },
+        {
+          component: CraftSignature,
+          name: "Signature",
+          description: "Signature drawing pad",
+        },
+      ],
+    },
+  };
 
-  const currentCategory = allCategories[activeCategory as keyof typeof allCategories]
+  const currentCategory =
+    allCategories[activeCategory as keyof typeof allCategories];
 
   return (
     <>
@@ -241,9 +510,9 @@ export function EditorSidebar() {
         variant="outline"
         size="sm"
         className={`fixed top-4 z-50 transition-all duration-300 ${
-          isOpen ? 'left-[calc(24rem+0.5rem)]' : 'left-2'
+          isOpen ? "left-[calc(24rem+0.5rem)]" : "left-2"
         }`}
-        title={`${isOpen ? 'Hide' : 'Show'} sidebar (Ctrl/Cmd + B)`}
+        title={`${isOpen ? "Hide" : "Show"} sidebar (Ctrl/Cmd + B)`}
       >
         {isOpen ? (
           <ChevronLeft className="h-4 w-4" />
@@ -253,26 +522,30 @@ export function EditorSidebar() {
       </Button>
 
       {/* Sidebar */}
-      <div className={`flex border-r border-border h-full transition-transform duration-300 ${
-        isOpen ? 'translate-x-0' : '-translate-x-full'
-      } ${!isOpen ? 'absolute -z-10' : 'relative z-0'}`}>
+      <div
+        className={`flex border-r border-border h-full transition-transform duration-300 ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        } ${!isOpen ? "absolute -z-10" : "relative z-0"}`}
+      >
         {/* Narrow Icon Sidebar */}
         <div className="w-16 bg-card border-r border-border flex flex-col">
           <div className="p-3 border-b border-border">
             <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-sm">B</span>
+              <span className="text-primary-foreground font-bold text-sm">
+                B
+              </span>
             </div>
           </div>
-          
+
           <div className="flex flex-col p-2 space-y-2">
             {Object.entries(allCategories).map(([key, category]) => (
               <button
                 key={key}
                 onClick={() => setActiveCategory(key)}
                 className={`w-12 h-12 rounded-lg flex items-center justify-center group transition-colors ${
-                  activeCategory === key 
-                    ? 'bg-primary text-primary-foreground' 
-                    : 'bg-muted hover:bg-muted/80 text-muted-foreground hover:text-foreground'
+                  activeCategory === key
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-muted hover:bg-muted/80 text-muted-foreground hover:text-foreground"
                 }`}
                 title={category.name}
               >
@@ -280,11 +553,14 @@ export function EditorSidebar() {
               </button>
             ))}
           </div>
-          
+
           {/* Viewport indicator at bottom */}
           <div className="mt-auto p-2 border-t border-border">
             <div className="text-center">
-              <Badge variant="outline" className="text-xs rotate-90 origin-center transform">
+              <Badge
+                variant="outline"
+                className="text-xs rotate-90 origin-center transform"
+              >
                 {viewportInfo.name}
               </Badge>
             </div>
@@ -294,7 +570,9 @@ export function EditorSidebar() {
         {/* Content Area - Shows components based on selected category */}
         <div className="w-80 bg-card flex flex-col h-full">
           <div className="p-4 border-b border-border">
-            <h2 className="font-semibold text-foreground mb-1">{currentCategory?.name}</h2>
+            <h2 className="font-semibold text-foreground mb-1">
+              {currentCategory?.name}
+            </h2>
             <p className="text-sm text-muted-foreground">
               {currentCategory?.items.length} components available
             </p>
@@ -302,18 +580,61 @@ export function EditorSidebar() {
 
           <ScrollArea className="flex-1">
             <div className="p-4 space-y-3">
-              {currentCategory?.items.map((item, index) => (
-                <BlockItem 
-                  key={index} 
-                  component={item.component} 
-                  name={item.name} 
-                  description={item.description} 
-                />
-              ))}
+              {/* Special handling for user blocks category */}
+              {activeCategory === "userBlocks" && (
+                <div className="space-y-3">
+                  <Button
+                    onClick={() =>
+                      openModal("createBlock", {
+                        onCreateBlock: handleCreateBlock,
+                      })
+                    }
+                    className="w-full h-auto p-4 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white border-none"
+                  >
+                    <div className="text-center">
+                      <div className="text-lg font-semibold mb-1">
+                        + Create New Block
+                      </div>
+                      <div className="text-sm opacity-90">
+                        Paste your Tailwind HTML
+                      </div>
+                    </div>
+                  </Button>
+
+                  {currentCategory?.items.length === 0 ? (
+                    <div className="text-center py-8 text-gray-500">
+                      <div className="text-sm">No custom blocks yet</div>
+                      <div className="text-xs mt-1">
+                        Create your first block above
+                      </div>
+                    </div>
+                  ) : (
+                    currentCategory?.items.map((item, index) => (
+                      <BlockItem
+                        key={index}
+                        component={item.component}
+                        name={item.name}
+                        description={item.description}
+                      />
+                    ))
+                  )}
+                </div>
+              )}
+
+              {/* Regular category items */}
+              {activeCategory !== "userBlocks" &&
+                currentCategory?.items.map((item, index) => (
+                  <BlockItem
+                    key={index}
+                    component={item.component}
+                    name={item.name}
+                    description={item.description}
+                  />
+                ))}
             </div>
           </ScrollArea>
         </div>
       </div>
     </>
-  )
+  );
 }
