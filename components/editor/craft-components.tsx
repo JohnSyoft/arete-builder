@@ -26,6 +26,9 @@ import { Checkbox } from "../blocks/Basic/Checkbox";
 import { List } from "../blocks/Basic/List";
 import { Alert } from "../blocks/Basic/Alert";
 import { Flex } from "../blocks/Basic/Flex";
+import { Tab } from "../blocks/Basic/Tab";
+import { TabPanel } from "../blocks/Basic/TabPanel";
+import { Carousel } from "../blocks/Basic/Carousel";
 // Form blocks
 import { DropDown } from "@/components/blocks/Forms/DropDown";
 import { Switch } from "@/components/blocks/Forms/Switch";
@@ -107,6 +110,18 @@ export const Container = ({
   );
 };
 
+Container.craft = {
+  displayName: "Container",
+  props: {},
+  rules: {
+    canDrag: () => true,
+    canDrop: () => true,
+    canMoveIn: () => true,
+    canMoveOut: () => true,
+  },
+  isCanvas: true,
+};
+
 // Canvas component for drop zones
 export const Canvas = ({
   children,
@@ -134,18 +149,6 @@ export const Canvas = ({
       {children}
     </div>
   );
-};
-
-Canvas.craft = {
-  displayName: "Canvas",
-  props: {},
-  rules: {
-    canDrag: () => true,
-    canDrop: () => true,
-    canMoveIn: () => true,
-    canMoveOut: () => true,
-  },
-  isCanvas: true,
 };
 
 Canvas.craft = {
@@ -237,6 +240,9 @@ export const CraftList = List;
 export const CraftAlert = Alert;
 // export const CraftFlexRow = FlexRow
 export const CraftFlex = Flex;
+export const CraftTab = Tab;
+export const CraftTabPanel = TabPanel;
+export const CraftCarousel = Carousel;
 
 // Form blocks
 export const CraftDropDown = DropDown;
@@ -273,7 +279,7 @@ export const CraftFeatures2 = Features2;
 export const CraftContact1 = Contact1;
 
 // Mutable resolver that can be extended with user-created components
-export const componentResolver: Record<string, React.ComponentType> = {
+const baseComponentResolver = {
   Container,
   Canvas,
   // Basic blocks
@@ -303,6 +309,9 @@ export const componentResolver: Record<string, React.ComponentType> = {
   Alert: CraftAlert,
   // FlexRow: CraftFlexRow,
   Flex: CraftFlex,
+  Tab: CraftTab,
+  TabPanel: CraftTabPanel,
+  Carousel: CraftCarousel,
   // Form blocks
   DropDown: CraftDropDown,
   Switch: CraftSwitch,
@@ -338,12 +347,38 @@ export const componentResolver: Record<string, React.ComponentType> = {
   Contact1: CraftContact1,
 };
 
+// Store for dynamic user components
+const userComponents: Record<string, React.ComponentType> = {};
+
+// Create a combined resolver that merges base and user components
+function createCombinedResolver() {
+  return { ...baseComponentResolver, ...userComponents };
+}
+
+// Create the initial resolver
+export let componentResolver = createCombinedResolver();
+
+// Helper function to get the current resolver (always up-to-date)
+export function getCurrentResolver() {
+  return createCombinedResolver();
+}
+
 // Helper function to register a user-created component
-export function registerUserComponent(id: string, component: React.ComponentType) {
-  componentResolver[id] = component;
+export function registerUserComponent(
+  id: string,
+  component: React.ComponentType
+) {
+  console.log("Registering user component:", id);
+  userComponents[id] = component;
+  // Update the exported resolver
+  componentResolver = createCombinedResolver();
+  console.log("User components now contains:", Object.keys(userComponents));
 }
 
 // Helper function to unregister a user-created component
 export function unregisterUserComponent(id: string) {
-  delete componentResolver[id];
+  console.log("Unregistering user component:", id);
+  delete userComponents[id];
+  // Update the exported resolver
+  componentResolver = createCombinedResolver();
 }

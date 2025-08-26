@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import { X } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { usePropertiesPanelStore } from '@/lib/store/properties-panel-store'
+import { X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store";
 import {
   TextProperties,
   ImageProperties,
@@ -23,7 +23,8 @@ import {
   GridProperties,
   AlertProperties,
   NavigationProperties,
-  // Form Component Properties
+  TabProperties,
+  TabPanelProperties,
   DropDownProperties,
   SwitchProperties,
   RadioButtonProperties,
@@ -37,26 +38,27 @@ import {
   CheckboxGroupProperties,
   CreditCardFormProperties,
   SignatureProperties,
-  FormProperties
-} from "./property-panels"
+  FormProperties,
+  // CarouselProperties,
+} from "./property-panels";
+import { CarouselProperties } from "./property-panels/carousel-properties";
 
 export function GlobalPropertiesPanel() {
-  const {
+  const { isOpen, elementType, elementProps, closePanel, updateProps } =
+    usePropertiesPanelStore();
+
+  console.log("GlobalPropertiesPanel render", {
     isOpen,
     elementType,
     elementProps,
-    closePanel,
-    updateProps
-  } = usePropertiesPanelStore()
-
-  console.log('GlobalPropertiesPanel render', { isOpen, elementType, elementProps })
+  });
 
   const handlePropChange = (key: string, value: any) => {
-    const newProps = { ...elementProps, [key]: value }
-    updateProps(newProps)
-  }
+    const newProps = { ...elementProps, [key]: value };
+    updateProps(newProps);
+  };
 
-  if (!isOpen) return null
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-y-0 right-0 w-80 bg-white border-l border-gray-200 shadow-lg z-50 transform transition-transform duration-300 flex flex-col">
@@ -66,52 +68,265 @@ export function GlobalPropertiesPanel() {
           <X className="h-4 w-4" />
         </Button>
       </div>
-      
+
       <ScrollArea className="flex-1 h-0">
         <div className="p-4">
-          {elementType === 'text' && <TextProperties elementProps={elementProps} onPropChange={handlePropChange} />}
-          {elementType === 'button' && <ButtonProperties elementProps={elementProps} onPropChange={handlePropChange} />}
-          {elementType === 'container' && <ContainerProperties elementProps={elementProps} onPropChange={handlePropChange} />}
-          {elementType === 'image' && <ImageProperties elementProps={elementProps} onPropChange={handlePropChange} />}
-          {elementType === 'video' && <VideoProperties elementProps={elementProps} onPropChange={handlePropChange} />}
-          {elementType === 'spacer' && <SpacerProperties elementProps={elementProps} onPropChange={handlePropChange} />}
-          {elementType === 'divider' && <DividerProperties elementProps={elementProps} onPropChange={handlePropChange} />}
-          {elementType === 'columns' && <ColumnsProperties elementProps={elementProps} onPropChange={handlePropChange} />}
-          {elementType === 'link' && <LinkProperties elementProps={elementProps} onPropChange={handlePropChange} />}
-          {elementType === 'map' && <MapProperties elementProps={elementProps} onPropChange={handlePropChange} />}
-          {elementType === 'badge' && <BadgeProperties elementProps={elementProps} onPropChange={handlePropChange} />}
-          {elementType === 'input' && <InputProperties elementProps={elementProps} onPropChange={handlePropChange} />}
-          
+          {elementType === "text" && (
+            <TextProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "button" && (
+            <ButtonProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "container" && (
+            <ContainerProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "image" && (
+            <ImageProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "video" && (
+            <VideoProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "spacer" && (
+            <SpacerProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "divider" && (
+            <DividerProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "columns" && (
+            <ColumnsProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "link" && (
+            <LinkProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "map" && (
+            <MapProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "badge" && (
+            <BadgeProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "input" && (
+            <InputProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+
           {/* Form Components */}
-          {elementType === 'dropdown' && <DropDownProperties elementProps={elementProps} onPropChange={handlePropChange} />}
-          {elementType === 'switch' && <SwitchProperties elementProps={elementProps} onPropChange={handlePropChange} />}
-          {elementType === 'radiobutton' && <RadioButtonProperties elementProps={elementProps} onPropChange={handlePropChange} />}
-          {elementType === 'slider' && <SliderProperties elementProps={elementProps} onPropChange={handlePropChange} />}
-          {elementType === 'ratingbar' && <RatingBarProperties elementProps={elementProps} onPropChange={handlePropChange} />}
-          {elementType === 'counterbutton' && <CounterButtonProperties elementProps={elementProps} onPropChange={handlePropChange} />}
-          {elementType === 'pincode' && <PinCodeProperties elementProps={elementProps} onPropChange={handlePropChange} />}
-          {elementType === 'choicechips' && <ChoiceChipsProperties elementProps={elementProps} onPropChange={handlePropChange} />}
-          {elementType === 'checkboxlisttile' && <CheckboxListTileProperties elementProps={elementProps} onPropChange={handlePropChange} />}
-          {elementType === 'switchlisttile' && <SwitchListTileProperties elementProps={elementProps} onPropChange={handlePropChange} />}
-          {elementType === 'checkboxgroup' && <CheckboxGroupProperties elementProps={elementProps} onPropChange={handlePropChange} />}
-          {elementType === 'creditcardform' && <CreditCardFormProperties elementProps={elementProps} onPropChange={handlePropChange} />}
-          {elementType === 'signature' && <SignatureProperties elementProps={elementProps} onPropChange={handlePropChange} />}
-          {elementType === 'form' && <FormProperties elementProps={elementProps} onPropChange={handlePropChange} />}
-          
+          {elementType === "dropdown" && (
+            <DropDownProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "switch" && (
+            <SwitchProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "radiobutton" && (
+            <RadioButtonProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "slider" && (
+            <SliderProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "ratingbar" && (
+            <RatingBarProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "counterbutton" && (
+            <CounterButtonProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "pincode" && (
+            <PinCodeProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "choicechips" && (
+            <ChoiceChipsProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "checkboxlisttile" && (
+            <CheckboxListTileProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "switchlisttile" && (
+            <SwitchListTileProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "checkboxgroup" && (
+            <CheckboxGroupProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "creditcardform" && (
+            <CreditCardFormProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "signature" && (
+            <SignatureProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "form" && (
+            <FormProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+
           {/* Components with specific property panels */}
-          {elementType === 'row' && <FlexRowProperties elementProps={elementProps} onPropChange={handlePropChange} />}
-          {elementType === 'card' && <CardProperties elementProps={elementProps} onPropChange={handlePropChange} />}
-          {elementType === 'heading' && <TextProperties elementProps={elementProps} onPropChange={handlePropChange} />}
-          {elementType === 'select' && <InputProperties elementProps={elementProps} onPropChange={handlePropChange} />}
-          {elementType === 'checkbox' && <InputProperties elementProps={elementProps} onPropChange={handlePropChange} />}
-          {elementType === 'textarea' && <InputProperties elementProps={elementProps} onPropChange={handlePropChange} />}
-          {elementType === 'linebreak' && <SpacerProperties elementProps={elementProps} onPropChange={handlePropChange} />}
-          {elementType === 'icon' && <ButtonProperties elementProps={elementProps} onPropChange={handlePropChange} />}
-          {elementType === 'grid' && <GridProperties elementProps={elementProps} onPropChange={handlePropChange} />}
-          {elementType === 'navigation' && <NavigationProperties elementProps={elementProps} onPropChange={handlePropChange} />}
-          {elementType === 'list' && <TextProperties elementProps={elementProps} onPropChange={handlePropChange} />}
-          {elementType === 'alert' && <AlertProperties elementProps={elementProps} onPropChange={handlePropChange} />}
-          {elementType === 'flex' && <FlexProperties elementProps={elementProps} onPropChange={handlePropChange} />}
+          {elementType === "row" && (
+            <FlexRowProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "card" && (
+            <CardProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "heading" && (
+            <TextProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "select" && (
+            <InputProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "checkbox" && (
+            <InputProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "textarea" && (
+            <InputProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "linebreak" && (
+            <SpacerProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "icon" && (
+            <ButtonProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "grid" && (
+            <GridProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "navigation" && (
+            <NavigationProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "tab" && (
+            <TabProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "tabpanel" && (
+            <TabPanelProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "carousel" && (
+            <CarouselProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "list" && (
+            <TextProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "alert" && (
+            <AlertProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "flex" && (
+            <FlexProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
           {!elementType && (
             <div className="text-center text-gray-500 mt-8">
               <p>Select an element to edit its properties</p>
@@ -120,5 +335,5 @@ export function GlobalPropertiesPanel() {
         </div>
       </ScrollArea>
     </div>
-  )
+  );
 }

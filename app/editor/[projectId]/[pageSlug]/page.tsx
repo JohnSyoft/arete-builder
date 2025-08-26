@@ -7,7 +7,7 @@ import { EditorSidebar } from "@/components/editor/sidebar";
 import { EditorToolbar } from "@/components/editor/toolbar";
 import { GlobalPropertiesPanel } from "@/components/editor/global-properties-panel";
 import { Modals } from "@/components/dialogs/Modals";
-import { componentResolver } from "@/components/editor/craft-components";
+import { getCurrentResolver } from "@/components/editor/craft-components";
 import { useUserBlocksStore } from "@/lib/store/user-blocks-store";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "@/components/icons";
@@ -124,15 +124,45 @@ export default function EditorPage() {
   const params = useParams();
   const router = useRouter();
   const { toggleSidebar } = useSidebarStore();
-  const { initializeComponents } = useUserBlocksStore();
+  const { initializeComponents, blocks } = useUserBlocksStore();
 
   const projectId = params.projectId as string;
   const pageSlug = params.pageSlug as string;
-  
+
   // Initialize user components on page load
   useEffect(() => {
     initializeComponents();
+
+    // Add test function to window for debugging
+    if (typeof window !== "undefined") {
+      (window as any).createTestBlock = () => {
+        const testHtml =
+          '<div class="p-4 bg-blue-100 rounded">Test Block Content</div>';
+        blocks.length === 0 &&
+          useUserBlocksStore.getState().addBlock({
+            name: "Test Block",
+            description: "A simple test block",
+            htmlSource: testHtml,
+            component: () => null, // Will be replaced by converter
+            tags: [],
+          });
+      };
+
+      (window as any).debugResolver = () => {
+        console.log("Current resolver:", getCurrentResolver());
+        console.log("Current blocks:", blocks);
+      };
+    }
   }, [initializeComponents]);
+
+  // Get the current resolver (will include any newly registered components)
+  const currentResolver = useMemo(() => {
+    console.log("Creating resolver with blocks:", blocks);
+    const resolver = getCurrentResolver();
+    console.log("Resolver keys:", Object.keys(resolver));
+    console.log("Resolver:", resolver);
+    return resolver;
+  }, [blocks]); // Re-create when blocks array changes
 
   // Add keyboard shortcut for toggling sidebar
   useEffect(() => {
@@ -308,7 +338,7 @@ export default function EditorPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Editor resolver={componentResolver} enabled={true}>
+      <Editor resolver={currentResolver} enabled={true}>
         <EditorContent
           project={project}
           currentPage={currentPageData}

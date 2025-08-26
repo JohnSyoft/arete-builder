@@ -50,6 +50,9 @@ import {
   CraftSpacer,
   CraftSwitch,
   CraftSwitchListTile,
+  CraftTab,
+  CraftTabPanel,
+  CraftCarousel,
   // Basic blocks
   CraftText,
   CraftTextarea,
@@ -62,7 +65,7 @@ import { Button } from "@/components/ui/button";
 import { useViewportStore } from "@/lib/store/viewport-store";
 import { useSidebarStore } from "@/lib/store/sidebar-store";
 import { useUserBlocksStore } from "@/lib/store/user-blocks-store";
-import { componentResolver } from "@/components/editor/craft-components";
+import { getCurrentResolver } from "@/components/editor/craft-components";
 import { useModalStore } from "@/lib/store/modalStore";
 import { useEditor } from "@craftjs/core";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -91,7 +94,17 @@ const BlockItem = ({
     <div
       ref={(ref) => {
         if (ref) {
-          create(ref, React.createElement(Component));
+          console.log(
+            "BlockItem creating element for:",
+            name,
+            "Component:",
+            Component
+          );
+          try {
+            create(ref, React.createElement(Component));
+          } catch (error) {
+            console.error("Error creating BlockItem component:", error);
+          }
         }
       }}
       className="p-3 bg-gray-50 rounded-lg border border-gray-200 cursor-grab hover:bg-gray-100 transition-colors"
@@ -121,7 +134,12 @@ const SimpleBlockItem = ({
     <div
       ref={(ref) => {
         if (ref) {
-          create(ref, React.createElement(Component));
+          console.log("Creating element for:", name, "Component:", Component);
+          try {
+            create(ref, React.createElement(Component));
+          } catch (error) {
+            console.error("Error creating component:", error);
+          }
         }
       }}
       className="p-2 bg-gray-50 rounded border border-gray-200 cursor-grab hover:bg-gray-100 transition-colors"
@@ -153,11 +171,18 @@ export function EditorSidebar() {
 
   // Generate components for user blocks dynamically
   const getUserBlockItems = React.useMemo(() => {
+    console.log("Getting user block items, blocks:", blocks);
+    const currentResolver = getCurrentResolver();
+    console.log("Current resolver keys:", Object.keys(currentResolver));
+
     return blocks.map((block) => {
-      // Use the block ID as the component key in the main resolver
-      const ComponentFromResolver = componentResolver[block.id];
-      
+      console.log("Processing block:", block.id, block.name);
+      // Check if the component exists in the resolver
+      const ComponentFromResolver =
+        currentResolver[block.id as keyof typeof currentResolver];
+
       if (ComponentFromResolver) {
+        console.log("Found component in resolver for", block.id);
         return {
           component: ComponentFromResolver,
           name: block.name,
@@ -166,6 +191,7 @@ export function EditorSidebar() {
       }
 
       // Fallback if component not found in resolver
+      console.log("Component not found in resolver for", block.id);
       return {
         component: () =>
           React.createElement(
@@ -264,6 +290,21 @@ export function EditorSidebar() {
           component: CraftAlert,
           name: "Alert",
           description: "Alert messages and notifications",
+        },
+        {
+          component: CraftTab,
+          name: "Tab",
+          description: "Tab navigation with panels",
+        },
+        {
+          component: CraftTabPanel,
+          name: "Tab Panel",
+          description: "Individual tab content panel",
+        },
+        {
+          component: CraftCarousel,
+          name: "Carousel",
+          description: "Interactive image/content slider",
         },
       ],
     },
