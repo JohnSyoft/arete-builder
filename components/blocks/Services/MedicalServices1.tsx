@@ -1,13 +1,36 @@
 import { Element } from "@craftjs/core";
 import { Text as CraftText } from "@/components/blocks/Basic/Text";
 import { Button as CraftButton } from "@/components/blocks/Basic/Button";
+import { Image as CraftImage } from "@/components/blocks/Basic/Image";
 import { Section, SectionProps } from "@/components/blocks/Basic/Section";
 
 interface MedicalServices1Props extends SectionProps {
-  // MedicalServices1 can inherit all Section properties and add any specific ones if needed
+  // Medical Services specific props
+  sectionTag?: string;
+  mainTitle?: string;
+  description?: string;
+  buttonText?: string;
+  service1Title?: string;
+  service2Title?: string;
+  service3Title?: string;
+  service1Description?: string;
+  service2Description?: string;
+  service3Description?: string;
 }
 
-export function MedicalServices1(props: MedicalServices1Props) {
+export function MedicalServices1({
+  sectionTag = "WHAT WE OFFER",
+  mainTitle = "Comprehensive Medical Services for Every Stage of Life",
+  description = "We are committed to delivering world-class healthcare that is accessible, efficient, and patient-centered.",
+  buttonText = "View More",
+  service1Title = "General Health Checkups",
+  service2Title = "Emergency & Urgent Care",
+  service3Title = "Cardiology & Heart Health",
+  service1Description = "Regular health assessments for early disease detection. Lorem ipsum dolor sit amet.",
+  service2Description = "Regular health assessments for early disease detection. Lorem ipsum dolor sit amet.",
+  service3Description = "Regular health assessments for early disease detection. Lorem ipsum dolor sit amet.",
+  ...props
+}: MedicalServices1Props) {
   // Set section defaults for medical services
   const servicesProps = {
     backgroundColor: "#f8fafc", // light gray background
@@ -31,7 +54,7 @@ export function MedicalServices1(props: MedicalServices1Props) {
         {/* Section Header */}
         <Element is="div" className="mb-4" canvas={false}>
           <CraftText
-            text="WHAT WE OFFER"
+            text={sectionTag}
             tagName="p"
             fontSize="text-sm sm:text-base"
             fontWeight="font-medium"
@@ -45,7 +68,7 @@ export function MedicalServices1(props: MedicalServices1Props) {
         {/* Main Title */}
         <Element is="div" className="mb-6 max-w-4xl mx-auto" canvas={false}>
           <CraftText
-            text="Comprehensive Medical Services for Every Stage of Life"
+            text={mainTitle}
             tagName="h2"
             fontSize="text-3xl sm:text-4xl md:text-5xl lg:text-6xl"
             fontWeight="font-bold"
@@ -69,7 +92,7 @@ export function MedicalServices1(props: MedicalServices1Props) {
             canvas={false}
           >
             <CraftText
-              text="We are committed to delivering world-class healthcare that is accessible, efficient, and patient-centered."
+              text={description}
               tagName="p"
               fontSize="text-lg sm:text-xl"
               fontWeight="font-normal"
@@ -82,7 +105,7 @@ export function MedicalServices1(props: MedicalServices1Props) {
           {/* View More Button */}
           <Element is="div" className="flex-shrink-0" canvas={false}>
             <CraftButton
-              text="View More"
+              text={buttonText}
               size="lg"
               backgroundColor="#14b8a6" // teal-500
               textColor="#ffffff"
@@ -130,7 +153,7 @@ export function MedicalServices1(props: MedicalServices1Props) {
                   </svg>
                 </Element>
                 <CraftText
-                  text="General Health Checkups"
+                  text={service1Title}
                   tagName="h3"
                   fontSize="text-xl sm:text-2xl"
                   fontWeight="font-bold"
@@ -146,17 +169,22 @@ export function MedicalServices1(props: MedicalServices1Props) {
               className="h-48 bg-gray-200 relative overflow-hidden"
               canvas={false}
             >
-              <div className="w-full h-full bg-gradient-to-br from-blue-100 to-teal-100 flex items-center justify-center">
-                <span className="text-gray-500 text-sm">
-                  Doctor Consultation Image
-                </span>
-              </div>
+              <CraftImage
+                src="/placeholder.svg?height=200&width=400&text=Doctor+Consultation"
+                alt="Doctor Consultation Image"
+                width="w-full"
+                height="h-full"
+                objectFit="object-cover"
+                borderRadius="rounded-none"
+                margin=""
+                padding=""
+              />
             </Element>
 
             {/* Card Content */}
             <Element is="div" className="p-6" canvas>
               <CraftText
-                text="Regular health assessments for early disease detection. Lorem ipsum dolor sit amet."
+                text={service1Description}
                 tagName="p"
                 fontSize="text-base"
                 fontWeight="font-normal"
@@ -210,7 +238,7 @@ export function MedicalServices1(props: MedicalServices1Props) {
                   </svg>
                 </Element>
                 <CraftText
-                  text="Emergency & Urgent Care"
+                  text={service2Title}
                   tagName="h3"
                   fontSize="text-xl sm:text-2xl"
                   fontWeight="font-bold"
@@ -226,17 +254,22 @@ export function MedicalServices1(props: MedicalServices1Props) {
               className="h-48 bg-gray-200 relative overflow-hidden"
               canvas={false}
             >
-              <div className="w-full h-full bg-gradient-to-br from-red-100 to-orange-100 flex items-center justify-center">
-                <span className="text-gray-500 text-sm">
-                  Hospital Corridor Image
-                </span>
-              </div>
+              <CraftImage
+                src="/placeholder.svg?height=200&width=400&text=Hospital+Corridor"
+                alt="Hospital Corridor Image"
+                width="w-full"
+                height="h-full"
+                objectFit="object-cover"
+                borderRadius="rounded-none"
+                margin=""
+                padding=""
+              />
             </Element>
 
             {/* Card Content */}
             <Element is="div" className="p-6" canvas>
               <CraftText
-                text="Regular health assessments for early disease detection. Lorem ipsum dolor sit amet."
+                text={service2Description}
                 tagName="p"
                 fontSize="text-base"
                 fontWeight="font-normal"
@@ -290,7 +323,7 @@ export function MedicalServices1(props: MedicalServices1Props) {
                   </svg>
                 </Element>
                 <CraftText
-                  text="Cardiology & Heart Health"
+                  text={service3Title}
                   tagName="h3"
                   fontSize="text-xl sm:text-2xl"
                   fontWeight="font-bold"
@@ -306,17 +339,22 @@ export function MedicalServices1(props: MedicalServices1Props) {
               className="h-48 bg-gray-200 relative overflow-hidden"
               canvas={false}
             >
-              <div className="w-full h-full bg-gradient-to-br from-pink-100 to-red-100 flex items-center justify-center">
-                <span className="text-gray-500 text-sm">
-                  Female Doctor Image
-                </span>
-              </div>
+              <CraftImage
+                src="/placeholder.svg?height=200&width=400&text=Female+Doctor"
+                alt="Female Doctor Image"
+                width="w-full"
+                height="h-full"
+                objectFit="object-cover"
+                borderRadius="rounded-none"
+                margin=""
+                padding=""
+              />
             </Element>
 
             {/* Card Content */}
             <Element is="div" className="p-6" canvas>
               <CraftText
-                text="Regular health assessments for early disease detection. Lorem ipsum dolor sit amet."
+                text={service3Description}
                 tagName="p"
                 fontSize="text-base"
                 fontWeight="font-normal"
@@ -347,6 +385,7 @@ export function MedicalServices1(props: MedicalServices1Props) {
 MedicalServices1.craft = {
   displayName: "Medical Services 1",
   props: {
+    // Section props
     backgroundColor: "#f8fafc", // light gray background
     padding: "0",
     minHeight: "auto",
@@ -354,6 +393,21 @@ MedicalServices1.craft = {
     contentMaxWidth: "7xl",
     contentPadding:
       "px-4 py-16 sm:px-6 sm:py-20 md:px-8 md:py-24 lg:px-8 lg:py-32",
+    // Medical Services specific props
+    sectionTag: "WHAT WE OFFER",
+    mainTitle: "Comprehensive Medical Services for Every Stage of Life",
+    description:
+      "We are committed to delivering world-class healthcare that is accessible, efficient, and patient-centered.",
+    buttonText: "View More",
+    service1Title: "General Health Checkups",
+    service2Title: "Emergency & Urgent Care",
+    service3Title: "Cardiology & Heart Health",
+    service1Description:
+      "Regular health assessments for early disease detection. Lorem ipsum dolor sit amet.",
+    service2Description:
+      "Regular health assessments for early disease detection. Lorem ipsum dolor sit amet.",
+    service3Description:
+      "Regular health assessments for early disease detection. Lorem ipsum dolor sit amet.",
   },
   rules: {
     canDrag: () => true,
