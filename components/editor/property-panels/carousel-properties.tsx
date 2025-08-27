@@ -25,6 +25,12 @@ interface CarouselSlide {
   image?: string;
   title?: string;
   description?: string;
+  gradientFrom?: string;
+  gradientTo?: string;
+  primaryButtonText?: string;
+  secondaryButtonText?: string;
+  titleColor?: string;
+  descriptionColor?: string;
 }
 
 interface CarouselPropertiesProps {
@@ -69,7 +75,7 @@ export function CarouselProperties({
   } = elementProps;
 
   const addSlide = () => {
-    const newSlide = {
+    const baseSlide = {
       id: `slide${slides.length + 1}`,
       content: `Slide ${slides.length + 1} Content`,
       image:
@@ -77,6 +83,20 @@ export function CarouselProperties({
       title: `Slide ${slides.length + 1}`,
       description: `This is slide ${slides.length + 1}`,
     };
+
+    const newSlide =
+      variant === "hero"
+        ? {
+            ...baseSlide,
+            gradientFrom: "#667eea",
+            gradientTo: "#764ba2",
+            primaryButtonText: "Get Started",
+            secondaryButtonText: "Learn More",
+            titleColor: "#ffffff",
+            descriptionColor: "#e2e8f0",
+          }
+        : baseSlide;
+
     onPropChange("slides", [...slides, newSlide]);
   };
 
@@ -163,6 +183,12 @@ export function CarouselProperties({
                 <div className="flex items-center gap-2">
                   <MessageSquare className="w-4 h-4" />
                   Testimonial Carousel
+                </div>
+              </SelectItem>
+              <SelectItem value="hero">
+                <div className="flex items-center gap-2">
+                  <Type className="w-4 h-4" />
+                  Hero Carousel
                 </div>
               </SelectItem>
             </SelectContent>
@@ -637,6 +663,141 @@ export function CarouselProperties({
                       className="text-xs"
                     />
                   </div>
+                )}
+
+                {variant === "hero" && (
+                  <>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div>
+                        <Label className="text-xs">Gradient From</Label>
+                        <div className="flex gap-1">
+                          <Input
+                            type="color"
+                            value={slide.gradientFrom || "#667eea"}
+                            onChange={(e) =>
+                              updateSlide(index, "gradientFrom", e.target.value)
+                            }
+                            className="w-6 h-6 p-0 border rounded"
+                          />
+                          <Input
+                            value={slide.gradientFrom || "#667eea"}
+                            onChange={(e) =>
+                              updateSlide(index, "gradientFrom", e.target.value)
+                            }
+                            className="text-xs"
+                            placeholder="#667eea"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <Label className="text-xs">Gradient To</Label>
+                        <div className="flex gap-1">
+                          <Input
+                            type="color"
+                            value={slide.gradientTo || "#764ba2"}
+                            onChange={(e) =>
+                              updateSlide(index, "gradientTo", e.target.value)
+                            }
+                            className="w-6 h-6 p-0 border rounded"
+                          />
+                          <Input
+                            value={slide.gradientTo || "#764ba2"}
+                            onChange={(e) =>
+                              updateSlide(index, "gradientTo", e.target.value)
+                            }
+                            className="text-xs"
+                            placeholder="#764ba2"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-2">
+                      <div>
+                        <Label className="text-xs">Primary Button</Label>
+                        <Input
+                          value={slide.primaryButtonText || ""}
+                          onChange={(e) =>
+                            updateSlide(
+                              index,
+                              "primaryButtonText",
+                              e.target.value
+                            )
+                          }
+                          placeholder="Get Started"
+                          className="text-xs"
+                        />
+                      </div>
+                      <div>
+                        <Label className="text-xs">Secondary Button</Label>
+                        <Input
+                          value={slide.secondaryButtonText || ""}
+                          onChange={(e) =>
+                            updateSlide(
+                              index,
+                              "secondaryButtonText",
+                              e.target.value
+                            )
+                          }
+                          placeholder="Learn More"
+                          className="text-xs"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-2">
+                      <div>
+                        <Label className="text-xs">Title Color</Label>
+                        <div className="flex gap-1">
+                          <Input
+                            type="color"
+                            value={slide.titleColor || "#ffffff"}
+                            onChange={(e) =>
+                              updateSlide(index, "titleColor", e.target.value)
+                            }
+                            className="w-6 h-6 p-0 border rounded"
+                          />
+                          <Input
+                            value={slide.titleColor || "#ffffff"}
+                            onChange={(e) =>
+                              updateSlide(index, "titleColor", e.target.value)
+                            }
+                            className="text-xs"
+                            placeholder="#ffffff"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <Label className="text-xs">Description Color</Label>
+                        <div className="flex gap-1">
+                          <Input
+                            type="color"
+                            value={slide.descriptionColor || "#e2e8f0"}
+                            onChange={(e) =>
+                              updateSlide(
+                                index,
+                                "descriptionColor",
+                                e.target.value
+                              )
+                            }
+                            className="w-6 h-6 p-0 border rounded"
+                          />
+                          <Input
+                            value={slide.descriptionColor || "#e2e8f0"}
+                            onChange={(e) =>
+                              updateSlide(
+                                index,
+                                "descriptionColor",
+                                e.target.value
+                              )
+                            }
+                            className="text-xs"
+                            placeholder="#e2e8f0"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </>
                 )}
               </div>
             </div>
