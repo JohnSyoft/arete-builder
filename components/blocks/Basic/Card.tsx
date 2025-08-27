@@ -13,6 +13,7 @@ interface CardProps {
   margin?: string;
   hoverable?: boolean;
   clickable?: boolean;
+  overflow?: "visible" | "hidden" | "auto" | "scroll";
   children?: React.ReactNode;
 }
 
@@ -26,6 +27,7 @@ export function Card({
   margin = "8px",
   hoverable = false,
   clickable = false,
+  overflow = "hidden",
   children,
 }: CardProps) {
   const {
@@ -56,6 +58,7 @@ export function Card({
         margin,
         hoverable,
         clickable,
+        overflow,
       },
       id,
       (newProps) => {
@@ -131,6 +134,7 @@ export function Card({
           borderColor: variant !== "flat" ? borderColor : undefined,
           borderRadius,
           padding,
+          // overflow,
         }}
       >
         {children || (
@@ -144,7 +148,7 @@ export function Card({
       </div>
 
       {(selected || hovered) && (
-        <div className="absolute -top-12 left-0 z-50">
+        <div className="absolute -bottom-12 left-0 z-50">
           <FloatingToolbar
             elementType="container"
             onSettings={handleShowProperties}
@@ -177,6 +181,7 @@ Card.craft = {
     margin: "8px",
     hoverable: false,
     clickable: false,
+    overflow: "hidden",
   },
   rules: {
     canDrag: () => true,

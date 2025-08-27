@@ -170,12 +170,13 @@ export function MedicalServices1({
             is={Card}
             variant="elevated"
             shadow="lg"
-            borderRadius="12px"
+            borderRadius="16px"
             backgroundColor="#ffffff"
             padding="0"
             margin="0"
             hoverable={true}
             clickable={false}
+            overflow="hidden"
             canvas
           >
             {/* Card Header with Icon */}
@@ -183,7 +184,7 @@ export function MedicalServices1({
               is={Box}
               backgroundColor="#14b8a6"
               textColor="#ffffff"
-              padding="24px"
+              padding="32px 24px"
               margin="0"
               borderRadius="0px"
               display="flex"
@@ -293,12 +294,13 @@ export function MedicalServices1({
             is={Card}
             variant="elevated"
             shadow="lg"
-            borderRadius="12px"
+            borderRadius="16px"
             backgroundColor="#ffffff"
             padding="0"
             margin="0"
             hoverable={true}
             clickable={false}
+            overflow="hidden"
             canvas
           >
             {/* Card Header with Icon */}
@@ -306,7 +308,7 @@ export function MedicalServices1({
               is={Box}
               backgroundColor="#14b8a6"
               textColor="#ffffff"
-              padding="24px"
+              padding="32px 24px"
               margin="0"
               borderRadius="0px"
               display="flex"
@@ -416,12 +418,13 @@ export function MedicalServices1({
             is={Card}
             variant="elevated"
             shadow="lg"
-            borderRadius="12px"
+            borderRadius="16px"
             backgroundColor="#ffffff"
             padding="0"
             margin="0"
             hoverable={true}
             clickable={false}
+            overflow="hidden"
             canvas
           >
             {/* Card Header with Icon */}
@@ -429,7 +432,7 @@ export function MedicalServices1({
               is={Box}
               backgroundColor="#14b8a6"
               textColor="#ffffff"
-              padding="24px"
+              padding="32px 24px"
               margin="0"
               borderRadius="0px"
               display="flex"
