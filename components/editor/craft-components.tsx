@@ -30,6 +30,8 @@ import { Tab } from "../blocks/Basic/Tab";
 import { TabPanel } from "../blocks/Basic/TabPanel";
 import { Carousel } from "../blocks/Basic/Carousel";
 import { BlogGrid } from "../blocks/Basic/BlogGrid";
+import { BlogCard } from "../blocks/Basic/BlogCard";
+import { ProductCard } from "../blocks/Basic/ProductCard";
 // Form blocks
 import { DropDown } from "@/components/blocks/Forms/DropDown";
 import { Switch } from "@/components/blocks/Forms/Switch";
@@ -73,6 +75,12 @@ import { MedicalTestimonials1 } from "../blocks/Services/MedicalTestimonials1";
 import { MedicalHero1 } from "../blocks/Hero/MedicalHero1";
 import { MedicalHowItWorks1 } from "../blocks/HowItWorks/MedicalHowItWorks1";
 import { MedicalFooter1 } from "../blocks/Footer/MedicalFooter1";
+// Elder care blocks
+import { ElderCareServices1 } from "../blocks/Services/ElderCareServices1";
+import { ElderCareValues1 } from "../blocks/About/ElderCareValues1";
+import { ElderCareTeam1 } from "../blocks/Team/ElderCareTeam1";
+import { ElderCareCTA1 } from "../blocks/CTA/ElderCareCTA1";
+import { ElderCareTestimonials1 } from "../blocks/Testimonials/ElderCareTestimonials1";
 // Business components
 // import {
 //   CraftBlogCard,
@@ -264,6 +272,8 @@ export const CraftTab = Tab;
 export const CraftTabPanel = TabPanel;
 export const CraftCarousel = Carousel;
 export const CraftBlogGrid = BlogGrid;
+export const CraftBlogCard = BlogCard;
+export const CraftProductCard = ProductCard;
 
 // Form blocks
 export const CraftDropDown = DropDown;
@@ -307,6 +317,13 @@ export const CraftMedicalDoctors1 = MedicalDoctors1;
 export const CraftMedicalTestimonials1 = MedicalTestimonials1;
 export const CraftMedicalHowItWorks1 = MedicalHowItWorks1;
 export const CraftMedicalFooter1 = MedicalFooter1;
+
+// Elder care blocks
+export const CraftElderCareServices1 = ElderCareServices1;
+export const CraftElderCareValues1 = ElderCareValues1;
+export const CraftElderCareTeam1 = ElderCareTeam1;
+export const CraftElderCareCTA1 = ElderCareCTA1;
+export const CraftElderCareTestimonials1 = ElderCareTestimonials1;
 // Mutable resolver that can be extended with user-created components
 const baseComponentResolver = {
   Container,
@@ -343,6 +360,8 @@ const baseComponentResolver = {
   TabPanel: CraftTabPanel,
   Carousel: CraftCarousel,
   BlogGrid: CraftBlogGrid,
+  BlogCard: CraftBlogCard,
+  ProductCard: CraftProductCard,
   // Form blocks
   DropDown: CraftDropDown,
   Switch: CraftSwitch,
@@ -385,6 +404,12 @@ const baseComponentResolver = {
   WhyChooseUs1: CraftWhyChooseUs1,
   MedicalDoctors1: CraftMedicalDoctors1,
   MedicalTestimonials1: CraftMedicalTestimonials1,
+  // Elder care blocks
+  ElderCareServices1: CraftElderCareServices1,
+  ElderCareValues1: CraftElderCareValues1,
+  ElderCareTeam1: CraftElderCareTeam1,
+  ElderCareCTA1: CraftElderCareCTA1,
+  ElderCareTestimonials1: CraftElderCareTestimonials1,
   // Business components
   // BlogCard: CraftBlogCard,
   // ProductCard: CraftProductCard,

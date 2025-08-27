@@ -9,34 +9,16 @@ import {
   CraftCheckboxGroup,
   CraftCheckboxListTile,
   CraftChoiceChips,
-  // Contact blocks
-  CraftContact1,
   CraftMedicalServices1,
   CraftWhyChooseUs1,
   CraftCounterButton,
   CraftCreditCardForm,
   CraftForm,
-  // CTA blocks
-  CraftCTA1,
-  CraftCTA2,
   CraftDivider,
   CraftDropDown,
-  // Features blocks
-  CraftFeatures1,
-  CraftFeatures2,
   CraftFlex,
-  // Footer blocks
-  CraftFooter1,
-  CraftFooter2,
   CraftGrid,
-  // Header blocks
-  CraftHeader1,
-  CraftHeader2,
   CraftHeading,
-  // Hero blocks
-  CraftHero1,
-  CraftHero2,
-  CraftHero4,
   CraftHeroCarouselSimple,
   CraftIcon,
   CraftImage,
@@ -58,6 +40,8 @@ import {
   CraftTabPanel,
   CraftCarousel,
   CraftBlogGrid,
+  CraftBlogCard,
+  CraftProductCard,
   // Basic blocks
   CraftText,
   CraftTextarea,
@@ -67,6 +51,12 @@ import {
   CraftMedicalHero1,
   CraftMedicalHowItWorks1,
   CraftMedicalFooter1,
+  // Elder care blocks
+  CraftElderCareServices1,
+  CraftElderCareValues1,
+  CraftElderCareTeam1,
+  CraftElderCareCTA1,
+  CraftElderCareTestimonials1,
 } from "@/components/editor/craft-components";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -315,6 +305,16 @@ export function EditorSidebar() {
           name: "Carousel",
           description: "Interactive image/content slider",
         },
+        {
+          component: CraftBlogCard,
+          name: "Blog Card",
+          description: "Individual blog post card with API integration",
+        },
+        {
+          component: CraftProductCard,
+          name: "Product Card",
+          description: "Individual product card with API integration",
+        },
       ],
     },
     layout: {
@@ -371,13 +371,12 @@ export function EditorSidebar() {
         </svg>
       ),
       items: [
-     
         {
           component: CraftMedicalHero1,
           name: "Medical Hero 1",
           description: "Medical hero with call-to-action",
         },
-     
+
         {
           component: CraftHeroCarouselSimple,
           name: "Hero Carousel",
@@ -417,6 +416,32 @@ export function EditorSidebar() {
           component: CraftBlogGrid,
           name: "Blog Grid",
           description: "Display blog posts in a responsive grid layout",
+        },
+        // Elder care components
+        {
+          component: CraftElderCareServices1,
+          name: "Elder Care Services",
+          description: "Elder care services showcase",
+        },
+        {
+          component: CraftElderCareValues1,
+          name: "Elder Care Values",
+          description: "About section with company values",
+        },
+        {
+          component: CraftElderCareTeam1,
+          name: "Elder Care Team",
+          description: "Team members showcase",
+        },
+        {
+          component: CraftElderCareCTA1,
+          name: "Elder Care CTA",
+          description: "Call-to-action section",
+        },
+        {
+          component: CraftElderCareTestimonials1,
+          name: "Elder Care Testimonials",
+          description: "Family testimonials section",
         },
       ],
     },
