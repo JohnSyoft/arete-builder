@@ -371,76 +371,17 @@ export function EditorSidebar() {
         </svg>
       ),
       items: [
-        {
-          component: CraftHero1,
-          name: "Hero 1",
-          description: "Gradient hero with call-to-action",
-        },
+     
         {
           component: CraftMedicalHero1,
           name: "Medical Hero 1",
           description: "Medical hero with call-to-action",
         },
-        {
-          component: CraftHero2,
-          name: "Hero 2",
-          description: "Split layout hero section",
-        },
-        {
-          component: CraftHero4,
-          name: "Hero 4",
-          description: "Split layout hero section",
-        },
+     
         {
           component: CraftHeroCarouselSimple,
           name: "Hero Carousel",
           description: "Gradient carousel hero with navigation",
-        },
-
-        {
-          component: CraftHeader1,
-          name: "Header 1",
-          description: "Clean navigation header",
-        },
-        {
-          component: CraftHeader2,
-          name: "Header 2",
-          description: "Dark theme header",
-        },
-        {
-          component: CraftFooter1,
-          name: "Footer 1",
-          description: "Comprehensive footer",
-        },
-        {
-          component: CraftFooter2,
-          name: "Footer 2",
-          description: "Clean business footer",
-        },
-        {
-          component: CraftFeatures1,
-          name: "Features 1",
-          description: "Icon grid features",
-        },
-        {
-          component: CraftFeatures2,
-          name: "Features 2",
-          description: "Step-by-step features",
-        },
-        {
-          component: CraftCTA1,
-          name: "CTA 1",
-          description: "Simple call-to-action",
-        },
-        {
-          component: CraftCTA2,
-          name: "CTA 2",
-          description: "Feature-rich CTA",
-        },
-        {
-          component: CraftContact1,
-          name: "Contact 1",
-          description: "Simple contact form",
         },
         {
           component: CraftMedicalHowItWorks1,
