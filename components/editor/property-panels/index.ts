@@ -18,6 +18,7 @@ export { AlertProperties } from './alert-properties'
 export { NavigationProperties } from './navigation-properties'
 export { TabProperties } from './tab-properties'
 export { TabPanelProperties } from './tabpanel-properties'
+export { HeroCarouselSimpleProperties } from './hero-carousel-simple-properties'
 // export { CarouselProperties } from './carousel-properties'
 
 // Form Component Properties

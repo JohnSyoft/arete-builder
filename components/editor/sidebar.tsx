@@ -35,6 +35,8 @@ import {
   // Hero blocks
   CraftHero1,
   CraftHero2,
+  CraftHero4,
+  CraftHeroCarouselSimple,
   CraftIcon,
   CraftImage,
   CraftInput,
@@ -59,7 +61,6 @@ import {
   CraftText,
   CraftTextarea,
   CraftVideo,
-  CraftHero4,
 } from "@/components/editor/craft-components";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -378,6 +379,11 @@ export function EditorSidebar() {
           component: CraftHero4,
           name: "Hero 4",
           description: "Split layout hero section",
+        },
+        {
+          component: CraftHeroCarouselSimple,
+          name: "Hero Carousel",
+          description: "Gradient carousel hero with navigation",
         },
 
         {

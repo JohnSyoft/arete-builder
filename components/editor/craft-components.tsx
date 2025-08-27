@@ -49,6 +49,7 @@ import { Form } from "@/components/blocks/Forms/Form";
 import { Hero1 } from "@/components/blocks/Hero/Hero1";
 import { Hero2 } from "@/components/blocks/Hero/Hero2";
 import { Hero4 } from "@/components/blocks/Hero/Hero4";
+import { HeroCarouselSimple } from "@/components/blocks/Hero/HeroCarouselSimple";
 // Header blocks
 import { Header1 } from "@/components/blocks/Header/Header1";
 import { Header2 } from "@/components/blocks/Header/Header2";
@@ -278,6 +279,7 @@ export const CraftForm = Form;
 export const CraftHero1 = Hero1;
 export const CraftHero2 = Hero2;
 export const CraftHero4 = Hero4;
+export const CraftHeroCarouselSimple = HeroCarouselSimple;
 export const CraftHeader1 = Header1;
 export const CraftHeader2 = Header2;
 
@@ -349,6 +351,7 @@ const baseComponentResolver = {
   Hero1: CraftHero1,
   Hero2: CraftHero2,
   Hero4: CraftHero4,
+  HeroCarouselSimple: CraftHeroCarouselSimple,
   // Header blocks
   Header1: CraftHeader1,
   Header2: CraftHeader2,

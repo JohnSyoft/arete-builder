@@ -20,6 +20,7 @@ export { CardProperties } from "./card-properties";
 export { GridProperties } from "./grid-properties";
 export { AlertProperties } from "./alert-properties";
 export { NavigationProperties } from "./navigation-properties";
+export { HeroCarouselSimpleProperties } from "./hero-carousel-simple-properties";
 
 // Form Component Properties
 export { DropDownProperties } from "./dropdown-properties";

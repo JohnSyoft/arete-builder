@@ -43,6 +43,7 @@ import {
   DoctorProperties,
   TestimonialProperties,
   BlogGridProperties,
+  HeroCarouselSimpleProperties,
 } from "./property-panels";
 import { CarouselProperties } from "./property-panels/carousel-properties";
 
@@ -308,6 +309,12 @@ export function GlobalPropertiesPanel() {
           )}
           {elementType === "carousel" && (
             <CarouselProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "herocarouselsimple" && (
+            <HeroCarouselSimpleProperties
               elementProps={elementProps}
               onPropChange={handlePropChange}
             />
