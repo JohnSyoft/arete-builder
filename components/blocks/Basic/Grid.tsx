@@ -1,127 +1,122 @@
-import { useNode, useEditor, Element } from "@craftjs/core"
-import React from "react"
-import { FloatingToolbar } from "@/components/editor/floating-toolbar"
-import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store"
+import { useNode, useEditor } from "@craftjs/core";
+import React from "react";
+import { FloatingToolbar } from "@/components/editor/floating-toolbar";
+import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store";
 
 interface GridProps {
-  columns?: number
-  autoRows?: string
-  autoFit?: boolean
-  minColumnWidth?: string
-  gap?: string
-  rowGap?: string
-  columnGap?: string
-  padding?: string
-  justifyItems?: 'stretch' | 'start' | 'center' | 'end'
-  alignItems?: 'stretch' | 'start' | 'center' | 'end'
+  children?: React.ReactNode;
+  columns?: number;
+  autoRows?: string;
+  autoFit?: boolean;
+  minColumnWidth?: string;
+  gap?: string;
+  rowGap?: string;
+  columnGap?: string;
+  padding?: string;
+  justifyItems?: "stretch" | "start" | "center" | "end";
+  alignItems?: "stretch" | "start" | "center" | "end";
 }
 
 export function Grid({
+  children,
   columns = 3,
-  autoRows = 'minmax(200px, auto)',
+  autoRows = "minmax(200px, auto)",
   autoFit = false,
-  minColumnWidth = '200px',
-  gap = '16px',
-  rowGap = '',
-  columnGap = '',
-  padding = '0px',
-  justifyItems = 'stretch',
-  alignItems = 'stretch'
+  minColumnWidth = "200px",
+  gap = "16px",
+  rowGap = "",
+  columnGap = "",
+  padding = "0px",
+  justifyItems = "stretch",
+  alignItems = "stretch",
 }: GridProps) {
   const {
     connectors: { connect, drag },
     selected,
     hovered,
     actions: { setProp },
-    id
+    id,
   } = useNode((state) => ({
     selected: state.events.selected,
     hovered: state.events.hovered,
-    id: state.id
-  }))
+    id: state.id,
+  }));
 
-  const { actions } = useEditor()
-  const { openPanel } = usePropertiesPanelStore()
+  const { actions } = useEditor();
+  const { openPanel } = usePropertiesPanelStore();
 
   const handleShowProperties = () => {
-    openPanel('grid', {
-      columns,
-      autoRows,
-      autoFit,
-      minColumnWidth,
-      gap,
-      rowGap,
-      columnGap,
-      padding,
-      justifyItems,
-      alignItems
-    }, id, (newProps) => {
-      Object.keys(newProps).forEach(key => {
-        setProp((props: GridProps) => {
-          (props as any)[key] = newProps[key]
-        })
-      })
-    })
-  }
+    openPanel(
+      "grid",
+      {
+        columns,
+        autoRows,
+        autoFit,
+        minColumnWidth,
+        gap,
+        rowGap,
+        columnGap,
+        padding,
+        justifyItems,
+        alignItems,
+      },
+      id,
+      (newProps) => {
+        Object.keys(newProps).forEach((key) => {
+          setProp((props: GridProps) => {
+            (props as any)[key] = newProps[key];
+          });
+        });
+      }
+    );
+  };
 
   const getGridTemplateColumns = () => {
     if (autoFit) {
-      return `repeat(auto-fit, minmax(${minColumnWidth}, 1fr))`
+      return `repeat(auto-fit, minmax(${minColumnWidth}, 1fr))`;
     }
-    return `repeat(${columns}, 1fr)`
-  }
+    return `repeat(${columns}, 1fr)`;
+  };
 
   const getGridStyles = () => {
     return {
-      display: 'grid',
+      display: "grid",
       gridTemplateColumns: getGridTemplateColumns(),
       gridAutoRows: autoRows,
       gap: rowGap && columnGap ? `${rowGap} ${columnGap}` : gap,
       justifyItems,
       alignItems,
       padding,
-      minHeight: '200px'
-    }
-  }
-
-  // Calculate number of cells to show (auto-fit shows 6, fixed shows columns * 2 rows)
-  const cellCount = autoFit ? 6 : columns * 2
+      minHeight: "200px",
+    };
+  };
 
   return (
-    <div 
+    <div
       ref={(ref) => {
         if (ref) {
-          connect(drag(ref))
+          connect(drag(ref));
         }
       }}
-      className={`relative group ${selected ? "ring-2 ring-blue-500" : ""} ${hovered ? "ring-1 ring-blue-300" : ""}`}
-      onClick={handleShowProperties}
+      className={`relative group ${selected ? "ring-2 ring-blue-500" : ""} ${
+        hovered ? "ring-1 ring-blue-300" : ""
+      }`}
+      style={getGridStyles()}
     >
-      <div style={getGridStyles()}>
-        {Array.from({ length: cellCount }, (_, index) => (
-          <Element
-            key={index}
-            id={`grid-item-${index}`}
-            is="div"
-            canvas
-            className="border-2 border-dashed border-gray-300 rounded-lg p-3 bg-gray-50/50 flex items-center justify-center min-h-[100px]"
-          >
-            <div className="text-center text-gray-500 text-sm">
-              Cell {index + 1}
-              <br />
-              <span className="text-xs">Drop here</span>
-            </div>
-          </Element>
-        ))}
-      </div>
+      {children || (
+        // Show placeholder only when there are no children
+        <div className="border-2 border-dashed border-gray-300 rounded-lg p-3 bg-gray-50/50 flex items-center justify-center min-h-[100px] col-span-full text-center text-gray-500 text-sm">
+          Grid Container
+          <br />
+          <span className="text-xs">Drop components here</span>
+        </div>
+      )}
 
       {/* Floating toolbar */}
       {(selected || hovered) && (
         <div className="absolute -top-12 left-0 z-50">
           <FloatingToolbar
-            elementType="grid"
-            onEdit={() => {}}
-            onGenerateAI={() => {}}
+            elementType="container"
             onSettings={handleShowProperties}
             onMove={() => {}}
             onLink={() => {}}
@@ -134,30 +129,32 @@ export function Grid({
       {/* Label */}
       {(selected || hovered) && (
         <div className="absolute -top-6 left-0 bg-blue-500 text-white text-xs px-2 py-1 rounded z-10">
-          Grid ({autoFit ? 'Auto-fit' : `${columns} cols`})
+          Grid ({autoFit ? "Auto-fit" : `${columns} cols`})
         </div>
       )}
     </div>
-  )
+  );
 }
 
 Grid.craft = {
   displayName: "Grid",
   props: {
+    children: undefined,
     columns: 3,
-    autoRows: 'minmax(200px, auto)',
+    autoRows: "minmax(200px, auto)",
     autoFit: false,
-    minColumnWidth: '200px',
-    gap: '16px',
-    rowGap: '',
-    columnGap: '',
-    padding: '0px',
-    justifyItems: 'stretch',
-    alignItems: 'stretch'
+    minColumnWidth: "200px",
+    gap: "16px",
+    rowGap: "",
+    columnGap: "",
+    padding: "0px",
+    justifyItems: "stretch",
+    alignItems: "stretch",
   },
   rules: {
     canDrag: () => true,
     canMoveIn: () => true,
     canMoveOut: () => true,
   },
-}
+  isCanvas: true, // Allow components to be dropped into this grid
+};

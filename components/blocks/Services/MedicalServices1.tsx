@@ -2,6 +2,11 @@ import { Element } from "@craftjs/core";
 import { Text as CraftText } from "@/components/blocks/Basic/Text";
 import { Button as CraftButton } from "@/components/blocks/Basic/Button";
 import { Image as CraftImage } from "@/components/blocks/Basic/Image";
+import { Flex } from "@/components/blocks/Basic/Flex";
+import { Grid } from "@/components/blocks/Basic/Grid";
+import { Card } from "@/components/blocks/Basic/Card";
+import { Box } from "@/components/blocks/Basic/Box";
+import { Icon } from "@/components/blocks/Basic/Icon";
 import { Section, SectionProps } from "@/components/blocks/Basic/Section";
 
 interface MedicalServices1Props extends SectionProps {
@@ -47,12 +52,22 @@ export function MedicalServices1({
     <Section {...servicesProps}>
       <Element
         id="medicalServicesContent"
-        is="div"
+        is={Box}
+        backgroundColor="transparent"
+        padding="0"
+        margin="0"
+        display="block"
         canvas
-        className="text-center"
       >
         {/* Section Header */}
-        <Element is="div" className="mb-4" canvas={false}>
+        <Element
+          is={Box}
+          backgroundColor="transparent"
+          padding="0"
+          margin="0 0 16px 0"
+          display="block"
+          canvas={false}
+        >
           <CraftText
             text={sectionTag}
             tagName="p"
@@ -66,7 +81,15 @@ export function MedicalServices1({
         </Element>
 
         {/* Main Title */}
-        <Element is="div" className="mb-6 max-w-4xl mx-auto" canvas={false}>
+        <Element
+          is={Box}
+          backgroundColor="transparent"
+          padding="0"
+          margin="0 auto 24px auto"
+          display="block"
+          width="100%"
+          canvas={false}
+        >
           <CraftText
             text={mainTitle}
             tagName="h2"
@@ -81,14 +104,23 @@ export function MedicalServices1({
 
         {/* Description and CTA Container */}
         <Element
-          is="div"
-          className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-12 gap-6"
+          is={Flex}
           canvas
+          flexDirection="row"
+          justifyContent="between"
+          alignItems="center"
+          gap="gap-6"
+          margin="mb-12"
+          wrap="wrap"
         >
           {/* Description */}
           <Element
-            is="div"
-            className="flex-1 text-left max-w-2xl"
+            is={Box}
+            backgroundColor="transparent"
+            padding="0"
+            margin="0"
+            display="block"
+            width="100%"
             canvas={false}
           >
             <CraftText
@@ -103,7 +135,14 @@ export function MedicalServices1({
           </Element>
 
           {/* View More Button */}
-          <Element is="div" className="flex-shrink-0" canvas={false}>
+          <Element
+            is={Box}
+            backgroundColor="transparent"
+            padding="0"
+            margin="0"
+            display="block"
+            canvas={false}
+          >
             <CraftButton
               text={buttonText}
               size="lg"
@@ -118,40 +157,65 @@ export function MedicalServices1({
 
         {/* Services Cards Grid */}
         <Element
-          is="div"
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8"
+          is={Grid}
           canvas
+          columns={3}
+          autoFit={true}
+          minColumnWidth="300px"
+          gap="24px"
+          autoRows="auto"
         >
           {/* General Health Checkups Card */}
           <Element
-            is="div"
-            className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
+            is={Card}
+            variant="elevated"
+            shadow="lg"
+            borderRadius="12px"
+            backgroundColor="#ffffff"
+            padding="0"
+            margin="0"
+            hoverable={true}
+            clickable={false}
             canvas
           >
             {/* Card Header with Icon */}
             <Element
-              is="div"
-              className="bg-teal-500 text-white p-6"
-              canvas={false}
+              is={Box}
+              backgroundColor="#14b8a6"
+              textColor="#ffffff"
+              padding="24px"
+              margin="0"
+              borderRadius="0px"
+              display="flex"
+              alignItems="center"
+              justifyContent="start"
+              gap="16px"
+              canvas
             >
+              {/* Icon Container */}
               <Element
-                is="div"
-                className="flex items-center gap-4 mb-4"
+                is={Box}
+                backgroundColor="rgba(255, 255, 255, 0.2)"
+                padding="12px"
+                borderRadius="50%"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                width="48px"
+                height="48px"
                 canvas={false}
               >
                 <Element
-                  is="div"
-                  className="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center"
+                  is={Icon}
+                  iconName="plus"
+                  size={24}
+                  color="#ffffff"
                   canvas={false}
-                >
-                  <svg
-                    className="w-6 h-6"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14h-4v-4H6v-4h4V5h4v4h4v4h-4v4z" />
-                  </svg>
-                </Element>
+                />
+              </Element>
+
+              {/* Title */}
+              <Element is="div" canvas={false}>
                 <CraftText
                   text={service1Title}
                   tagName="h3"
@@ -165,9 +229,13 @@ export function MedicalServices1({
 
             {/* Card Image */}
             <Element
-              is="div"
-              className="h-48 bg-gray-200 relative overflow-hidden"
-              canvas={false}
+              is={Box}
+              backgroundColor="#f3f4f6"
+              height="192px"
+              padding="0"
+              margin="0"
+              display="block"
+              canvas
             >
               <CraftImage
                 src="/placeholder.svg?height=200&width=400&text=Doctor+Consultation"
@@ -182,7 +250,14 @@ export function MedicalServices1({
             </Element>
 
             {/* Card Content */}
-            <Element is="div" className="p-6" canvas>
+            <Element
+              is={Box}
+              backgroundColor="#ffffff"
+              padding="24px"
+              margin="0"
+              display="block"
+              canvas
+            >
               <CraftText
                 text={service1Description}
                 tagName="p"
@@ -194,7 +269,13 @@ export function MedicalServices1({
                 lineHeight="leading-relaxed"
               />
 
-              <Element is="div" className="pt-2" canvas={false}>
+              <Element
+                is={Box}
+                padding="8px 0 0 0"
+                margin="0"
+                display="block"
+                canvas={false}
+              >
                 <CraftButton
                   text="View Details"
                   variant="link"
@@ -209,34 +290,55 @@ export function MedicalServices1({
 
           {/* Emergency & Urgent Care Card */}
           <Element
-            is="div"
-            className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
+            is={Card}
+            variant="elevated"
+            shadow="lg"
+            borderRadius="12px"
+            backgroundColor="#ffffff"
+            padding="0"
+            margin="0"
+            hoverable={true}
+            clickable={false}
             canvas
           >
             {/* Card Header with Icon */}
             <Element
-              is="div"
-              className="bg-teal-500 text-white p-6"
-              canvas={false}
+              is={Box}
+              backgroundColor="#14b8a6"
+              textColor="#ffffff"
+              padding="24px"
+              margin="0"
+              borderRadius="0px"
+              display="flex"
+              alignItems="center"
+              justifyContent="start"
+              gap="16px"
+              canvas
             >
+              {/* Icon Container */}
               <Element
-                is="div"
-                className="flex items-center gap-4 mb-4"
+                is={Box}
+                backgroundColor="rgba(255, 255, 255, 0.2)"
+                padding="12px"
+                borderRadius="50%"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                width="48px"
+                height="48px"
                 canvas={false}
               >
                 <Element
-                  is="div"
-                  className="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center"
+                  is={Icon}
+                  iconName="zap"
+                  size={24}
+                  color="#ffffff"
                   canvas={false}
-                >
-                  <svg
-                    className="w-6 h-6"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.22.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z" />
-                  </svg>
-                </Element>
+                />
+              </Element>
+
+              {/* Title */}
+              <Element is="div" canvas={false}>
                 <CraftText
                   text={service2Title}
                   tagName="h3"
@@ -250,9 +352,13 @@ export function MedicalServices1({
 
             {/* Card Image */}
             <Element
-              is="div"
-              className="h-48 bg-gray-200 relative overflow-hidden"
-              canvas={false}
+              is={Box}
+              backgroundColor="#f3f4f6"
+              height="192px"
+              padding="0"
+              margin="0"
+              display="block"
+              canvas
             >
               <CraftImage
                 src="/placeholder.svg?height=200&width=400&text=Hospital+Corridor"
@@ -267,7 +373,14 @@ export function MedicalServices1({
             </Element>
 
             {/* Card Content */}
-            <Element is="div" className="p-6" canvas>
+            <Element
+              is={Box}
+              backgroundColor="#ffffff"
+              padding="24px"
+              margin="0"
+              display="block"
+              canvas
+            >
               <CraftText
                 text={service2Description}
                 tagName="p"
@@ -279,7 +392,13 @@ export function MedicalServices1({
                 lineHeight="leading-relaxed"
               />
 
-              <Element is="div" className="pt-2" canvas={false}>
+              <Element
+                is={Box}
+                padding="8px 0 0 0"
+                margin="0"
+                display="block"
+                canvas={false}
+              >
                 <CraftButton
                   text="View Details"
                   variant="link"
@@ -294,34 +413,55 @@ export function MedicalServices1({
 
           {/* Cardiology & Heart Health Card */}
           <Element
-            is="div"
-            className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
+            is={Card}
+            variant="elevated"
+            shadow="lg"
+            borderRadius="12px"
+            backgroundColor="#ffffff"
+            padding="0"
+            margin="0"
+            hoverable={true}
+            clickable={false}
             canvas
           >
             {/* Card Header with Icon */}
             <Element
-              is="div"
-              className="bg-teal-500 text-white p-6"
-              canvas={false}
+              is={Box}
+              backgroundColor="#14b8a6"
+              textColor="#ffffff"
+              padding="24px"
+              margin="0"
+              borderRadius="0px"
+              display="flex"
+              alignItems="center"
+              justifyContent="start"
+              gap="16px"
+              canvas
             >
+              {/* Icon Container */}
               <Element
-                is="div"
-                className="flex items-center gap-4 mb-4"
+                is={Box}
+                backgroundColor="rgba(255, 255, 255, 0.2)"
+                padding="12px"
+                borderRadius="50%"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                width="48px"
+                height="48px"
                 canvas={false}
               >
                 <Element
-                  is="div"
-                  className="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center"
+                  is={Icon}
+                  iconName="heart"
+                  size={24}
+                  color="#ffffff"
                   canvas={false}
-                >
-                  <svg
-                    className="w-6 h-6"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                  </svg>
-                </Element>
+                />
+              </Element>
+
+              {/* Title */}
+              <Element is="div" canvas={false}>
                 <CraftText
                   text={service3Title}
                   tagName="h3"
@@ -335,9 +475,13 @@ export function MedicalServices1({
 
             {/* Card Image */}
             <Element
-              is="div"
-              className="h-48 bg-gray-200 relative overflow-hidden"
-              canvas={false}
+              is={Box}
+              backgroundColor="#f3f4f6"
+              height="192px"
+              padding="0"
+              margin="0"
+              display="block"
+              canvas
             >
               <CraftImage
                 src="/placeholder.svg?height=200&width=400&text=Female+Doctor"
@@ -352,7 +496,14 @@ export function MedicalServices1({
             </Element>
 
             {/* Card Content */}
-            <Element is="div" className="p-6" canvas>
+            <Element
+              is={Box}
+              backgroundColor="#ffffff"
+              padding="24px"
+              margin="0"
+              display="block"
+              canvas
+            >
               <CraftText
                 text={service3Description}
                 tagName="p"
@@ -364,7 +515,13 @@ export function MedicalServices1({
                 lineHeight="leading-relaxed"
               />
 
-              <Element is="div" className="pt-2" canvas={false}>
+              <Element
+                is={Box}
+                padding="8px 0 0 0"
+                margin="0"
+                display="block"
+                canvas={false}
+              >
                 <CraftButton
                   text="View Details"
                   variant="link"

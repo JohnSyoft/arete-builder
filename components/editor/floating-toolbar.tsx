@@ -1,27 +1,53 @@
-"use client"
+"use client";
 
-import React from 'react'
-import { Edit, Sparkles, Settings, Move, Link, HelpCircle, Trash2 } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import React from "react";
+import { Edit, Sparkles, Settings, Move, Link, Trash2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface ToolbarButton {
-  icon: React.ComponentType<{ className?: string }>
-  label: string
-  onClick?: () => void
-  show: boolean
-  className?: string
+  icon: React.ComponentType<{ className?: string }>;
+  label: string;
+  onClick?: () => void;
+  show: boolean;
+  className?: string;
 }
 
 interface FloatingToolbarProps {
-  elementType: 'text' | 'button' | 'image' | 'container' | 'columns' | 'link' | 'video' | 'map' | 'row' | 'card' | 'heading' | 'select' | 'checkbox' | 'textarea' | 'linebreak' | 'icon' | 'grid' | 'navigation' | 'list' | 'alert' | 'spacer' | 'divider' | 'badge' | 'input' | 'section'
-  onEdit?: () => void
-  onGenerateAI?: () => void
-  onSettings: () => void
-  onMove: () => void
-  onLink: () => void
-  onDelete: () => void
-  onHelp?: () => void
-  position: { x: number; y: number }
+  elementType:
+    | "text"
+    | "button"
+    | "image"
+    | "container"
+    | "columns"
+    | "link"
+    | "video"
+    | "map"
+    | "row"
+    | "card"
+    | "heading"
+    | "select"
+    | "checkbox"
+    | "textarea"
+    | "linebreak"
+    | "icon"
+    | "grid"
+    | "flex"
+    | "navigation"
+    | "list"
+    | "alert"
+    | "spacer"
+    | "divider"
+    | "badge"
+    | "input"
+    | "section";
+  onEdit?: () => void;
+  onGenerateAI?: () => void;
+  onSettings: () => void;
+  onMove: () => void;
+  onLink: () => void;
+  onDelete: () => void;
+  onHelp?: () => void;
+  position: { x: number; y: number };
 }
 
 export function FloatingToolbar({
@@ -33,7 +59,7 @@ export function FloatingToolbar({
   onLink,
   onDelete,
   onHelp,
-  position
+  position,
 }: FloatingToolbarProps) {
   const getToolbarButtons = (): ToolbarButton[] => {
     const baseButtons: ToolbarButton[] = [
@@ -41,28 +67,28 @@ export function FloatingToolbar({
         icon: Settings,
         label: "Settings",
         onClick: onSettings,
-        show: true
+        show: true,
       },
       {
         icon: Move,
         label: "Move",
         onClick: onMove,
-        show: true
+        show: true,
       },
       {
         icon: Link,
         label: "Link",
         onClick: onLink,
-        show: true
+        show: true,
       },
       {
         icon: Trash2,
         label: "Delete",
         onClick: onDelete,
         show: true,
-        className: "hover:bg-red-100 hover:text-red-600"
-      }
-    ]
+        className: "hover:bg-red-100 hover:text-red-600",
+      },
+    ];
 
     const typeSpecificButtons: Record<string, ToolbarButton[]> = {
       text: [
@@ -70,30 +96,30 @@ export function FloatingToolbar({
           icon: Edit,
           label: "Edit Text",
           onClick: onEdit,
-          show: true
+          show: true,
         },
         {
           icon: Sparkles,
           label: "Generate AI",
           onClick: onGenerateAI,
-          show: true
-        }
+          show: true,
+        },
       ],
       button: [
         {
           icon: Edit,
           label: "Edit",
           onClick: onEdit,
-          show: true
-        }
+          show: true,
+        },
       ],
       image: [
         {
           icon: Edit,
           label: "Edit",
           onClick: onEdit,
-          show: true
-        }
+          show: true,
+        },
       ],
       container: [],
       columns: [
@@ -101,42 +127,68 @@ export function FloatingToolbar({
           icon: Edit,
           label: "Edit Columns",
           onClick: onEdit,
-          show: true
-        }
+          show: true,
+        },
       ],
       link: [
         {
           icon: Edit,
           label: "Edit Link",
           onClick: onEdit,
-          show: true
-        }
+          show: true,
+        },
       ],
       video: [
         {
           icon: Edit,
           label: "Edit Video",
           onClick: onEdit,
-          show: true
-        }
+          show: true,
+        },
       ],
       map: [
         {
           icon: Edit,
           label: "Edit Map",
           onClick: onEdit,
-          show: true
-        }
-      ]
-    }
+          show: true,
+        },
+      ],
+      grid: [
+        {
+          icon: Edit,
+          label: "Edit Grid",
+          onClick: onEdit,
+          show: true,
+        },
+      ],
+      flex: [
+        {
+          icon: Edit,
+          label: "Edit Flex",
+          onClick: onEdit,
+          show: true,
+        },
+      ],
+      card: [
+        {
+          icon: Edit,
+          label: "Edit Card",
+          onClick: onEdit,
+          show: true,
+        },
+      ],
+    };
 
-    return [...(typeSpecificButtons[elementType] || []), ...baseButtons].filter(btn => btn.show)
-  }
+    return [...(typeSpecificButtons[elementType] || []), ...baseButtons].filter(
+      (btn) => btn.show
+    );
+  };
 
-  const buttons = getToolbarButtons()
+  const buttons = getToolbarButtons();
 
   return (
-    <div 
+    <div
       className="absolute z-50 bg-white border border-gray-300 rounded-lg shadow-lg p-1 flex gap-1"
       style={{
         left: position.x,
@@ -148,7 +200,9 @@ export function FloatingToolbar({
           key={index}
           variant="ghost"
           size="sm"
-          className={`h-8 w-8 p-0 hover:bg-gray-100 text-gray-700 hover:text-gray-900 ${button.className || ''}`}
+          className={`h-8 w-8 p-0 hover:bg-gray-100 text-gray-700 hover:text-gray-900 ${
+            button.className || ""
+          }`}
           onClick={button.onClick}
           title={button.label}
         >
@@ -156,5 +210,5 @@ export function FloatingToolbar({
         </Button>
       ))}
     </div>
-  )
+  );
 }

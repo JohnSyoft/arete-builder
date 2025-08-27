@@ -65,6 +65,7 @@ import { Features2 } from "@/components/blocks/Features/Features2";
 import { Contact1 } from "@/components/blocks/Contact/Contact1";
 // Services blocks
 import { MedicalServices1 } from "@/components/blocks/Services/MedicalServices1";
+import { Box } from "../blocks/Basic/Box";
 // Business components
 // import {
 //   CraftBlogCard,
@@ -248,6 +249,8 @@ export const CraftNavigation = Navigation;
 export const CraftCheckbox = Checkbox;
 export const CraftList = List;
 export const CraftAlert = Alert;
+export const CraftBox = Box;
+
 // export const CraftFlexRow = FlexRow
 export const CraftFlex = Flex;
 export const CraftTab = Tab;
@@ -320,6 +323,7 @@ const baseComponentResolver = {
   Checkbox: CraftCheckbox,
   List: CraftList,
   Alert: CraftAlert,
+  Box: CraftBox,
   // FlexRow: CraftFlexRow,
   Flex: CraftFlex,
   Tab: CraftTab,
