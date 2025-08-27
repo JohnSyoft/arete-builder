@@ -39,7 +39,10 @@ import {
   CreditCardFormProperties,
   SignatureProperties,
   FormProperties,
-  // CarouselProperties,
+  ProductProperties,
+  DoctorProperties,
+  TestimonialProperties,
+  BlogGridProperties,
 } from "./property-panels";
 import { CarouselProperties } from "./property-panels/carousel-properties";
 
@@ -327,6 +330,33 @@ export function GlobalPropertiesPanel() {
               onPropChange={handlePropChange}
             />
           )}
+
+          {/* Business Components */}
+          {elementType === "BlogCard" && (
+            <BlogGridProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "ProductCard" && (
+            <ProductProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "DoctorCard" && (
+            <DoctorProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "TestimonialCard" && (
+            <TestimonialProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+
           {!elementType && (
             <div className="text-center text-gray-500 mt-8">
               <p>Select an element to edit its properties</p>

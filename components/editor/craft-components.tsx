@@ -29,6 +29,7 @@ import { Flex } from "../blocks/Basic/Flex";
 import { Tab } from "../blocks/Basic/Tab";
 import { TabPanel } from "../blocks/Basic/TabPanel";
 import { Carousel } from "../blocks/Basic/Carousel";
+import { BlogGrid } from "../blocks/Basic/BlogGrid";
 // Form blocks
 import { DropDown } from "@/components/blocks/Forms/DropDown";
 import { Switch } from "@/components/blocks/Forms/Switch";
@@ -62,6 +63,15 @@ import { Features1 } from "@/components/blocks/Features/Features1";
 import { Features2 } from "@/components/blocks/Features/Features2";
 // Contact blocks
 import { Contact1 } from "@/components/blocks/Contact/Contact1";
+// Services blocks
+import { MedicalServices1 } from "@/components/blocks/Services/MedicalServices1";
+// Business components
+// import {
+//   CraftBlogCard,
+//   CraftProductCard,
+//   CraftDoctorCard,
+//   CraftTestimonialCard,
+// } from "./craft-components/business";
 
 // Container component for wrapping other components
 export const Container = ({
@@ -243,6 +253,7 @@ export const CraftFlex = Flex;
 export const CraftTab = Tab;
 export const CraftTabPanel = TabPanel;
 export const CraftCarousel = Carousel;
+export const CraftBlogGrid = BlogGrid;
 
 // Form blocks
 export const CraftDropDown = DropDown;
@@ -278,6 +289,8 @@ export const CraftFeatures2 = Features2;
 
 export const CraftContact1 = Contact1;
 
+export const CraftMedicalServices1 = MedicalServices1;
+
 // Mutable resolver that can be extended with user-created components
 const baseComponentResolver = {
   Container,
@@ -312,6 +325,7 @@ const baseComponentResolver = {
   Tab: CraftTab,
   TabPanel: CraftTabPanel,
   Carousel: CraftCarousel,
+  BlogGrid: CraftBlogGrid,
   // Form blocks
   DropDown: CraftDropDown,
   Switch: CraftSwitch,
@@ -345,6 +359,13 @@ const baseComponentResolver = {
   Features2: CraftFeatures2,
   // Contact blocks
   Contact1: CraftContact1,
+  // Services blocks
+  MedicalServices1: CraftMedicalServices1,
+  // Business components
+  // BlogCard: CraftBlogCard,
+  // ProductCard: CraftProductCard,
+  // DoctorCard: CraftDoctorCard,
+  // TestimonialCard: CraftTestimonialCard,
 };
 
 // Store for dynamic user components

@@ -5,6 +5,7 @@ type ElementType =
   | 'row' | 'card' | 'heading' | 'select' | 'checkbox' | 'textarea' | 'linebreak' | 'icon' | 'grid' | 'navigation' | 'list' | 'alert' | 'flexrow' | 'flex'
   | 'dropdown' | 'switch' | 'radiobutton' | 'slider' | 'ratingbar' | 'counterbutton' | 'pincode' | 'choicechips' | 'checkboxlisttile' | 'switchlisttile' | 'checkboxgroup' | 'creditcardform' | 'signature'
   | 'form' | 'tab' | 'tabpanel' | 'carousel'
+  | 'BlogCard' | 'ProductCard' | 'DoctorCard' | 'TestimonialCard'
   | null
 
 interface PropertiesPanelState {

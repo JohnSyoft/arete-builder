@@ -1,18 +1,24 @@
-import { Button as UIButton } from "@/components/ui/button"
-import React from "react"
+import { Button as UIButton } from "@/components/ui/button";
+import Link from "next/link";
 
 interface ButtonProps {
-  text?: string
-  variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link"
-  size?: "default" | "sm" | "lg" | "icon"
-  href?: string
-  target?: "_self" | "_blank"
-  backgroundColor?: string
-  textColor?: string
-  borderRadius?: string
-  margin?: string
-  padding?: string
-  width?: string
+  text?: string;
+  variant?:
+    | "default"
+    | "destructive"
+    | "outline"
+    | "secondary"
+    | "ghost"
+    | "link";
+  size?: "default" | "sm" | "lg" | "icon";
+  href?: string;
+  target?: "_self" | "_blank";
+  backgroundColor?: string;
+  textColor?: string;
+  borderRadius?: string;
+  margin?: string;
+  padding?: string;
+  width?: string;
 }
 
 export function ButtonRuntime({
@@ -26,13 +32,13 @@ export function ButtonRuntime({
   borderRadius = "",
   margin = "my-2",
   padding = "",
-  width = "w-auto"
+  width = "w-auto",
 }: ButtonProps) {
   const customStyles = {
     backgroundColor: backgroundColor || undefined,
     color: textColor || undefined,
     borderRadius: borderRadius || undefined,
-  }
+  };
 
   return (
     <div className={`${margin} ${padding} ${width}`}>
@@ -43,10 +49,10 @@ export function ButtonRuntime({
         style={customStyles}
         className={`${width} ${borderRadius}`}
       >
-        <a href={href} target={target}>
+        <Link href={href} target={target}>
           {text}
-        </a>
+        </Link>
       </UIButton>
     </div>
-  )
+  );
 }

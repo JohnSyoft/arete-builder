@@ -11,6 +11,7 @@ import {
   CraftChoiceChips,
   // Contact blocks
   CraftContact1,
+  CraftMedicalServices1,
   CraftCounterButton,
   CraftCreditCardForm,
   CraftForm,
@@ -53,6 +54,7 @@ import {
   CraftTab,
   CraftTabPanel,
   CraftCarousel,
+  CraftBlogGrid,
   // Basic blocks
   CraftText,
   CraftTextarea,
@@ -343,6 +345,21 @@ export function EditorSidebar() {
         },
       ],
     },
+    business: {
+      name: "Business Components",
+      icon: (
+        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M4 4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2H4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm0 4a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1z" />
+        </svg>
+      ),
+      items: [
+        {
+          component: CraftBlogGrid,
+          name: "Blog Grid",
+          description: "Display blog posts in a responsive grid layout",
+        },
+      ],
+    },
     base: {
       name: "Base Elements",
       icon: (
@@ -435,6 +452,11 @@ export function EditorSidebar() {
           component: CraftContact1,
           name: "Contact 1",
           description: "Simple contact form",
+        },
+        {
+          component: CraftMedicalServices1,
+          name: "Medical Services",
+          description: "Healthcare services showcase",
         },
       ],
     },
