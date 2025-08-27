@@ -12,6 +12,7 @@ import {
   // Contact blocks
   CraftContact1,
   CraftMedicalServices1,
+  CraftWhyChooseUs1,
   CraftCounterButton,
   CraftCreditCardForm,
   CraftForm,
@@ -61,6 +62,11 @@ import {
   CraftText,
   CraftTextarea,
   CraftVideo,
+  CraftMedicalDoctors1,
+  CraftMedicalTestimonials1,
+  CraftMedicalHero1,
+  CraftMedicalHowItWorks1,
+  CraftMedicalFooter1,
 } from "@/components/editor/craft-components";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -371,6 +377,11 @@ export function EditorSidebar() {
           description: "Gradient hero with call-to-action",
         },
         {
+          component: CraftMedicalHero1,
+          name: "Medical Hero 1",
+          description: "Medical hero with call-to-action",
+        },
+        {
           component: CraftHero2,
           name: "Hero 2",
           description: "Split layout hero section",
@@ -432,9 +443,34 @@ export function EditorSidebar() {
           description: "Simple contact form",
         },
         {
+          component: CraftMedicalHowItWorks1,
+          name: "How it Services",
+          description: "How it works showcase",
+        },
+        {
+          component: CraftMedicalFooter1,
+          name: "Medical Footer 1",
+          description: "Medical footer with contact information",
+        },
+        {
           component: CraftMedicalServices1,
           name: "Medical Services",
           description: "Healthcare services showcase",
+        },
+        {
+          component: CraftWhyChooseUs1,
+          name: "Why Choose Us",
+          description: "Trust and credibility section with features",
+        },
+        {
+          component: CraftMedicalTestimonials1,
+          name: "Medical Testimonials",
+          description: "Showcase of medical testimonials",
+        },
+        {
+          component: CraftMedicalDoctors1,
+          name: "Medical Doctors",
+          description: "Showcase of medical doctors",
         },
         {
           component: CraftBlogGrid,

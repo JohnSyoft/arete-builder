@@ -66,7 +66,13 @@ import { Features2 } from "@/components/blocks/Features/Features2";
 import { Contact1 } from "@/components/blocks/Contact/Contact1";
 // Services blocks
 import { MedicalServices1 } from "@/components/blocks/Services/MedicalServices1";
+import { WhyChooseUs1 } from "@/components/blocks/Services/WhyChooseUs1";
 import { Box } from "../blocks/Basic/Box";
+import { MedicalDoctors1 } from "../blocks/Services/MedicalDoctors1";
+import { MedicalTestimonials1 } from "../blocks/Services/MedicalTestimonials1";
+import { MedicalHero1 } from "../blocks/Hero/MedicalHero1";
+import { MedicalHowItWorks1 } from "../blocks/HowItWorks/MedicalHowItWorks1";
+import { MedicalFooter1 } from "../blocks/Footer/MedicalFooter1";
 // Business components
 // import {
 //   CraftBlogCard,
@@ -277,6 +283,7 @@ export const CraftForm = Form;
 
 // Hero blocks
 export const CraftHero1 = Hero1;
+export const CraftMedicalHero1 = MedicalHero1;
 export const CraftHero2 = Hero2;
 export const CraftHero4 = Hero4;
 export const CraftHeroCarouselSimple = HeroCarouselSimple;
@@ -295,7 +302,11 @@ export const CraftFeatures2 = Features2;
 export const CraftContact1 = Contact1;
 
 export const CraftMedicalServices1 = MedicalServices1;
-
+export const CraftWhyChooseUs1 = WhyChooseUs1;
+export const CraftMedicalDoctors1 = MedicalDoctors1;
+export const CraftMedicalTestimonials1 = MedicalTestimonials1;
+export const CraftMedicalHowItWorks1 = MedicalHowItWorks1;
+export const CraftMedicalFooter1 = MedicalFooter1;
 // Mutable resolver that can be extended with user-created components
 const baseComponentResolver = {
   Container,
@@ -349,6 +360,9 @@ const baseComponentResolver = {
   Form: CraftForm,
   // Hero blocks
   Hero1: CraftHero1,
+  MedicalHero1: CraftMedicalHero1,
+  MedicalHowItWorks1: CraftMedicalHowItWorks1,
+  MedicalFooter1: CraftMedicalFooter1,
   Hero2: CraftHero2,
   Hero4: CraftHero4,
   HeroCarouselSimple: CraftHeroCarouselSimple,
@@ -368,6 +382,9 @@ const baseComponentResolver = {
   Contact1: CraftContact1,
   // Services blocks
   MedicalServices1: CraftMedicalServices1,
+  WhyChooseUs1: CraftWhyChooseUs1,
+  MedicalDoctors1: CraftMedicalDoctors1,
+  MedicalTestimonials1: CraftMedicalTestimonials1,
   // Business components
   // BlogCard: CraftBlogCard,
   // ProductCard: CraftProductCard,
