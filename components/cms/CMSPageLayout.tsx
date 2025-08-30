@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import { useCollections } from "@/hooks/useCollections";
 import { useBulkDeleteCollectionItems } from "@/hooks/useCollectionItems";
 import { useModalStore } from "@/lib/store/modalStore";
+import { useDrawerStore } from "@/lib/store/drawerStore";
 import { CMSTopHeader } from "@/components/cms/CMSTopHeader";
 import { CollectionsSidebar } from "@/components/cms/CollectionsSidebar";
 import { CMSHeader } from "@/components/cms/CMSHeader";
@@ -28,6 +29,7 @@ export default function CMSPage() {
   const projectId = params.projectId as string;
   const { data: collectionsResponse, isLoading } = useCollections(projectId);
   const { openModal } = useModalStore();
+  const { openDrawer } = useDrawerStore();
 
   const [selectedCollection, setSelectedCollection] = useState<string | null>(
     null
@@ -74,7 +76,7 @@ export default function CMSPage() {
 
   const handleCreateItem = () => {
     if (!currentCollection) return;
-    openModal("editCollectionItem", {
+    openDrawer("collectionItem", {
       collection: currentCollection,
       item: null,
       onSave: () => {

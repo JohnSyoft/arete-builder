@@ -24,6 +24,7 @@ import {
   type CollectionItem,
 } from "@/hooks/useCollectionItems";
 import { useModalStore } from "@/lib/store/modalStore";
+import { useDrawerStore } from "@/lib/store/drawerStore";
 import {
   DndContext,
   closestCenter,
@@ -192,6 +193,7 @@ export function ContentTable({
   onSelectionChange,
 }: ContentTableProps) {
   const { openModal } = useModalStore();
+  const { openDrawer } = useDrawerStore();
 
   const { data: itemsResponse, isLoading } = useCollectionItems(
     collection._id,
@@ -261,7 +263,7 @@ export function ContentTable({
   };
 
   const handleEditItem = (item: CollectionItem) => {
-    openModal("editCollectionItem", {
+    openDrawer("collectionItem", {
       collection,
       item,
       onSave: () => {

@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import QueryProvider from "@/components/query-provider";
 import { Modals } from "@/components/dialogs/Modals";
+import { Drawers } from "@/components/cms/Drawers";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -33,6 +34,7 @@ export default function RootLayout({
         <QueryProvider>
           {children}
           <Modals />
+          <Drawers />
         </QueryProvider>
       </body>
     </html>

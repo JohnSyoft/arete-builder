@@ -1,11 +1,16 @@
-"use client"
+"use client";
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
-import React from "react"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 
 export interface ConfirmationDialogProps {
-  open: boolean;
+  isOpen: boolean;
   onClose: () => void;
   title: string;
   message: string;
@@ -14,19 +19,43 @@ export interface ConfirmationDialogProps {
   onConfirm: () => void;
 }
 
-export function ConfirmationDialog({ open, onClose, title, message, confirmText = "Confirm", cancelText = "Cancel", onConfirm }: ConfirmationDialogProps) {
+export function ConfirmationDialog({
+  isOpen,
+  onClose,
+  title,
+  message,
+  confirmText = "Confirm",
+  cancelText = "Cancel",
+  onConfirm,
+}: ConfirmationDialogProps) {
+  console.log({
+    isOpen,
+    onClose,
+    title,
+    message,
+    onConfirm,
+  });
   return (
-    <Dialog open={open} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="bg-card border-border">
         <DialogHeader>
           <DialogTitle className="text-foreground">{title}</DialogTitle>
         </DialogHeader>
         <div className="py-4 text-muted-foreground">{message}</div>
         <DialogFooter>
-          <Button variant="outline" onClick={onClose}>{cancelText}</Button>
-          <Button onClick={() => { onConfirm(); onClose(); }}>{confirmText}</Button>
+          <Button variant="outline" onClick={onClose}>
+            {cancelText}
+          </Button>
+          <Button
+            onClick={() => {
+              onConfirm();
+              onClose();
+            }}
+          >
+            {confirmText}
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
@@ -25,6 +24,7 @@ import {
   useUpdateCollectionItem,
   type CollectionItem,
 } from "@/hooks/useCollectionItems";
+import { SharedFieldRenderer } from "@/components/ui/shared-field-renderer";
 
 interface CollectionItemEditDialogProps {
   isOpen: boolean;
@@ -152,107 +152,18 @@ export function CollectionItemEditDialog({
   const renderField = (field: any) => {
     const value = formData.data[field.name] || "";
 
-    switch (field.type) {
-      case "title":
-      case "text":
-      case "slug":
-        return (
-          <Input
-            value={value}
-            onChange={(e) => handleFieldChange(field.name, e.target.value)}
-            placeholder={field.settings?.placeholder || `Enter ${field.label}`}
-          />
-        );
-
-      case "content":
-      case "plainText":
-        return (
-          <Textarea
-            value={value}
-            onChange={(e) => handleFieldChange(field.name, e.target.value)}
-            placeholder={field.settings?.placeholder || `Enter ${field.label}`}
-            rows={4}
-          />
-        );
-
-      case "number":
-        return (
-          <Input
-            type="number"
-            value={value}
-            onChange={(e) =>
-              handleFieldChange(field.name, parseFloat(e.target.value) || 0)
-            }
-            placeholder={field.settings?.placeholder || `Enter ${field.label}`}
-          />
-        );
-
-      case "date":
-        return (
-          <Input
-            type="date"
-            value={value}
-            onChange={(e) => handleFieldChange(field.name, e.target.value)}
-          />
-        );
-
-      case "toggle":
-        return (
-          <Select
-            value={value ? "true" : "false"}
-            onValueChange={(val) =>
-              handleFieldChange(field.name, val === "true")
-            }
-          >
-            <SelectTrigger>
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="true">Yes</SelectItem>
-              <SelectItem value="false">No</SelectItem>
-            </SelectContent>
-          </Select>
-        );
-
-      case "option":
-        return (
-          <Select
-            value={value}
-            onValueChange={(val) => handleFieldChange(field.name, val)}
-          >
-            <SelectTrigger>
-              <SelectValue
-                placeholder={`Select ${field.label.toLowerCase()}`}
-              />
-            </SelectTrigger>
-            <SelectContent>
-              {field.settings?.options?.map((option: string) => (
-                <SelectItem key={option} value={option}>
-                  {option}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        );
-
-      case "color":
-        return (
-          <Input
-            type="color"
-            value={value}
-            onChange={(e) => handleFieldChange(field.name, e.target.value)}
-          />
-        );
-
-      default:
-        return (
-          <Input
-            value={value}
-            onChange={(e) => handleFieldChange(field.name, e.target.value)}
-            placeholder={field.settings?.placeholder || `Enter ${field.label}`}
-          />
-        );
-    }
+    return (
+      <SharedFieldRenderer
+        field={field}
+        value={value}
+        onChange={(newValue) => handleFieldChange(field.name, newValue)}
+        placeholder={
+          field.settings?.placeholder ||
+          field.placeholder ||
+          `Enter ${field.label || field.name}`
+        }
+      />
+    );
   };
 
   return (
