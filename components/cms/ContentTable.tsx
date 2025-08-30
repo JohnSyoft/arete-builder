@@ -7,6 +7,7 @@ import {
   Plus,
   Edit,
   Trash2,
+  Camera,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -42,6 +43,51 @@ import {
 } from "@dnd-kit/sortable";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { useState } from "react";
+
+// Component to render image thumbnails
+function ImageThumbnail({
+  src,
+  alt = "Image",
+  className = "",
+}: {
+  src: string;
+  alt?: string;
+  className?: string;
+}) {
+  const [imageError, setImageError] = useState(false);
+  const [imageLoading, setImageLoading] = useState(true);
+
+  if (!src || imageError) {
+    return (
+      <div
+        className={`flex items-center justify-center bg-muted rounded ${className}`}
+      >
+        <Camera className="h-3 w-3 text-muted-foreground" />
+      </div>
+    );
+  }
+
+  return (
+    <div className={`relative overflow-hidden rounded ${className}`}>
+      {imageLoading && (
+        <div className="absolute inset-0 flex items-center justify-center bg-muted">
+          <div className="h-2 w-2 bg-muted-foreground/50 rounded-full animate-pulse" />
+        </div>
+      )}
+      <img
+        src={src}
+        alt={alt}
+        className="w-full h-full object-cover"
+        onLoad={() => setImageLoading(false)}
+        onError={() => {
+          setImageError(true);
+          setImageLoading(false);
+        }}
+      />
+    </div>
+  );
+}
 
 interface Collection {
   _id: string;
@@ -116,7 +162,69 @@ function SortableRow({
           (value.length > 50 ? "..." : "")
         );
       case "image":
-        return value ? "📷" : "-";
+        if (Array.isArray(value)) {
+          // Handle gallery/multiple images - show first image + count
+          if (value.length === 0) return "-";
+          return (
+            <div className="flex items-center gap-2">
+              <ImageThumbnail
+                src={value[0]}
+                alt="Image thumbnail"
+                className="w-8 h-8"
+              />
+              {value.length > 1 && (
+                <span className="text-xs text-muted-foreground">
+                  +{value.length - 1}
+                </span>
+              )}
+            </div>
+          );
+        } else {
+          // Handle single image
+          return (
+            <ImageThumbnail
+              src={value}
+              alt="Image thumbnail"
+              className="w-8 h-8"
+            />
+          );
+        }
+      case "gallery":
+        if (Array.isArray(value) && value.length > 0) {
+          return (
+            <div className="flex items-center gap-2">
+              <ImageThumbnail
+                src={value[0]}
+                alt="Gallery thumbnail"
+                className="w-8 h-8"
+              />
+              <span className="text-xs text-muted-foreground">
+                {value.length} {value.length === 1 ? "image" : "images"}
+              </span>
+            </div>
+          );
+        }
+        return "-";
+      case "video":
+        return value ? (
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 bg-muted rounded flex items-center justify-center">
+              <span className="text-xs">🎥</span>
+            </div>
+          </div>
+        ) : (
+          "-"
+        );
+      case "file":
+        return value ? (
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 bg-muted rounded flex items-center justify-center">
+              <span className="text-xs">�</span>
+            </div>
+          </div>
+        ) : (
+          "-"
+        );
       case "color":
         return (
           <div className="flex items-center gap-2">

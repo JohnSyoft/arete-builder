@@ -10,14 +10,12 @@ import { Play, Volume2, VolumeX, Maximize, Download, X } from "lucide-react";
 interface VideoUploadProps {
   value?: string | string[];
   onChange?: (value: string | string[]) => void;
+  onFilesSelected?: (files: File[]) => void;
   multiple?: boolean;
   maxFiles?: number;
   maxSize?: number; // in MB
   className?: string;
   disabled?: boolean;
-  folder?: string;
-  projectId?: string;
-  saveToDatabase?: boolean;
   placeholder?: string;
   variant?: "default" | "compact" | "grid";
   onUploadError?: (error: string) => void;
@@ -175,29 +173,16 @@ function VideoPlayer({ src, onRemove, disabled }: VideoPlayerProps) {
 export function VideoUpload({
   value,
   onChange,
+  onFilesSelected,
   multiple = false,
   maxFiles = 5,
   maxSize = 100, // 100MB for videos
   className,
   disabled = false,
-  folder = "videos",
-  projectId,
-  saveToDatabase = false,
   placeholder,
   variant = "default",
   onUploadError,
 }: VideoUploadProps) {
-  const handleFilesUploaded = (uploadedFiles: any[]) => {
-    const urls = uploadedFiles.map((file) => file.url);
-
-    if (multiple) {
-      const existingUrls = Array.isArray(value) ? value : value ? [value] : [];
-      onChange?.([...existingUrls, ...urls]);
-    } else {
-      onChange?.(urls[0]);
-    }
-  };
-
   const currentVideos = React.useMemo(() => {
     if (!value) return [];
     return Array.isArray(value) ? value : [value];
@@ -240,16 +225,15 @@ export function VideoUpload({
           multiple={multiple}
           maxFiles={maxFiles}
           maxSize={maxSize}
-          onFilesUploaded={handleFilesUploaded}
+          onFilesSelected={onFilesSelected}
           onUploadError={onUploadError}
           disabled={disabled}
-          folder={folder}
-          projectId={projectId}
-          saveToDatabase={saveToDatabase}
           placeholder={
             placeholder || (multiple ? "Upload videos" : "Upload a video")
           }
           variant={variant}
+          value={value}
+          onChange={onChange}
         />
       )}
     </div>

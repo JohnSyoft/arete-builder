@@ -7,19 +7,19 @@ import { Label } from "@/components/ui/label";
 
 interface MediaFieldRendererProps {
   field: {
+    type: "image" | "video" | "gallery" | "file";
     name: string;
-    type: string;
     label?: string;
+    placeholder?: string;
     required?: boolean;
     multiple?: boolean;
     maxFiles?: number;
     maxSize?: number;
     accept?: string;
-    placeholder?: string;
     helpText?: string;
   };
-  value: string | string[];
-  onChange: (value: string | string[]) => void;
+  value: string | string[] | File[];
+  onChange: (value: string | string[] | File[]) => void;
   placeholder?: string;
   projectId?: string;
   disabled?: boolean;
@@ -33,25 +33,39 @@ export function MediaFieldRenderer({
   projectId,
   disabled = false,
 }: MediaFieldRendererProps) {
+  const handleFilesSelected = (files: File[]) => {
+    // Pass selected files to parent component for upload handling
+    onChange(files);
+  };
+
   const handleUploadError = (error: string) => {
     console.error(`Upload error for ${field.name}:`, error);
     // You could show a toast notification here
   };
 
+  // Separate values for display (URLs) and files for upload
+  const displayValue = Array.isArray(value)
+    ? (value.filter((v) => typeof v === "string") as string[])
+    : typeof value === "string"
+    ? value
+    : "";
+
   const renderField = () => {
     const commonProps = {
-      value,
-      onChange,
+      value: displayValue,
+      onChange: (newValue: string | string[]) => {
+        // Handle URL changes (for displaying existing uploaded files)
+        onChange(newValue);
+      },
+      onFilesSelected: handleFilesSelected,
       multiple: field.multiple || false,
       maxFiles: field.maxFiles || 10,
       maxSize: field.maxSize || 10,
       disabled,
-      projectId,
-      saveToDatabase: true,
       placeholder:
         placeholder ||
         field.placeholder ||
-        `Upload ${field.label || field.name}`,
+        `Select ${field.label || field.name}`,
       onUploadError: handleUploadError,
       variant: "grid" as const,
     };
@@ -61,7 +75,6 @@ export function MediaFieldRenderer({
         return (
           <ImageUpload
             {...commonProps}
-            folder={`projects/${projectId}/images`}
             maxSize={field.maxSize || 10} // 10MB for images
           />
         );
@@ -70,7 +83,6 @@ export function MediaFieldRenderer({
         return (
           <VideoUpload
             {...commonProps}
-            folder={`projects/${projectId}/videos`}
             maxSize={field.maxSize || 100} // 100MB for videos
           />
         );
@@ -80,7 +92,6 @@ export function MediaFieldRenderer({
           <ImageUpload
             {...commonProps}
             multiple={true}
-            folder={`projects/${projectId}/gallery`}
             maxSize={field.maxSize || 10}
             variant="grid"
           />
@@ -91,7 +102,6 @@ export function MediaFieldRenderer({
           <FileUpload
             {...commonProps}
             accept={field.accept || "*"}
-            folder={`projects/${projectId}/files`}
             maxSize={field.maxSize || 50} // 50MB for general files
             variant="default"
           />
@@ -102,7 +112,6 @@ export function MediaFieldRenderer({
           <FileUpload
             {...commonProps}
             accept={field.accept || "*"}
-            folder={`projects/${projectId}/uploads`}
             maxSize={field.maxSize || 10}
             variant="compact"
           />

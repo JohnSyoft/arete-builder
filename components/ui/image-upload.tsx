@@ -7,14 +7,12 @@ import { cn } from "@/lib/utils";
 interface ImageUploadProps {
   value?: string | string[];
   onChange?: (value: string | string[]) => void;
+  onFilesSelected?: (files: File[]) => void;
   multiple?: boolean;
   maxFiles?: number;
   maxSize?: number; // in MB
   className?: string;
   disabled?: boolean;
-  folder?: string;
-  projectId?: string;
-  saveToDatabase?: boolean;
   placeholder?: string;
   variant?: "default" | "compact" | "grid";
   onUploadError?: (error: string) => void;
@@ -23,29 +21,16 @@ interface ImageUploadProps {
 export function ImageUpload({
   value,
   onChange,
+  onFilesSelected,
   multiple = false,
   maxFiles = 10,
   maxSize = 10, // 10MB for images
   className,
   disabled = false,
-  folder = "images",
-  projectId,
-  saveToDatabase = false,
   placeholder,
   variant = "default",
   onUploadError,
 }: ImageUploadProps) {
-  const handleFilesUploaded = (uploadedFiles: any[]) => {
-    const urls = uploadedFiles.map((file) => file.url);
-
-    if (multiple) {
-      const existingUrls = Array.isArray(value) ? value : value ? [value] : [];
-      onChange?.([...existingUrls, ...urls]);
-    } else {
-      onChange?.(urls[0]);
-    }
-  };
-
   const currentImages = React.useMemo(() => {
     if (!value) return [];
     return Array.isArray(value) ? value : [value];
@@ -114,16 +99,15 @@ export function ImageUpload({
           multiple={multiple}
           maxFiles={maxFiles}
           maxSize={maxSize}
-          onFilesUploaded={handleFilesUploaded}
+          onFilesSelected={onFilesSelected}
           onUploadError={onUploadError}
           disabled={disabled}
-          folder={folder}
-          projectId={projectId}
-          saveToDatabase={saveToDatabase}
           placeholder={
             placeholder || (multiple ? "Upload images" : "Upload an image")
           }
           variant={variant}
+          value={value}
+          onChange={onChange}
         />
       )}
     </div>

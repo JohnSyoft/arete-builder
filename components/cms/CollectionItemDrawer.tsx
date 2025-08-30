@@ -34,6 +34,8 @@ import {
   createCollectionItemSchema,
   type CollectionItemFormData,
 } from "@/lib/validations/collection-items";
+import { useUpload } from "@/hooks/useUpload";
+import { toast } from "sonner";
 
 interface CollectionItemDrawerProps {
   isOpen: boolean;
@@ -55,10 +57,70 @@ export function CollectionItemDrawer({
   onSave,
 }: CollectionItemDrawerProps) {
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const [selectedFiles, setSelectedFiles] = useState<Record<string, File[]>>(
+    {}
+  );
+  const [uploadProgress, setUploadProgress] = useState<Record<string, number>>(
+    {}
+  );
+  const [isUploading, setIsUploading] = useState(false);
+
+  // Initialize upload hook
+  const { upload } = useUpload({
+    projectId: collection._id,
+    saveToDatabase: true,
+  });
+
+  // Helper function to upload files with field-specific progress tracking
+  const uploadFilesForField = async (fieldName: string, files: File[]) => {
+    // Set initial progress
+    setUploadProgress((prev) => ({
+      ...prev,
+      [fieldName]: 0,
+    }));
+
+    try {
+      // Simulate progress updates since useUpload doesn't expose real-time progress
+      const progressInterval = setInterval(() => {
+        setUploadProgress((prev) => {
+          const currentProgress = prev[fieldName] || 0;
+          if (currentProgress < 90) {
+            return {
+              ...prev,
+              [fieldName]: Math.min(currentProgress + 10, 90),
+            };
+          }
+          return prev;
+        });
+      }, 200);
+
+      // Start upload
+      const result = await upload(files);
+      //   console.log({ result });
+      // Clear interval and set to 100%
+      clearInterval(progressInterval);
+      setUploadProgress((prev) => ({
+        ...prev,
+        [fieldName]: 100,
+      }));
+
+      return result;
+    } catch (error) {
+      console.log(error, "E");
+      // Clear progress on error
+      setUploadProgress((prev) => {
+        const newProgress = { ...prev };
+        delete newProgress[fieldName];
+        return newProgress;
+      });
+      throw error;
+    }
+  };
 
   const createMutation = useCreateCollectionItem();
   const updateMutation = useUpdateCollectionItem();
-  const isLoading = createMutation.isPending || updateMutation.isPending;
+  const isLoading =
+    createMutation.isPending || updateMutation.isPending || isUploading;
   const { openModal } = useModalStore();
 
   // Create dynamic validation schema based on collection fields
@@ -311,25 +373,89 @@ export function CollectionItemDrawer({
 
   const onSubmit = async (data: CollectionItemFormData) => {
     try {
+      setIsUploading(true);
+      // Handle file uploads for media fields
+      const updatedData = { ...data };
+      const mediaFields =
+        collection.fields?.filter((field) =>
+          ["image", "video", "gallery", "file"].includes(field.type)
+        ) || [];
+      for (const field of mediaFields) {
+        const fieldFiles = selectedFiles[field.name];
+        if (fieldFiles && fieldFiles.length > 0) {
+          try {
+            // Use the upload helper function with progress tracking
+            const uploadedFiles = await uploadFilesForField(
+              field.name,
+              fieldFiles
+            );
+            console.log({ uploadedFiles });
+
+            // Update form data with uploaded URLs
+            if (uploadedFiles) {
+              const urls = uploadedFiles.map((file: any) => file.url);
+              if (field.type === "gallery" || field.multiple) {
+                // For gallery/multiple fields, append to existing URLs
+                const existingUrls = Array.isArray(updatedData.data[field.name])
+                  ? updatedData.data[field.name]
+                  : updatedData.data[field.name]
+                  ? [updatedData.data[field.name]]
+                  : [];
+                updatedData.data[field.name] = [...existingUrls, ...urls];
+              } else {
+                // For single fields, use the first URL
+                updatedData.data[field.name] = urls[0] || "";
+              }
+
+              toast.success(
+                `Successfully uploaded ${fieldFiles.length} file(s) for ${
+                  field.label || field.name
+                }`
+              );
+            }
+          } catch (uploadError: any) {
+            console.log(uploadError, "ERRO");
+            // console.error(
+            //   `Upload failed for field ${field.name}:`,
+            //   uploadError
+            // );
+            toast.error(
+              `Failed to upload files for ${field.label || field.name}: ${
+                uploadError.message
+              }`
+            );
+            throw uploadError;
+          }
+        }
+      }
+
+      setIsUploading(false);
+      console.log({ item });
+      // Save the collection item with uploaded file URLs
       if (item) {
         await updateMutation.mutateAsync({
           _id: item._id,
-          data: data.data,
-          status: data.status,
-          slug: data.slug,
+          data: updatedData.data,
+          status: updatedData.status,
+          slug: updatedData.slug,
         });
       } else {
         await createMutation.mutateAsync({
           collectionId: collection._id,
-          data: data,
+          data: updatedData,
         });
       }
 
+      // Clear selected files and reset upload progress
+      setSelectedFiles({});
+      setUploadProgress({});
       onSave?.();
       setHasUnsavedChanges(false);
       onClose();
     } catch (error) {
       console.error("Failed to save item:", error);
+      setIsUploading(false);
+      setUploadProgress({});
     }
   };
 
@@ -357,6 +483,19 @@ export function CollectionItemDrawer({
   };
 
   const handleFieldChange = (fieldName: string, value: any) => {
+    // Handle file selection for media fields
+    if (
+      value instanceof FileList ||
+      (Array.isArray(value) && value[0] instanceof File)
+    ) {
+      const files = Array.isArray(value) ? value : Array.from(value);
+      setSelectedFiles((prev) => ({
+        ...prev,
+        [fieldName]: files,
+      }));
+      return;
+    }
+
     setValue(`data.${fieldName}`, value);
 
     // Auto-generate slug from title field
@@ -412,6 +551,10 @@ export function CollectionItemDrawer({
     // Handle media fields (image, video, gallery, file)
     // MediaFieldRenderer handles its own label, so we return it directly
     if (["image", "video", "gallery", "file"].includes(field.type)) {
+      const fieldFiles = selectedFiles[field.name];
+      const hasFilesToUpload = fieldFiles && fieldFiles.length > 0;
+      const uploadPercentage = uploadProgress[field.name];
+
       return (
         <div className="space-y-1">
           <MediaFieldRenderer
@@ -420,9 +563,53 @@ export function CollectionItemDrawer({
             onChange={(newValue: any) =>
               handleFieldChange(field.name, newValue)
             }
-            placeholder={field.placeholder || `Upload ${field.name}`}
+            placeholder={field.placeholder || `Select ${field.name}`}
             projectId={collection._id}
           />
+
+          {/* Show selected files for upload */}
+          {/* {hasFilesToUpload && (
+            <div className="mt-2 p-3 bg-muted/50 rounded-lg">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm font-medium">
+                  {fieldFiles.length} file(s) selected for upload
+                </span>
+                {uploadPercentage !== undefined && (
+                  <span className="text-xs text-muted-foreground">
+                    {uploadPercentage}%
+                  </span>
+                )}
+              </div>
+
+              {uploadPercentage !== undefined && (
+                <div className="w-full bg-muted rounded-full h-1.5 mb-2">
+                  <div
+                    className="bg-primary h-1.5 rounded-full transition-all duration-300"
+                    style={{ width: `${uploadPercentage}%` }}
+                  />
+                </div>
+              )}
+
+              <div className="space-y-1">
+                {fieldFiles.slice(0, 3).map((file, index) => (
+                  <div
+                    key={index}
+                    className="text-xs text-muted-foreground flex items-center gap-2"
+                  >
+                    <Upload className="w-3 h-3" />
+                    <span className="truncate">{file.name}</span>
+                    <span>({(file.size / 1024 / 1024).toFixed(2)} MB)</span>
+                  </div>
+                ))}
+                {fieldFiles.length > 3 && (
+                  <div className="text-xs text-muted-foreground">
+                    ...and {fieldFiles.length - 3} more file(s)
+                  </div>
+                )}
+              </div>
+            </div>
+          )} */}
+
           {fieldError && (
             <p className="text-sm text-destructive">
               {String(fieldError.message || fieldError)}
@@ -557,9 +744,36 @@ export function CollectionItemDrawer({
               {(isLoading || isSubmitting) && (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               )}
-              {item ? "Update" : "Create"}
+              {isUploading ? "Uploading..." : item ? "Update" : "Create"}
             </Button>
           </div>
+
+          {/* Upload Progress Summary */}
+          {isUploading && Object.keys(uploadProgress).length > 0 && (
+            <div className="mt-4 p-4 bg-muted/50 rounded-lg">
+              <h4 className="text-sm font-medium mb-2">Upload Progress</h4>
+              <div className="space-y-2">
+                {Object.entries(uploadProgress).map(([fieldName, progress]) => {
+                  const field = collection.fields?.find(
+                    (f) => f.name === fieldName
+                  );
+                  return (
+                    <div
+                      key={fieldName}
+                      className="flex items-center justify-between"
+                    >
+                      <span className="text-sm">
+                        {field?.label || fieldName}
+                      </span>
+                      <span className="text-sm text-muted-foreground">
+                        {progress}%
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </form>
       </SheetContent>
     </Sheet>
