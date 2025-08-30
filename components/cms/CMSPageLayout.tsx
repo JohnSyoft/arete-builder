@@ -49,6 +49,7 @@ export default function CMSPage() {
     openModal("createEditCollection", {
       projectId,
       collection: null,
+      mode: "create",
       onSave: () => {
         window.location.reload();
       },
@@ -156,7 +157,7 @@ export default function CMSPage() {
               />
 
               <div className="flex-1 overflow-auto">
-                <div className="p-0">
+                <div className="p-0 min-h-0">
                   {currentCollection.fields &&
                   currentCollection.fields.length > 0 ? (
                     <ContentTable

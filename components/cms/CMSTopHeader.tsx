@@ -1,8 +1,10 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Home, Edit3, Settings, Database, Plus } from "lucide-react";
+import { Home, Settings, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { Database, Layout } from "../icons";
+import { useProject } from "@/hooks/useProjects";
 
 interface Collection {
   _id: string;
@@ -40,87 +42,79 @@ export function CMSTopHeader({
   const handleBackToDashboard = () => {
     router.push("/dashboard");
   };
+  const {
+    data: projectResponse,
+    isLoading: projectLoading,
+    error: projectError,
+  } = useProject(projectId);
 
   return (
-    <div className="w-full border-b bg-background shadow-sm">
-      <div className="flex items-center justify-between px-6 py-3">
-        {/* Left side - Navigation */}
-        <div className="flex items-center space-x-4">
+    <div className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6">
+      <div className="flex items-center space-x-4">
+        {/* Back to Dashboard Button */}
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={handleBackToDashboard}
+          className="text-gray-600 hover:text-gray-900"
+          title="Back to Dashboard"
+        >
+          <Home className="w-4 h-4" />
+        </Button>
+        <h1 className="font-semibold text-gray-900">
+          {projectResponse?.data?.project?.name}
+        </h1>
+
+        {/* Mode Toggle */}
+        <div className="flex items-center space-x-1 bg-gray-100 rounded-lg p-1">
           <Button
             variant="ghost"
             size="sm"
-            onClick={handleBackToDashboard}
-            className="text-muted-foreground hover:text-foreground"
+            className={`h-8 px-3 text-xs ${
+              currentMode === "design" ? "bg-white shadow-sm" : ""
+            }`}
+            onClick={() => handleBackToEditor()}
+            title="Design Mode"
           >
-            <Home className="mr-2 h-4 w-4" />
-            Dashboard
+            <Layout className="w-3 h-3 mr-1" />
+            Design
           </Button>
-          <div className="h-4 w-px bg-border"></div>
           <Button
             variant="ghost"
             size="sm"
-            onClick={handleBackToEditor}
-            className="text-muted-foreground hover:text-foreground"
+            className={`h-8 px-3 text-xs ${
+              currentMode === "cms" ? "bg-white shadow-sm" : ""
+            }`}
+            onClick={() => onModeChange("cms")}
+            title="CMS Mode"
           >
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Editor
+            <Database className="w-3 h-3 mr-1" />
+            CMS
           </Button>
         </div>
+      </div>
 
-        {/* Center - Collection Info and Mode Toggle */}
-        <div className="flex items-center space-x-6">
-          {/* {collection && (
-            <div className="text-center">
-              <h1 className="text-lg font-semibold">{collection.name}</h1>
-              <p className="text-xs text-muted-foreground">
-                {collection.description}
-              </p>
-            </div>
-          )} */}
-          <div className="flex items-center bg-muted rounded-lg p-1">
-            <Button
-              variant={currentMode === "design" ? "default" : "ghost"}
-              size="sm"
-              onClick={() => handleBackToEditor()}
-              className="rounded-md"
-            >
-              <Edit3 className="mr-2 h-4 w-4" />
-              Design
+      <div className="flex items-center space-x-2">
+        {/* Collection Actions */}
+        {collection ? (
+          <>
+            <Button size="sm" onClick={onCreateItem}>
+              <Plus className="mr-2 h-4 w-4" />
+              Add Item
             </Button>
-            <Button
-              variant={currentMode === "cms" ? "default" : "ghost"}
-              size="sm"
-              onClick={() => onModeChange("cms")}
-              className="rounded-md"
-            >
-              <Database className="mr-2 h-4 w-4" />
-              CMS
+            <Button variant="outline" size="sm" onClick={onManageFields}>
+              <Settings className="mr-2 h-4 w-4" />
+              Manage Fields
             </Button>
-          </div>
-        </div>
-
-        {/* Right side - Collection Actions */}
-        <div className="flex items-center space-x-2">
-          {collection ? (
-            <>
-              <Button size="sm" onClick={onCreateItem}>
-                <Plus className="mr-2 h-4 w-4" />
-                Add Item
-              </Button>
-              <Button variant="outline" size="sm" onClick={onManageFields}>
-                <Settings className="mr-2 h-4 w-4" />
-                Manage Fields
-              </Button>
-              <Button variant="outline" size="sm" onClick={onEditCollection}>
-                Edit Collection
-              </Button>
-            </>
-          ) : (
-            <Button variant="ghost" size="sm">
-              <Settings className="h-4 w-4" />
+            <Button variant="outline" size="sm" onClick={onEditCollection}>
+              Edit Collection
             </Button>
-          )}
-        </div>
+          </>
+        ) : (
+          <Button variant="ghost" size="sm">
+            <Settings className="h-4 w-4" />
+          </Button>
+        )}
       </div>
     </div>
   );

@@ -14,11 +14,15 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Field } from "@/hooks/useCollections";
 import { fieldTypes, DefaultValueField } from "./";
+import { UseFormRegister, FieldErrors, UseFormSetValue } from "react-hook-form";
+import { FieldFormData } from "@/lib/validations/fields";
 
 interface FieldEditorProps {
   field: Field | null;
-  formData: any;
-  onFormDataChange: (data: any) => void;
+  register: UseFormRegister<FieldFormData>;
+  formData: FieldFormData;
+  errors: FieldErrors<FieldFormData>;
+  setValue: UseFormSetValue<FieldFormData>;
   onSubmit: (e: React.FormEvent) => void;
   onCancel: () => void;
   allCollections?: any[];
@@ -27,8 +31,10 @@ interface FieldEditorProps {
 
 export function FieldEditor({
   field,
+  register,
   formData,
-  onFormDataChange,
+  errors,
+  setValue,
   onSubmit,
   onCancel,
   allCollections = [],
@@ -46,7 +52,6 @@ export function FieldEditor({
     <div className="flex-1 flex flex-col overflow-hidden">
       <div className="space-y-6 overflow-y-auto">
         {/* Field Header */}
-     
 
         <form onSubmit={onSubmit} className="space-y-4">
           {/* Basic Information */}
@@ -55,20 +60,21 @@ export function FieldEditor({
               <label className="text-sm font-medium">Field Name</label>
               <Input
                 placeholder="e.g., Title, Description"
-                value={formData.name}
-                onChange={(e) =>
-                  onFormDataChange({ ...formData, name: e.target.value })
-                }
+                {...register("name")}
+                aria-invalid={errors.name ? "true" : "false"}
               />
+              {errors.name && (
+                <p className="text-sm text-destructive">
+                  {errors.name.message}
+                </p>
+              )}
             </div>
 
             <div className="space-y-1.5">
               <label className="text-sm font-medium">Field Type</label>
               <Select
                 value={formData.type}
-                onValueChange={(value) =>
-                  onFormDataChange({ ...formData, type: value })
-                }
+                onValueChange={(value) => setValue("type", value)}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Select field type" />
@@ -92,6 +98,11 @@ export function FieldEditor({
                   })}
                 </SelectContent>
               </Select>
+              {errors.type && (
+                <p className="text-sm text-destructive">
+                  {errors.type.message}
+                </p>
+              )}
             </div>
           </div>
 
@@ -103,14 +114,14 @@ export function FieldEditor({
               placeholder="Describe what this field is for..."
               className="resize-none"
               rows={2}
-              value={formData.description}
-              onChange={(e) =>
-                onFormDataChange({
-                  ...formData,
-                  description: e.target.value,
-                })
-              }
+              {...register("description")}
+              aria-invalid={errors.description ? "true" : "false"}
             />
+            {errors.description && (
+              <p className="text-sm text-destructive">
+                {errors.description.message}
+              </p>
+            )}
           </div>
 
           {/* Field Options */}
@@ -128,9 +139,7 @@ export function FieldEditor({
                 </div>
                 <Switch
                   checked={formData.required}
-                  onCheckedChange={(checked) =>
-                    onFormDataChange({ ...formData, required: checked })
-                  }
+                  onCheckedChange={(checked) => setValue("required", checked)}
                 />
               </div>
 
@@ -145,9 +154,7 @@ export function FieldEditor({
                   </div>
                   <Switch
                     checked={formData.textArea}
-                    onCheckedChange={(checked) =>
-                      onFormDataChange({ ...formData, textArea: checked })
-                    }
+                    onCheckedChange={(checked) => setValue("textArea", checked)}
                   />
                 </div>
               )}
@@ -160,14 +167,14 @@ export function FieldEditor({
                   <label className="text-sm font-medium">Placeholder</label>
                   <Input
                     placeholder="Enter placeholder text..."
-                    value={formData.placeholder}
-                    onChange={(e) =>
-                      onFormDataChange({
-                        ...formData,
-                        placeholder: e.target.value,
-                      })
-                    }
+                    {...register("placeholder")}
+                    aria-invalid={errors.placeholder ? "true" : "false"}
                   />
+                  {errors.placeholder && (
+                    <p className="text-sm text-destructive">
+                      {errors.placeholder.message}
+                    </p>
+                  )}
                 </div>
 
                 <div className="space-y-1.5">
@@ -175,14 +182,14 @@ export function FieldEditor({
                   <Input
                     type="number"
                     placeholder="0"
-                    value={formData.maxLength}
-                    onChange={(e) =>
-                      onFormDataChange({
-                        ...formData,
-                        maxLength: e.target.value,
-                      })
-                    }
+                    {...register("maxLength")}
+                    aria-invalid={errors.maxLength ? "true" : "false"}
                   />
+                  {errors.maxLength && (
+                    <p className="text-sm text-destructive">
+                      {errors.maxLength.message}
+                    </p>
+                  )}
                 </div>
               </div>
             )}
@@ -192,7 +199,16 @@ export function FieldEditor({
               <DefaultValueField
                 fieldType={formData.type}
                 formData={formData}
-                onFormDataChange={onFormDataChange}
+                onFormDataChange={(data) => {
+                  // For now, we'll handle this in a simple way
+                  setValue("defaultValue", data.defaultValue || "");
+                  if (data.options) {
+                    setValue("options", data.options);
+                  }
+                  if (data.referenceCollection) {
+                    setValue("referenceCollection", data.referenceCollection);
+                  }
+                }}
                 allCollections={allCollections}
               />
             </div>

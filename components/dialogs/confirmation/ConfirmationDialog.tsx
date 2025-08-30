@@ -28,13 +28,6 @@ export function ConfirmationDialog({
   cancelText = "Cancel",
   onConfirm,
 }: ConfirmationDialogProps) {
-  console.log({
-    isOpen,
-    onClose,
-    title,
-    message,
-    onConfirm,
-  });
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="bg-card border-border">

@@ -19,7 +19,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { convertHtmlToCraftComponent } from "@/lib/utils/html-to-craft-converter";
 
 interface CreateBlockDialogProps {
-  open: boolean;
+  isOpen: boolean;
   onClose: () => void;
   onCreateBlock?: (blockData: {
     name: string;
@@ -30,7 +30,7 @@ interface CreateBlockDialogProps {
 }
 
 export function CreateBlockDialog({
-  open,
+  isOpen,
   onClose,
   onCreateBlock,
 }: CreateBlockDialogProps) {
@@ -126,7 +126,7 @@ export function CreateBlockDialog({
 </div>`;
 
   return (
-    <Dialog open={open} onOpenChange={handleClose}>
+    <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Create Custom Block</DialogTitle>

@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { Trash2 } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Dialog,
   DialogContent,
@@ -20,6 +22,8 @@ import {
 import { useCollections } from "@/hooks/useCollections";
 import { toast } from "sonner";
 import { FieldsList, FieldTypeSelector, FieldEditor } from "./manage-fields";
+import { useModalStore } from "@/lib/store/modalStore";
+import { fieldSchema, type FieldFormData } from "@/lib/validations/fields";
 
 interface ManageFieldsDialogProps {
   isOpen: boolean;
@@ -34,24 +38,38 @@ export function ManageFieldsDialog({
 }: ManageFieldsDialogProps) {
   const [editingField, setEditingField] = useState<Field | null>(null);
   const [selectedFieldId, setSelectedFieldId] = useState<string | null>(null);
-  const [formData, setFormData] = useState({
-    id: "",
-    name: "",
-    type: "plainText",
-    description: "",
-    required: false,
-    textArea: false,
-    localization: false,
-    placeholder: "",
-    maxLength: "",
-    defaultValue: "",
-    referenceCollection: "",
-    options: [] as string[],
-  });
 
   const addFieldMutation = useAddField();
   const updateFieldMutation = useUpdateField();
   const removeFieldMutation = useRemoveField();
+  const { closeModal } = useModalStore();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    watch,
+    setValue,
+    reset,
+  } = useForm<FieldFormData>({
+    resolver: yupResolver(fieldSchema),
+    defaultValues: {
+      id: "",
+      name: "",
+      type: "plainText",
+      description: "",
+      required: false,
+      textArea: false,
+      localization: false,
+      placeholder: "",
+      maxLength: "",
+      defaultValue: "",
+      referenceCollection: "",
+      options: [],
+    },
+  });
+
+  const formData = watch();
 
   // Get all collections for reference fields
   const { data: allCollectionsResponse } = useCollections(
@@ -135,7 +153,7 @@ export function ManageFieldsDialog({
       const createdFieldId = result?.data?.field?.id || fieldData.id;
 
       // Set up form data for immediate editing
-      setFormData({
+      reset({
         ...newField,
         id: createdFieldId,
       });
@@ -152,7 +170,7 @@ export function ManageFieldsDialog({
   // Update form data when selected field changes
   useEffect(() => {
     if (selectedField) {
-      setFormData({
+      reset({
         id: selectedField.id,
         name: selectedField.name,
         type: selectedField.type,
@@ -167,7 +185,7 @@ export function ManageFieldsDialog({
         options: selectedField.options?.map((opt: any) => opt.value) || [],
       });
     }
-  }, [selectedField]);
+  }, [selectedField, reset]);
 
   // Auto-select first field when collection changes
   useEffect(() => {
@@ -199,19 +217,16 @@ export function ManageFieldsDialog({
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!formData.name.trim()) {
+  const onSubmit = async (data: FieldFormData) => {
+    if (!data.name.trim()) {
       toast.error("Field name is required");
       return;
     }
 
     // Validate reference fields
     if (
-      (formData.type === "reference" || formData.type === "multiReference") &&
-      (!formData.referenceCollection ||
-        formData.referenceCollection.trim() === "")
+      (data.type === "reference" || data.type === "multiReference") &&
+      (!data.referenceCollection || data.referenceCollection.trim() === "")
     ) {
       toast.error("Reference fields must specify a reference collection");
       return;
@@ -221,33 +236,33 @@ export function ManageFieldsDialog({
       // Prepare field data for backend
       let fieldData: any = {
         id: selectedFieldId || editingField?.id || crypto.randomUUID(),
-        name: formData.name.trim(),
-        type: formData.type as Field["type"],
-        required: formData.required,
+        name: data.name.trim(),
+        type: data.type as Field["type"],
+        required: data.required,
       };
 
-      if (formData.description?.trim()) {
-        fieldData.description = formData.description;
+      if (data.description?.trim()) {
+        fieldData.description = data.description;
       }
 
-      if (formData.placeholder?.trim()) {
-        fieldData.placeholder = formData.placeholder;
+      if (data.placeholder?.trim()) {
+        fieldData.placeholder = data.placeholder;
       }
 
-      if (formData.maxLength && parseInt(formData.maxLength) > 0) {
-        fieldData.maxLength = parseInt(formData.maxLength);
+      if (data.maxLength && parseInt(data.maxLength) > 0) {
+        fieldData.maxLength = parseInt(data.maxLength);
       }
 
-      if (formData.defaultValue?.trim()) {
-        fieldData.defaultValue = formData.defaultValue;
+      if (data.defaultValue?.trim()) {
+        fieldData.defaultValue = data.defaultValue;
       }
 
-      if (formData.referenceCollection?.trim()) {
-        fieldData.referenceCollection = formData.referenceCollection;
+      if (data.referenceCollection?.trim()) {
+        fieldData.referenceCollection = data.referenceCollection;
       }
 
-      if (formData.options && formData.options.length > 0) {
-        fieldData.options = formData.options.map((opt) => ({
+      if (data.options && data.options.length > 0) {
+        fieldData.options = data.options.map((opt) => ({
           label: opt,
           value: opt,
         }));
@@ -259,6 +274,7 @@ export function ManageFieldsDialog({
           fieldId: selectedFieldId || editingField!.id,
           field: fieldData,
         });
+        closeModal();
         toast.success("Field updated successfully");
       } else {
         await addFieldMutation.mutateAsync({
@@ -285,7 +301,7 @@ export function ManageFieldsDialog({
     } else {
       setSelectedFieldId(null);
       setEditingField(null);
-      setFormData({
+      reset({
         id: "",
         name: "",
         type: "plainText",
@@ -350,13 +366,17 @@ export function ManageFieldsDialog({
           <div className="flex-1 py-4 overflow-scroll">
             <FieldEditor
               field={selectedField}
+              register={register}
               formData={formData}
-              onFormDataChange={setFormData}
-              onSubmit={handleSubmit}
+              errors={errors}
+              setValue={setValue}
+              onSubmit={handleSubmit(onSubmit)}
               onCancel={handleCancel}
               allCollections={allCollectionsResponse?.collections || []}
               isLoading={
-                addFieldMutation.isPending || updateFieldMutation.isPending
+                addFieldMutation.isPending ||
+                updateFieldMutation.isPending ||
+                isSubmitting
               }
             />
           </div>

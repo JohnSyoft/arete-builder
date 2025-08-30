@@ -1,32 +1,71 @@
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useState } from "react";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { ImageUpload } from "@/components/ui/image-upload";
+import { Button } from "@/components/ui/button";
+import { Link } from "lucide-react";
 
 interface ImagePropertiesProps {
-  elementProps: any
-  onPropChange: (key: string, value: any) => void
+  elementProps: any;
+  onPropChange: (key: string, value: any) => void;
 }
 
-export function ImageProperties({ elementProps, onPropChange }: ImagePropertiesProps) {
+export function ImageProperties({
+  elementProps,
+  onPropChange,
+}: ImagePropertiesProps) {
+  const [showManualInput, setShowManualInput] = useState(false);
+
   return (
     <div className="space-y-4">
       <div>
-        <Label htmlFor="src">Image URL</Label>
-        <Input
-          id="src"
-          value={elementProps?.src || ''}
-          onChange={(e) => onPropChange('src', e.target.value)}
-          placeholder="https://example.com/image.jpg"
-          className="mt-1"
-        />
+        <div className="flex items-center justify-between mb-2">
+          <Label htmlFor="src">Image</Label>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setShowManualInput(!showManualInput)}
+            className="text-xs"
+          >
+            <Link className="w-3 h-3 mr-1" />
+            {showManualInput ? "Upload" : "URL"}
+          </Button>
+        </div>
+
+        {showManualInput ? (
+          <Input
+            id="src"
+            value={elementProps?.src || ""}
+            onChange={(e) => onPropChange("src", e.target.value)}
+            placeholder="https://example.com/image.jpg"
+            className="mt-1"
+          />
+        ) : (
+          <ImageUpload
+            value={elementProps?.src || ""}
+            onChange={(url) => onPropChange("src", url)}
+            multiple={false}
+            maxFiles={1}
+            placeholder="Upload an image"
+            variant="compact"
+            folder="editor/images"
+          />
+        )}
       </div>
 
       <div>
         <Label htmlFor="alt">Alt Text</Label>
         <Input
           id="alt"
-          value={elementProps?.alt || ''}
-          onChange={(e) => onPropChange('alt', e.target.value)}
+          value={elementProps?.alt || ""}
+          onChange={(e) => onPropChange("alt", e.target.value)}
           placeholder="Describe the image"
           className="mt-1"
         />
@@ -36,8 +75,8 @@ export function ImageProperties({ elementProps, onPropChange }: ImagePropertiesP
         <Label htmlFor="width">Width</Label>
         <Input
           id="width"
-          value={elementProps?.width || '300px'}
-          onChange={(e) => onPropChange('width', e.target.value)}
+          value={elementProps?.width || "300px"}
+          onChange={(e) => onPropChange("width", e.target.value)}
           placeholder="300px, 100%, auto"
           className="mt-1"
         />
@@ -47,8 +86,8 @@ export function ImageProperties({ elementProps, onPropChange }: ImagePropertiesP
         <Label htmlFor="height">Height</Label>
         <Input
           id="height"
-          value={elementProps?.height || '200px'}
-          onChange={(e) => onPropChange('height', e.target.value)}
+          value={elementProps?.height || "200px"}
+          onChange={(e) => onPropChange("height", e.target.value)}
           placeholder="200px, auto, 100%"
           className="mt-1"
         />
@@ -56,7 +95,10 @@ export function ImageProperties({ elementProps, onPropChange }: ImagePropertiesP
 
       <div>
         <Label htmlFor="objectFit">Object Fit</Label>
-        <Select value={elementProps?.objectFit || 'object-cover'} onValueChange={(value) => onPropChange('objectFit', value)}>
+        <Select
+          value={elementProps?.objectFit || "object-cover"}
+          onValueChange={(value) => onPropChange("objectFit", value)}
+        >
           <SelectTrigger className="mt-1">
             <SelectValue />
           </SelectTrigger>
@@ -72,7 +114,10 @@ export function ImageProperties({ elementProps, onPropChange }: ImagePropertiesP
 
       <div>
         <Label htmlFor="borderRadius">Border Radius</Label>
-        <Select value={elementProps?.borderRadius || 'rounded-lg'} onValueChange={(value) => onPropChange('borderRadius', value)}>
+        <Select
+          value={elementProps?.borderRadius || "rounded-lg"}
+          onValueChange={(value) => onPropChange("borderRadius", value)}
+        >
           <SelectTrigger className="mt-1">
             <SelectValue />
           </SelectTrigger>
@@ -89,7 +134,10 @@ export function ImageProperties({ elementProps, onPropChange }: ImagePropertiesP
 
       <div>
         <Label htmlFor="margin">Margin</Label>
-        <Select value={elementProps?.margin || 'my-2'} onValueChange={(value) => onPropChange('margin', value)}>
+        <Select
+          value={elementProps?.margin || "my-2"}
+          onValueChange={(value) => onPropChange("margin", value)}
+        >
           <SelectTrigger className="mt-1">
             <SelectValue />
           </SelectTrigger>
@@ -107,7 +155,10 @@ export function ImageProperties({ elementProps, onPropChange }: ImagePropertiesP
 
       <div>
         <Label htmlFor="padding">Padding</Label>
-        <Select value={elementProps?.padding || 'p-0'} onValueChange={(value) => onPropChange('padding', value)}>
+        <Select
+          value={elementProps?.padding || "p-0"}
+          onValueChange={(value) => onPropChange("padding", value)}
+        >
           <SelectTrigger className="mt-1">
             <SelectValue />
           </SelectTrigger>
@@ -121,5 +172,5 @@ export function ImageProperties({ elementProps, onPropChange }: ImagePropertiesP
         </Select>
       </div>
     </div>
-  )
+  );
 }

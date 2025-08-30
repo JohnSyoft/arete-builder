@@ -35,7 +35,7 @@ const pageSchema = yup.object({
 type PageFormData = yup.InferType<typeof pageSchema>
 
 export interface CreateEditPageDialogProps {
-  open: boolean
+  isOpen: boolean
   onClose: () => void
   page?: Page | null
   projectId: string
@@ -45,7 +45,7 @@ export interface CreateEditPageDialogProps {
 }
 
 export function CreateEditPageDialog({
-  open,
+  isOpen,
   onClose,
   page,
   projectId,
@@ -89,7 +89,7 @@ export function CreateEditPageDialog({
 
   // Reset form when dialog opens/closes or page changes
   useEffect(() => {
-    if (open) {
+    if (isOpen) {
       if (isEditing && page) {
         reset({
           name: page.name || "",
@@ -104,7 +104,7 @@ export function CreateEditPageDialog({
         })
       }
     }
-  }, [open, isEditing, page, reset])
+  }, [isOpen, isEditing, page, reset])
 
   // Auto-generate slug from name (only for new pages)
   useEffect(() => {
@@ -163,7 +163,7 @@ export function CreateEditPageDialog({
   const isFormValid = isValid && !isDuplicateSlug
 
   return (
-    <Dialog open={open} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="bg-card border-border max-w-md">
         <DialogHeader>
           <DialogTitle className="text-foreground">

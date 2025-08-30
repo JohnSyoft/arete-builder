@@ -1,40 +1,108 @@
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useState } from "react";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { VideoUpload } from "@/components/ui/video-upload";
+import { ImageUpload } from "@/components/ui/image-upload";
+import { Button } from "@/components/ui/button";
+import { Link } from "lucide-react";
 
 interface VideoPropertiesProps {
-  elementProps: any
-  onPropChange: (key: string, value: any) => void
+  elementProps: any;
+  onPropChange: (key: string, value: any) => void;
 }
 
-export function VideoProperties({ elementProps, onPropChange }: VideoPropertiesProps) {
+export function VideoProperties({
+  elementProps,
+  onPropChange,
+}: VideoPropertiesProps) {
+  const [showManualInput, setShowManualInput] = useState(false);
+  const [showPosterManualInput, setShowPosterManualInput] = useState(false);
+
   return (
     <div className="space-y-4">
       <div>
-        <Label htmlFor="videoSrc">Video URL</Label>
-        <Input
-          id="videoSrc"
-          value={elementProps?.src || ''}
-          onChange={(e) => onPropChange('src', e.target.value)}
-          placeholder="https://example.com/video.mp4 or YouTube/Vimeo URL"
-          className="mt-1"
-        />
+        <div className="flex items-center justify-between mb-2">
+          <Label htmlFor="videoSrc">Video</Label>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setShowManualInput(!showManualInput)}
+            className="text-xs"
+          >
+            <Link className="w-3 h-3 mr-1" />
+            {showManualInput ? "Upload" : "URL"}
+          </Button>
+        </div>
+
+        {showManualInput ? (
+          <Input
+            id="videoSrc"
+            value={elementProps?.src || ""}
+            onChange={(e) => onPropChange("src", e.target.value)}
+            placeholder="https://example.com/video.mp4 or YouTube/Vimeo URL"
+            className="mt-1"
+          />
+        ) : (
+          <VideoUpload
+            value={elementProps?.src || ""}
+            onChange={(url) => onPropChange("src", url)}
+            multiple={false}
+            maxFiles={1}
+            placeholder="Upload a video"
+            variant="compact"
+            folder="editor/videos"
+          />
+        )}
       </div>
 
       <div>
-        <Label htmlFor="videoPoster">Poster Image URL</Label>
-        <Input
-          id="videoPoster"
-          value={elementProps?.poster || ''}
-          onChange={(e) => onPropChange('poster', e.target.value)}
-          placeholder="https://example.com/poster.jpg"
-          className="mt-1"
-        />
+        <div className="flex items-center justify-between mb-2">
+          <Label htmlFor="videoPoster">Poster Image</Label>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setShowPosterManualInput(!showPosterManualInput)}
+            className="text-xs"
+          >
+            <Link className="w-3 h-3 mr-1" />
+            {showPosterManualInput ? "Upload" : "URL"}
+          </Button>
+        </div>
+
+        {showPosterManualInput ? (
+          <Input
+            id="videoPoster"
+            value={elementProps?.poster || ""}
+            onChange={(e) => onPropChange("poster", e.target.value)}
+            placeholder="https://example.com/poster.jpg"
+            className="mt-1"
+          />
+        ) : (
+          <ImageUpload
+            value={elementProps?.poster || ""}
+            onChange={(url) => onPropChange("poster", url)}
+            multiple={false}
+            maxFiles={1}
+            placeholder="Upload poster image"
+            variant="compact"
+            folder="editor/posters"
+          />
+        )}
       </div>
 
       <div>
         <Label htmlFor="videoWidth">Width</Label>
-        <Select value={elementProps?.width || 'w-full'} onValueChange={(value) => onPropChange('width', value)}>
+        <Select
+          value={elementProps?.width || "w-full"}
+          onValueChange={(value) => onPropChange("width", value)}
+        >
           <SelectTrigger className="mt-1">
             <SelectValue />
           </SelectTrigger>
@@ -49,7 +117,10 @@ export function VideoProperties({ elementProps, onPropChange }: VideoPropertiesP
 
       <div>
         <Label htmlFor="videoHeight">Height</Label>
-        <Select value={elementProps?.height || 'h-64'} onValueChange={(value) => onPropChange('height', value)}>
+        <Select
+          value={elementProps?.height || "h-64"}
+          onValueChange={(value) => onPropChange("height", value)}
+        >
           <SelectTrigger className="mt-1">
             <SelectValue />
           </SelectTrigger>
@@ -69,7 +140,7 @@ export function VideoProperties({ elementProps, onPropChange }: VideoPropertiesP
             <input
               type="checkbox"
               checked={elementProps?.controls || true}
-              onChange={(e) => onPropChange('controls', e.target.checked)}
+              onChange={(e) => onPropChange("controls", e.target.checked)}
             />
             <span className="text-sm">Show Controls</span>
           </label>
@@ -77,7 +148,7 @@ export function VideoProperties({ elementProps, onPropChange }: VideoPropertiesP
             <input
               type="checkbox"
               checked={elementProps?.autoplay || false}
-              onChange={(e) => onPropChange('autoplay', e.target.checked)}
+              onChange={(e) => onPropChange("autoplay", e.target.checked)}
             />
             <span className="text-sm">Autoplay</span>
           </label>
@@ -85,7 +156,7 @@ export function VideoProperties({ elementProps, onPropChange }: VideoPropertiesP
             <input
               type="checkbox"
               checked={elementProps?.loop || false}
-              onChange={(e) => onPropChange('loop', e.target.checked)}
+              onChange={(e) => onPropChange("loop", e.target.checked)}
             />
             <span className="text-sm">Loop</span>
           </label>
@@ -93,12 +164,12 @@ export function VideoProperties({ elementProps, onPropChange }: VideoPropertiesP
             <input
               type="checkbox"
               checked={elementProps?.muted || false}
-              onChange={(e) => onPropChange('muted', e.target.checked)}
+              onChange={(e) => onPropChange("muted", e.target.checked)}
             />
             <span className="text-sm">Muted</span>
           </label>
         </div>
       </div>
     </div>
-  )
+  );
 }

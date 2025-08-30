@@ -1,18 +1,31 @@
-"use client"
+"use client";
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Switch } from "@/components/ui/switch"
-import { useForm, Controller } from "react-hook-form"
-import { yupResolver } from "@hookform/resolvers/yup"
-import * as yup from "yup"
-import React, { useEffect } from "react"
-import { type Project } from "@/lib/api/projects"
-import { useCreateProject, useUpdateProject } from "@/hooks/useProjects"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
+import { useForm, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { useEffect } from "react";
+import { type Project } from "@/lib/api/projects";
+import { useCreateProject, useUpdateProject } from "@/hooks/useProjects";
 
 const projectSchema = yup.object({
   name: yup
@@ -28,44 +41,41 @@ const projectSchema = yup.object({
     .default(""),
   status: yup
     .string()
-    .oneOf(['draft', 'published', 'archived'])
+    .oneOf(["draft", "published", "archived"])
     .optional()
-    .default('draft'),
-  isPublic: yup
-    .boolean()
-    .optional()
-    .default(false),
-})
+    .default("draft"),
+  isPublic: yup.boolean().optional().default(false),
+});
 
-type ProjectFormData = yup.InferType<typeof projectSchema>
+type ProjectFormData = yup.InferType<typeof projectSchema>;
 
 export interface CreateEditProjectDialogProps {
-  open: boolean;
+  isOpen: boolean;
   onClose: () => void;
   project?: Project | null;
   onSuccess?: () => void;
 }
 
-export function CreateEditProjectDialog({ 
-  open, 
-  onClose, 
+export function CreateEditProjectDialog({
+  isOpen,
+  onClose,
   project,
-  onSuccess
+  onSuccess,
 }: CreateEditProjectDialogProps) {
-  const isEditing = !!project
+  const isEditing = !!project;
 
-  const createProjectMutation = useCreateProject()
-  const updateProjectMutation = useUpdateProject()
+  const createProjectMutation = useCreateProject();
+  const updateProjectMutation = useUpdateProject();
 
   const form = useForm<ProjectFormData>({
     resolver: yupResolver(projectSchema),
     defaultValues: {
       name: "",
       description: "",
-      status: 'draft',
+      status: "draft",
       isPublic: false,
     },
-  })
+  });
 
   const {
     register,
@@ -73,29 +83,30 @@ export function CreateEditProjectDialog({
     handleSubmit,
     reset,
     formState: { errors, isValid, isSubmitting },
-  } = form
+  } = form;
 
-  const isLoading = createProjectMutation.isPending || updateProjectMutation.isPending
+  const isLoading =
+    createProjectMutation.isPending || updateProjectMutation.isPending;
 
   useEffect(() => {
-    if (open) {
+    if (isOpen) {
       if (project) {
         reset({
           name: project.name || "",
           description: project.description || "",
-          status: project.deployment?.status || 'draft',
+          status: project.deployment?.status || "draft",
           isPublic: project.settings?.isPublic || false,
-        })
+        });
       } else {
         reset({
           name: "",
           description: "",
-          status: 'draft',
+          status: "draft",
           isPublic: false,
-        })
+        });
       }
     }
-  }, [project, open, reset])
+  }, [project, isOpen, reset]);
 
   const onSubmit = async (data: ProjectFormData) => {
     try {
@@ -107,47 +118,49 @@ export function CreateEditProjectDialog({
             description: data.description?.trim() || undefined,
             settings: {
               ...project.settings,
-              isPublic: data.isPublic
+              isPublic: data.isPublic,
             },
             deployment: {
               ...project.deployment,
-              status: data.status || project.deployment.status
-            }
-          }
-        })
-        console.log('Project updated successfully')
+              status: data.status || project.deployment.status,
+            },
+          },
+        });
+        console.log("Project updated successfully");
       } else {
         await createProjectMutation.mutateAsync({
           name: data.name.trim(),
           description: data.description?.trim() || undefined,
-        })
-        console.log('Project created successfully')
+        });
+        console.log("Project created successfully");
       }
-      
-      onClose()
+
+      onClose();
       if (onSuccess) {
-        onSuccess()
+        onSuccess();
       }
     } catch (error) {
-      console.error(`Failed to ${isEditing ? 'update' : 'create'} project:`, error)
+      console.error(
+        `Failed to ${isEditing ? "update" : "create"} project:`,
+        error
+      );
     }
-  }
+  };
 
   return (
-    <Dialog open={open} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="bg-card border-border max-w-md">
         <DialogHeader>
           <DialogTitle className="text-foreground">
-            {isEditing ? 'Edit Project' : 'Create New Project'}
+            {isEditing ? "Edit Project" : "Create New Project"}
           </DialogTitle>
           <DialogDescription className="text-muted-foreground">
-            {isEditing 
-              ? 'Update your project details.' 
-              : 'Give your new website project a name to get started.'
-            }
+            {isEditing
+              ? "Update your project details."
+              : "Give your new website project a name to get started."}
           </DialogDescription>
         </DialogHeader>
-        
+
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="name" className="text-foreground">
@@ -165,7 +178,7 @@ export function CreateEditProjectDialog({
               <p className="text-sm text-destructive">{errors.name.message}</p>
             )}
           </div>
-          
+
           <div className="space-y-2">
             <Label htmlFor="description" className="text-foreground">
               Description (Optional)
@@ -179,7 +192,9 @@ export function CreateEditProjectDialog({
               aria-invalid={errors.description ? "true" : "false"}
             />
             {errors.description && (
-              <p className="text-sm text-destructive">{errors.description.message}</p>
+              <p className="text-sm text-destructive">
+                {errors.description.message}
+              </p>
             )}
           </div>
 
@@ -206,7 +221,9 @@ export function CreateEditProjectDialog({
                   )}
                 />
                 {errors.status && (
-                  <p className="text-sm text-destructive">{errors.status.message}</p>
+                  <p className="text-sm text-destructive">
+                    {errors.status.message}
+                  </p>
                 )}
               </div>
 
@@ -228,17 +245,29 @@ export function CreateEditProjectDialog({
               </div>
             </>
           )}
-          
+
           <DialogFooter>
-            <Button type="button" variant="outline" onClick={onClose} disabled={isLoading || isSubmitting}>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={onClose}
+              disabled={isLoading || isSubmitting}
+            >
               Cancel
             </Button>
-            <Button type="submit" disabled={!isValid || isLoading || isSubmitting}>
-              {isLoading || isSubmitting ? 'Saving...' : (isEditing ? 'Save Changes' : 'Create Project')}
+            <Button
+              type="submit"
+              disabled={!isValid || isLoading || isSubmitting}
+            >
+              {isLoading || isSubmitting
+                ? "Saving..."
+                : isEditing
+                ? "Save Changes"
+                : "Create Project"}
             </Button>
           </DialogFooter>
         </form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

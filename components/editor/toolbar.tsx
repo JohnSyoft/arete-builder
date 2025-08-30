@@ -23,7 +23,6 @@ import {
   ChevronDown,
   Plus,
   Settings,
-  ArrowLeft,
   Database,
   Layout,
 } from "@/components/icons";
@@ -34,6 +33,7 @@ import {
 import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store";
 import { useModalStore } from "@/lib/store/modalStore";
 import { useState } from "react";
+import { Home } from "lucide-react";
 
 interface Page {
   id: string;
@@ -156,12 +156,10 @@ export function EditorToolbar({
           className="text-gray-600 hover:text-gray-900"
           title="Back to Dashboard"
         >
-          <ArrowLeft className="w-4 h-4" />
+          <Home className="w-4 h-4" />
         </Button>
-
-        <Separator orientation="vertical" className="h-6" />
-
-        <Separator orientation="vertical" className="h-6" />
+        {/* <Divider /> */}
+        <h1 className="font-semibold text-gray-900">{projectName}</h1>
 
         {/* Mode Toggle */}
         <div className="flex items-center space-x-1 bg-gray-100 rounded-lg p-1">
@@ -192,7 +190,6 @@ export function EditorToolbar({
         </div>
 
         <div>
-          <h1 className="font-semibold text-gray-900">{projectName}</h1>
           <div className="flex items-center space-x-2">
             {pages.length > 0 && onPageChange ? (
               <DropdownMenu>

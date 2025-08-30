@@ -12,6 +12,8 @@ import {
 } from "@/components/ui/select";
 import { DatePicker } from "@/components/ui/date-picker";
 import { RichTextEditor } from "@/components/ui/rich-text-editor";
+import { ImageUpload } from "@/components/ui/image-upload";
+import { useCollectionItems } from "@/hooks/useCollectionItems";
 
 interface DefaultValueFieldProps {
   fieldType: string;
@@ -26,6 +28,80 @@ export function DefaultValueField({
   onFormDataChange,
   allCollections,
 }: DefaultValueFieldProps) {
+  // Helper function to get display name for collection items
+  const getDisplayName = (item: any) => {
+    // Check for title field first (case insensitive)
+    const titleField = Object.keys(item.data || {}).find(
+      (key) => key.toLowerCase() === "title"
+    );
+    if (titleField && item.data[titleField]) {
+      return item.data[titleField];
+    }
+
+    // Fallback to slug
+    if (item.slug) {
+      return item.slug;
+    }
+
+    // Last fallback to ID
+    return item._id;
+  };
+
+  // Component to render reference item selector
+  const ReferenceItemSelector = ({
+    collectionId,
+    value,
+    onChange,
+    placeholder = "Select default item",
+  }: {
+    collectionId: string;
+    value: string;
+    onChange: (value: string) => void;
+    placeholder?: string;
+  }) => {
+    const { data: itemsResponse, isLoading } = useCollectionItems(
+      collectionId,
+      {
+        limit: 100,
+        sortBy: "createdAt",
+        sortOrder: "desc",
+      }
+    );
+
+    const items = itemsResponse?.items || [];
+
+    if (isLoading) {
+      return (
+        <Select disabled>
+          <SelectTrigger>
+            <SelectValue placeholder="Loading items..." />
+          </SelectTrigger>
+        </Select>
+      );
+    }
+
+    return (
+      <Select value={value} onValueChange={onChange}>
+        <SelectTrigger>
+          <SelectValue placeholder={placeholder} />
+        </SelectTrigger>
+        <SelectContent>
+          {items.length === 0 ? (
+            <SelectItem value="default" disabled>
+              No items found in collection
+            </SelectItem>
+          ) : (
+            items.map((item: any) => (
+              <SelectItem key={item._id} value={item._id}>
+                {getDisplayName(item)}
+              </SelectItem>
+            ))
+          )}
+        </SelectContent>
+      </Select>
+    );
+  };
+//   console.log({ fieldType });
   switch (fieldType) {
     case "number":
       return (
@@ -105,13 +181,30 @@ export function DefaultValueField({
         />
       );
 
+    case "image":
+      return (
+        <ImageUpload
+          value={formData.defaultValue || ""}
+          onChange={(value) =>
+            onFormDataChange({ ...formData, defaultValue: value })
+          }
+          multiple={false}
+          variant="compact"
+          placeholder="Select default image"
+        />
+      );
+
     case "reference":
       return (
         <div className="space-y-2">
           <Select
             value={formData.referenceCollection}
             onValueChange={(value) =>
-              onFormDataChange({ ...formData, referenceCollection: value })
+              onFormDataChange({
+                ...formData,
+                referenceCollection: value,
+                defaultValue: "", // Reset default value when collection changes
+              })
             }
           >
             <SelectTrigger>
@@ -128,13 +221,16 @@ export function DefaultValueField({
               ))}
             </SelectContent>
           </Select>
-          <Input
-            placeholder="Default reference ID (optional)"
-            value={formData.defaultValue}
-            onChange={(e) =>
-              onFormDataChange({ ...formData, defaultValue: e.target.value })
-            }
-          />
+          {formData.referenceCollection && (
+            <ReferenceItemSelector
+              collectionId={formData.referenceCollection}
+              value={formData.defaultValue || ""}
+              onChange={(value) =>
+                onFormDataChange({ ...formData, defaultValue: value })
+              }
+              placeholder="Select default item (optional)"
+            />
+          )}
         </div>
       );
 
@@ -144,7 +240,11 @@ export function DefaultValueField({
           <Select
             value={formData.referenceCollection}
             onValueChange={(value) =>
-              onFormDataChange({ ...formData, referenceCollection: value })
+              onFormDataChange({
+                ...formData,
+                referenceCollection: value,
+                defaultValue: "", // Reset default value when collection changes
+              })
             }
           >
             <SelectTrigger>
@@ -161,14 +261,28 @@ export function DefaultValueField({
               ))}
             </SelectContent>
           </Select>
-          <Textarea
-            placeholder="Default reference IDs (comma-separated, optional)"
-            value={formData.defaultValue}
-            onChange={(e) =>
-              onFormDataChange({ ...formData, defaultValue: e.target.value })
-            }
-            rows={2}
-          />
+          {formData.referenceCollection && (
+            <div className="space-y-2">
+              <p className="text-sm text-muted-foreground">
+                Default items (optional - enter IDs separated by commas):
+              </p>
+              <Textarea
+                placeholder="Enter item IDs (comma-separated, optional)"
+                value={formData.defaultValue}
+                onChange={(e) =>
+                  onFormDataChange({
+                    ...formData,
+                    defaultValue: e.target.value,
+                  })
+                }
+                rows={2}
+              />
+              <p className="text-xs text-muted-foreground">
+                You can find item IDs in the CMS section of the referenced
+                collection.
+              </p>
+            </div>
+          )}
         </div>
       );
 

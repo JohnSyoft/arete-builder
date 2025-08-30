@@ -64,6 +64,7 @@ interface SortableRowProps {
   onSelect: (id: string, selected: boolean) => void;
   onEdit: (item: CollectionItem) => void;
   onDelete: (item: CollectionItem) => void;
+  gridCols: string;
 }
 
 function SortableRow({
@@ -73,6 +74,7 @@ function SortableRow({
   onSelect,
   onEdit,
   onDelete,
+  gridCols,
 }: SortableRowProps) {
   const {
     attributes,
@@ -98,6 +100,40 @@ function SortableRow({
     return new Date(dateString).toLocaleDateString();
   };
 
+  const formatFieldValue = (field: any, value: any) => {
+    if (!value || value === "") return "-";
+
+    switch (field.type) {
+      case "date":
+      case "datetime":
+        return formatDate(value);
+      case "toggle":
+        return value ? "Yes" : "No";
+      case "formattedText":
+        // Strip HTML tags for table display
+        return (
+          value.replace(/<[^>]*>/g, "").substring(0, 50) +
+          (value.length > 50 ? "..." : "")
+        );
+      case "image":
+        return value ? "📷" : "-";
+      case "color":
+        return (
+          <div className="flex items-center gap-2">
+            <div
+              className="w-4 h-4 rounded border"
+              style={{ backgroundColor: value }}
+            />
+            <span className="text-xs">{value}</span>
+          </div>
+        );
+      default:
+        return typeof value === "string" && value.length > 50
+          ? value.substring(0, 50) + "..."
+          : value;
+    }
+  };
+
   const getStatusBadge = (status: string) => {
     const variants = {
       draft: "secondary",
@@ -115,8 +151,14 @@ function SortableRow({
   return (
     <div
       ref={setNodeRef}
-      style={style}
-      className={`grid grid-cols-[auto_auto_1fr_1fr_1fr_1fr_1fr_1fr_auto] gap-4 px-4 py-3 hover:bg-muted/20 transition-colors text-sm border-b cursor-pointer ${
+      style={{
+        ...style,
+        display: "grid",
+        gridTemplateColumns: gridCols,
+        minWidth: `${600 + collection.fields.length * 150}px`, // Ensure minimum total width
+        width: "100%", // Ensure full width within container
+      }}
+      className={`gap-4 px-4 py-3 hover:bg-muted/20 transition-colors text-sm border-b cursor-pointer ${
         isSelected ? "bg-muted" : ""
       }`}
       onClick={() => onEdit(item)}
@@ -137,23 +179,21 @@ function SortableRow({
         <GripVertical className="h-4 w-4 text-muted-foreground" />
       </div>
 
-      <div className="flex items-center">
-        <FileText className="mr-2 h-4 w-4 text-muted-foreground" />
-        {getFieldValue("title") || "Untitled"}
+      {/* Dynamic field values */}
+      {collection.fields.map((field: any) => (
+        <div key={field.id} className="text-muted-foreground truncate">
+          {formatFieldValue(field, getFieldValue(field.name))}
+        </div>
+      ))}
+
+      {/* Default fields */}
+      <div className="text-muted-foreground truncate">{item.slug || "-"}</div>
+      <div className="text-muted-foreground truncate">
+        {item.createdAt ? formatDate(item.createdAt) : "-"}
       </div>
-
-      <div className="text-muted-foreground">{item.slug || "-"}</div>
-
-      <div className="text-muted-foreground">
-        {formatDate(getFieldValue("date"))}
+      <div className="text-muted-foreground truncate">
+        {item.updatedAt ? formatDate(item.updatedAt) : "-"}
       </div>
-
-      <div>{getFieldValue("image") || "-"}</div>
-
-      <div className="text-muted-foreground">
-        {getFieldValue("categories") || "-"}
-      </div>
-
       <div>{getStatusBadge(item.status)}</div>
 
       <div
@@ -217,6 +257,13 @@ export function ContentTable({
     })
   );
 
+  // Create dynamic grid template based on collection fields + default fields with minimum widths
+  const fieldCount = collection.fields.length;
+  const dynamicFieldCols = Array(fieldCount)
+    .fill("minmax(150px, 1fr)")
+    .join(" ");
+  const gridCols = `minmax(50px, auto) minmax(50px, auto) ${dynamicFieldCols} minmax(120px, 120px) minmax(120px, 120px) minmax(120px, 120px) minmax(100px, 100px) minmax(100px, auto)`;
+
   const handleDragEnd = async (event: DragEndEvent) => {
     const { active, over } = event;
 
@@ -275,7 +322,7 @@ export function ContentTable({
   const handleDeleteItem = (item: CollectionItem) => {
     openModal("confirmation", {
       title: "Delete Item",
-      description: `Are you sure you want to delete "${
+      message: `Are you sure you want to delete "${
         item.data?.title || "this item"
       }"? This action cannot be undone.`,
       onConfirm: async () => {
@@ -307,11 +354,19 @@ export function ContentTable({
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 max-w-[calc(100vw-280px)]">
       {/* Table */}
-      <div className="">
+      <div className="overflow-x-auto max-w-[calc(100vw-280px)]">
         {/* Header */}
-        <div className="grid grid-cols-[auto_auto_1fr_1fr_1fr_1fr_1fr_1fr_auto] gap-4 px-4 py-3 bg-muted/5 border-b text-sm font-medium text-muted-foreground">
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: gridCols,
+            minWidth: `${600 + fieldCount * 150}px`, // Ensure minimum total width
+            width: "100%", // Ensure full width within container
+          }}
+          className="gap-4 px-4 py-3 bg-muted/5 border-b text-sm font-medium text-muted-foreground"
+        >
           <div>
             <Checkbox
               checked={selectedItems.size === items.length && items.length > 0}
@@ -319,18 +374,28 @@ export function ContentTable({
             />
           </div>
           <div></div>
-          <div>Title</div>
+
+          {/* Dynamic field headers */}
+          {collection.fields.map((field: any) => (
+            <div key={field.id} className="truncate">
+              {field.name.charAt(0).toUpperCase() + field.name.slice(1)}
+            </div>
+          ))}
+
+          {/* Default field headers */}
           <div>Slug</div>
-          <div>Date</div>
-          <div>Image</div>
-          <div>Categories</div>
+          <div>Created</div>
+          <div>Updated</div>
           <div>Status</div>
           <div className="text-right">Actions</div>
         </div>
 
         {/* Rows */}
         {items.length === 0 ? (
-          <div className="px-4 py-8 text-center text-muted-foreground">
+          <div
+            className="px-4 py-8 text-center text-muted-foreground"
+            style={{ minWidth: `${600 + fieldCount * 150}px` }}
+          >
             <FileText className="mx-auto h-8 w-8 mb-2" />
             <p>No items found</p>
             <Button
@@ -344,28 +409,36 @@ export function ContentTable({
             </Button>
           </div>
         ) : (
-          <DndContext
-            sensors={sensors}
-            collisionDetection={closestCenter}
-            onDragEnd={handleDragEnd}
+          <div
+            style={{
+              minWidth: `${600 + fieldCount * 150}px`,
+              width: "100%",
+            }}
           >
-            <SortableContext
-              items={items.map((item: CollectionItem) => item._id)}
-              strategy={verticalListSortingStrategy}
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragEnd={handleDragEnd}
             >
-              {items.map((item: CollectionItem) => (
-                <SortableRow
-                  key={item._id}
-                  item={item}
-                  collection={collection}
-                  isSelected={selectedItems.has(item._id)}
-                  onSelect={handleSelectItem}
-                  onEdit={handleEditItem}
-                  onDelete={handleDeleteItem}
-                />
-              ))}
-            </SortableContext>
-          </DndContext>
+              <SortableContext
+                items={items.map((item: CollectionItem) => item._id)}
+                strategy={verticalListSortingStrategy}
+              >
+                {items.map((item: CollectionItem) => (
+                  <SortableRow
+                    key={item._id}
+                    item={item}
+                    collection={collection}
+                    isSelected={selectedItems.has(item._id)}
+                    onSelect={handleSelectItem}
+                    onEdit={handleEditItem}
+                    onDelete={handleDeleteItem}
+                    gridCols={gridCols}
+                  />
+                ))}
+              </SortableContext>
+            </DndContext>
+          </div>
         )}
       </div>
     </div>

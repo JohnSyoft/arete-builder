@@ -1,7 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Database, Palette, Type, Settings } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Dialog,
   DialogContent,
@@ -19,6 +21,10 @@ import {
   Collection,
 } from "@/hooks/useCollections";
 import { toast } from "sonner";
+import {
+  collectionSchema,
+  type CollectionFormData,
+} from "@/lib/validations/collections";
 
 interface CreateEditCollectionDialogProps {
   isOpen: boolean;
@@ -65,23 +71,35 @@ export function CreateEditCollectionDialog({
   collection,
   mode,
 }: CreateEditCollectionDialogProps) {
-  const [formData, setFormData] = useState({
-    name: "",
-    description: "",
-    slug: "",
-    singularName: "",
-    pluralName: "",
-    icon: iconOptions[0],
-    color: colorOptions[0].value,
-  });
-
   const createMutation = useCreateCollection();
   const updateMutation = useUpdateCollection();
   const isLoading = createMutation.isPending || updateMutation.isPending;
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    watch,
+    setValue,
+    reset,
+  } = useForm<CollectionFormData>({
+    resolver: yupResolver(collectionSchema),
+    defaultValues: {
+      name: "",
+      description: "",
+      slug: "",
+      singularName: "",
+      pluralName: "",
+      icon: iconOptions[0],
+      color: colorOptions[0].value,
+    },
+  });
+
+  const formData = watch();
+
   useEffect(() => {
     if (collection) {
-      setFormData({
+      reset({
         name: collection.name,
         description: collection.description || "",
         slug: collection.slug,
@@ -91,7 +109,7 @@ export function CreateEditCollectionDialog({
         color: collection.settings?.color || colorOptions[0].value,
       });
     } else {
-      setFormData({
+      reset({
         name: "",
         description: "",
         slug: "",
@@ -101,7 +119,7 @@ export function CreateEditCollectionDialog({
         color: colorOptions[0].value,
       });
     }
-  }, [collection]);
+  }, [collection, reset]);
 
   // Auto-generate slug from name
   useEffect(() => {
@@ -110,37 +128,27 @@ export function CreateEditCollectionDialog({
         .toLowerCase()
         .replace(/[^a-z0-9]+/g, "-")
         .replace(/(^-|-$)/g, "");
-      setFormData((prev) => ({ ...prev, slug }));
+      setValue("slug", slug);
 
       // Auto-generate plural/singular names
       const singular = formData.name.toLowerCase();
       const plural = singular.endsWith("s") ? singular : `${singular}s`;
-      setFormData((prev) => ({
-        ...prev,
-        singularName: singular,
-        pluralName: plural,
-      }));
+      setValue("singularName", singular);
+      setValue("pluralName", plural);
     }
-  }, [formData.name, mode]);
+  }, [formData.name, mode, setValue]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!formData.name.trim()) {
-      toast.error("Collection name is required");
-      return;
-    }
-
+  const onSubmit = async (data: CollectionFormData) => {
     try {
       const requestData = {
-        name: formData.name,
-        description: formData.description,
-        slug: formData.slug,
+        name: data.name,
+        description: data.description,
+        slug: data.slug,
         settings: {
-          singularName: formData.singularName,
-          pluralName: formData.pluralName,
-          icon: formData.icon,
-          color: formData.color,
+          singularName: data.singularName,
+          pluralName: data.pluralName,
+          icon: data.icon,
+          color: data.color,
         },
       };
 
@@ -171,7 +179,7 @@ export function CreateEditCollectionDialog({
         .toLowerCase()
         .replace(/[^a-z0-9]+/g, "-")
         .replace(/(^-|-$)/g, "");
-      setFormData((prev) => ({ ...prev, slug }));
+      setValue("slug", slug);
     }
   };
 
@@ -185,7 +193,7 @@ export function CreateEditCollectionDialog({
           </DialogTitle>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {/* Basic Information */}
           <div className="space-y-4">
             <h3 className="text-sm font-medium flex items-center gap-2">
@@ -197,11 +205,14 @@ export function CreateEditCollectionDialog({
               <label className="text-sm font-medium">Collection Name</label>
               <Input
                 placeholder="e.g., Blog Posts, Products, Team Members"
-                value={formData.name}
-                onChange={(e) =>
-                  setFormData((prev) => ({ ...prev, name: e.target.value }))
-                }
+                {...register("name")}
+                aria-invalid={errors.name ? "true" : "false"}
               />
+              {errors.name && (
+                <p className="text-sm text-destructive">
+                  {errors.name.message}
+                </p>
+              )}
             </div>
 
             <div className="space-y-2">
@@ -212,14 +223,14 @@ export function CreateEditCollectionDialog({
                 placeholder="Describe what this collection will contain..."
                 className="resize-none"
                 rows={2}
-                value={formData.description}
-                onChange={(e) =>
-                  setFormData((prev) => ({
-                    ...prev,
-                    description: e.target.value,
-                  }))
-                }
+                {...register("description")}
+                aria-invalid={errors.description ? "true" : "false"}
               />
+              {errors.description && (
+                <p className="text-sm text-destructive">
+                  {errors.description.message}
+                </p>
+              )}
             </div>
 
             <div className="grid grid-cols-2 gap-4">
@@ -228,10 +239,8 @@ export function CreateEditCollectionDialog({
                 <div className="flex">
                   <Input
                     placeholder="collection-slug"
-                    value={formData.slug}
-                    onChange={(e) =>
-                      setFormData((prev) => ({ ...prev, slug: e.target.value }))
-                    }
+                    {...register("slug")}
+                    aria-invalid={errors.slug ? "true" : "false"}
                   />
                   <Button
                     type="button"
@@ -243,6 +252,11 @@ export function CreateEditCollectionDialog({
                     Generate
                   </Button>
                 </div>
+                {errors.slug && (
+                  <p className="text-sm text-destructive">
+                    {errors.slug.message}
+                  </p>
+                )}
                 <p className="text-xs text-muted-foreground">
                   Used in URLs and API endpoints
                 </p>
@@ -258,7 +272,7 @@ export function CreateEditCollectionDialog({
                       variant={formData.icon === icon ? "default" : "outline"}
                       size="sm"
                       className="aspect-square p-0"
-                      onClick={() => setFormData((prev) => ({ ...prev, icon }))}
+                      onClick={() => setValue("icon", icon)}
                     >
                       {icon}
                     </Button>
@@ -280,14 +294,14 @@ export function CreateEditCollectionDialog({
                 <label className="text-sm font-medium">Singular Name</label>
                 <Input
                   placeholder="e.g., blog post"
-                  value={formData.singularName}
-                  onChange={(e) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      singularName: e.target.value,
-                    }))
-                  }
+                  {...register("singularName")}
+                  aria-invalid={errors.singularName ? "true" : "false"}
                 />
+                {errors.singularName && (
+                  <p className="text-sm text-destructive">
+                    {errors.singularName.message}
+                  </p>
+                )}
                 <p className="text-xs text-muted-foreground">
                   Used in forms and single item views
                 </p>
@@ -297,14 +311,14 @@ export function CreateEditCollectionDialog({
                 <label className="text-sm font-medium">Plural Name</label>
                 <Input
                   placeholder="e.g., blog posts"
-                  value={formData.pluralName}
-                  onChange={(e) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      pluralName: e.target.value,
-                    }))
-                  }
+                  {...register("pluralName")}
+                  aria-invalid={errors.pluralName ? "true" : "false"}
                 />
+                {errors.pluralName && (
+                  <p className="text-sm text-destructive">
+                    {errors.pluralName.message}
+                  </p>
+                )}
                 <p className="text-xs text-muted-foreground">
                   Used in lists and navigation
                 </p>
@@ -328,9 +342,7 @@ export function CreateEditCollectionDialog({
                         ? "ring-2 ring-offset-2 ring-black"
                         : ""
                     }`}
-                    onClick={() =>
-                      setFormData((prev) => ({ ...prev, color: color.value }))
-                    }
+                    onClick={() => setValue("color", color.value)}
                   >
                     <span className="sr-only">{color.name}</span>
                   </Button>
@@ -369,8 +381,8 @@ export function CreateEditCollectionDialog({
             <Button type="button" variant="outline" onClick={onClose}>
               Cancel
             </Button>
-            <Button type="submit" disabled={isLoading}>
-              {isLoading
+            <Button type="submit" disabled={isSubmitting || isLoading}>
+              {isSubmitting || isLoading
                 ? mode === "create"
                   ? "Creating..."
                   : "Updating..."
