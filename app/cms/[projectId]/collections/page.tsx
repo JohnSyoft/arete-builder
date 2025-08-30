@@ -3,9 +3,8 @@
 import { useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useCollections } from "@/hooks/useCollections";
-import CMSPageLayout from "@/components/cms/CMSPageLayout";
 
-export default function CMSPage() {
+export default function CollectionsIndexPage() {
   const params = useParams();
   const router = useRouter();
   const projectId = params.projectId as string;
@@ -13,19 +12,16 @@ export default function CMSPage() {
 
   const collections = collectionsResponse?.collections || [];
 
-  // Redirect to first collection if we have collections and we're on the base CMS page
+  // Redirect to first collection
   useEffect(() => {
     if (!isLoading && collections.length > 0) {
       router.replace(`/cms/${projectId}/collections/${collections[0]._id}`);
+    } else if (!isLoading && collections.length === 0) {
+      // Redirect to main CMS page if no collections
+      router.replace(`/cms/${projectId}`);
     }
   }, [collections, isLoading, projectId, router]);
 
-  // Show the layout if there are no collections (empty state)
-  if (!isLoading && collections.length === 0) {
-    return <CMSPageLayout />;
-  }
-
-  // Show loading state while redirecting or loading
   return (
     <div className="flex items-center justify-center h-screen">
       <div className="animate-pulse">Loading collections...</div>

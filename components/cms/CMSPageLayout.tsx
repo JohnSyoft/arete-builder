@@ -27,21 +27,19 @@ interface Collection {
 export default function CMSPage() {
   const params = useParams();
   const projectId = params.projectId as string;
+  const collectionId = params.collectionId as string; // Get collection ID from URL
   const { data: collectionsResponse, isLoading } = useCollections(projectId);
   const { openModal } = useModalStore();
   const { openDrawer } = useDrawerStore();
 
-  const [selectedCollection, setSelectedCollection] = useState<string | null>(
-    null
-  );
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedItems, setSelectedItems] = useState<Set<string>>(new Set());
   const [currentMode, setCurrentMode] = useState<"design" | "cms">("cms");
 
   const collections = collectionsResponse?.collections || [];
-  const currentCollection =
-    collections.find((c: Collection) => c._id === selectedCollection) ||
-    collections[0];
+  const currentCollection = collectionId
+    ? collections.find((c: Collection) => c._id === collectionId)
+    : collections[0]; // Fallback to first collection if no ID in URL
 
   const bulkDeleteMutation = useBulkDeleteCollectionItems();
 
@@ -135,8 +133,6 @@ export default function CMSPage() {
       <div className="flex flex-1 overflow-hidden">
         <CollectionsSidebar
           collections={collections}
-          selectedCollection={selectedCollection}
-          onSelectCollection={setSelectedCollection}
           onCreateCollection={handleCreateCollection}
         />
 

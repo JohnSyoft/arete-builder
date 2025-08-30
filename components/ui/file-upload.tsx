@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { X, Image, Video, File, Play, Eye, FolderOpen } from "lucide-react";
+import { X, Image, Video, File, Play, FolderOpen } from "lucide-react";
 
 interface FileUploadProps {
   accept?: string;
@@ -41,7 +41,7 @@ export function FileUpload({
   value,
   onChange,
 }: FileUploadProps) {
-//   console.log({ variant, multiple });
+  //   console.log({ variant, multiple });
   const [files, setFiles] = useState<FileWithPreview[]>([]);
   const [isDragOver, setIsDragOver] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -312,10 +312,168 @@ export function FileUpload({
   }
 
   if (variant === "grid") {
+    // Combine uploaded files and new files for grid display
+    const allFiles = [
+      ...currentFiles.map((url, index) => ({
+        type: "uploaded" as const,
+        url,
+        id: `uploaded_${index}`,
+        name: url.split("/").pop() || "Uploaded file",
+      })),
+      ...files.map((file) => ({
+        type: "new" as const,
+        file,
+        id: file.id,
+        name: file.name,
+      })),
+    ];
+
     return (
       <div className={cn("space-y-4", className)}>
-        {/* Display uploaded files */}
-       
+        {/* Display all files in grid */}
+        {allFiles.length > 0 && (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-4">
+            {allFiles.map((item) => (
+              <div
+                key={item.id}
+                className="relative overflow-hidden border rounded-lg"
+              >
+                <div className="p-0">
+                  {item.type === "uploaded" ? (
+                    // Uploaded file display
+                    <>
+                      {/* Try to detect if it's an image by URL pattern or just try to load it as an image */}
+                      {item.url.match(
+                        /\.(jpg|jpeg|png|gif|webp|svg|bmp|tiff?)(\?.*)?$/i
+                      ) ||
+                      item.url.includes("image") ||
+                      item.url.includes("cloudinary") ||
+                      item.url.includes("amazonaws") ||
+                      !item.url.match(
+                        /\.(mp4|mov|avi|mkv|webm|pdf|doc|docx|txt)(\?.*)?$/i
+                      ) ? (
+                        <div className="aspect-square relative">
+                          <img
+                            src={item.url}
+                            alt="Uploaded file"
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              // If image fails to load, show file icon instead
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = "none";
+                              const parent = target.parentElement;
+                              if (parent) {
+                                parent.innerHTML = `
+                                  <div class="w-full h-full bg-muted flex items-center justify-center">
+                                    <svg class="w-12 h-12 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                    </svg>
+                                  </div>
+                                  <button class="absolute top-2 right-2 p-1 h-auto bg-black/50 rounded text-white hover:bg-black/70">
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                  </button>
+                                `;
+                              }
+                            }}
+                          />
+                          <div className="absolute inset-0 bg-black/20 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              onClick={() => removeUploadedFile(item.url)}
+                              className="p-1 h-auto bg-red-500 hover:bg-red-600 text-white rounded-full"
+                              disabled={disabled}
+                            >
+                              <X className="w-3 h-3" />
+                            </Button>
+                          </div>
+                        </div>
+                      ) : item.url.match(
+                          /\.(mp4|mov|avi|mkv|webm)(\?.*)?$/i
+                        ) ? (
+                        <div className="aspect-square bg-muted flex items-center justify-center relative">
+                          <Play className="w-12 h-12 text-muted-foreground" />
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={() => removeUploadedFile(item.url)}
+                            className="absolute top-2 right-2 p-1 h-auto bg-red-500 hover:bg-red-600 text-white rounded-full"
+                            disabled={disabled}
+                          >
+                            <X className="w-3 h-3" />
+                          </Button>
+                        </div>
+                      ) : (
+                        <div className="aspect-square bg-muted flex items-center justify-center relative">
+                          <File className="w-12 h-12 text-muted-foreground" />
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={() => removeUploadedFile(item.url)}
+                            className="absolute top-2 right-2 p-1 h-auto bg-red-500 hover:bg-red-600 text-white rounded-full"
+                            disabled={disabled}
+                          >
+                            <X className="w-3 h-3" />
+                          </Button>
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    // New file display
+                    <>
+                      {item.file.type.startsWith("image/") &&
+                      item.file.preview ? (
+                        <div className="aspect-square relative">
+                          <img
+                            src={item.file.preview}
+                            alt={item.file.name}
+                            className="w-full h-full object-cover"
+                          />
+                          <div className="absolute inset-0 bg-black/20 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              onClick={() => removeFile(item.file.id)}
+                              className="p-1 h-auto bg-red-500 hover:bg-red-600 text-white rounded-full shadow-lg"
+                            >
+                              <X className="w-3 h-3" />
+                            </Button>
+                          </div>
+                        </div>
+                      ) : item.file.type.startsWith("video/") ? (
+                        <div className="aspect-square bg-muted flex items-center justify-center relative">
+                          <Play className="w-12 h-12 text-muted-foreground" />
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={() => removeFile(item.file.id)}
+                            className="absolute top-2 right-2 p-1 h-auto bg-red-500 hover:bg-red-600 text-white rounded-full shadow-lg"
+                          >
+                            <X className="w-3 h-3" />
+                          </Button>
+                        </div>
+                      ) : (
+                        <div className="aspect-square bg-muted flex items-center justify-center relative">
+                          <File className="w-12 h-12 text-muted-foreground" />
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={() => removeFile(item.file.id)}
+                            className="absolute top-2 right-2 p-1 h-auto bg-red-500 hover:bg-red-600 text-white rounded-full shadow-lg"
+                          >
+                            <X className="w-3 h-3" />
+                          </Button>
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
 
         <div
           className={cn(
@@ -354,62 +512,6 @@ export function FileUpload({
           className="hidden"
           disabled={disabled}
         />
-
-        {files.length > 0 && (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {files.map((file) => (
-              <Card key={file.id} className="relative overflow-hidden">
-                <CardContent className="p-0">
-                  {file.type.startsWith("image/") && file.preview ? (
-                    <div className="aspect-square relative">
-                      <img
-                        src={file.preview}
-                        alt={file.name}
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute inset-0 bg-black/20 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center">
-                        <Button size="sm" variant="secondary" className="mr-2">
-                          <Eye className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    </div>
-                  ) : file.type.startsWith("video/") ? (
-                    <div className="aspect-square bg-muted flex items-center justify-center">
-                      <Play className="w-12 h-12 text-muted-foreground" />
-                    </div>
-                  ) : (
-                    <div className="aspect-square bg-muted flex items-center justify-center">
-                      <File className="w-12 h-12 text-muted-foreground" />
-                    </div>
-                  )}
-
-                  <div className="p-3">
-                    <div className="flex items-center justify-between mb-2">
-                      <Badge variant="secondary" className="text-xs">
-                        {getFileTypeLabel(file)}
-                      </Badge>
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        onClick={() => removeFile(file.id)}
-                        className="p-1 h-auto"
-                      >
-                        <X className="w-3 h-3" />
-                      </Button>
-                    </div>
-
-                    <p className="text-sm font-medium truncate mb-1">
-                      {file.name}
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      {formatFileSize(file.size)}
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        )}
       </div>
     );
   }

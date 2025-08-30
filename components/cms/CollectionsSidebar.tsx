@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Plus, Database } from "lucide-react";
+import { useRouter, usePathname, useParams } from "next/navigation";
 
 interface Collection {
   _id: string;
@@ -13,17 +14,22 @@ interface Collection {
 
 interface CollectionsSidebarProps {
   collections: Collection[];
-  selectedCollection: string | null;
-  onSelectCollection: (collectionId: string) => void;
   onCreateCollection: () => void;
 }
 
 export function CollectionsSidebar({
   collections,
-  selectedCollection,
-  onSelectCollection,
   onCreateCollection,
 }: CollectionsSidebarProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const { projectId, collectionId } = useParams();
+  //   console.log({ params });
+  // Extract current collection ID from pathname
+
+  const handleCollectionClick = (collectionId: string) => {
+    router.push(`/cms/${projectId}/collections/${collectionId}`);
+  };
   return (
     <div className="w-64 border-r bg-muted/10 flex flex-col">
       <div className="p-4 border-b flex items-center justify-between pb-5">
@@ -43,10 +49,10 @@ export function CollectionsSidebar({
             {collections.map((collection: Collection) => (
               <button
                 key={collection._id}
-                onClick={() => onSelectCollection(collection._id)}
+                onClick={() => handleCollectionClick(collection._id)}
                 className={`w-full flex items-center justify-between p-3 rounded-lg text-sm hover:bg-muted transition-colors ${
-                  selectedCollection === collection._id ||
-                  (!selectedCollection && collection === collections[0])
+                  collectionId === collection._id ||
+                  (!collectionId && collection === collections[0])
                     ? "bg-muted"
                     : ""
                 }`}
