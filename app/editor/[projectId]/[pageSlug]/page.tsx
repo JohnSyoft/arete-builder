@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useEffect } from "react";
+import { useMemo, useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Editor, Frame, Element, useEditor } from "@craftjs/core";
 import { EditorSidebar } from "@/components/editor/sidebar";
@@ -38,6 +38,8 @@ function EditorContent({
   onPreview,
   onPageChange,
   onSave,
+  mode = "design",
+  onModeChange,
 }: {
   project: Project;
   currentPage: ApiPage;
@@ -46,6 +48,8 @@ function EditorContent({
   onPreview: () => void;
   onPageChange: (pageSlug: string) => void;
   onSave: (layout: any) => void;
+  mode?: "design" | "cms";
+  onModeChange?: (mode: "design" | "cms") => void;
 }) {
   const { actions, query } = useEditor();
   const { currentViewport } = useViewportStore();
@@ -80,6 +84,8 @@ function EditorContent({
         pages={pages}
         currentPageSlug={currentPage.slug}
         onPageChange={onPageChange}
+        mode={mode}
+        onModeChange={onModeChange}
       />{" "}
       <div className="flex h-[calc(100vh-4rem)] relative">
         <EditorSidebar />
@@ -125,6 +131,7 @@ export default function EditorPage() {
   const router = useRouter();
   const { toggleSidebar } = useSidebarStore();
   const { initializeComponents, blocks } = useUserBlocksStore();
+  const [mode, setMode] = useState<"design" | "cms">("design");
 
   const projectId = params.projectId as string;
   const pageSlug = params.pageSlug as string;
@@ -227,6 +234,13 @@ export default function EditorPage() {
   const handlePageChange = (newPageSlug: string) => {
     if (project) {
       router.push(`/editor/${project._id}/${newPageSlug}`);
+    }
+  };
+
+  const handleModeChange = (newMode: "design" | "cms") => {
+    setMode(newMode);
+    if (newMode === "cms") {
+      router.push(`/cms/${projectId}`);
     }
   };
 
@@ -347,6 +361,8 @@ export default function EditorPage() {
           onPreview={handlePreview}
           onPageChange={handlePageChange}
           onSave={handleSave}
+          mode={mode}
+          onModeChange={handleModeChange}
         />
       </Editor>
       <Modals />

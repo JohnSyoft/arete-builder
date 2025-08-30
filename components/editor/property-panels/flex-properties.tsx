@@ -1,22 +1,45 @@
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 interface FlexPropertiesProps {
-  elementProps: any
-  onPropChange: (key: string, value: any) => void
+  elementProps: any;
+  onPropChange: (key: string, value: any) => void;
 }
 
-export function FlexProperties({ elementProps, onPropChange }: FlexPropertiesProps) {
+export function FlexProperties({
+  elementProps,
+  onPropChange,
+}: FlexPropertiesProps) {
   return (
-    <Accordion type="multiple" defaultValue={["layout", "spacing", "advanced"]} className="w-full">
+    <Accordion
+      type="multiple"
+      defaultValue={["layout", "spacing", "advanced"]}
+      className="w-full"
+    >
       {/* Layout Section */}
       <AccordionItem value="layout">
-        <AccordionTrigger className="text-sm font-medium">Layout</AccordionTrigger>
+        <AccordionTrigger className="text-sm font-medium">
+          Layout
+        </AccordionTrigger>
         <AccordionContent className="space-y-3">
           <div>
             <Label htmlFor="flexDirection">Direction</Label>
-            <Select value={elementProps?.flexDirection || 'row'} onValueChange={(value) => onPropChange('flexDirection', value)}>
+            <Select
+              value={elementProps?.flexDirection || "row"}
+              onValueChange={(value) => onPropChange("flexDirection", value)}
+            >
               <SelectTrigger className="mt-1">
                 <SelectValue />
               </SelectTrigger>
@@ -24,14 +47,19 @@ export function FlexProperties({ elementProps, onPropChange }: FlexPropertiesPro
                 <SelectItem value="row">Row (→)</SelectItem>
                 <SelectItem value="column">Column (↓)</SelectItem>
                 <SelectItem value="row-reverse">Row Reverse (←)</SelectItem>
-                <SelectItem value="column-reverse">Column Reverse (↑)</SelectItem>
+                <SelectItem value="column-reverse">
+                  Column Reverse (↑)
+                </SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           <div>
             <Label htmlFor="gap">Gap Between Items</Label>
-            <Select value={elementProps?.gap || 'gap-4'} onValueChange={(value) => onPropChange('gap', value)}>
+            <Select
+              value={elementProps?.gap || "gap-4"}
+              onValueChange={(value) => onPropChange("gap", value)}
+            >
               <SelectTrigger className="mt-1">
                 <SelectValue />
               </SelectTrigger>
@@ -66,7 +94,10 @@ export function FlexProperties({ elementProps, onPropChange }: FlexPropertiesPro
 
           <div>
             <Label htmlFor="justifyContent">Main Axis Alignment</Label>
-            <Select value={elementProps?.justifyContent || 'start'} onValueChange={(value) => onPropChange('justifyContent', value)}>
+            <Select
+              value={elementProps?.justifyContent || "start"}
+              onValueChange={(value) => onPropChange("justifyContent", value)}
+            >
               <SelectTrigger className="mt-1">
                 <SelectValue />
               </SelectTrigger>
@@ -83,7 +114,10 @@ export function FlexProperties({ elementProps, onPropChange }: FlexPropertiesPro
 
           <div>
             <Label htmlFor="alignItems">Cross Axis Alignment</Label>
-            <Select value={elementProps?.alignItems || 'center'} onValueChange={(value) => onPropChange('alignItems', value)}>
+            <Select
+              value={elementProps?.alignItems || "center"}
+              onValueChange={(value) => onPropChange("alignItems", value)}
+            >
               <SelectTrigger className="mt-1">
                 <SelectValue />
               </SelectTrigger>
@@ -99,7 +133,10 @@ export function FlexProperties({ elementProps, onPropChange }: FlexPropertiesPro
 
           <div>
             <Label htmlFor="wrap">Flex Wrap</Label>
-            <Select value={elementProps?.wrap || 'nowrap'} onValueChange={(value) => onPropChange('wrap', value)}>
+            <Select
+              value={elementProps?.wrap || "nowrap"}
+              onValueChange={(value) => onPropChange("wrap", value)}
+            >
               <SelectTrigger className="mt-1">
                 <SelectValue />
               </SelectTrigger>
@@ -115,11 +152,18 @@ export function FlexProperties({ elementProps, onPropChange }: FlexPropertiesPro
 
       {/* Advanced Flex Properties */}
       <AccordionItem value="advanced">
-        <AccordionTrigger className="text-sm font-medium">Advanced Flex</AccordionTrigger>
+        <AccordionTrigger className="text-sm font-medium">
+          Advanced Flex
+        </AccordionTrigger>
         <AccordionContent className="space-y-3">
           <div>
             <Label htmlFor="flexGrow">Flex Grow (for child items)</Label>
-            <Select value={elementProps?.flexGrow || 'default'} onValueChange={(value) => onPropChange('flexGrow', value === 'default' ? '' : value)}>
+            <Select
+              value={elementProps?.flexGrow || "default"}
+              onValueChange={(value) =>
+                onPropChange("flexGrow", value === "default" ? "" : value)
+              }
+            >
               <SelectTrigger className="mt-1">
                 <SelectValue placeholder="Default" />
               </SelectTrigger>
@@ -135,7 +179,12 @@ export function FlexProperties({ elementProps, onPropChange }: FlexPropertiesPro
 
           <div>
             <Label htmlFor="flexShrink">Flex Shrink (for child items)</Label>
-            <Select value={elementProps?.flexShrink || 'default'} onValueChange={(value) => onPropChange('flexShrink', value === 'default' ? '' : value)}>
+            <Select
+              value={elementProps?.flexShrink || "default"}
+              onValueChange={(value) =>
+                onPropChange("flexShrink", value === "default" ? "" : value)
+              }
+            >
               <SelectTrigger className="mt-1">
                 <SelectValue placeholder="Default" />
               </SelectTrigger>
@@ -149,7 +198,12 @@ export function FlexProperties({ elementProps, onPropChange }: FlexPropertiesPro
 
           <div>
             <Label htmlFor="flexBasis">Flex Basis (initial size)</Label>
-            <Select value={elementProps?.flexBasis || 'default'} onValueChange={(value) => onPropChange('flexBasis', value === 'default' ? '' : value)}>
+            <Select
+              value={elementProps?.flexBasis || "default"}
+              onValueChange={(value) =>
+                onPropChange("flexBasis", value === "default" ? "" : value)
+              }
+            >
               <SelectTrigger className="mt-1">
                 <SelectValue placeholder="Auto" />
               </SelectTrigger>
@@ -171,7 +225,12 @@ export function FlexProperties({ elementProps, onPropChange }: FlexPropertiesPro
 
           <div>
             <Label htmlFor="order">Flex Order</Label>
-            <Select value={elementProps?.order || 'default'} onValueChange={(value) => onPropChange('order', value === 'default' ? '' : value)}>
+            <Select
+              value={elementProps?.order || "default"}
+              onValueChange={(value) =>
+                onPropChange("order", value === "default" ? "" : value)
+              }
+            >
               <SelectTrigger className="mt-1">
                 <SelectValue placeholder="Default" />
               </SelectTrigger>
@@ -199,11 +258,38 @@ export function FlexProperties({ elementProps, onPropChange }: FlexPropertiesPro
 
       {/* Spacing Section */}
       <AccordionItem value="spacing">
-        <AccordionTrigger className="text-sm font-medium">Spacing</AccordionTrigger>
+        <AccordionTrigger className="text-sm font-medium">
+          Spacing & Overflow
+        </AccordionTrigger>
         <AccordionContent className="space-y-3">
           <div>
+            <Label htmlFor="overflowX">Horizontal Overflow</Label>
+            <Select
+              value={elementProps?.overflowX || "visible"}
+              onValueChange={(value) => onPropChange("overflowX", value)}
+            >
+              <SelectTrigger className="mt-1">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="visible">Visible (default)</SelectItem>
+                <SelectItem value="hidden">Hidden</SelectItem>
+                <SelectItem value="scroll">
+                  Scroll (always show scrollbar)
+                </SelectItem>
+                <SelectItem value="auto">
+                  Auto (scrollbar when needed)
+                </SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div>
             <Label htmlFor="padding">Padding</Label>
-            <Select value={elementProps?.padding || 'p-4'} onValueChange={(value) => onPropChange('padding', value)}>
+            <Select
+              value={elementProps?.padding || "p-4"}
+              onValueChange={(value) => onPropChange("padding", value)}
+            >
               <SelectTrigger className="mt-1">
                 <SelectValue />
               </SelectTrigger>
@@ -240,7 +326,10 @@ export function FlexProperties({ elementProps, onPropChange }: FlexPropertiesPro
 
           <div>
             <Label htmlFor="margin">Margin</Label>
-            <Select value={elementProps?.margin || 'my-4'} onValueChange={(value) => onPropChange('margin', value)}>
+            <Select
+              value={elementProps?.margin || "my-4"}
+              onValueChange={(value) => onPropChange("margin", value)}
+            >
               <SelectTrigger className="mt-1">
                 <SelectValue />
               </SelectTrigger>
@@ -281,7 +370,10 @@ export function FlexProperties({ elementProps, onPropChange }: FlexPropertiesPro
 
           <div>
             <Label htmlFor="minHeight">Minimum Height</Label>
-            <Select value={elementProps?.minHeight || 'min-h-[60px]'} onValueChange={(value) => onPropChange('minHeight', value)}>
+            <Select
+              value={elementProps?.minHeight || "min-h-[60px]"}
+              onValueChange={(value) => onPropChange("minHeight", value)}
+            >
               <SelectTrigger className="mt-1">
                 <SelectValue />
               </SelectTrigger>
@@ -310,5 +402,5 @@ export function FlexProperties({ elementProps, onPropChange }: FlexPropertiesPro
         </AccordionContent>
       </AccordionItem>
     </Accordion>
-  )
+  );
 }

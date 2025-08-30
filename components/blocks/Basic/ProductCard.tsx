@@ -215,9 +215,7 @@ export function ProductCard({
   };
 
   return (
-    <Element
-      id="productCardContainer"
-      is={Card}
+    <Card
       variant="flat"
       shadow="md"
       borderRadius={cardBorderRadius}
@@ -228,238 +226,274 @@ export function ProductCard({
       hoverable={true}
       clickable={!!finalLinkUrl}
       overflow="hidden"
-      canvas
     >
-      {layout === "vertical" ? (
-        // Vertical Layout
-        <>
-          {/* Image */}
-          {imagePosition === "top" && (
-            <Element
-              id="productCardImage"
-              is={Box}
-              backgroundColor="transparent"
-              padding="0"
-              margin="0"
-              display="block"
-              width="100%"
-              height={imageHeight}
-              canvas
-            >
-              <CraftImage
-                src={displayImage}
-                alt={displayName}
-                width="w-full"
-                height="h-full"
-                objectFit="object-cover"
-                borderRadius="rounded-t-lg"
-                margin=""
-                padding=""
-              />
-            </Element>
-          )}
-
-          {/* Content */}
-          <Element
-            id="productCardContent"
-            is={Box}
-            backgroundColor="transparent"
-            padding="20px"
-            margin="0"
-            display="block"
-            canvas
-          >
-            {/* Category & Brand */}
-            {(showCategory || showBrand) && (
+      <Element id="productCardContainer" is="div" canvas>
+        {layout === "vertical" ? (
+          // Vertical Layout
+          <Element id="productCardContent" is="div">
+            {/* Image */}
+            {imagePosition === "top" && (
               <Element
-                id="productCardCategoryBrand"
-                is={Flex}
-                canvas
-                flexDirection="row"
-                justifyContent="between"
-                alignItems="center"
-                gap="gap-2"
-                margin="0 0 8px 0"
-                wrap="wrap"
-              >
-                {showCategory && (
-                  <Element
-                    id="productCardCategory"
-                    is={Box}
-                    backgroundColor="transparent"
-                    padding="0"
-                    margin="0"
-                    display="block"
-                    canvas={false}
-                  >
-                    <CraftText
-                      text={displayCategory}
-                      tagName="span"
-                      fontSize="text-xs"
-                      fontWeight="font-medium"
-                      color="text-blue-600"
-                      textAlign="text-left"
-                      textTransform="uppercase"
-                      letterSpacing="tracking-wide"
-                    />
-                  </Element>
-                )}
-
-                {showBrand && (
-                  <Element
-                    id="productCardBrand"
-                    is={Box}
-                    backgroundColor="transparent"
-                    padding="0"
-                    margin="0"
-                    display="block"
-                    canvas={false}
-                  >
-                    <CraftText
-                      text={displayBrand}
-                      tagName="span"
-                      fontSize="text-xs"
-                      fontWeight="font-normal"
-                      color="text-gray-500"
-                      textAlign="text-right"
-                    />
-                  </Element>
-                )}
-              </Element>
-            )}
-
-            {/* Product Name */}
-            <Element
-              id="productCardName"
-              is={Box}
-              backgroundColor="transparent"
-              padding="0"
-              margin="0 0 8px 0"
-              display="block"
-              canvas={false}
-            >
-              <CraftText
-                text={displayName}
-                tagName="h3"
-                fontSize={nameFontSize}
-                fontWeight="font-bold"
-                color={nameColor}
-                textAlign="text-left"
-                lineHeight="leading-tight"
-              />
-            </Element>
-
-            {/* Rating */}
-            {showRating && displayRating > 0 && (
-              <Element
-                id="productCardRating"
-                is={Flex}
-                canvas
-                flexDirection="row"
-                justifyContent="start"
-                alignItems="center"
-                gap="gap-2"
-                margin="0 0 12px 0"
-                wrap="nowrap"
-              >
-                <Element
-                  id="productCardStars"
-                  is={Box}
-                  backgroundColor="transparent"
-                  padding="0"
-                  margin="0"
-                  display="block"
-                  canvas={false}
-                >
-                  <CraftText
-                    text={generateStars(displayRating)}
-                    tagName="span"
-                    fontSize="text-sm"
-                    fontWeight="font-normal"
-                    color="text-yellow-500"
-                    textAlign="text-left"
-                  />
-                </Element>
-
-                <Element
-                  id="productCardReviews"
-                  is={Box}
-                  backgroundColor="transparent"
-                  padding="0"
-                  margin="0"
-                  display="block"
-                  canvas={false}
-                >
-                  <CraftText
-                    text={`${displayRating} (${displayReviewCount} reviews)`}
-                    tagName="span"
-                    fontSize="text-xs"
-                    fontWeight="font-normal"
-                    color="text-gray-500"
-                    textAlign="text-left"
-                  />
-                </Element>
-              </Element>
-            )}
-
-            {/* Description */}
-            {showDescription && (
-              <Element
-                id="productCardDescription"
+                id="productCardImage"
                 is={Box}
                 backgroundColor="transparent"
                 padding="0"
-                margin="0 0 16px 0"
+                margin="0"
                 display="block"
-                canvas={false}
+                width="100%"
+                height={imageHeight}
+                canvas
               >
-                <CraftText
-                  text={displayDescription}
-                  tagName="p"
-                  fontSize={descriptionFontSize}
-                  fontWeight="font-normal"
-                  color={descriptionColor}
-                  textAlign="text-left"
-                  lineHeight="leading-relaxed"
+                <CraftImage
+                  src={displayImage}
+                  alt={displayName}
+                  width="w-full"
+                  height="h-full"
+                  objectFit="object-cover"
+                  borderRadius="rounded-t-lg"
+                  margin=""
+                  padding=""
                 />
               </Element>
             )}
 
-            {/* Price */}
-            {showPrice && (
+            {/* Content */}
+            <Element
+              id="productCardContent"
+              is={Box}
+              backgroundColor="transparent"
+              padding="20px"
+              margin="0"
+              display="block"
+              canvas
+            >
+              {/* Category & Brand */}
+              {(showCategory || showBrand) && (
+                <Element
+                  id="productCardCategoryBrand"
+                  is={Flex}
+                  canvas
+                  flexDirection="row"
+                  justifyContent="between"
+                  alignItems="center"
+                  gap="gap-2"
+                  margin="0 0 8px 0"
+                  wrap="wrap"
+                >
+                  {showCategory && (
+                    <Element
+                      id="productCardCategory"
+                      is={Box}
+                      backgroundColor="transparent"
+                      padding="0"
+                      margin="0"
+                      display="block"
+                      canvas={false}
+                    >
+                      <CraftText
+                        text={displayCategory}
+                        tagName="span"
+                        fontSize="text-xs"
+                        fontWeight="font-medium"
+                        color="text-blue-600"
+                        textAlign="text-left"
+                        textTransform="uppercase"
+                        letterSpacing="tracking-wide"
+                      />
+                    </Element>
+                  )}
+
+                  {showBrand && (
+                    <Element
+                      id="productCardBrand"
+                      is={Box}
+                      backgroundColor="transparent"
+                      padding="0"
+                      margin="0"
+                      display="block"
+                      canvas={false}
+                    >
+                      <CraftText
+                        text={displayBrand}
+                        tagName="span"
+                        fontSize="text-xs"
+                        fontWeight="font-normal"
+                        color="text-gray-500"
+                        textAlign="text-right"
+                      />
+                    </Element>
+                  )}
+                </Element>
+              )}
+
+              {/* Product Name */}
               <Element
-                id="productCardPrice"
+                id="productCardName"
+                is={Box}
+                backgroundColor="transparent"
+                padding="0"
+                margin="0 0 8px 0"
+                display="block"
+                canvas={false}
+              >
+                <CraftText
+                  text={displayName}
+                  tagName="h3"
+                  fontSize={nameFontSize}
+                  fontWeight="font-bold"
+                  color={nameColor}
+                  textAlign="text-left"
+                  lineHeight="leading-tight"
+                />
+              </Element>
+
+              {/* Rating */}
+              {showRating && displayRating > 0 && (
+                <Element
+                  id="productCardRating"
+                  is={Flex}
+                  canvas
+                  flexDirection="row"
+                  justifyContent="start"
+                  alignItems="center"
+                  gap="gap-2"
+                  margin="0 0 12px 0"
+                  wrap="nowrap"
+                >
+                  <Element
+                    id="productCardStars"
+                    is={Box}
+                    backgroundColor="transparent"
+                    padding="0"
+                    margin="0"
+                    display="block"
+                    canvas={false}
+                  >
+                    <CraftText
+                      text={generateStars(displayRating)}
+                      tagName="span"
+                      fontSize="text-sm"
+                      fontWeight="font-normal"
+                      color="text-yellow-500"
+                      textAlign="text-left"
+                    />
+                  </Element>
+
+                  <Element
+                    id="productCardReviews"
+                    is={Box}
+                    backgroundColor="transparent"
+                    padding="0"
+                    margin="0"
+                    display="block"
+                    canvas={false}
+                  >
+                    <CraftText
+                      text={`${displayRating} (${displayReviewCount} reviews)`}
+                      tagName="span"
+                      fontSize="text-xs"
+                      fontWeight="font-normal"
+                      color="text-gray-500"
+                      textAlign="text-left"
+                    />
+                  </Element>
+                </Element>
+              )}
+
+              {/* Description */}
+              {showDescription && (
+                <Element
+                  id="productCardDescription"
+                  is={Box}
+                  backgroundColor="transparent"
+                  padding="0"
+                  margin="0 0 16px 0"
+                  display="block"
+                  canvas={false}
+                >
+                  <CraftText
+                    text={displayDescription}
+                    tagName="p"
+                    fontSize={descriptionFontSize}
+                    fontWeight="font-normal"
+                    color={descriptionColor}
+                    textAlign="text-left"
+                    lineHeight="leading-relaxed"
+                  />
+                </Element>
+              )}
+
+              {/* Price */}
+              {showPrice && (
+                <Element
+                  id="productCardPrice"
+                  is={Flex}
+                  canvas
+                  flexDirection="row"
+                  justifyContent="start"
+                  alignItems="center"
+                  gap="gap-3"
+                  margin="0 0 20px 0"
+                  wrap="nowrap"
+                >
+                  <Element
+                    id="productCardCurrentPrice"
+                    is={Box}
+                    backgroundColor="transparent"
+                    padding="0"
+                    margin="0"
+                    display="block"
+                    canvas={false}
+                  >
+                    <CraftText
+                      text={displayPrice}
+                      tagName="span"
+                      fontSize={priceFontSize}
+                      fontWeight="font-bold"
+                      color={priceColor}
+                      textAlign="text-left"
+                    />
+                  </Element>
+
+                  {showOriginalPrice && displayOriginalPrice && (
+                    <Element
+                      id="productCardOriginalPrice"
+                      is={Box}
+                      backgroundColor="transparent"
+                      padding="0"
+                      margin="0"
+                      display="block"
+                      canvas={false}
+                    >
+                      <CraftText
+                        text={displayOriginalPrice}
+                        tagName="span"
+                        fontSize="text-sm"
+                        fontWeight="font-normal"
+                        color="text-gray-400"
+                        textAlign="text-left"
+                        textDecoration="line-through"
+                      />
+                    </Element>
+                  )}
+                </Element>
+              )}
+
+              {/* Buttons */}
+              <Element
+                id="productCardButtons"
                 is={Flex}
                 canvas
                 flexDirection="row"
                 justifyContent="start"
                 alignItems="center"
                 gap="gap-3"
-                margin="0 0 20px 0"
-                wrap="nowrap"
+                margin="0"
+                wrap="wrap"
               >
-                <Element
-                  id="productCardCurrentPrice"
-                  is={Box}
-                  backgroundColor="transparent"
-                  padding="0"
-                  margin="0"
-                  display="block"
-                  canvas={false}
-                >
-                  <CraftText
-                    text={displayPrice}
-                    tagName="span"
-                    fontSize={priceFontSize}
-                    fontWeight="font-bold"
-                    color={priceColor}
-                    textAlign="text-left"
-                  />
-                </Element>
-
-                {showOriginalPrice && displayOriginalPrice && (
+                {showAddToCartButton && (
                   <Element
-                    id="productCardOriginalPrice"
+                    id="productCardAddToCart"
                     is={Box}
                     backgroundColor="transparent"
                     padding="0"
@@ -467,132 +501,97 @@ export function ProductCard({
                     display="block"
                     canvas={false}
                   >
-                    <CraftText
-                      text={displayOriginalPrice}
-                      tagName="span"
-                      fontSize="text-sm"
-                      fontWeight="font-normal"
-                      color="text-gray-400"
-                      textAlign="text-left"
-                      textDecoration="line-through"
+                    <CraftButton
+                      text={addToCartText}
+                      variant={buttonVariant}
+                      size="default"
+                      href="#"
+                      borderRadius="6px"
+                      padding="px-4 py-2"
+                      margin=""
+                    />
+                  </Element>
+                )}
+
+                {showViewDetailsButton && (
+                  <Element
+                    id="productCardViewDetails"
+                    is={Box}
+                    backgroundColor="transparent"
+                    padding="0"
+                    margin="0"
+                    display="block"
+                    canvas={false}
+                  >
+                    <CraftButton
+                      text={viewDetailsText}
+                      variant="outline"
+                      size="default"
+                      href={finalLinkUrl}
+                      borderRadius="6px"
+                      padding="px-4 py-2"
+                      margin=""
                     />
                   </Element>
                 )}
               </Element>
+            </Element>
+          </Element>
+        ) : (
+          // Horizontal Layout - Similar structure but with Flex layout
+          <Element
+            id="productCardHorizontal"
+            is={Flex}
+            canvas
+            flexDirection="row"
+            justifyContent="start"
+            alignItems="start"
+            gap="gap-6"
+            margin="0"
+            wrap="nowrap"
+          >
+            {/* Image */}
+            {imagePosition === "left" && (
+              <Element
+                id="productCardImageLeft"
+                is={Box}
+                backgroundColor="transparent"
+                padding="0"
+                margin="0"
+                display="block"
+                width="200px"
+                height={imageHeight}
+                canvas
+              >
+                <CraftImage
+                  src={displayImage}
+                  alt={displayName}
+                  width="w-full"
+                  height="h-full"
+                  objectFit="object-cover"
+                  borderRadius="rounded-lg"
+                  margin=""
+                  padding=""
+                />
+              </Element>
             )}
 
-            {/* Buttons */}
+            {/* Content - Same structure as vertical but in flex item */}
             <Element
-              id="productCardButtons"
-              is={Flex}
-              canvas
-              flexDirection="row"
-              justifyContent="start"
-              alignItems="center"
-              gap="gap-3"
-              margin="0"
-              wrap="wrap"
-            >
-              {showAddToCartButton && (
-                <Element
-                  id="productCardAddToCart"
-                  is={Box}
-                  backgroundColor="transparent"
-                  padding="0"
-                  margin="0"
-                  display="block"
-                  canvas={false}
-                >
-                  <CraftButton
-                    text={addToCartText}
-                    variant={buttonVariant}
-                    size="default"
-                    href="#"
-                    borderRadius="6px"
-                    padding="px-4 py-2"
-                    margin=""
-                  />
-                </Element>
-              )}
-
-              {showViewDetailsButton && (
-                <Element
-                  id="productCardViewDetails"
-                  is={Box}
-                  backgroundColor="transparent"
-                  padding="0"
-                  margin="0"
-                  display="block"
-                  canvas={false}
-                >
-                  <CraftButton
-                    text={viewDetailsText}
-                    variant="outline"
-                    size="default"
-                    href={finalLinkUrl}
-                    borderRadius="6px"
-                    padding="px-4 py-2"
-                    margin=""
-                  />
-                </Element>
-              )}
-            </Element>
-          </Element>
-        </>
-      ) : (
-        // Horizontal Layout - Similar structure but with Flex layout
-        <Element
-          id="productCardHorizontal"
-          is={Flex}
-          canvas
-          flexDirection="row"
-          justifyContent="start"
-          alignItems="start"
-          gap="gap-6"
-          margin="0"
-          wrap="nowrap"
-        >
-          {/* Image */}
-          {imagePosition === "left" && (
-            <Element
-              id="productCardImageLeft"
+              id="productCardContentHorizontal"
               is={Box}
               backgroundColor="transparent"
-              padding="0"
+              padding="20px"
               margin="0"
               display="block"
-              width="200px"
-              height={imageHeight}
               canvas
             >
-              <CraftImage
-                src={displayImage}
-                alt={displayName}
-                width="w-full"
-                height="h-full"
-                objectFit="object-cover"
-                borderRadius="rounded-lg"
-                margin=""
-                padding=""
-              />
+              {/* Same content structure as vertical layout */}
             </Element>
-          )}
-
-          {/* Content - Same structure as vertical but in flex item */}
-          <Element
-            id="productCardContentHorizontal"
-            is={Box}
-            backgroundColor="transparent"
-            padding="20px"
-            margin="0"
-            display="block"
-            canvas
-          >
-            {/* Same content structure as vertical layout */}
           </Element>
-        </Element>
-      )}
-    </Element>
+        )}
+      </Element>
+    </Card>
   );
 }
 

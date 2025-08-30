@@ -31,9 +31,9 @@ export function MedicalServices1({
   service1Title = "General Health Checkups",
   service2Title = "Emergency & Urgent Care",
   service3Title = "Cardiology & Heart Health",
-  service1Description = "Regular health assessments for early disease detection. Lorem ipsum dolor sit amet.",
-  service2Description = "Regular health assessments for early disease detection. Lorem ipsum dolor sit amet.",
-  service3Description = "Regular health assessments for early disease detection. Lorem ipsum dolor sit amet.",
+  service1Description = "Comprehensive health screenings and preventive care to maintain optimal wellness and detect potential health issues early.",
+  service2Description = "24/7 emergency medical services with rapid response times and advanced life support capabilities for urgent medical needs.",
+  service3Description = "Specialized cardiovascular care including diagnostics, treatment, and prevention of heart-related conditions.",
   ...props
 }: MedicalServices1Props) {
   // Set section defaults for medical services
@@ -239,7 +239,7 @@ export function MedicalServices1({
               canvas
             >
               <CraftImage
-                src="/placeholder.svg?height=200&width=400&text=Doctor+Consultation"
+                src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800&q=80"
                 alt="Doctor Consultation Image"
                 width="w-full"
                 height="h-full"
@@ -363,7 +363,7 @@ export function MedicalServices1({
               canvas
             >
               <CraftImage
-                src="/placeholder.svg?height=200&width=400&text=Hospital+Corridor"
+                src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?w=800&q=80"
                 alt="Hospital Corridor Image"
                 width="w-full"
                 height="h-full"
@@ -487,7 +487,7 @@ export function MedicalServices1({
               canvas
             >
               <CraftImage
-                src="/placeholder.svg?height=200&width=400&text=Female+Doctor"
+                src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=800&q=80"
                 alt="Female Doctor Image"
                 width="w-full"
                 height="h-full"
@@ -563,11 +563,11 @@ MedicalServices1.craft = {
     service2Title: "Emergency & Urgent Care",
     service3Title: "Cardiology & Heart Health",
     service1Description:
-      "Regular health assessments for early disease detection. Lorem ipsum dolor sit amet.",
+      "Comprehensive health screenings and preventive care to maintain optimal wellness and detect potential health issues early.",
     service2Description:
-      "Regular health assessments for early disease detection. Lorem ipsum dolor sit amet.",
+      "24/7 emergency medical services with rapid response times and advanced life support capabilities for urgent medical needs.",
     service3Description:
-      "Regular health assessments for early disease detection. Lorem ipsum dolor sit amet.",
+      "Specialized cardiovascular care including diagnostics, treatment, and prevention of heart-related conditions.",
   },
   rules: {
     canDrag: () => true,

@@ -6,6 +6,10 @@ import { CreateEditProjectDialog } from "@/components/dialogs/project/CreateEdit
 import { CreateEditPageDialog } from "@/components/dialogs/page/CreateEditPageDialog";
 import { ConfirmationDialog } from "@/components/dialogs/confirmation/ConfirmationDialog";
 import { CreateBlockDialog } from "@/components/dialogs/CreateBlockDialog";
+import { CreateEditCollectionDialog } from "@/components/dialogs/CreateEditCollectionDialog";
+import { ManageFieldsDialog } from "@/components/dialogs/ManageFieldsDialog";
+import { DeleteCollectionDialog } from "@/components/dialogs/DeleteCollectionDialog";
+import { CollectionItemEditDialog } from "@/components/dialogs/CollectionItemEditDialog";
 
 // Modal registry
 const modals: Record<string, React.ComponentType<any>> = {
@@ -15,6 +19,10 @@ const modals: Record<string, React.ComponentType<any>> = {
   editPage: CreateEditPageDialog,
   confirmation: ConfirmationDialog,
   createBlock: CreateBlockDialog,
+  createEditCollection: CreateEditCollectionDialog,
+  manageFields: ManageFieldsDialog,
+  deleteCollection: DeleteCollectionDialog,
+  editCollectionItem: CollectionItemEditDialog,
   // Add more dialogs here as needed
 };
 
@@ -31,5 +39,5 @@ export function Modals() {
   const ModalComponent = modalName ? modals[modalName] : null;
   console.log({ open });
   if (!ModalComponent) return null;
-  return <ModalComponent {...modalProps} open={open} onClose={closeModal} />;
+  return <ModalComponent {...modalProps} isOpen={open} onClose={closeModal} />;
 }

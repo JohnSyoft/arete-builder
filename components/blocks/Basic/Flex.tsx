@@ -7,7 +7,14 @@ interface FlexProps {
   children?: React.ReactNode;
   flexDirection?: "row" | "column" | "row-reverse" | "column-reverse";
   gap?: string;
-  justifyContent?: "start" | "center" | "end" | "between" | "around" | "evenly";
+  justifyContent?:
+    | "start"
+    | "center"
+    | "end"
+    | "between"
+    | "around"
+    | "evenly"
+    | "space-between";
   alignItems?: "start" | "center" | "end" | "stretch" | "baseline";
   wrap?: "nowrap" | "wrap" | "wrap-reverse";
   minHeight?: string;
@@ -18,6 +25,8 @@ interface FlexProps {
   flexShrink?: string;
   flexBasis?: string;
   order?: string;
+  // Overflow control
+  overflowX?: "visible" | "hidden" | "scroll" | "auto";
 }
 
 export function Flex({
@@ -34,6 +43,7 @@ export function Flex({
   flexShrink = "",
   flexBasis = "",
   order = "",
+  overflowX = "visible",
 }: FlexProps) {
   const {
     connectors: { connect, drag },
@@ -66,6 +76,7 @@ export function Flex({
         flexShrink,
         flexBasis,
         order,
+        overflowX,
       },
       id,
       (newProps) => {
@@ -151,6 +162,20 @@ export function Flex({
     return classes.join(" ");
   };
 
+  const getOverflowXClass = (overflow: string) => {
+    switch (overflow) {
+      case "hidden":
+        return "overflow-x-hidden";
+      case "scroll":
+        return "overflow-x-scroll";
+      case "auto":
+        return "overflow-x-auto";
+      case "visible":
+      default:
+        return "overflow-x-visible";
+    }
+  };
+
   return (
     <div
       id="flex-container"
@@ -172,6 +197,7 @@ export function Flex({
         ${getAlignClass(alignItems)} 
         ${getWrapClass(wrap)}
         ${getAdvancedFlexClasses()}
+        ${getOverflowXClass(overflowX)}
         ${selected ? "ring-2 ring-blue-500" : ""} 
         ${hovered ? "ring-1 ring-blue-300" : ""}
       `}
@@ -224,6 +250,7 @@ Flex.craft = {
     flexShrink: "",
     flexBasis: "",
     order: "",
+    overflowX: "visible",
   },
   rules: {
     canDrag: () => true,

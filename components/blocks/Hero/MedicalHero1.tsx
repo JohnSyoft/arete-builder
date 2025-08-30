@@ -43,7 +43,7 @@ export function MedicalHero1({
   ],
   stat1Number = "15+",
   stat1Label = "Years of Experience",
-  stat1Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod.",
+  stat1Description = "Providing exceptional healthcare services with a proven track record of patient satisfaction and medical excellence.",
   stat2Title = "Join a thriving health and wellness community",
   stat2Description = "Over 1 million users trust Romedic for their medical needs.",
   stat3Number = "35+",
@@ -619,7 +619,7 @@ MedicalHero1.craft = {
     stat1Number: "15+",
     stat1Label: "Years of Experience",
     stat1Description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod.",
+      "Providing exceptional healthcare services with a proven track record of patient satisfaction and medical excellence.",
     stat2Title: "Join a thriving health and wellness community",
     stat2Description:
       "Over 1 million users trust Romedic for their medical needs.",

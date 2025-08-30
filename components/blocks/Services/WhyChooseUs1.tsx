@@ -27,7 +27,7 @@ interface WhyChooseUs1Props extends SectionProps {
 export function WhyChooseUs1({
   sectionTag = "WHY CHOOSE US",
   mainTitle = "Why Patients Trust Romedic",
-  description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo. Curabitur cursus, erat eu laoreet tincidunt.",
+  description = "Our commitment to excellence, state-of-the-art facilities, and compassionate care make us the preferred choice for comprehensive healthcare services.",
   statisticNumber = "98%",
   statisticLabel = "Positive Feedback",
   supportTitle = "24/7 Support",
@@ -104,7 +104,7 @@ export function WhyChooseUs1({
                 canvas
               >
                 <CraftImage
-                  src="/placeholder.svg?height=200&width=250&text=Medical+Staff"
+                  src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=800&q=80"
                   alt="Medical Staff"
                   width="w-full"
                   height="h-full"
@@ -260,7 +260,7 @@ export function WhyChooseUs1({
                 canvas
               >
                 <CraftImage
-                  src="/placeholder.svg?height=160&width=250&text=Doctor+Patient"
+                  src="https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=800&q=80"
                   alt="Doctor Patient Consultation"
                   width="w-full"
                   height="h-full"
@@ -284,7 +284,7 @@ export function WhyChooseUs1({
               canvas
             >
               <CraftImage
-                src="/placeholder.svg?height=200&width=400&text=Medical+Team+Video"
+                src="https://images.unsplash.com/photo-1551601651-2a8555f1a136?w=800&q=80"
                 alt="Medical Team Video"
                 width="w-full"
                 height="h-full"
@@ -618,7 +618,7 @@ WhyChooseUs1.craft = {
     sectionTag: "WHY CHOOSE US",
     mainTitle: "Why Patients Trust Romedic",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo. Curabitur cursus, erat eu laoreet tincidunt.",
+      "Our commitment to excellence, state-of-the-art facilities, and compassionate care make us the preferred choice for comprehensive healthcare services.",
     statisticNumber: "98%",
     statisticLabel: "Positive Feedback",
     supportTitle: "24/7 Support",

@@ -173,9 +173,7 @@ export function BlogCard({
   };
 
   return (
-    <Element
-      id="blogCardContainer"
-      is={Card}
+    <Card
       variant="flat"
       shadow="md"
       borderRadius={cardBorderRadius}
@@ -186,51 +184,74 @@ export function BlogCard({
       hoverable={true}
       clickable={!!finalLinkUrl}
       overflow="hidden"
-      canvas
     >
-      {layout === "vertical" ? (
-        // Vertical Layout
-        <Element id="blogCardContent" is="div">
-          {/* Image */}
-          {imagePosition === "top" && (
+      <Element id="blogCardContainer" is="div" canvas>
+        {layout === "vertical" ? (
+          // Vertical Layout
+          <Element id="blogCardContent" is="div">
+            {/* Image */}
+            {imagePosition === "top" && (
+              <Element
+                id="blogCardImage"
+                is={Box}
+                backgroundColor="transparent"
+                padding="0"
+                margin="0"
+                display="block"
+                width="100%"
+                height={imageHeight}
+                canvas
+              >
+                <CraftImage
+                  src={displayImage}
+                  alt={displayTitle}
+                  width="w-full"
+                  height="h-full"
+                  objectFit="object-cover"
+                  borderRadius="rounded-t-lg"
+                  margin=""
+                  padding=""
+                />
+              </Element>
+            )}
+
+            {/* Content */}
             <Element
-              id="blogCardImage"
+              id="blogCardContent"
               is={Box}
               backgroundColor="transparent"
-              padding="0"
+              padding="24px"
               margin="0"
               display="block"
-              width="100%"
-              height={imageHeight}
               canvas
             >
-              <CraftImage
-                src={displayImage}
-                alt={displayTitle}
-                width="w-full"
-                height="h-full"
-                objectFit="object-cover"
-                borderRadius="rounded-t-lg"
-                margin=""
-                padding=""
-              />
-            </Element>
-          )}
+              {/* Category */}
+              {showCategory && (
+                <Element
+                  id="blogCardCategory"
+                  is={Box}
+                  backgroundColor="transparent"
+                  padding="0"
+                  margin="0 0 12px 0"
+                  display="block"
+                  canvas={false}
+                >
+                  <CraftText
+                    text={displayCategory}
+                    tagName="span"
+                    fontSize="text-xs"
+                    fontWeight="font-semibold"
+                    color="text-blue-600"
+                    textAlign="text-left"
+                    textTransform="uppercase"
+                    letterSpacing="tracking-wider"
+                  />
+                </Element>
+              )}
 
-          {/* Content */}
-          <Element
-            id="blogCardContent"
-            is={Box}
-            backgroundColor="transparent"
-            padding="24px"
-            margin="0"
-            display="block"
-            canvas
-          >
-            {/* Category */}
-            {showCategory && (
+              {/* Title */}
               <Element
-                id="blogCardCategory"
+                id="blogCardTitle"
                 is={Box}
                 backgroundColor="transparent"
                 padding="0"
@@ -239,235 +260,213 @@ export function BlogCard({
                 canvas={false}
               >
                 <CraftText
-                  text={displayCategory}
-                  tagName="span"
-                  fontSize="text-xs"
-                  fontWeight="font-semibold"
-                  color="text-blue-600"
+                  text={displayTitle}
+                  tagName="h3"
+                  fontSize={titleFontSize}
+                  fontWeight="font-bold"
+                  color={titleColor}
                   textAlign="text-left"
-                  textTransform="uppercase"
-                  letterSpacing="tracking-wider"
+                  lineHeight="leading-tight"
                 />
               </Element>
-            )}
 
-            {/* Title */}
-            <Element
-              id="blogCardTitle"
-              is={Box}
-              backgroundColor="transparent"
-              padding="0"
-              margin="0 0 12px 0"
-              display="block"
-              canvas={false}
-            >
-              <CraftText
-                text={displayTitle}
-                tagName="h3"
-                fontSize={titleFontSize}
-                fontWeight="font-bold"
-                color={titleColor}
-                textAlign="text-left"
-                lineHeight="leading-tight"
-              />
-            </Element>
-
-            {/* Description */}
-            {showDescription && (
-              <Element
-                id="blogCardDescription"
-                is={Box}
-                backgroundColor="transparent"
-                padding="0"
-                margin="0 0 16px 0"
-                display="block"
-                canvas={false}
-              >
-                <CraftText
-                  text={displayDescription}
-                  tagName="p"
-                  fontSize={descriptionFontSize}
-                  fontWeight="font-normal"
-                  color={descriptionColor}
-                  textAlign="text-left"
-                  lineHeight="leading-relaxed"
-                />
-              </Element>
-            )}
-
-            {/* Meta Info */}
-            {(showAuthor || showDate) && (
-              <Element
-                id="blogCardMeta"
-                is={Flex}
-                canvas
-                flexDirection="row"
-                justifyContent="between"
-                alignItems="center"
-                gap="gap-4"
-                margin="0 0 20px 0"
-                wrap="wrap"
-              >
-                {/* Author & Date */}
+              {/* Description */}
+              {showDescription && (
                 <Element
-                  id="blogCardAuthorDate"
+                  id="blogCardDescription"
+                  is={Box}
+                  backgroundColor="transparent"
+                  padding="0"
+                  margin="0 0 16px 0"
+                  display="block"
+                  canvas={false}
+                >
+                  <CraftText
+                    text={displayDescription}
+                    tagName="p"
+                    fontSize={descriptionFontSize}
+                    fontWeight="font-normal"
+                    color={descriptionColor}
+                    textAlign="text-left"
+                    lineHeight="leading-relaxed"
+                  />
+                </Element>
+              )}
+
+              {/* Meta Info */}
+              {(showAuthor || showDate) && (
+                <Element
+                  id="blogCardMeta"
+                  is={Flex}
+                  canvas
+                  flexDirection="row"
+                  justifyContent="between"
+                  alignItems="center"
+                  gap="gap-4"
+                  margin="0 0 20px 0"
+                  wrap="wrap"
+                >
+                  {/* Author & Date */}
+                  <Element
+                    id="blogCardAuthorDate"
+                    is={Box}
+                    backgroundColor="transparent"
+                    padding="0"
+                    margin="0"
+                    display="block"
+                    canvas
+                  >
+                    {showAuthor && (
+                      <Element
+                        id="blogCardAuthor"
+                        is={Box}
+                        backgroundColor="transparent"
+                        padding="0"
+                        margin="0 0 4px 0"
+                        display="block"
+                        canvas={false}
+                      >
+                        <CraftText
+                          text={`By ${displayAuthor}`}
+                          tagName="p"
+                          fontSize="text-sm"
+                          fontWeight="font-medium"
+                          color="text-gray-700"
+                          textAlign="text-left"
+                        />
+                      </Element>
+                    )}
+
+                    {showDate && (
+                      <Element
+                        id="blogCardDate"
+                        is={Box}
+                        backgroundColor="transparent"
+                        padding="0"
+                        margin="0"
+                        display="block"
+                        canvas={false}
+                      >
+                        <CraftText
+                          text={formatDate(displayDate)}
+                          tagName="p"
+                          fontSize="text-xs"
+                          fontWeight="font-normal"
+                          color="text-gray-500"
+                          textAlign="text-left"
+                        />
+                      </Element>
+                    )}
+                  </Element>
+                </Element>
+              )}
+
+              {/* Read More Button */}
+              {showReadMoreButton && (
+                <Element
+                  id="blogCardButton"
                   is={Box}
                   backgroundColor="transparent"
                   padding="0"
                   margin="0"
                   display="block"
-                  canvas
+                  canvas={false}
                 >
-                  {showAuthor && (
-                    <Element
-                      id="blogCardAuthor"
-                      is={Box}
-                      backgroundColor="transparent"
-                      padding="0"
-                      margin="0 0 4px 0"
-                      display="block"
-                      canvas={false}
-                    >
-                      <CraftText
-                        text={`By ${displayAuthor}`}
-                        tagName="p"
-                        fontSize="text-sm"
-                        fontWeight="font-medium"
-                        color="text-gray-700"
-                        textAlign="text-left"
-                      />
-                    </Element>
-                  )}
-
-                  {showDate && (
-                    <Element
-                      id="blogCardDate"
-                      is={Box}
-                      backgroundColor="transparent"
-                      padding="0"
-                      margin="0"
-                      display="block"
-                      canvas={false}
-                    >
-                      <CraftText
-                        text={formatDate(displayDate)}
-                        tagName="p"
-                        fontSize="text-xs"
-                        fontWeight="font-normal"
-                        color="text-gray-500"
-                        textAlign="text-left"
-                      />
-                    </Element>
-                  )}
+                  <CraftButton
+                    text={buttonText}
+                    variant={buttonVariant}
+                    size="default"
+                    href={finalLinkUrl}
+                    borderRadius="6px"
+                    padding="px-4 py-2"
+                    margin=""
+                  />
                 </Element>
-              </Element>
-            )}
-
-            {/* Read More Button */}
-            {showReadMoreButton && (
+              )}
+            </Element>
+          </Element>
+        ) : (
+          // Horizontal Layout
+          <Element
+            id="blogCardHorizontal"
+            is={Flex}
+            canvas
+            flexDirection="row"
+            justifyContent="start"
+            alignItems="start"
+            gap="gap-6"
+            margin="0"
+            wrap="nowrap"
+          >
+            {/* Image */}
+            {imagePosition === "left" && (
               <Element
-                id="blogCardButton"
+                id="blogCardImageLeft"
                 is={Box}
                 backgroundColor="transparent"
                 padding="0"
                 margin="0"
                 display="block"
-                canvas={false}
+                width="200px"
+                height={imageHeight}
+                canvas
               >
-                <CraftButton
-                  text={buttonText}
-                  variant={buttonVariant}
-                  size="default"
-                  href={finalLinkUrl}
-                  borderRadius="6px"
-                  padding="px-4 py-2"
+                <CraftImage
+                  src={displayImage}
+                  alt={displayTitle}
+                  width="w-full"
+                  height="h-full"
+                  objectFit="object-cover"
+                  borderRadius="rounded-lg"
                   margin=""
+                  padding=""
+                />
+              </Element>
+            )}
+
+            {/* Content - Same structure as vertical but in flex item */}
+            <Element
+              id="blogCardContentHorizontal"
+              is={Box}
+              backgroundColor="transparent"
+              padding="24px"
+              margin="0"
+              display="block"
+              canvas
+            >
+              {/* Same content structure as vertical layout */}
+              {/* Category, Title, Description, Meta, Button */}
+            </Element>
+
+            {/* Image Right */}
+            {imagePosition === "right" && (
+              <Element
+                id="blogCardImageRight"
+                is={Box}
+                backgroundColor="transparent"
+                padding="0"
+                margin="0"
+                display="block"
+                width="200px"
+                height={imageHeight}
+                canvas
+              >
+                <CraftImage
+                  src={displayImage}
+                  alt={displayTitle}
+                  width="w-full"
+                  height="h-full"
+                  objectFit="object-cover"
+                  borderRadius="rounded-lg"
+                  margin=""
+                  padding=""
                 />
               </Element>
             )}
           </Element>
-        </Element>
-      ) : (
-        // Horizontal Layout
-        <Element
-          id="blogCardHorizontal"
-          is={Flex}
-          canvas
-          flexDirection="row"
-          justifyContent="start"
-          alignItems="start"
-          gap="gap-6"
-          margin="0"
-          wrap="nowrap"
-        >
-          {/* Image */}
-          {imagePosition === "left" && (
-            <Element
-              id="blogCardImageLeft"
-              is={Box}
-              backgroundColor="transparent"
-              padding="0"
-              margin="0"
-              display="block"
-              width="200px"
-              height={imageHeight}
-              canvas
-            >
-              <CraftImage
-                src={displayImage}
-                alt={displayTitle}
-                width="w-full"
-                height="h-full"
-                objectFit="object-cover"
-                borderRadius="rounded-lg"
-                margin=""
-                padding=""
-              />
-            </Element>
-          )}
-
-          {/* Content - Same structure as vertical but in flex item */}
-          <Element
-            id="blogCardContentHorizontal"
-            is={Box}
-            backgroundColor="transparent"
-            padding="24px"
-            margin="0"
-            display="block"
-            canvas
-          >
-            {/* Same content structure as vertical layout */}
-            {/* Category, Title, Description, Meta, Button */}
-          </Element>
-
-          {/* Image Right */}
-          {imagePosition === "right" && (
-            <Element
-              id="blogCardImageRight"
-              is={Box}
-              backgroundColor="transparent"
-              padding="0"
-              margin="0"
-              display="block"
-              width="200px"
-              height={imageHeight}
-              canvas
-            >
-              <CraftImage
-                src={displayImage}
-                alt={displayTitle}
-                width="w-full"
-                height="h-full"
-                objectFit="object-cover"
-                borderRadius="rounded-lg"
-                margin=""
-                padding=""
-              />
-            </Element>
-          )}
-        </Element>
-      )}
-    </Element>
+        )}
+      </Element>
+    </Card>
   );
 }
 

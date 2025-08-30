@@ -1,5 +1,5 @@
-import React from "react";
 import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -8,33 +8,57 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import {
-  Plus,
-  Trash2,
-  Image,
-  Type,
-  CreditCard,
-  MessageSquare,
-} from "lucide-react";
+import { useState } from "react";
 
-interface CarouselSlide {
-  id: string;
-  content: React.ReactNode;
-  image?: string;
-  title?: string;
-  description?: string;
-  gradientFrom?: string;
-  gradientTo?: string;
-  primaryButtonText?: string;
-  secondaryButtonText?: string;
-  titleColor?: string;
-  descriptionColor?: string;
+interface SlideBackground {
+  backgroundType: "color" | "gradient" | "image";
+  backgroundColor: string;
+  backgroundImage: string;
+  backgroundSize: "cover" | "contain" | "auto";
+  backgroundPosition: string;
+  backgroundRepeat: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  gradientType: "linear" | "radial";
+  gradientDirection: string;
+  gradientFrom: string;
+  gradientTo: string;
+  gradientVia?: string;
 }
 
 interface CarouselPropertiesProps {
-  elementProps: any;
+  elementProps: {
+    autoplay: boolean;
+    autoplayDelay: number;
+    infinite: boolean;
+    showDots: boolean;
+    showArrows: boolean;
+    pauseOnHover: boolean;
+    transition: "slide" | "fade" | "scale";
+    transitionDuration: number;
+    slidesToShow: number;
+    slidesToScroll: number;
+    height: string;
+    backgroundColor: string;
+    backgroundType: "color" | "gradient" | "image";
+    backgroundImage: string;
+    backgroundSize: "cover" | "contain" | "auto";
+    backgroundPosition: string;
+    backgroundRepeat: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+    gradientType: "linear" | "radial";
+    gradientDirection: string;
+    gradientFrom: string;
+    gradientTo: string;
+    gradientVia?: string;
+    borderRadius: string;
+    margin: string;
+    padding: string;
+    dotColor: string;
+    activeDotColor: string;
+    arrowColor: string;
+    arrowBackgroundColor: string;
+    slideBackgrounds?: SlideBackground[];
+  };
   onPropChange: (key: string, value: any) => void;
 }
 
@@ -42,768 +66,838 @@ export function CarouselProperties({
   elementProps,
   onPropChange,
 }: CarouselPropertiesProps) {
-  const {
-    variant = "image",
-    slides = [],
-    autoplay = false,
-    autoplayDelay = 3000,
-    infinite = true,
-    showDots = true,
-    showArrows = true,
-    showThumbnails = false,
-    pauseOnHover = true,
-    transition = "slide",
-    transitionDuration = 300,
-    slidesToShow = 1,
-    slidesToScroll = 1,
-    responsive = {
-      mobile: { slidesToShow: 1, slidesToScroll: 1 },
-      tablet: { slidesToShow: 2, slidesToScroll: 1 },
-      desktop: { slidesToShow: 3, slidesToScroll: 1 },
-    },
-    height = "400px",
-    backgroundColor = "#ffffff",
-    borderRadius = "8px",
-    margin = "8px",
-    padding = "0px",
-    dotColor = "#cbd5e1",
-    activeDotColor = "#3b82f6",
-    arrowColor = "#ffffff",
-    arrowBackgroundColor = "rgba(0, 0, 0, 0.5)",
-    thumbnailSize = "60px",
-    gap = "16px",
-  } = elementProps;
-
-  const addSlide = () => {
-    const baseSlide = {
-      id: `slide${slides.length + 1}`,
-      content: `Slide ${slides.length + 1} Content`,
-      image:
-        "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=800&h=400&fit=crop",
-      title: `Slide ${slides.length + 1}`,
-      description: `This is slide ${slides.length + 1}`,
-    };
-
-    const newSlide =
-      variant === "hero"
-        ? {
-            ...baseSlide,
-            gradientFrom: "#667eea",
-            gradientTo: "#764ba2",
-            primaryButtonText: "Get Started",
-            secondaryButtonText: "Learn More",
-            titleColor: "#ffffff",
-            descriptionColor: "#e2e8f0",
-          }
-        : baseSlide;
-
-    onPropChange("slides", [...slides, newSlide]);
+  // Provide default values if properties is undefined
+  const defaultProperties = {
+    autoplay: false,
+    autoplayDelay: 3000,
+    infinite: true,
+    showDots: true,
+    showArrows: true,
+    pauseOnHover: true,
+    transition: "slide" as const,
+    transitionDuration: 300,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    height: "400px",
+    backgroundColor: "#ffffff",
+    backgroundType: "color" as const,
+    backgroundImage: "",
+    backgroundSize: "cover" as const,
+    backgroundPosition: "center center",
+    backgroundRepeat: "no-repeat" as const,
+    gradientType: "linear" as const,
+    gradientDirection: "to right",
+    gradientFrom: "#3b82f6",
+    gradientTo: "#8b5cf6",
+    gradientVia: "",
+    borderRadius: "8px",
+    margin: "8px",
+    padding: "0px",
+    dotColor: "#cbd5e1",
+    activeDotColor: "#3b82f6",
+    arrowColor: "#ffffff",
+    arrowBackgroundColor: "rgba(0, 0, 0, 0.5)",
+    slideBackgrounds: [],
   };
 
-  const removeSlide = (index: number) => {
-    const newSlides = slides.filter((_: any, i: number) => i !== index);
-    onPropChange("slides", newSlides);
-  };
+  const currentProperties = { ...defaultProperties, ...elementProps };
+  const [selectedSlide, setSelectedSlide] = useState(0);
 
-  const updateSlide = (
-    index: number,
-    field: keyof CarouselSlide,
-    value: string
-  ) => {
-    const newSlides = [...slides];
-    newSlides[index] = { ...newSlides[index], [field]: value };
-    onPropChange("slides", newSlides);
-  };
-
-  const updateResponsive = (
-    breakpoint: "mobile" | "tablet" | "desktop",
-    field: "slidesToShow" | "slidesToScroll",
-    value: number
-  ) => {
-    const newResponsive = {
-      ...responsive,
-      [breakpoint]: {
-        ...responsive[breakpoint],
-        [field]: value,
-      },
-    };
-    onPropChange("responsive", newResponsive);
-  };
-
-  const getVariantIcon = (variantType: string) => {
-    switch (variantType) {
-      case "image":
-        return <Image className="w-4 h-4" />;
-      case "card":
-        return <CreditCard className="w-4 h-4" />;
-      case "testimonial":
-        return <MessageSquare className="w-4 h-4" />;
-      default:
-        return <Type className="w-4 h-4" />;
+  const updateProperty = (key: string, value: any) => {
+    if (onPropChange) {
+      onPropChange(key, value);
     }
   };
 
+  const updateSlideBackground = (
+    slideIndex: number,
+    key: string,
+    value: any
+  ) => {
+    const slideBackgrounds = [...(currentProperties.slideBackgrounds || [])];
+
+    // Ensure we have enough slide backgrounds
+    while (slideBackgrounds.length <= slideIndex) {
+      slideBackgrounds.push({
+        backgroundType: "color",
+        backgroundColor: "#ffffff",
+        backgroundImage: "",
+        backgroundSize: "cover",
+        backgroundPosition: "center center",
+        backgroundRepeat: "no-repeat",
+        gradientType: "linear",
+        gradientDirection: "to right",
+        gradientFrom: "#3b82f6",
+        gradientTo: "#8b5cf6",
+        gradientVia: "",
+      });
+    }
+
+    // Update the specific slide background
+    slideBackgrounds[slideIndex] = {
+      ...slideBackgrounds[slideIndex],
+      [key]: value,
+    };
+
+    updateProperty("slideBackgrounds", slideBackgrounds);
+  };
+
+  const getSlideBackground = (slideIndex: number): SlideBackground => {
+    const slideBackgrounds = currentProperties.slideBackgrounds || [];
+    return (
+      slideBackgrounds[slideIndex] || {
+        backgroundType: "color",
+        backgroundColor: "#ffffff",
+        backgroundImage: "",
+        backgroundSize: "cover",
+        backgroundPosition: "center center",
+        backgroundRepeat: "no-repeat",
+        gradientType: "linear",
+        gradientDirection: "to right",
+        gradientFrom: "#3b82f6",
+        gradientTo: "#8b5cf6",
+        gradientVia: "",
+      }
+    );
+  };
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* Basic Settings */}
-      <div className="space-y-4">
-        <h3 className="text-sm font-semibold text-gray-900 border-b pb-2">
-          Basic Settings
-        </h3>
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-sm">Basic Settings</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="height">Height</Label>
+            <Input
+              id="height"
+              value={currentProperties.height}
+              onChange={(e) => updateProperty("height", e.target.value)}
+              placeholder="400px"
+            />
+          </div>
 
-        <div>
-          <Label htmlFor="variant">Variant</Label>
-          <Select
-            value={variant}
-            onValueChange={(value) => onPropChange("variant", value)}
-          >
-            <SelectTrigger>
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="image">
-                <div className="flex items-center gap-2">
-                  <Image className="w-4 h-4" />
-                  Image Carousel
-                </div>
-              </SelectItem>
-              <SelectItem value="card">
-                <div className="flex items-center gap-2">
-                  <CreditCard className="w-4 h-4" />
-                  Card Carousel
-                </div>
-              </SelectItem>
-              <SelectItem value="content">
-                <div className="flex items-center gap-2">
-                  <Type className="w-4 h-4" />
-                  Content Carousel
-                </div>
-              </SelectItem>
-              <SelectItem value="testimonial">
-                <div className="flex items-center gap-2">
-                  <MessageSquare className="w-4 h-4" />
-                  Testimonial Carousel
-                </div>
-              </SelectItem>
-              <SelectItem value="hero">
-                <div className="flex items-center gap-2">
-                  <Type className="w-4 h-4" />
-                  Hero Carousel
-                </div>
-              </SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
-        <div>
-          <Label htmlFor="height">Height</Label>
-          <Input
-            id="height"
-            value={height}
-            onChange={(e) => onPropChange("height", e.target.value)}
-            placeholder="400px"
-          />
-        </div>
-
-        <div className="grid grid-cols-2 gap-3">
-          <div>
+          <div className="space-y-2">
             <Label htmlFor="slidesToShow">Slides to Show</Label>
             <Input
               id="slidesToShow"
               type="number"
               min="1"
-              max="10"
-              value={slidesToShow}
+              max="5"
+              value={currentProperties.slidesToShow}
               onChange={(e) =>
-                onPropChange("slidesToShow", parseInt(e.target.value))
+                updateProperty("slidesToShow", parseInt(e.target.value))
               }
             />
           </div>
-          <div>
+
+          <div className="space-y-2">
             <Label htmlFor="slidesToScroll">Slides to Scroll</Label>
             <Input
               id="slidesToScroll"
               type="number"
               min="1"
-              max="10"
-              value={slidesToScroll}
+              max="5"
+              value={currentProperties.slidesToScroll}
               onChange={(e) =>
-                onPropChange("slidesToScroll", parseInt(e.target.value))
+                updateProperty("slidesToScroll", parseInt(e.target.value))
               }
             />
           </div>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
 
-      {/* Navigation & Controls */}
-      <div className="space-y-4">
-        <h3 className="text-sm font-semibold text-gray-900 border-b pb-2">
-          Navigation & Controls
-        </h3>
-
-        <div className="grid grid-cols-2 gap-4">
+      {/* Navigation */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-sm">Navigation</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
           <div className="flex items-center justify-between">
             <Label htmlFor="showArrows">Show Arrows</Label>
             <Switch
               id="showArrows"
-              checked={showArrows}
-              onCheckedChange={(checked) => onPropChange("showArrows", checked)}
+              checked={currentProperties.showArrows}
+              onCheckedChange={(checked) =>
+                updateProperty("showArrows", checked)
+              }
             />
           </div>
+
           <div className="flex items-center justify-between">
             <Label htmlFor="showDots">Show Dots</Label>
             <Switch
               id="showDots"
-              checked={showDots}
-              onCheckedChange={(checked) => onPropChange("showDots", checked)}
+              checked={currentProperties.showDots}
+              onCheckedChange={(checked) => updateProperty("showDots", checked)}
             />
           </div>
-          <div className="flex items-center justify-between">
-            <Label htmlFor="showThumbnails">Show Thumbnails</Label>
-            <Switch
-              id="showThumbnails"
-              checked={showThumbnails}
-              onCheckedChange={(checked) =>
-                onPropChange("showThumbnails", checked)
-              }
-            />
-          </div>
+
           <div className="flex items-center justify-between">
             <Label htmlFor="infinite">Infinite Loop</Label>
             <Switch
               id="infinite"
-              checked={infinite}
-              onCheckedChange={(checked) => onPropChange("infinite", checked)}
+              checked={currentProperties.infinite}
+              onCheckedChange={(checked) => updateProperty("infinite", checked)}
             />
           </div>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
 
-      {/* Autoplay Settings */}
-      <div className="space-y-4">
-        <h3 className="text-sm font-semibold text-gray-900 border-b pb-2">
-          Autoplay Settings
-        </h3>
-
-        <div className="flex items-center justify-between">
-          <Label htmlFor="autoplay">Enable Autoplay</Label>
-          <Switch
-            id="autoplay"
-            checked={autoplay}
-            onCheckedChange={(checked) => onPropChange("autoplay", checked)}
-          />
-        </div>
-
-        {autoplay && (
-          <>
-            <div>
-              <Label htmlFor="autoplayDelay">Autoplay Delay (ms)</Label>
-              <Input
-                id="autoplayDelay"
-                type="number"
-                min="1000"
-                max="10000"
-                step="500"
-                value={autoplayDelay}
-                onChange={(e) =>
-                  onPropChange("autoplayDelay", parseInt(e.target.value))
-                }
-              />
-            </div>
-            <div className="flex items-center justify-between">
-              <Label htmlFor="pauseOnHover">Pause on Hover</Label>
-              <Switch
-                id="pauseOnHover"
-                checked={pauseOnHover}
-                onCheckedChange={(checked) =>
-                  onPropChange("pauseOnHover", checked)
-                }
-              />
-            </div>
-          </>
-        )}
-      </div>
-
-      {/* Animation Settings */}
-      <div className="space-y-4">
-        <h3 className="text-sm font-semibold text-gray-900 border-b pb-2">
-          Animation Settings
-        </h3>
-
-        <div>
-          <Label htmlFor="transition">Transition Effect</Label>
-          <Select
-            value={transition}
-            onValueChange={(value) => onPropChange("transition", value)}
-          >
-            <SelectTrigger>
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="slide">Slide</SelectItem>
-              <SelectItem value="fade">Fade</SelectItem>
-              <SelectItem value="scale">Scale</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
-        <div>
-          <Label htmlFor="transitionDuration">Transition Duration (ms)</Label>
-          <Input
-            id="transitionDuration"
-            type="number"
-            min="100"
-            max="2000"
-            step="100"
-            value={transitionDuration}
-            onChange={(e) =>
-              onPropChange("transitionDuration", parseInt(e.target.value))
-            }
-          />
-        </div>
-      </div>
-
-      {/* Responsive Settings */}
-      <div className="space-y-4">
-        <h3 className="text-sm font-semibold text-gray-900 border-b pb-2">
-          Responsive Settings
-        </h3>
-
-        {(["mobile", "tablet", "desktop"] as const).map((breakpoint) => (
-          <div key={breakpoint} className="p-3 border rounded-lg space-y-2">
-            <Label className="text-sm font-medium capitalize">
-              {breakpoint}
-            </Label>
-            <div className="grid grid-cols-2 gap-2">
-              <div>
-                <Label className="text-xs">Slides to Show</Label>
-                <Input
-                  type="number"
-                  min="1"
-                  max="10"
-                  value={responsive[breakpoint].slidesToShow}
-                  onChange={(e) =>
-                    updateResponsive(
-                      breakpoint,
-                      "slidesToShow",
-                      parseInt(e.target.value)
-                    )
-                  }
-                  className="text-xs"
-                />
-              </div>
-              <div>
-                <Label className="text-xs">Slides to Scroll</Label>
-                <Input
-                  type="number"
-                  min="1"
-                  max="10"
-                  value={responsive[breakpoint].slidesToScroll}
-                  onChange={(e) =>
-                    updateResponsive(
-                      breakpoint,
-                      "slidesToScroll",
-                      parseInt(e.target.value)
-                    )
-                  }
-                  className="text-xs"
-                />
-              </div>
-            </div>
+      {/* Autoplay */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-sm">Autoplay</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="flex items-center justify-between">
+            <Label htmlFor="autoplay">Enable Autoplay</Label>
+            <Switch
+              id="autoplay"
+              checked={currentProperties.autoplay}
+              onCheckedChange={(checked) => updateProperty("autoplay", checked)}
+            />
           </div>
-        ))}
-      </div>
+
+          {currentProperties.autoplay && (
+            <>
+              <div className="space-y-2">
+                <Label htmlFor="autoplayDelay">Autoplay Delay (ms)</Label>
+                <Input
+                  id="autoplayDelay"
+                  type="number"
+                  min="1000"
+                  max="10000"
+                  step="100"
+                  value={currentProperties.autoplayDelay}
+                  onChange={(e) =>
+                    updateProperty("autoplayDelay", parseInt(e.target.value))
+                  }
+                />
+              </div>
+
+              <div className="flex items-center justify-between">
+                <Label htmlFor="pauseOnHover">Pause on Hover</Label>
+                <Switch
+                  id="pauseOnHover"
+                  checked={currentProperties.pauseOnHover}
+                  onCheckedChange={(checked) =>
+                    updateProperty("pauseOnHover", checked)
+                  }
+                />
+              </div>
+            </>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Animation */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-sm">Animation</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="transition">Transition Effect</Label>
+            <Select
+              value={currentProperties.transition}
+              onValueChange={(value) => updateProperty("transition", value)}
+            >
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="slide">Slide</SelectItem>
+                <SelectItem value="fade">Fade</SelectItem>
+                <SelectItem value="scale">Scale</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="transitionDuration">Duration (ms)</Label>
+            <Input
+              id="transitionDuration"
+              type="number"
+              min="100"
+              max="2000"
+              step="50"
+              value={currentProperties.transitionDuration}
+              onChange={(e) =>
+                updateProperty("transitionDuration", parseInt(e.target.value))
+              }
+            />
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Styling */}
-      <div className="space-y-4">
-        <h3 className="text-sm font-semibold text-gray-900 border-b pb-2">
-          Styling
-        </h3>
-
-        <div>
-          <Label htmlFor="backgroundColor">Background Color</Label>
-          <div className="flex gap-2">
-            <Input
-              id="backgroundColor"
-              type="color"
-              value={backgroundColor}
-              onChange={(e) => onPropChange("backgroundColor", e.target.value)}
-              className="w-12 h-8 p-1 border rounded"
-            />
-            <Input
-              value={backgroundColor}
-              onChange={(e) => onPropChange("backgroundColor", e.target.value)}
-              placeholder="#ffffff"
-            />
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2 gap-3">
-          <div>
-            <Label htmlFor="borderRadius">Border Radius</Label>
-            <Input
-              id="borderRadius"
-              value={borderRadius}
-              onChange={(e) => onPropChange("borderRadius", e.target.value)}
-              placeholder="8px"
-            />
-          </div>
-          <div>
-            <Label htmlFor="gap">Gap</Label>
-            <Input
-              id="gap"
-              value={gap}
-              onChange={(e) => onPropChange("gap", e.target.value)}
-              placeholder="16px"
-            />
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2 gap-3">
-          <div>
-            <Label htmlFor="padding">Padding</Label>
-            <Input
-              id="padding"
-              value={padding}
-              onChange={(e) => onPropChange("padding", e.target.value)}
-              placeholder="0px"
-            />
-          </div>
-          <div>
-            <Label htmlFor="margin">Margin</Label>
-            <Input
-              id="margin"
-              value={margin}
-              onChange={(e) => onPropChange("margin", e.target.value)}
-              placeholder="8px"
-            />
-          </div>
-        </div>
-
-        {/* Navigation Colors */}
-        <div className="space-y-3">
-          <Label className="text-sm font-medium">Navigation Colors</Label>
-
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <Label className="text-xs">Dot Color</Label>
-              <div className="flex gap-1">
-                <Input
-                  type="color"
-                  value={dotColor}
-                  onChange={(e) => onPropChange("dotColor", e.target.value)}
-                  className="w-8 h-6 p-0 border rounded"
-                />
-                <Input
-                  value={dotColor}
-                  onChange={(e) => onPropChange("dotColor", e.target.value)}
-                  className="text-xs"
-                  placeholder="#cbd5e1"
-                />
-              </div>
-            </div>
-            <div>
-              <Label className="text-xs">Active Dot Color</Label>
-              <div className="flex gap-1">
-                <Input
-                  type="color"
-                  value={activeDotColor}
-                  onChange={(e) =>
-                    onPropChange("activeDotColor", e.target.value)
-                  }
-                  className="w-8 h-6 p-0 border rounded"
-                />
-                <Input
-                  value={activeDotColor}
-                  onChange={(e) =>
-                    onPropChange("activeDotColor", e.target.value)
-                  }
-                  className="text-xs"
-                  placeholder="#3b82f6"
-                />
-              </div>
-            </div>
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-sm">Background & Styling</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="backgroundType">Background Type</Label>
+            <Select
+              value={currentProperties.backgroundType}
+              onValueChange={(value) => updateProperty("backgroundType", value)}
+            >
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="color">Solid Color</SelectItem>
+                <SelectItem value="gradient">Gradient</SelectItem>
+                <SelectItem value="image">Image</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <Label className="text-xs">Arrow Color</Label>
-              <div className="flex gap-1">
-                <Input
-                  type="color"
-                  value={arrowColor}
-                  onChange={(e) => onPropChange("arrowColor", e.target.value)}
-                  className="w-8 h-6 p-0 border rounded"
-                />
-                <Input
-                  value={arrowColor}
-                  onChange={(e) => onPropChange("arrowColor", e.target.value)}
-                  className="text-xs"
-                  placeholder="#ffffff"
-                />
-              </div>
-            </div>
-            <div>
-              <Label className="text-xs">Arrow Background</Label>
+          {/* Solid Color Background */}
+          {currentProperties.backgroundType === "color" && (
+            <div className="space-y-2">
+              <Label htmlFor="backgroundColor">Background Color</Label>
               <Input
-                value={arrowBackgroundColor}
+                id="backgroundColor"
+                type="color"
+                value={currentProperties.backgroundColor}
                 onChange={(e) =>
-                  onPropChange("arrowBackgroundColor", e.target.value)
+                  updateProperty("backgroundColor", e.target.value)
                 }
-                className="text-xs"
-                placeholder="rgba(0, 0, 0, 0.5)"
               />
             </div>
-          </div>
-        </div>
+          )}
 
-        {showThumbnails && (
-          <div>
-            <Label htmlFor="thumbnailSize">Thumbnail Size</Label>
-            <Input
-              id="thumbnailSize"
-              value={thumbnailSize}
-              onChange={(e) => onPropChange("thumbnailSize", e.target.value)}
-              placeholder="60px"
-            />
-          </div>
-        )}
-      </div>
+          {/* Gradient Background */}
+          {currentProperties.backgroundType === "gradient" && (
+            <>
+              <div className="space-y-2">
+                <Label htmlFor="gradientType">Gradient Type</Label>
+                <Select
+                  value={currentProperties.gradientType}
+                  onValueChange={(value) =>
+                    updateProperty("gradientType", value)
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="linear">Linear</SelectItem>
+                    <SelectItem value="radial">Radial</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
 
-      {/* Slides Management */}
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h3 className="text-sm font-semibold text-gray-900 border-b pb-2">
-            Slides
-          </h3>
-          <Button onClick={addSlide} size="sm" variant="outline">
-            <Plus className="w-4 h-4 mr-1" />
-            Add Slide
-          </Button>
-        </div>
-
-        <div className="space-y-3 max-h-60 overflow-y-auto">
-          {slides.map((slide: CarouselSlide, index: number) => (
-            <div key={slide.id} className="border rounded-lg p-3 space-y-3">
-              <div className="flex items-center justify-between">
-                <Label className="text-sm font-medium flex items-center gap-2">
-                  {getVariantIcon(variant)}
-                  Slide {index + 1}
-                </Label>
-                {slides.length > 1 && (
-                  <Button
-                    onClick={() => removeSlide(index)}
-                    size="sm"
-                    variant="outline"
-                    className="h-6 w-6 p-0"
+              {currentProperties.gradientType === "linear" && (
+                <div className="space-y-2">
+                  <Label htmlFor="gradientDirection">Direction</Label>
+                  <Select
+                    value={currentProperties.gradientDirection}
+                    onValueChange={(value) =>
+                      updateProperty("gradientDirection", value)
+                    }
                   >
-                    <Trash2 className="w-3 h-3" />
-                  </Button>
-                )}
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="to right">To Right</SelectItem>
+                      <SelectItem value="to left">To Left</SelectItem>
+                      <SelectItem value="to bottom">To Bottom</SelectItem>
+                      <SelectItem value="to top">To Top</SelectItem>
+                      <SelectItem value="to bottom right">
+                        To Bottom Right
+                      </SelectItem>
+                      <SelectItem value="to bottom left">
+                        To Bottom Left
+                      </SelectItem>
+                      <SelectItem value="to top right">To Top Right</SelectItem>
+                      <SelectItem value="to top left">To Top Left</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
+
+              <div className="space-y-2">
+                <Label htmlFor="gradientFrom">From Color</Label>
+                <Input
+                  id="gradientFrom"
+                  type="color"
+                  value={currentProperties.gradientFrom}
+                  onChange={(e) =>
+                    updateProperty("gradientFrom", e.target.value)
+                  }
+                />
               </div>
 
               <div className="space-y-2">
-                <div>
-                  <Label className="text-xs">Title</Label>
-                  <Input
-                    value={slide.title || ""}
-                    onChange={(e) =>
-                      updateSlide(index, "title", e.target.value)
-                    }
-                    placeholder="Slide title"
-                    className="text-xs"
-                  />
-                </div>
-
-                {(variant === "image" ||
-                  variant === "card" ||
-                  variant === "testimonial") && (
-                  <div>
-                    <Label className="text-xs">Image URL</Label>
-                    <Input
-                      value={slide.image || ""}
-                      onChange={(e) =>
-                        updateSlide(index, "image", e.target.value)
-                      }
-                      placeholder="https://example.com/image.jpg"
-                      className="text-xs"
-                    />
-                  </div>
-                )}
-
-                <div>
-                  <Label className="text-xs">
-                    {variant === "testimonial" ? "Quote" : "Description"}
-                  </Label>
-                  <Input
-                    value={slide.description || ""}
-                    onChange={(e) =>
-                      updateSlide(index, "description", e.target.value)
-                    }
-                    placeholder={
-                      variant === "testimonial"
-                        ? "Testimonial quote"
-                        : "Slide description"
-                    }
-                    className="text-xs"
-                  />
-                </div>
-
-                {variant === "content" && (
-                  <div>
-                    <Label className="text-xs">Content</Label>
-                    <Input
-                      value={
-                        typeof slide.content === "string" ? slide.content : ""
-                      }
-                      onChange={(e) =>
-                        updateSlide(index, "content", e.target.value)
-                      }
-                      placeholder="Slide content"
-                      className="text-xs"
-                    />
-                  </div>
-                )}
-
-                {variant === "hero" && (
-                  <>
-                    <div className="grid grid-cols-2 gap-2">
-                      <div>
-                        <Label className="text-xs">Gradient From</Label>
-                        <div className="flex gap-1">
-                          <Input
-                            type="color"
-                            value={slide.gradientFrom || "#667eea"}
-                            onChange={(e) =>
-                              updateSlide(index, "gradientFrom", e.target.value)
-                            }
-                            className="w-6 h-6 p-0 border rounded"
-                          />
-                          <Input
-                            value={slide.gradientFrom || "#667eea"}
-                            onChange={(e) =>
-                              updateSlide(index, "gradientFrom", e.target.value)
-                            }
-                            className="text-xs"
-                            placeholder="#667eea"
-                          />
-                        </div>
-                      </div>
-                      <div>
-                        <Label className="text-xs">Gradient To</Label>
-                        <div className="flex gap-1">
-                          <Input
-                            type="color"
-                            value={slide.gradientTo || "#764ba2"}
-                            onChange={(e) =>
-                              updateSlide(index, "gradientTo", e.target.value)
-                            }
-                            className="w-6 h-6 p-0 border rounded"
-                          />
-                          <Input
-                            value={slide.gradientTo || "#764ba2"}
-                            onChange={(e) =>
-                              updateSlide(index, "gradientTo", e.target.value)
-                            }
-                            className="text-xs"
-                            placeholder="#764ba2"
-                          />
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-2">
-                      <div>
-                        <Label className="text-xs">Primary Button</Label>
-                        <Input
-                          value={slide.primaryButtonText || ""}
-                          onChange={(e) =>
-                            updateSlide(
-                              index,
-                              "primaryButtonText",
-                              e.target.value
-                            )
-                          }
-                          placeholder="Get Started"
-                          className="text-xs"
-                        />
-                      </div>
-                      <div>
-                        <Label className="text-xs">Secondary Button</Label>
-                        <Input
-                          value={slide.secondaryButtonText || ""}
-                          onChange={(e) =>
-                            updateSlide(
-                              index,
-                              "secondaryButtonText",
-                              e.target.value
-                            )
-                          }
-                          placeholder="Learn More"
-                          className="text-xs"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-2">
-                      <div>
-                        <Label className="text-xs">Title Color</Label>
-                        <div className="flex gap-1">
-                          <Input
-                            type="color"
-                            value={slide.titleColor || "#ffffff"}
-                            onChange={(e) =>
-                              updateSlide(index, "titleColor", e.target.value)
-                            }
-                            className="w-6 h-6 p-0 border rounded"
-                          />
-                          <Input
-                            value={slide.titleColor || "#ffffff"}
-                            onChange={(e) =>
-                              updateSlide(index, "titleColor", e.target.value)
-                            }
-                            className="text-xs"
-                            placeholder="#ffffff"
-                          />
-                        </div>
-                      </div>
-                      <div>
-                        <Label className="text-xs">Description Color</Label>
-                        <div className="flex gap-1">
-                          <Input
-                            type="color"
-                            value={slide.descriptionColor || "#e2e8f0"}
-                            onChange={(e) =>
-                              updateSlide(
-                                index,
-                                "descriptionColor",
-                                e.target.value
-                              )
-                            }
-                            className="w-6 h-6 p-0 border rounded"
-                          />
-                          <Input
-                            value={slide.descriptionColor || "#e2e8f0"}
-                            onChange={(e) =>
-                              updateSlide(
-                                index,
-                                "descriptionColor",
-                                e.target.value
-                              )
-                            }
-                            className="text-xs"
-                            placeholder="#e2e8f0"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </>
-                )}
+                <Label htmlFor="gradientVia">Via Color (Optional)</Label>
+                <Input
+                  id="gradientVia"
+                  type="color"
+                  value={currentProperties.gradientVia || ""}
+                  onChange={(e) =>
+                    updateProperty("gradientVia", e.target.value)
+                  }
+                />
               </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="gradientTo">To Color</Label>
+                <Input
+                  id="gradientTo"
+                  type="color"
+                  value={currentProperties.gradientTo}
+                  onChange={(e) => updateProperty("gradientTo", e.target.value)}
+                />
+              </div>
+            </>
+          )}
+
+          {/* Image Background */}
+          {currentProperties.backgroundType === "image" && (
+            <>
+              <div className="space-y-2">
+                <Label htmlFor="backgroundImage">Background Image URL</Label>
+                <Input
+                  id="backgroundImage"
+                  value={currentProperties.backgroundImage}
+                  onChange={(e) =>
+                    updateProperty("backgroundImage", e.target.value)
+                  }
+                  placeholder="https://example.com/image.jpg"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="backgroundSize">Image Size</Label>
+                <Select
+                  value={currentProperties.backgroundSize}
+                  onValueChange={(value) =>
+                    updateProperty("backgroundSize", value)
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="cover">Cover</SelectItem>
+                    <SelectItem value="contain">Contain</SelectItem>
+                    <SelectItem value="auto">Auto</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="backgroundPosition">Image Position</Label>
+                <Select
+                  value={currentProperties.backgroundPosition}
+                  onValueChange={(value) =>
+                    updateProperty("backgroundPosition", value)
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="center center">Center Center</SelectItem>
+                    <SelectItem value="top center">Top Center</SelectItem>
+                    <SelectItem value="bottom center">Bottom Center</SelectItem>
+                    <SelectItem value="center left">Center Left</SelectItem>
+                    <SelectItem value="center right">Center Right</SelectItem>
+                    <SelectItem value="top left">Top Left</SelectItem>
+                    <SelectItem value="top right">Top Right</SelectItem>
+                    <SelectItem value="bottom left">Bottom Left</SelectItem>
+                    <SelectItem value="bottom right">Bottom Right</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="backgroundRepeat">Image Repeat</Label>
+                <Select
+                  value={currentProperties.backgroundRepeat}
+                  onValueChange={(value) =>
+                    updateProperty("backgroundRepeat", value)
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="no-repeat">No Repeat</SelectItem>
+                    <SelectItem value="repeat">Repeat</SelectItem>
+                    <SelectItem value="repeat-x">Repeat X</SelectItem>
+                    <SelectItem value="repeat-y">Repeat Y</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </>
+          )}
+
+          <div className="space-y-2">
+            <Label htmlFor="borderRadius">Border Radius</Label>
+            <Input
+              id="borderRadius"
+              value={currentProperties.borderRadius}
+              onChange={(e) => updateProperty("borderRadius", e.target.value)}
+              placeholder="8px"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="margin">Margin</Label>
+            <Input
+              id="margin"
+              value={currentProperties.margin}
+              onChange={(e) => updateProperty("margin", e.target.value)}
+              placeholder="8px"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="padding">Padding</Label>
+            <Input
+              id="padding"
+              value={currentProperties.padding}
+              onChange={(e) => updateProperty("padding", e.target.value)}
+              placeholder="0px"
+            />
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Individual Slide Backgrounds */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-sm">
+            Individual Slide Backgrounds
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {/* Slide Selector */}
+          <div className="space-y-2">
+            <Label>Select Slide to Edit</Label>
+            <div className="flex gap-2 flex-wrap">
+              {Array.from(
+                {
+                  length: Math.max(
+                    3,
+                    currentProperties.slideBackgrounds?.length || 0
+                  ),
+                },
+                (_, index) => (
+                  <Button
+                    key={index}
+                    variant={selectedSlide === index ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setSelectedSlide(index)}
+                  >
+                    Slide {index + 1}
+                  </Button>
+                )
+              )}
             </div>
-          ))}
-        </div>
-      </div>
+          </div>
+
+          {/* Background Type for Selected Slide */}
+          <div className="space-y-2">
+            <Label htmlFor="slideBackgroundType">Background Type</Label>
+            <Select
+              value={getSlideBackground(selectedSlide).backgroundType}
+              onValueChange={(value) =>
+                updateSlideBackground(selectedSlide, "backgroundType", value)
+              }
+            >
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="color">Solid Color</SelectItem>
+                <SelectItem value="gradient">Gradient</SelectItem>
+                <SelectItem value="image">Image</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Solid Color Background */}
+          {getSlideBackground(selectedSlide).backgroundType === "color" && (
+            <div className="space-y-2">
+              <Label htmlFor="slideBackgroundColor">Background Color</Label>
+              <Input
+                id="slideBackgroundColor"
+                type="color"
+                value={getSlideBackground(selectedSlide).backgroundColor}
+                onChange={(e) =>
+                  updateSlideBackground(
+                    selectedSlide,
+                    "backgroundColor",
+                    e.target.value
+                  )
+                }
+              />
+            </div>
+          )}
+
+          {/* Gradient Background */}
+          {getSlideBackground(selectedSlide).backgroundType === "gradient" && (
+            <>
+              <div className="space-y-2">
+                <Label htmlFor="slideGradientType">Gradient Type</Label>
+                <Select
+                  value={getSlideBackground(selectedSlide).gradientType}
+                  onValueChange={(value) =>
+                    updateSlideBackground(selectedSlide, "gradientType", value)
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="linear">Linear</SelectItem>
+                    <SelectItem value="radial">Radial</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {getSlideBackground(selectedSlide).gradientType === "linear" && (
+                <div className="space-y-2">
+                  <Label htmlFor="slideGradientDirection">Direction</Label>
+                  <Select
+                    value={getSlideBackground(selectedSlide).gradientDirection}
+                    onValueChange={(value) =>
+                      updateSlideBackground(
+                        selectedSlide,
+                        "gradientDirection",
+                        value
+                      )
+                    }
+                  >
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="to right">To Right</SelectItem>
+                      <SelectItem value="to left">To Left</SelectItem>
+                      <SelectItem value="to bottom">To Bottom</SelectItem>
+                      <SelectItem value="to top">To Top</SelectItem>
+                      <SelectItem value="to bottom right">
+                        To Bottom Right
+                      </SelectItem>
+                      <SelectItem value="to bottom left">
+                        To Bottom Left
+                      </SelectItem>
+                      <SelectItem value="to top right">To Top Right</SelectItem>
+                      <SelectItem value="to top left">To Top Left</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
+
+              <div className="space-y-2">
+                <Label htmlFor="slideGradientFrom">From Color</Label>
+                <Input
+                  id="slideGradientFrom"
+                  type="color"
+                  value={getSlideBackground(selectedSlide).gradientFrom}
+                  onChange={(e) =>
+                    updateSlideBackground(
+                      selectedSlide,
+                      "gradientFrom",
+                      e.target.value
+                    )
+                  }
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="slideGradientVia">Via Color (Optional)</Label>
+                <Input
+                  id="slideGradientVia"
+                  type="color"
+                  value={getSlideBackground(selectedSlide).gradientVia || ""}
+                  onChange={(e) =>
+                    updateSlideBackground(
+                      selectedSlide,
+                      "gradientVia",
+                      e.target.value
+                    )
+                  }
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="slideGradientTo">To Color</Label>
+                <Input
+                  id="slideGradientTo"
+                  type="color"
+                  value={getSlideBackground(selectedSlide).gradientTo}
+                  onChange={(e) =>
+                    updateSlideBackground(
+                      selectedSlide,
+                      "gradientTo",
+                      e.target.value
+                    )
+                  }
+                />
+              </div>
+            </>
+          )}
+
+          {/* Image Background */}
+          {getSlideBackground(selectedSlide).backgroundType === "image" && (
+            <>
+              <div className="space-y-2">
+                <Label htmlFor="slideBackgroundImage">
+                  Background Image URL
+                </Label>
+                <Input
+                  id="slideBackgroundImage"
+                  value={getSlideBackground(selectedSlide).backgroundImage}
+                  onChange={(e) =>
+                    updateSlideBackground(
+                      selectedSlide,
+                      "backgroundImage",
+                      e.target.value
+                    )
+                  }
+                  placeholder="https://example.com/image.jpg"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="slideBackgroundSize">Image Size</Label>
+                <Select
+                  value={getSlideBackground(selectedSlide).backgroundSize}
+                  onValueChange={(value) =>
+                    updateSlideBackground(
+                      selectedSlide,
+                      "backgroundSize",
+                      value
+                    )
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="cover">Cover</SelectItem>
+                    <SelectItem value="contain">Contain</SelectItem>
+                    <SelectItem value="auto">Auto</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="slideBackgroundPosition">Image Position</Label>
+                <Select
+                  value={getSlideBackground(selectedSlide).backgroundPosition}
+                  onValueChange={(value) =>
+                    updateSlideBackground(
+                      selectedSlide,
+                      "backgroundPosition",
+                      value
+                    )
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="center center">Center Center</SelectItem>
+                    <SelectItem value="top center">Top Center</SelectItem>
+                    <SelectItem value="bottom center">Bottom Center</SelectItem>
+                    <SelectItem value="center left">Center Left</SelectItem>
+                    <SelectItem value="center right">Center Right</SelectItem>
+                    <SelectItem value="top left">Top Left</SelectItem>
+                    <SelectItem value="top right">Top Right</SelectItem>
+                    <SelectItem value="bottom left">Bottom Left</SelectItem>
+                    <SelectItem value="bottom right">Bottom Right</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="slideBackgroundRepeat">Image Repeat</Label>
+                <Select
+                  value={getSlideBackground(selectedSlide).backgroundRepeat}
+                  onValueChange={(value) =>
+                    updateSlideBackground(
+                      selectedSlide,
+                      "backgroundRepeat",
+                      value
+                    )
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="no-repeat">No Repeat</SelectItem>
+                    <SelectItem value="repeat">Repeat</SelectItem>
+                    <SelectItem value="repeat-x">Repeat X</SelectItem>
+                    <SelectItem value="repeat-y">Repeat Y</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Colors */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-sm">Navigation Colors</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="dotColor">Dot Color</Label>
+            <Input
+              id="dotColor"
+              type="color"
+              value={currentProperties.dotColor}
+              onChange={(e) => updateProperty("dotColor", e.target.value)}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="activeDotColor">Active Dot Color</Label>
+            <Input
+              id="activeDotColor"
+              type="color"
+              value={currentProperties.activeDotColor}
+              onChange={(e) => updateProperty("activeDotColor", e.target.value)}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="arrowColor">Arrow Color</Label>
+            <Input
+              id="arrowColor"
+              type="color"
+              value={currentProperties.arrowColor}
+              onChange={(e) => updateProperty("arrowColor", e.target.value)}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="arrowBackgroundColor">Arrow Background</Label>
+            <Input
+              id="arrowBackgroundColor"
+              value={currentProperties.arrowBackgroundColor}
+              onChange={(e) =>
+                updateProperty("arrowBackgroundColor", e.target.value)
+              }
+              placeholder="rgba(0, 0, 0, 0.5)"
+            />
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }

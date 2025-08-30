@@ -19,7 +19,7 @@ import {
   CraftFlex,
   CraftGrid,
   CraftHeading,
-  CraftHeroCarouselSimple,
+  // CraftHeroCarouselSimple,
   CraftIcon,
   CraftImage,
   CraftInput,
@@ -49,6 +49,9 @@ import {
   CraftMedicalDoctors1,
   CraftMedicalTestimonials1,
   CraftMedicalHero1,
+  CraftMiniMaxHero1,
+  CraftResearchCards,
+  CraftPhotoGallery,
   CraftMedicalHowItWorks1,
   CraftMedicalFooter1,
   // Elder care blocks
@@ -376,12 +379,23 @@ export function EditorSidebar() {
           name: "Medical Hero 1",
           description: "Medical hero with call-to-action",
         },
-
         {
-          component: CraftHeroCarouselSimple,
-          name: "Hero Carousel",
-          description: "Gradient carousel hero with navigation",
+          component: CraftMiniMaxHero1,
+          name: "MiniMax Hero Carousel",
+          description:
+            "AI model carousel with multiple slides and gradient backgrounds",
         },
+        {
+          component: CraftResearchCards,
+          name: "Research Cards",
+          description: "Grid of research model cards with gradients and badges",
+        },
+        {
+          component: CraftPhotoGallery,
+          name: "Photo Gallery",
+          description: "Beautiful photo gallery with overlays and descriptions",
+        },
+
         {
           component: CraftMedicalHowItWorks1,
           name: "How it Services",

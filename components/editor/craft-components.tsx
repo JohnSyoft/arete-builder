@@ -47,32 +47,12 @@ import { CheckboxGroup } from "@/components/blocks/Forms/CheckboxGroup";
 import { CreditCardForm } from "@/components/blocks/Forms/CreditCardForm";
 import { Signature } from "@/components/blocks/Forms/Signature";
 import { Form } from "@/components/blocks/Forms/Form";
-// Hero blocks
-import { Hero1 } from "@/components/blocks/Hero/Hero1";
-import { Hero2 } from "@/components/blocks/Hero/Hero2";
-import { Hero4 } from "@/components/blocks/Hero/Hero4";
-import { HeroCarouselSimple } from "@/components/blocks/Hero/HeroCarouselSimple";
-// Header blocks
-import { Header1 } from "@/components/blocks/Header/Header1";
-import { Header2 } from "@/components/blocks/Header/Header2";
-// Footer blocks
-import { Footer1 } from "@/components/blocks/Footer/Footer1";
-import { Footer2 } from "@/components/blocks/Footer/Footer2";
-// CTA blocks
-import { CTA1 } from "@/components/blocks/CTA/CTA1";
-import { CTA2 } from "@/components/blocks/CTA/CTA2";
-// Features blocks
-import { Features1 } from "@/components/blocks/Features/Features1";
-import { Features2 } from "@/components/blocks/Features/Features2";
-// Contact blocks
-import { Contact1 } from "@/components/blocks/Contact/Contact1";
-// Services blocks
+// import { HeroCarouselSimple } from "@/components/blocks/Hero/HeroCarouselSimple";
 import { MedicalServices1 } from "@/components/blocks/Services/MedicalServices1";
 import { WhyChooseUs1 } from "@/components/blocks/Services/WhyChooseUs1";
 import { Box } from "../blocks/Basic/Box";
 import { MedicalDoctors1 } from "../blocks/Services/MedicalDoctors1";
 import { MedicalTestimonials1 } from "../blocks/Services/MedicalTestimonials1";
-import { MedicalHero1 } from "../blocks/Hero/MedicalHero1";
 import { MedicalHowItWorks1 } from "../blocks/HowItWorks/MedicalHowItWorks1";
 import { MedicalFooter1 } from "../blocks/Footer/MedicalFooter1";
 // Elder care blocks
@@ -81,6 +61,10 @@ import { ElderCareValues1 } from "../blocks/About/ElderCareValues1";
 import { ElderCareTeam1 } from "../blocks/Team/ElderCareTeam1";
 import { ElderCareCTA1 } from "../blocks/CTA/ElderCareCTA1";
 import { ElderCareTestimonials1 } from "../blocks/Testimonials/ElderCareTestimonials1";
+import { MedicalHero1 } from "../blocks/Hero/MedicalHero1";
+import { MiniMaxHero1 } from "../blocks/Hero/MiniMaxHero1";
+import { ResearchCards } from "../blocks/Cards/ResearchCards";
+import { PhotoGallery } from "../blocks/Cards/PhotoGallery";
 // Business components
 // import {
 //   CraftBlogCard,
@@ -290,27 +274,12 @@ export const CraftCheckboxGroup = CheckboxGroup;
 export const CraftCreditCardForm = CreditCardForm;
 export const CraftSignature = Signature;
 export const CraftForm = Form;
-
-// Hero blocks
-export const CraftHero1 = Hero1;
 export const CraftMedicalHero1 = MedicalHero1;
-export const CraftHero2 = Hero2;
-export const CraftHero4 = Hero4;
-export const CraftHeroCarouselSimple = HeroCarouselSimple;
-export const CraftHeader1 = Header1;
-export const CraftHeader2 = Header2;
+export const CraftMiniMaxHero1 = MiniMaxHero1;
+export const CraftResearchCards = ResearchCards;
+export const CraftPhotoGallery = PhotoGallery;
 
-export const CraftFooter1 = Footer1;
-export const CraftFooter2 = Footer2;
-
-export const CraftCTA1 = CTA1;
-export const CraftCTA2 = CTA2;
-
-export const CraftFeatures1 = Features1;
-export const CraftFeatures2 = Features2;
-
-export const CraftContact1 = Contact1;
-
+// export const CraftHeroCarouselSimple = HeroCarouselSimple;
 export const CraftMedicalServices1 = MedicalServices1;
 export const CraftWhyChooseUs1 = WhyChooseUs1;
 export const CraftMedicalDoctors1 = MedicalDoctors1;
@@ -378,28 +347,13 @@ const baseComponentResolver = {
   Signature: CraftSignature,
   Form: CraftForm,
   // Hero blocks
-  Hero1: CraftHero1,
   MedicalHero1: CraftMedicalHero1,
+  MiniMaxHero1: CraftMiniMaxHero1,
+  ResearchCards: CraftResearchCards,
+  PhotoGallery: CraftPhotoGallery,
   MedicalHowItWorks1: CraftMedicalHowItWorks1,
   MedicalFooter1: CraftMedicalFooter1,
-  Hero2: CraftHero2,
-  Hero4: CraftHero4,
-  HeroCarouselSimple: CraftHeroCarouselSimple,
-  // Header blocks
-  Header1: CraftHeader1,
-  Header2: CraftHeader2,
-  // Footer blocks
-  Footer1: CraftFooter1,
-  Footer2: CraftFooter2,
-  // CTA blocks
-  CTA1: CraftCTA1,
-  CTA2: CraftCTA2,
-  // Features blocks
-  Features1: CraftFeatures1,
-  Features2: CraftFeatures2,
-  // Contact blocks
-  Contact1: CraftContact1,
-  // Services blocks
+  // HeroCarouselSimple: CraftHeroCarouselSimple,
   MedicalServices1: CraftMedicalServices1,
   WhyChooseUs1: CraftWhyChooseUs1,
   MedicalDoctors1: CraftMedicalDoctors1,

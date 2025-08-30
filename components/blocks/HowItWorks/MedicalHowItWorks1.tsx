@@ -29,7 +29,7 @@ interface MedicalHowItWorks1Props extends SectionProps {
 export function MedicalHowItWorks1({
   sectionTag = "HOW IT WORKS",
   mainTitle = "How It Works in 4 Easy Steps",
-  description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
+  description = "Getting the healthcare you need has never been easier. Follow these simple steps to access our comprehensive medical services.",
   doctorImage = "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=800&h=600&fit=crop",
   step1Number = "01",
   step1Title = "Choose Your Service",
@@ -526,7 +526,7 @@ MedicalHowItWorks1.craft = {
     sectionTag: "HOW IT WORKS",
     mainTitle: "How It Works in 4 Easy Steps",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
+      "Getting the healthcare you need has never been easier. Follow these simple steps to access our comprehensive medical services.",
     doctorImage:
       "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=800&h=600&fit=crop",
     step1Number: "01",

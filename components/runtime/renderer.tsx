@@ -1,7 +1,7 @@
 "use client";
 
 import type React from "react";
-import { Header1Runtime as Header1 } from "@/components/blocks/Header/Header1Runtime";
+// import { Header1Runtime as Header1 } from "@/components/blocks/Header/Header1Runtime";
 // Import basic runtime components
 import { TextRuntime as Text } from "@/components/blocks/Basic/TextRuntime";
 import { ButtonRuntime as Button } from "@/components/blocks/Basic/ButtonRuntime";
@@ -35,7 +35,7 @@ import { BlogGridRuntime as BlogGrid } from "@/components/blocks/Basic/BlogGridR
 // Component mapping for runtime rendering
 const componentMap: Record<string, React.ComponentType<any>> = {
   // Header components that have runtime versions
-  Header1,
+  // Header1,
   Text,
   Button,
   Badge,

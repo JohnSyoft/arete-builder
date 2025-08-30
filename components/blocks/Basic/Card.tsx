@@ -11,6 +11,7 @@ interface CardProps {
   borderColor?: string;
   padding?: string;
   margin?: string;
+  height?: string;
   hoverable?: boolean;
   clickable?: boolean;
   overflow?: "visible" | "hidden" | "auto" | "scroll";
@@ -25,6 +26,7 @@ export function Card({
   borderColor = "#e5e7eb",
   padding = "16px",
   margin = "8px",
+  height = "auto",
   hoverable = false,
   clickable = false,
   overflow = "hidden",
@@ -56,6 +58,7 @@ export function Card({
         borderColor,
         padding,
         margin,
+        height,
         hoverable,
         clickable,
         overflow,
@@ -111,7 +114,7 @@ export function Card({
       className={`relative group ${selected ? "ring-2 ring-blue-500" : ""} ${
         hovered ? "ring-1 ring-blue-300" : ""
       }`}
-      style={{ margin }}
+      style={{ margin, overflow: "visible" }}
     >
       <div
         className={`
@@ -134,6 +137,7 @@ export function Card({
           borderColor: variant !== "flat" ? borderColor : undefined,
           borderRadius,
           padding,
+          height: height !== "auto" ? height : undefined,
           // overflow,
         }}
       >
@@ -179,6 +183,7 @@ Card.craft = {
     borderColor: "#e5e7eb",
     padding: "16px",
     margin: "8px",
+    height: "auto",
     hoverable: false,
     clickable: false,
     overflow: "hidden",
