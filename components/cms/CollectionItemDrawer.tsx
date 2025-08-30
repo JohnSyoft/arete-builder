@@ -195,6 +195,7 @@ export function CollectionItemDrawer({
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { errors, isSubmitting, isDirty },
     watch,
     setValue,
@@ -204,7 +205,7 @@ export function CollectionItemDrawer({
     resolver: yupResolver(validationSchema),
     defaultValues: getDefaultValues,
   });
-
+  console.log({ getValues: getValues() });
   const formData = watch();
 
   // Helper function to get display name for collection items
@@ -395,12 +396,23 @@ export function CollectionItemDrawer({
             if (uploadedFiles) {
               const urls = uploadedFiles.map((file: any) => file.url);
               if (field.type === "gallery" || field.multiple) {
-                // For gallery/multiple fields, append to existing URLs
-                const existingUrls = Array.isArray(updatedData.data[field.name])
-                  ? updatedData.data[field.name]
-                  : updatedData.data[field.name]
-                  ? [updatedData.data[field.name]]
-                  : [];
+                // For gallery/multiple fields, preserve existing URLs and append new ones
+                const currentValue = updatedData.data[field.name];
+                let existingUrls: string[] = [];
+
+                if (Array.isArray(currentValue)) {
+                  // Filter out file objects and keep only URL strings
+                  existingUrls = currentValue.filter(
+                    (item: any) =>
+                      typeof item === "string" && item.trim() !== ""
+                  );
+                } else if (
+                  typeof currentValue === "string" &&
+                  currentValue.trim() !== ""
+                ) {
+                  existingUrls = [currentValue];
+                }
+
                 updatedData.data[field.name] = [...existingUrls, ...urls];
               } else {
                 // For single fields, use the first URL
@@ -483,19 +495,52 @@ export function CollectionItemDrawer({
   };
 
   const handleFieldChange = (fieldName: string, value: any) => {
+    console.log(`Field ${fieldName} received value:`, value);
+
     // Handle file selection for media fields
     if (
       value instanceof FileList ||
-      (Array.isArray(value) && value[0] instanceof File)
+      (Array.isArray(value) &&
+        value.length > 0 &&
+        value.some((item: any) => item instanceof File))
     ) {
-      const files = Array.isArray(value) ? value : Array.from(value);
-      setSelectedFiles((prev) => ({
-        ...prev,
-        [fieldName]: files,
-      }));
+      let files: File[];
+
+      if (value instanceof FileList) {
+        files = Array.from(value);
+      } else if (Array.isArray(value)) {
+        // Filter out only actual File objects, ignore preview objects and URLs
+        files = value.filter((item: any) => item instanceof File);
+        console.log(
+          `Filtered ${files.length} File objects from ${value.length} items for field ${fieldName}`
+        );
+      } else {
+        files = [];
+      }
+
+      // Only update if we have actual files to upload
+      if (files.length > 0) {
+        console.log(
+          `Setting ${files.length} files for upload in field ${fieldName}`
+        );
+        setSelectedFiles((prev) => ({
+          ...prev,
+          [fieldName]: files,
+        }));
+
+        // Also set the files in form data for validation
+        setValue(`data.${fieldName}`, files);
+      } else {
+        console.log(
+          `No files to upload for field ${fieldName}, setting form value as-is`
+        );
+        // If no files to upload, set the value as-is (preserving existing URLs)
+        setValue(`data.${fieldName}`, value);
+      }
       return;
     }
 
+    // For non-file values (URLs, strings, etc.)
     setValue(`data.${fieldName}`, value);
 
     // Auto-generate slug from title field
@@ -560,55 +605,12 @@ export function CollectionItemDrawer({
           <MediaFieldRenderer
             field={field}
             value={value}
-            onChange={(newValue: any) =>
-              handleFieldChange(field.name, newValue)
-            }
+            onChange={(newValue: any) => {
+              return handleFieldChange(field.name, newValue);
+            }}
             placeholder={field.placeholder || `Select ${field.name}`}
             projectId={collection._id}
           />
-
-          {/* Show selected files for upload */}
-          {/* {hasFilesToUpload && (
-            <div className="mt-2 p-3 bg-muted/50 rounded-lg">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium">
-                  {fieldFiles.length} file(s) selected for upload
-                </span>
-                {uploadPercentage !== undefined && (
-                  <span className="text-xs text-muted-foreground">
-                    {uploadPercentage}%
-                  </span>
-                )}
-              </div>
-
-              {uploadPercentage !== undefined && (
-                <div className="w-full bg-muted rounded-full h-1.5 mb-2">
-                  <div
-                    className="bg-primary h-1.5 rounded-full transition-all duration-300"
-                    style={{ width: `${uploadPercentage}%` }}
-                  />
-                </div>
-              )}
-
-              <div className="space-y-1">
-                {fieldFiles.slice(0, 3).map((file, index) => (
-                  <div
-                    key={index}
-                    className="text-xs text-muted-foreground flex items-center gap-2"
-                  >
-                    <Upload className="w-3 h-3" />
-                    <span className="truncate">{file.name}</span>
-                    <span>({(file.size / 1024 / 1024).toFixed(2)} MB)</span>
-                  </div>
-                ))}
-                {fieldFiles.length > 3 && (
-                  <div className="text-xs text-muted-foreground">
-                    ...and {fieldFiles.length - 3} more file(s)
-                  </div>
-                )}
-              </div>
-            </div>
-          )} */}
 
           {fieldError && (
             <p className="text-sm text-destructive">

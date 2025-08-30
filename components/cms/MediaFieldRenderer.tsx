@@ -69,7 +69,7 @@ export function MediaFieldRenderer({
       onUploadError: handleUploadError,
       variant: "grid" as const,
     };
-
+    // console.log(field.type, "TYPE IS HERE");
     switch (field.type) {
       case "image":
         return (

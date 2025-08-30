@@ -70,11 +70,39 @@ export const createCollectionItemSchema = (fields: any[]) => {
       case "image":
       case "video":
       case "file":
-        fieldSchema = yup.mixed();
+        fieldSchema = yup.mixed()
+          .test('has-value', `${field.name} is required`, function(value) {
+            if (!field.required) return true;
+            
+            // Check if it's a non-empty string (URL)
+            if (typeof value === 'string' && value.trim() !== '') return true;
+            
+            // Check if it's a File object
+            if (value instanceof File) return true;
+            
+            // Check if it's an array with at least one File (for file selection)
+            if (Array.isArray(value) && value.length > 0 && value[0] instanceof File) return true;
+            
+            return false;
+          });
         break;
       
       case "gallery":
-        fieldSchema = yup.array().of(yup.mixed());
+        fieldSchema = yup.mixed()
+          .test('has-items', `At least one ${field.name} is required`, function(value) {
+            if (!field.required) return true;
+            
+            // Check if it's an array with items
+            if (Array.isArray(value) && value.length > 0) {
+              // Check if items are strings (URLs) or Files
+              return value.some(item => 
+                (typeof item === 'string' && item.trim() !== '') || 
+                item instanceof File
+              );
+            }
+            
+            return false;
+          });
         break;
       
       case "json":
@@ -89,9 +117,10 @@ export const createCollectionItemSchema = (fields: any[]) => {
     if (field.required) {
       if (field.type === "boolean" || field.type === "toggle") {
         fieldSchema = fieldSchema.required(`${field.name} is required`);
-      } else if (field.type === "multiReference" || field.type === "multiSelect" || field.type === "gallery") {
+      } else if (field.type === "multiReference" || field.type === "multiSelect") {
         fieldSchema = fieldSchema.min(1, `At least one ${field.name} is required`);
-      } else {
+      } else if (!["image", "video", "file", "gallery"].includes(field.type)) {
+        // Media fields handle their own validation above
         fieldSchema = fieldSchema.required(`${field.name} is required`);
       }
     } else {
@@ -102,6 +131,8 @@ export const createCollectionItemSchema = (fields: any[]) => {
         fieldSchema = fieldSchema.default(false);
       } else if (field.type === "number") {
         fieldSchema = fieldSchema.nullable().default(undefined);
+      } else if (["image", "video", "file"].includes(field.type)) {
+        fieldSchema = fieldSchema.default("");
       } else {
         fieldSchema = fieldSchema.default("");
       }

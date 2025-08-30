@@ -274,7 +274,7 @@ export function ManageFieldsDialog({
           fieldId: selectedFieldId || editingField!.id,
           field: fieldData,
         });
-        closeModal();
+        // closeModal();
         toast.success("Field updated successfully");
       } else {
         await addFieldMutation.mutateAsync({

@@ -41,6 +41,7 @@ export function FileUpload({
   value,
   onChange,
 }: FileUploadProps) {
+//   console.log({ variant, multiple });
   const [files, setFiles] = useState<FileWithPreview[]>([]);
   const [isDragOver, setIsDragOver] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -314,59 +315,7 @@ export function FileUpload({
     return (
       <div className={cn("space-y-4", className)}>
         {/* Display uploaded files */}
-        {currentFiles.length > 0 && (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-4">
-            {currentFiles.map((url, index) => (
-              <Card key={index} className="relative overflow-hidden">
-                <CardContent className="p-0">
-                  {url.match(/\.(jpg|jpeg|png|gif|webp)$/i) ? (
-                    <div className="aspect-square relative">
-                      <img
-                        src={url}
-                        alt="Uploaded file"
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute inset-0 bg-black/20 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center">
-                        <Button size="sm" variant="secondary" className="mr-2">
-                          <Eye className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    </div>
-                  ) : url.match(/\.(mp4|mov|avi|mkv|webm)$/i) ? (
-                    <div className="aspect-square bg-muted flex items-center justify-center">
-                      <Play className="w-12 h-12 text-muted-foreground" />
-                    </div>
-                  ) : (
-                    <div className="aspect-square bg-muted flex items-center justify-center">
-                      <File className="w-12 h-12 text-muted-foreground" />
-                    </div>
-                  )}
-
-                  <div className="p-3">
-                    <div className="flex items-center justify-between mb-2">
-                      <Badge variant="secondary" className="text-xs">
-                        File
-                      </Badge>
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        onClick={() => removeUploadedFile(url)}
-                        className="p-1 h-auto"
-                        disabled={disabled}
-                      >
-                        <X className="w-3 h-3" />
-                      </Button>
-                    </div>
-
-                    <p className="text-sm font-medium truncate mb-1">
-                      {url.split("/").pop() || "Uploaded file"}
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        )}
+       
 
         <div
           className={cn(
@@ -525,7 +474,7 @@ export function FileUpload({
             ? "opacity-50 cursor-not-allowed"
             : "hover:border-primary hover:bg-primary/5"
         )}
-        onClick={(e) => openFileDialog(e)}
+        onClick={openFileDialog}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}

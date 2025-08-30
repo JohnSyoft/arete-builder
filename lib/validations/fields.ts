@@ -19,12 +19,14 @@ export const fieldSchema = yup.object({
       "email",
       "url",
       "image",
+      "video",
       "file",
       "reference",
       "multiReference",
       "select",
       "multiSelect",
-      "json"
+      "json",
+      "gallery"
     ], "Invalid field type"),
   description: yup
     .string()

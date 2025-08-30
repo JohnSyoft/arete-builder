@@ -37,6 +37,7 @@ export const useCollectionItems = (collectionId: string, options?: {
   status?: string
   sortBy?: string
   sortOrder?: 'asc' | 'desc'
+  populate?: boolean
 }) => {
   const queryParams = new URLSearchParams()
   if (options?.page) queryParams.append('page', options.page.toString())
@@ -45,6 +46,7 @@ export const useCollectionItems = (collectionId: string, options?: {
   if (options?.status) queryParams.append('status', options.status)
   if (options?.sortBy) queryParams.append('sortBy', options.sortBy)
   if (options?.sortOrder) queryParams.append('sortOrder', options.sortOrder)
+  if (options?.populate) queryParams.append('populate', 'true')
 
   return useQuery({
     queryKey: ['collection-items', collectionId, options],
@@ -57,11 +59,14 @@ export const useCollectionItems = (collectionId: string, options?: {
 }
 
 // Get single collection item
-export const useCollectionItem = (itemId: string) => {
+export const useCollectionItem = (itemId: string, options?: { populate?: boolean }) => {
+  const queryParams = new URLSearchParams()
+  if (options?.populate) queryParams.append('populate', 'true')
+
   return useQuery({
-    queryKey: ['collection-item', itemId],
+    queryKey: ['collection-item', itemId, options],
     queryFn: async () => {
-      const response = await apiClient.get(`/collection-items/single/${itemId}`)
+      const response = await apiClient.get(`/collection-items/single/${itemId}?${queryParams}`)
       return response.data
     },
     enabled: !!itemId,

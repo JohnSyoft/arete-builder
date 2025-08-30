@@ -205,6 +205,48 @@ function SortableRow({
           );
         }
         return "-";
+      case "reference":
+        if (Array.isArray(value)) {
+          // Handle multiple references
+          if (value.length === 0) return "-";
+          return (
+            <div className="flex flex-col gap-1">
+              {value.slice(0, 2).map((ref, index) => (
+                <span
+                  key={index}
+                  className="text-xs bg-muted px-2 py-1 rounded truncate max-w-32"
+                >
+                  {typeof ref === "object" && ref?.data?.title
+                    ? ref.data.title
+                    : typeof ref === "object" && ref?.slug
+                    ? ref.slug
+                    : typeof ref === "string"
+                    ? ref
+                    : "Untitled"}
+                </span>
+              ))}
+              {value.length > 2 && (
+                <span className="text-xs text-muted-foreground">
+                  +{value.length - 2} more
+                </span>
+              )}
+            </div>
+          );
+        } else if (value) {
+          // Handle single reference
+          return (
+            <span className="text-xs bg-muted px-2 py-1 rounded truncate max-w-32">
+              {typeof value === "object" && value?.data?.title
+                ? value.data.title
+                : typeof value === "object" && value?.slug
+                ? value.slug
+                : typeof value === "string"
+                ? value
+                : "Untitled"}
+            </span>
+          );
+        }
+        return "-";
       case "video":
         return value ? (
           <div className="flex items-center gap-2">
@@ -350,6 +392,7 @@ export function ContentTable({
       sortBy: "order",
       sortOrder: "asc",
       limit: 100, // Load all items for drag and drop
+      populate: true, // Enable population of reference fields
     }
   );
 
