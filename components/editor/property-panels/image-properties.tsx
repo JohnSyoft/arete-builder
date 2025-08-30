@@ -54,8 +54,7 @@ export function ImageProperties({
             multiple={false}
             maxFiles={1}
             placeholder="Upload an image"
-            variant="compact"
-            folder="editor/images"
+            variant="preview"
           />
         )}
       </div>

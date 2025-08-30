@@ -442,7 +442,7 @@ export function CollectionItemDrawer({
       }
 
       setIsUploading(false);
-      console.log({ item });
+      //   console.log({ item });
       // Save the collection item with uploaded file URLs
       if (item) {
         await updateMutation.mutateAsync({
@@ -551,7 +551,10 @@ export function CollectionItemDrawer({
   };
 
   const renderField = (field: any) => {
-    const value = formData.data[field.name] || "";
+    let value = formData.data[field.name] || "";
+    if (value?._id) {
+      value = value?._id;
+    }
     const fieldError = errors.data?.[field.name];
 
     // Handle reference fields with smart dropdown

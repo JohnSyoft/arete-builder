@@ -14,7 +14,7 @@ interface ImageUploadProps {
   className?: string;
   disabled?: boolean;
   placeholder?: string;
-  variant?: "default" | "compact" | "grid";
+  variant?: "default" | "compact" | "grid" | "preview";
   onUploadError?: (error: string) => void;
 }
 
@@ -50,7 +50,7 @@ export function ImageUpload({
         placeholder={
           placeholder || (multiple ? "Upload images" : "Upload an image")
         }
-        variant={variant}
+        variant={variant === "default" && !multiple ? "preview" : variant}
         value={value}
         onChange={onChange}
       />

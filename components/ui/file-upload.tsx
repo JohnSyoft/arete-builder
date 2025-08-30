@@ -17,7 +17,7 @@ interface FileUploadProps {
   className?: string;
   disabled?: boolean;
   placeholder?: string;
-  variant?: "default" | "compact" | "grid";
+  variant?: "default" | "compact" | "grid" | "preview";
   value?: string | string[]; // For displaying uploaded files
   onChange?: (value: string | string[]) => void;
 }
@@ -83,6 +83,12 @@ export function FileUpload({
     return null;
   };
 
+  // Get current uploaded files to display
+  const currentFiles = React.useMemo(() => {
+    if (!value) return [];
+    return Array.isArray(value) ? value : [value];
+  }, [value]);
+
   const handleFiles = useCallback(
     (fileList: FileList) => {
       const newFiles = Array.from(fileList);
@@ -92,7 +98,8 @@ export function FileUpload({
         return;
       }
 
-      if (files.length + newFiles.length > maxFiles) {
+      const currentFileCount = currentFiles.length + files.length;
+      if (currentFileCount + newFiles.length > maxFiles) {
         onUploadError?.(`Maximum ${maxFiles} files allowed`);
         return;
       }
@@ -118,10 +125,14 @@ export function FileUpload({
         ? [...files, ...validatedFiles]
         : validatedFiles;
       setFiles(updatedFiles);
+
+      // Pass the files to parent component for upload handling
+      // The parent component will handle the actual upload and call onChange with the final URLs
       onFilesSelected?.(validatedFiles);
     },
     [
       files,
+      currentFiles,
       multiple,
       maxFiles,
       maxSize,
@@ -129,6 +140,8 @@ export function FileUpload({
       createFilePreview,
       onFilesSelected,
       onUploadError,
+      value,
+      onChange,
     ]
   );
 
@@ -201,12 +214,6 @@ export function FileUpload({
     const i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
   };
-
-  // Get current uploaded files to display
-  const currentFiles = React.useMemo(() => {
-    if (!value) return [];
-    return Array.isArray(value) ? value : [value];
-  }, [value]);
 
   if (variant === "compact") {
     return (
@@ -303,6 +310,194 @@ export function FileUpload({
                 >
                   <X className="w-3 h-3" />
                 </Button>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  if (variant === "preview") {
+    return (
+      <div className={cn("space-y-4", className)}>
+        {/* Display uploaded files with large preview */}
+        {currentFiles.length > 0 && (
+          <div className="space-y-4 mb-4 w-full max-w-[280px]">
+            {currentFiles.map((url, index) => (
+              <div key={index} className="relative">
+                {/* Check if only images are supported and render accordingly */}
+                {accept === "image/*" ||
+                url.match(/\.(jpg|jpeg|png|gif|webp|svg|bmp|tiff?)(\?.*)?$/i) ||
+                url.includes("image") ||
+                url.includes("cloudinary") ||
+                url.includes("amazonaws") ? (
+                  <div className="relative w-full">
+                    <div className="aspect-video w-full rounded-lg overflow-hidden border bg-muted max-w-xs mx-auto">
+                      <img
+                        src={url}
+                        alt="Uploaded image"
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          // If image fails to load, show file icon instead
+                          const target = e.target as HTMLImageElement;
+                          target.style.display = "none";
+                          const parent = target.parentElement;
+                          if (parent) {
+                            parent.innerHTML = `
+                              <div class="w-full h-full bg-muted flex items-center justify-center">
+                                <svg class="w-16 h-16 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                              </div>
+                            `;
+                          }
+                        }}
+                      />
+                    </div>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => removeUploadedFile(url)}
+                      className="absolute top-2 right-2 p-2 bg-red-500 hover:bg-red-600 text-white rounded-full shadow-lg"
+                      disabled={disabled}
+                    >
+                      <X className="w-4 h-4" />
+                    </Button>
+                    <div className="mt-2 text-center">
+                      <p className="text-sm text-muted-foreground truncate">
+                        {url.split("/").pop() || "Uploaded image"}
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  // Non-image file display
+                  <div className="flex items-center space-x-3 p-4 border rounded-lg bg-muted/30">
+                    <div className="w-12 h-12 bg-muted rounded flex items-center justify-center">
+                      <File className="w-6 h-6" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium truncate">
+                        {url.split("/").pop() || "Uploaded file"}
+                      </p>
+                      <p className="text-xs text-muted-foreground">File</p>
+                    </div>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => removeUploadedFile(url)}
+                      className="p-1 h-auto hover:bg-red-100 hover:text-red-600 text-red-500"
+                      disabled={disabled}
+                    >
+                      <X className="w-4 h-4" />
+                    </Button>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Upload area */}
+        <div
+          className={cn(
+            "border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors",
+            isDragOver
+              ? "border-primary bg-primary/5"
+              : "border-muted-foreground/25",
+            disabled
+              ? "opacity-50 cursor-not-allowed"
+              : "hover:border-primary hover:bg-primary/5"
+          )}
+          onClick={(e) => openFileDialog(e)}
+          onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
+          onDrop={handleDrop}
+        >
+          <FolderOpen className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
+          <h3 className="text-lg font-semibold mb-2">
+            {accept === "image/*" ? "Select Image" : "Select Files"}
+          </h3>
+          <p className="text-muted-foreground mb-4">
+            {placeholder ||
+              (accept === "image/*"
+                ? multiple
+                  ? "Drag and drop images here, or click to browse"
+                  : "Drag and drop an image here, or click to browse"
+                : multiple
+                ? "Drag and drop files here, or click to browse"
+                : "Drag and drop a file here, or click to browse")}
+          </p>
+          <Button variant="outline" disabled={disabled}>
+            {accept === "image/*" ? "Choose Image" : "Choose Files"}
+          </Button>
+        </div>
+
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept={accept}
+          multiple={multiple}
+          onChange={(e) => e.target.files && handleFiles(e.target.files)}
+          className="hidden"
+          disabled={disabled}
+        />
+
+        {/* Display new files with large preview */}
+        {files.length > 0 && (
+          <div className="space-y-4">
+            {files.map((file) => (
+              <div key={file.id} className="relative">
+                {file.type.startsWith("image/") && file.preview ? (
+                  <div className="relative w-full">
+                    <div className="aspect-video w-full rounded-lg overflow-hidden border bg-muted max-w-xs mx-auto">
+                      <img
+                        src={file.preview}
+                        alt={file.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => removeFile(file.id)}
+                      className="absolute top-2 right-2 p-2 bg-red-500 hover:bg-red-600 text-white rounded-full shadow-lg"
+                    >
+                      <X className="w-4 h-4" />
+                    </Button>
+                    <div className="mt-2 text-center">
+                      <p className="text-sm font-medium truncate">
+                        {file.name}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        {formatFileSize(file.size)}
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  // Non-image file display
+                  <div className="flex items-center space-x-3 p-4 border rounded-lg">
+                    <div className="w-12 h-12 bg-muted rounded flex items-center justify-center">
+                      {getFileIcon(file)}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium truncate">
+                        {file.name}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        {formatFileSize(file.size)} • {getFileTypeLabel(file)}
+                      </p>
+                    </div>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => removeFile(file.id)}
+                      className="p-1 h-auto hover:bg-red-100 hover:text-red-600 text-red-500"
+                    >
+                      <X className="w-4 h-4" />
+                    </Button>
+                  </div>
+                )}
               </div>
             ))}
           </div>

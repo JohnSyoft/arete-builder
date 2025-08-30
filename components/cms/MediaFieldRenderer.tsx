@@ -34,8 +34,21 @@ export function MediaFieldRenderer({
   disabled = false,
 }: MediaFieldRendererProps) {
   const handleFilesSelected = (files: File[]) => {
-    // Pass selected files to parent component for upload handling
-    onChange(files);
+    // For multiple mode, combine existing URLs with new files
+    if (field.multiple || field.type === "gallery") {
+      const existingUrls = Array.isArray(value)
+        ? value.filter((v) => typeof v === "string")
+        : typeof value === "string" && value.trim() !== ""
+        ? [value]
+        : [];
+
+      // Combine existing URLs with new files - pass as mixed array
+      const combinedValue = [...existingUrls, ...files] as (string | File)[];
+      onChange(combinedValue as any);
+    } else {
+      // For single mode, replace with new files
+      onChange(files);
+    }
   };
 
   const handleUploadError = (error: string) => {
