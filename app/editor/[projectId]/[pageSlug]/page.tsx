@@ -97,7 +97,7 @@ function EditorContent({
         >
           <div className="">
             <div
-              className="mx-auto bg-white shadow-lg rounded-lg overflow-hidden pt-[28px]"
+              className="mx-auto bg-white shadow-lg rounded-lg overflow-hidden pt-[28px] min-h-[100vh]"
               style={viewportStyles}
             >
               <Frame data={layoutData}>

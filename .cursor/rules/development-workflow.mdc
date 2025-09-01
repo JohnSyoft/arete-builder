@@ -1,0 +1,93 @@
+---
+description: Frontend development setup, building, and deployment patterns
+---
+
+# Frontend Development Workflow
+
+## Development Setup
+
+### Starting the Frontend Server
+```bash
+cd arete-builder
+npm run dev  # Starts on port 3000
+```
+
+### Environment Configuration
+Required environment variables in `.env.local`:
+- `NEXT_PUBLIC_API_URL` - Backend API URL (http://localhost:5001 for development)
+- Additional environment-specific variables as needed
+
+## Project Structure Guidelines
+
+### App Router Structure
+- Pages in [app/](mdc:app/) directory using Next.js 14 App Router
+- Layouts defined at appropriate levels
+- Client/server component separation
+
+### Component Organization
+- Feature-specific components in organized folders
+- Shared UI components in [components/ui/](mdc:components/ui/)
+- Reusable business components in feature folders
+
+## State Management Strategy
+
+### TanStack Query (React Query)
+- API state management in [hooks/](mdc:hooks/) directory
+- Query invalidation and caching strategies
+- Mutation handling with optimistic updates
+
+### Zustand Stores
+- Client state in [lib/store/](mdc:lib/store/) directory
+- Modal state, UI preferences, temporary data
+- Minimal global state - prefer local state when possible
+
+## Styling and Theming
+
+### Tailwind CSS Configuration
+- Configuration in [tailwind.config.ts](mdc:tailwind.config.ts)
+- Custom CSS variables for theme switching
+- Component-specific styles in component files
+
+### Dark/Light Mode
+- Theme provider in [components/theme-provider.tsx](mdc:components/theme-provider.tsx)
+- CSS variables for color management
+- Theme toggle component available
+
+## Build and Deployment
+
+### Build Process
+```bash
+npm run build    # Production build
+npm run start    # Production server
+npm run lint     # ESLint checking
+```
+
+### TypeScript Configuration
+- Configuration in [tsconfig.json](mdc:tsconfig.json)
+- Strict type checking enabled
+- Path aliases configured for imports
+
+## Development Tools
+
+### Code Quality
+- ESLint and Prettier configuration
+- TypeScript strict mode enabled
+- Component prop type validation
+
+### Performance Optimization
+- Next.js Image component for optimized images
+- Dynamic imports for code splitting
+- React Query caching for API responses
+
+## Component Development Guidelines
+
+### File Naming Conventions
+- PascalCase for component files: `ProjectCard.tsx`
+- kebab-case for non-component files: `api-client.ts`
+- Index files for directory exports
+
+### Import Organization
+- External libraries first
+- Internal components and utilities
+- Types and interfaces last
+- Alphabetical ordering within groups

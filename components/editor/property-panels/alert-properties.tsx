@@ -1,26 +1,46 @@
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 interface AlertPropertiesProps {
-  elementProps: any
-  onPropChange: (key: string, value: any) => void
+  elementProps: any;
+  onPropChange: (key: string, value: any) => void;
 }
 
-export function AlertProperties({ elementProps, onPropChange }: AlertPropertiesProps) {
+export function AlertProperties({
+  elementProps,
+  onPropChange,
+}: AlertPropertiesProps) {
   return (
-    <Accordion type="multiple" defaultValue={["content", "style"]} className="w-full">
+    <Accordion
+      type="multiple"
+      defaultValue={["content", "style", "spacing"]}
+      className="w-full"
+    >
       {/* Content Section */}
       <AccordionItem value="content">
-        <AccordionTrigger className="text-sm font-medium">Content</AccordionTrigger>
+        <AccordionTrigger className="text-sm font-medium">
+          Content
+        </AccordionTrigger>
         <AccordionContent className="space-y-3">
           <div>
             <Label htmlFor="title">Alert Title</Label>
             <Input
               id="title"
-              value={elementProps?.title || 'Alert Title'}
-              onChange={(e) => onPropChange('title', e.target.value)}
+              value={elementProps?.title || "Alert Title"}
+              onChange={(e) => onPropChange("title", e.target.value)}
               placeholder="Enter alert title"
               className="mt-1"
             />
@@ -30,8 +50,8 @@ export function AlertProperties({ elementProps, onPropChange }: AlertPropertiesP
             <Label htmlFor="message">Alert Message</Label>
             <Input
               id="message"
-              value={elementProps?.message || 'This is an alert message.'}
-              onChange={(e) => onPropChange('message', e.target.value)}
+              value={elementProps?.message || "This is an alert message."}
+              onChange={(e) => onPropChange("message", e.target.value)}
               placeholder="Enter alert message"
               className="mt-1"
             />
@@ -39,7 +59,12 @@ export function AlertProperties({ elementProps, onPropChange }: AlertPropertiesP
 
           <div>
             <Label htmlFor="showIcon">Show Icon</Label>
-            <Select value={elementProps?.showIcon ? "true" : "false"} onValueChange={(value) => onPropChange('showIcon', value === "true")}>
+            <Select
+              value={elementProps?.showIcon ? "true" : "false"}
+              onValueChange={(value) =>
+                onPropChange("showIcon", value === "true")
+              }
+            >
               <SelectTrigger className="mt-1">
                 <SelectValue />
               </SelectTrigger>
@@ -52,7 +77,12 @@ export function AlertProperties({ elementProps, onPropChange }: AlertPropertiesP
 
           <div>
             <Label htmlFor="dismissible">Dismissible</Label>
-            <Select value={elementProps?.dismissible ? "true" : "false"} onValueChange={(value) => onPropChange('dismissible', value === "true")}>
+            <Select
+              value={elementProps?.dismissible ? "true" : "false"}
+              onValueChange={(value) =>
+                onPropChange("dismissible", value === "true")
+              }
+            >
               <SelectTrigger className="mt-1">
                 <SelectValue />
               </SelectTrigger>
@@ -67,11 +97,16 @@ export function AlertProperties({ elementProps, onPropChange }: AlertPropertiesP
 
       {/* Style Section */}
       <AccordionItem value="style">
-        <AccordionTrigger className="text-sm font-medium">Style</AccordionTrigger>
+        <AccordionTrigger className="text-sm font-medium">
+          Style
+        </AccordionTrigger>
         <AccordionContent className="space-y-3">
           <div>
             <Label htmlFor="variant">Alert Type</Label>
-            <Select value={elementProps?.variant || "info"} onValueChange={(value) => onPropChange('variant', value)}>
+            <Select
+              value={elementProps?.variant || "info"}
+              onValueChange={(value) => onPropChange("variant", value)}
+            >
               <SelectTrigger className="mt-1">
                 <SelectValue />
               </SelectTrigger>
@@ -87,7 +122,10 @@ export function AlertProperties({ elementProps, onPropChange }: AlertPropertiesP
 
           <div>
             <Label htmlFor="size">Size</Label>
-            <Select value={elementProps?.size || "medium"} onValueChange={(value) => onPropChange('size', value)}>
+            <Select
+              value={elementProps?.size || "medium"}
+              onValueChange={(value) => onPropChange("size", value)}
+            >
               <SelectTrigger className="mt-1">
                 <SelectValue />
               </SelectTrigger>
@@ -101,7 +139,10 @@ export function AlertProperties({ elementProps, onPropChange }: AlertPropertiesP
 
           <div>
             <Label htmlFor="borderRadius">Border Radius</Label>
-            <Select value={elementProps?.borderRadius || "8px"} onValueChange={(value) => onPropChange('borderRadius', value)}>
+            <Select
+              value={elementProps?.borderRadius || "8px"}
+              onValueChange={(value) => onPropChange("borderRadius", value)}
+            >
               <SelectTrigger className="mt-1">
                 <SelectValue />
               </SelectTrigger>
@@ -116,7 +157,10 @@ export function AlertProperties({ elementProps, onPropChange }: AlertPropertiesP
 
           <div>
             <Label htmlFor="shadow">Shadow</Label>
-            <Select value={elementProps?.shadow || "none"} onValueChange={(value) => onPropChange('shadow', value)}>
+            <Select
+              value={elementProps?.shadow || "none"}
+              onValueChange={(value) => onPropChange("shadow", value)}
+            >
               <SelectTrigger className="mt-1">
                 <SelectValue />
               </SelectTrigger>
@@ -133,15 +177,17 @@ export function AlertProperties({ elementProps, onPropChange }: AlertPropertiesP
 
       {/* Colors Section */}
       <AccordionItem value="colors">
-        <AccordionTrigger className="text-sm font-medium">Custom Colors</AccordionTrigger>
+        <AccordionTrigger className="text-sm font-medium">
+          Custom Colors
+        </AccordionTrigger>
         <AccordionContent className="space-y-3">
           <div>
             <Label htmlFor="backgroundColor">Background Color</Label>
             <Input
               id="backgroundColor"
               type="color"
-              value={elementProps?.backgroundColor || '#f3f4f6'}
-              onChange={(e) => onPropChange('backgroundColor', e.target.value)}
+              value={elementProps?.backgroundColor || "#f3f4f6"}
+              onChange={(e) => onPropChange("backgroundColor", e.target.value)}
               className="mt-1 h-10"
             />
           </div>
@@ -151,8 +197,8 @@ export function AlertProperties({ elementProps, onPropChange }: AlertPropertiesP
             <Input
               id="textColor"
               type="color"
-              value={elementProps?.textColor || '#374151'}
-              onChange={(e) => onPropChange('textColor', e.target.value)}
+              value={elementProps?.textColor || "#374151"}
+              onChange={(e) => onPropChange("textColor", e.target.value)}
               className="mt-1 h-10"
             />
           </div>
@@ -162,8 +208,8 @@ export function AlertProperties({ elementProps, onPropChange }: AlertPropertiesP
             <Input
               id="borderColor"
               type="color"
-              value={elementProps?.borderColor || '#d1d5db'}
-              onChange={(e) => onPropChange('borderColor', e.target.value)}
+              value={elementProps?.borderColor || "#d1d5db"}
+              onChange={(e) => onPropChange("borderColor", e.target.value)}
               className="mt-1 h-10"
             />
           </div>
@@ -172,11 +218,57 @@ export function AlertProperties({ elementProps, onPropChange }: AlertPropertiesP
 
       {/* Spacing Section */}
       <AccordionItem value="spacing">
-        <AccordionTrigger className="text-sm font-medium">Spacing</AccordionTrigger>
+        <AccordionTrigger className="text-sm font-medium">
+          Spacing & Dimensions
+        </AccordionTrigger>
         <AccordionContent className="space-y-3">
           <div>
+            <Label htmlFor="width">Width</Label>
+            <Select
+              value={elementProps?.width || "auto"}
+              onValueChange={(value) => onPropChange("width", value)}
+            >
+              <SelectTrigger className="mt-1">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="auto">Auto</SelectItem>
+                <SelectItem value="100%">Full Width (100%)</SelectItem>
+                <SelectItem value="75%">Three Quarters (75%)</SelectItem>
+                <SelectItem value="50%">Half (50%)</SelectItem>
+                <SelectItem value="25%">Quarter (25%)</SelectItem>
+                <SelectItem value="200px">Small (200px)</SelectItem>
+                <SelectItem value="400px">Medium (400px)</SelectItem>
+                <SelectItem value="600px">Large (600px)</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div>
+            <Label htmlFor="height">Height</Label>
+            <Select
+              value={elementProps?.height || "auto"}
+              onValueChange={(value) => onPropChange("height", value)}
+            >
+              <SelectTrigger className="mt-1">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="auto">Auto</SelectItem>
+                <SelectItem value="60px">Small (60px)</SelectItem>
+                <SelectItem value="80px">Medium (80px)</SelectItem>
+                <SelectItem value="100px">Large (100px)</SelectItem>
+                <SelectItem value="120px">Extra Large (120px)</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div>
             <Label htmlFor="padding">Padding</Label>
-            <Select value={elementProps?.padding || "16px"} onValueChange={(value) => onPropChange('padding', value)}>
+            <Select
+              value={elementProps?.padding || "16px"}
+              onValueChange={(value) => onPropChange("padding", value)}
+            >
               <SelectTrigger className="mt-1">
                 <SelectValue />
               </SelectTrigger>
@@ -191,7 +283,10 @@ export function AlertProperties({ elementProps, onPropChange }: AlertPropertiesP
 
           <div>
             <Label htmlFor="margin">Margin</Label>
-            <Select value={elementProps?.margin || "8px"} onValueChange={(value) => onPropChange('margin', value)}>
+            <Select
+              value={elementProps?.margin || "8px"}
+              onValueChange={(value) => onPropChange("margin", value)}
+            >
               <SelectTrigger className="mt-1">
                 <SelectValue />
               </SelectTrigger>
@@ -206,5 +301,5 @@ export function AlertProperties({ elementProps, onPropChange }: AlertPropertiesP
         </AccordionContent>
       </AccordionItem>
     </Accordion>
-  )
+  );
 }

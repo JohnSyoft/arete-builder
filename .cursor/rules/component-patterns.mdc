@@ -1,0 +1,123 @@
+---
+globs: components/**/*.tsx,app/**/*.tsx
+description: React component development patterns and best practices
+---
+
+# React Component Development Patterns
+
+## Component Size Management
+
+Split components when they exceed 200-300 lines or handle multiple responsibilities:
+
+### Splitting Strategies
+
+1. **Extract Sub-components**: Move JSX sections into separate components
+   ```typescript
+   // Before: Large component
+   function ProjectDashboard() {
+     return (
+       <div>
+         {/* 50+ lines of project card JSX */}
+         {/* 30+ lines of project actions JSX */}
+         {/* 40+ lines of project header JSX */}
+       </div>
+     );
+   }
+   
+   // After: Split components
+   function ProjectDashboard() {
+     return (
+       <div>
+         <ProjectHeader />
+         <ProjectCard />
+         <ProjectActions />
+       </div>
+     );
+   }
+   ```
+
+2. **Extract Custom Hooks**: Move state logic into custom hooks
+   ```typescript
+   // hooks/useProjectActions.ts
+   export function useProjectActions() {
+     const [isLoading, setIsLoading] = useState(false);
+     const handleDelete = useCallback(/* ... */);
+     const handleEdit = useCallback(/* ... */);
+     
+     return { isLoading, handleDelete, handleEdit };
+   }
+   ```
+
+3. **Create Component Folders**: For complex features
+   ```
+   /components/projects/ProjectDashboard/
+   ├── index.tsx          // Main component
+   ├── ProjectCard.tsx    // Sub-component
+   ├── ProjectActions.tsx // Sub-component
+   └── ProjectHeader.tsx  // Sub-component
+   ```
+
+## Component Organization
+
+### UI Components
+- Base components in [components/ui/](mdc:components/ui/) (shadcn/ui)
+- Feature-specific components in feature folders
+- Shared components at root of [components/](mdc:components/)
+
+### State Management Strategy
+- **Zustand**: UI state (modals, temporary data)
+- **React Query**: Server state (API data)
+- **Local state**: Component-specific data only
+
+## Component Conventions
+
+### Props and TypeScript
+```typescript
+interface ComponentProps {
+  // Required props first
+  id: string;
+  title: string;
+  
+  // Optional props with defaults
+  isLoading?: boolean;
+  className?: string;
+  
+  // Event handlers
+  onClick?: () => void;
+  onSave?: (data: FormData) => void;
+}
+
+export function Component({ 
+  id, 
+  title, 
+  isLoading = false,
+  className = "",
+  onClick,
+  onSave 
+}: ComponentProps) {
+  // Component implementation
+}
+```
+
+### Single Responsibility Principle
+- Each component should have one clear purpose
+- If a component needs to be described with "and", consider splitting it
+- Components should have one reason to change
+
+### Import Organization
+```typescript
+// External libraries
+import React from 'react';
+import { useState } from 'react';
+
+// Internal components
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+
+// Hooks and utilities
+import { useProjects } from '@/hooks/useProjects';
+import { cn } from '@/lib/utils';
+
+// Types
+import type { Project } from '@/lib/types';
+```

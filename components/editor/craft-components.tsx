@@ -62,7 +62,12 @@ import { ElderCareTeam1 } from "../blocks/Team/ElderCareTeam1";
 import { ElderCareCTA1 } from "../blocks/CTA/ElderCareCTA1";
 import { ElderCareTestimonials1 } from "../blocks/Testimonials/ElderCareTestimonials1";
 import { MedicalHero1 } from "../blocks/Hero/MedicalHero1";
-import { MiniMaxHero1 } from "../blocks/Hero/MiniMaxHero1";
+import { CosmeticHero1 } from "../blocks/Hero/CosmeticHero1";
+import { CosmeticAbout1 } from "../blocks/About/CosmeticAbout1";
+import { CosmeticServices1 } from "../blocks/Services/CosmeticServices1";
+import { SimpleHeader } from "../blocks/Headers/SimpleHeader";
+import { MegaMenuHeader } from "../blocks/Headers/MegaMenuHeader";
+// import { MiniMaxCarousel1 } from "../blocks/Hero/MiniMaxCarousel1";
 import { ResearchCards } from "../blocks/Cards/ResearchCards";
 import { PhotoGallery } from "../blocks/Cards/PhotoGallery";
 // Business components
@@ -275,7 +280,12 @@ export const CraftCreditCardForm = CreditCardForm;
 export const CraftSignature = Signature;
 export const CraftForm = Form;
 export const CraftMedicalHero1 = MedicalHero1;
-export const CraftMiniMaxHero1 = MiniMaxHero1;
+export const CraftCosmeticHero1 = CosmeticHero1;
+export const CraftCosmeticAbout1 = CosmeticAbout1;
+export const CraftCosmeticServices1 = CosmeticServices1;
+export const CraftSimpleHeader = SimpleHeader;
+export const CraftMegaMenuHeader = MegaMenuHeader;
+// export const CraftMiniMaxCarousel1 = MiniMaxCarousel1;
 export const CraftResearchCards = ResearchCards;
 export const CraftPhotoGallery = PhotoGallery;
 
@@ -348,7 +358,15 @@ const baseComponentResolver = {
   Form: CraftForm,
   // Hero blocks
   MedicalHero1: CraftMedicalHero1,
-  MiniMaxHero1: CraftMiniMaxHero1,
+  CosmeticHero1: CraftCosmeticHero1,
+  // About blocks
+  CosmeticAbout1: CraftCosmeticAbout1,
+  // Services blocks
+  CosmeticServices1: CraftCosmeticServices1,
+  // Header blocks
+  SimpleHeader: CraftSimpleHeader,
+  MegaMenuHeader: CraftMegaMenuHeader,
+  // MiniMaxCarousel1: CraftMiniMaxCarousel1,
   ResearchCards: CraftResearchCards,
   PhotoGallery: CraftPhotoGallery,
   MedicalHowItWorks1: CraftMedicalHowItWorks1,

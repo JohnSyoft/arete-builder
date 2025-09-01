@@ -1,0 +1,100 @@
+---
+description: Frontend authentication patterns and user session management
+---
+
+# Frontend Authentication Patterns
+
+## Authentication State Management
+
+Use [hooks/useAuth.ts](mdc:hooks/useAuth.ts) for all authentication operations:
+
+```typescript
+const { user, isLoading, login, logout, register } = useAuth();
+
+// Check authentication status
+if (!user) {
+  // Show login form or redirect
+}
+
+// Login flow
+const handleLogin = async (credentials) => {
+  try {
+    await login(credentials);
+    // Redirect to dashboard
+  } catch (error) {
+    // Handle login error
+  }
+};
+```
+
+## Token Storage
+
+- JWT tokens stored in localStorage as "areteToken"
+- Automatic token inclusion in API requests via [lib/api/apiClient.ts](mdc:lib/api/apiClient.ts)
+- Token cleared on logout or authentication errors
+
+## Route Protection
+
+### Page-Level Protection
+```typescript
+// app/dashboard/page.tsx
+export default function DashboardPage() {
+  const { user, isLoading } = useAuth();
+  
+  if (isLoading) return <LoadingSpinner />;
+  if (!user) redirect('/login');
+  
+  return <DashboardContent />;
+}
+```
+
+### Component-Level Protection
+```typescript
+function UserSpecificComponent() {
+  const { user } = useAuth();
+  
+  if (!user) return null;
+  
+  return <UserContent user={user} />;
+}
+```
+
+## Error Handling
+
+### 401 Unauthorized Responses
+- Automatically handled by API client interceptors
+- User redirected to `/login` with appropriate message
+- Token cleared from localStorage
+
+### Authentication Error UI
+```typescript
+// Show user-friendly error messages
+if (authError) {
+  return (
+    <Alert variant="destructive">
+      <AlertDescription>
+        {authError.message || "Authentication failed. Please try again."}
+      </AlertDescription>
+    </Alert>
+  );
+}
+```
+
+## Login/Registration Flow
+
+### Login Page Pattern
+- Located at [app/login/page.tsx](mdc:app/login/page.tsx)
+- Form validation using React Hook Form
+- Integration with `useAuth` hook for login processing
+- Redirect to dashboard on successful authentication
+
+### Registration Flow
+- Located at [app/register/page.tsx](mdc:app/register/page.tsx)
+- Email verification workflow if implemented
+- Automatic login after successful registration
+
+## User Session Persistence
+
+- Authentication state persists across browser sessions via localStorage token
+- User data fetched automatically on app initialization
+- Graceful handling of expired or invalid tokens

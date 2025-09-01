@@ -1,10 +1,12 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Home, Settings, Plus } from "lucide-react";
+import { Home, Settings, Plus, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Database, Layout } from "../icons";
 import { useProject } from "@/hooks/useProjects";
+import { useDeleteCollection } from "@/hooks/useCollections";
+import { useModalStore } from "@/lib/store/modalStore";
 
 interface Collection {
   _id: string;
@@ -22,6 +24,7 @@ interface CMSTopHeaderProps {
   onCreateItem?: () => void;
   onManageFields?: () => void;
   onEditCollection?: () => void;
+  onDeleteCollection?: () => void;
 }
 
 export function CMSTopHeader({
@@ -32,8 +35,11 @@ export function CMSTopHeader({
   onCreateItem,
   onManageFields,
   onEditCollection,
+  onDeleteCollection,
 }: CMSTopHeaderProps) {
   const router = useRouter();
+  const deleteCollectionMutation = useDeleteCollection();
+  const { openModal } = useModalStore();
 
   const handleBackToEditor = () => {
     router.push(`/editor/${projectId}/home`);
@@ -42,6 +48,24 @@ export function CMSTopHeader({
   const handleBackToDashboard = () => {
     router.push("/dashboard");
   };
+  const handleDeleteCollection = async () => {
+    if (!collection || !onDeleteCollection) return;
+
+    openModal("confirmation", {
+      title: "Delete Collection",
+      message: `Are you sure you want to delete the collection "${collection.name}"? This will permanently delete the collection and all its items. This action cannot be undone.`,
+      onConfirm: async () => {
+        try {
+          await deleteCollectionMutation.mutateAsync(collection._id);
+          onDeleteCollection();
+        } catch (error) {
+          console.error("Failed to delete collection:", error);
+          // You could show another modal here for error handling if needed
+        }
+      },
+    });
+  };
+
   const {
     data: projectResponse,
     isLoading: projectLoading,
@@ -108,6 +132,16 @@ export function CMSTopHeader({
             </Button>
             <Button variant="outline" size="sm" onClick={onEditCollection}>
               Edit Collection
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleDeleteCollection}
+              disabled={deleteCollectionMutation.isPending}
+              className="text-red-600 hover:text-red-700 hover:bg-red-50"
+            >
+              <Trash2 className="mr-2 h-4 w-4" />
+              {deleteCollectionMutation.isPending ? "Deleting..." : "Delete"}
             </Button>
           </>
         ) : (

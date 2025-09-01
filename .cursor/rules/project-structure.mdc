@@ -1,0 +1,52 @@
+---
+alwaysApply: true
+---
+
+# Arete Builder Frontend Project Structure
+
+This is the frontend application for the Arete Website Builder platform, built with Next.js 14 and TypeScript.
+
+## Architecture Overview
+
+- **Framework**: Next.js 14 with TypeScript and App Router
+- **UI Components**: shadcn/ui + Radix components
+- **State Management**: TanStack Query (server state) + Zustand (client state)
+- **Styling**: Tailwind CSS with CSS variables for theming
+- **Editor**: CraftJS for drag-and-drop website building
+
+## Directory Structure
+
+### Core Directories
+
+- **`/app/`** - Next.js App Router pages and layouts
+- **`/components/`** - Reusable React components organized by feature
+- **`/hooks/`** - Custom React hooks for API integration
+- **`/lib/`** - Utilities, API clients, and configuration
+- **`/tools/`** - Development and conversion utilities
+
+### Key Subdirectories
+
+#### `/app/` Structure
+- `/dashboard/` - Main user dashboard and project management
+- `/editor/[projectId]/` - Drag-and-drop website editor (CraftJS)
+- `/cms/[projectId]/` - Content management interface
+- `/site/[projectId]/` - Public website rendering
+
+#### `/components/` Structure
+- `/blocks/` - CraftJS-compatible website building blocks
+- `/editor/` - Editor-specific UI components
+- `/dialogs/` - Modal dialogs and overlays
+- `/ui/` - Base shadcn/ui components
+
+#### `/lib/` Structure
+- `/api/` - API client functions and endpoints
+- `/store/` - Zustand state management
+- `/validations/` - Form validation schemas
+
+### Key Files
+
+- [app/layout.tsx](mdc:app/layout.tsx) - Root application layout with providers
+- [components/dialogs/Modals.tsx](mdc:components/dialogs/Modals.tsx) - Central modal registry
+- [lib/api/apiClient.ts](mdc:lib/api/apiClient.ts) - Axios configuration with auth
+- [lib/store/modalStore.ts](mdc:lib/store/modalStore.ts) - Modal state management
+- [hooks/useProjects.ts](mdc:hooks/useProjects.ts) - Project API integration

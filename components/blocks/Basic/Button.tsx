@@ -93,6 +93,7 @@ export function Button({
     backgroundColor: backgroundColor || undefined,
     color: textColor || undefined,
     borderRadius: borderRadius || undefined,
+    padding: padding || undefined,
   };
 
   return (
@@ -100,7 +101,6 @@ export function Button({
       propKey={{ width: "width", height: "height" }}
       style={{
         margin: margin,
-        padding: padding,
       }}
       className={`
         relative 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useCollections } from "@/hooks/useCollections";
 import { useBulkDeleteCollectionItems } from "@/hooks/useCollectionItems";
 import { useModalStore } from "@/lib/store/modalStore";
@@ -26,6 +26,7 @@ interface Collection {
 
 export default function CMSPage() {
   const params = useParams();
+  const router = useRouter();
   const projectId = params.projectId as string;
   const collectionId = params.collectionId as string; // Get collection ID from URL
   const { data: collectionsResponse, isLoading } = useCollections(projectId);
@@ -84,6 +85,23 @@ export default function CMSPage() {
     });
   };
 
+  const handleDeleteCollection = () => {
+    if (!currentCollection) return;
+
+    // After deletion, navigate to the first remaining collection or CMS main page
+    const remainingCollections = collections.filter(
+      (c) => c._id !== currentCollection._id
+    );
+
+    if (remainingCollections.length > 0) {
+      router.push(
+        `/cms/${projectId}/collections/${remainingCollections[0]._id}`
+      );
+    } else {
+      router.push(`/cms/${projectId}`);
+    }
+  };
+
   const handleBulkDelete = async () => {
     if (!currentCollection || selectedItems.size === 0) return;
 
@@ -129,6 +147,7 @@ export default function CMSPage() {
         onEditCollection={() =>
           currentCollection && handleEditCollection(currentCollection)
         }
+        onDeleteCollection={handleDeleteCollection}
       />
       <div className="flex flex-1 overflow-hidden">
         <CollectionsSidebar

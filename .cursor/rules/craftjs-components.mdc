@@ -1,0 +1,92 @@
+---
+globs: components/blocks/**/*.tsx,components/editor/*.tsx
+description: CraftJS component development patterns and guidelines
+---
+
+# CraftJS Component Development
+
+## Component Structure
+
+CraftJS components must follow this pattern:
+
+```typescript
+// components/blocks/Example/ExampleComponent.tsx
+import { Element } from "@craftjs/core";
+
+export const ExampleComponent = ({ children, ...props }) => {
+  return (
+    <Element id="example-container" is={Container} canvas>
+      <Element id="example-title" is={Text} text="Example Title" />
+      <Element id="example-content" is={Box}>
+        {children}
+      </Element>
+    </Element>
+  );
+};
+
+// Craft configuration
+ExampleComponent.craft = {
+  displayName: "Example Component",
+  props: {
+    // Default props
+  },
+  rules: {
+    canDrag: true,
+    canDrop: true,
+    canMoveIn: ["Container", "Box"],
+    canMoveOut: true,
+  },
+};
+```
+
+## Component Registration
+
+1. **Add to resolver** in [components/editor/craft-components.tsx](mdc:components/editor/craft-components.tsx):
+   ```typescript
+   export const componentResolvers = {
+     ExampleComponent,
+     // ... other components
+   };
+   ```
+
+2. **Add to sidebar** in [components/editor/sidebar.tsx](mdc:components/editor/sidebar.tsx):
+   ```typescript
+   // Add to appropriate category
+   <ComponentButton component={ExampleComponent} />
+   ```
+
+## Component Guidelines
+
+### Required Element IDs
+- **Every Element must have a unique `id` prop**
+- Use descriptive naming: `componentName-elementPurpose-dynamicId`
+- Examples: `heroTitle`, `navigationMenu`, `productCard-${product.id}`
+
+### Supported Props
+- Use only supported props from base components (Box, Text, Button, etc.)
+- **Avoid unsupported CSS properties**:
+  - ❌ `position`, `opacity`, `fontWeight` on buttons, `maxWidth` on boxes
+  - ✅ Use supported Tailwind classes and component props
+
+### Global Properties Panel
+- **Only basic components** should use global properties panel integration
+- Basic components: Box, Text, Button, Flex, Card, Section
+- **Complex components** (Hero sections, galleries, cards) should handle properties internally
+
+### Available Base Components
+- `Container` - Main layout container
+- `Box` - Generic div wrapper
+- `Text` - Typography component  
+- `Button` - Interactive button
+- `Flex` - Flexbox container
+- `Card` - Card layout component
+- `Section` - Page section wrapper
+
+## Existing CraftJS Components
+
+### Hero Components
+- **MedicalHero1**: Healthcare-focused hero with medical imagery
+- **MiniMaxHero1**: Multi-slide carousel with auto-transitions and navigation
+- **CosmeticHero1**: Beauty/cosmetic industry hero section
+
+Reference existing components in [components/blocks/](mdc:components/blocks/) for patterns and examples.

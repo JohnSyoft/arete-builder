@@ -1,0 +1,79 @@
+---
+globs: hooks/*.ts,lib/api/*.ts,components/**/*.tsx
+description: Frontend API integration patterns using React Query
+---
+
+# Frontend API Integration Patterns
+
+## React Query Hook Pattern
+
+**ALWAYS use React Query hooks** from [hooks/](mdc:hooks/) directory - never call `apiClient` directly in components.
+
+### Correct API Data Access
+
+```typescript
+// ✅ Correct: Use React Query hooks with proper data access
+const { data: projectsResponse, isLoading } = useProjects();
+const projects = projectsResponse?.data?.projects || [];
+
+// ✅ Correct: Single resource access
+const { data: pageResponse } = usePage(pageId);
+const page = pageResponse?.data?.page;
+
+// ❌ Wrong: Direct API calls
+const projects = await projectsApi.getProjects();
+
+// ❌ Wrong: Incorrect data structure
+const projects = projectsResponse?.data || []; // Missing nested object
+```
+
+## API Response Structure
+
+Backend responses follow this pattern:
+```typescript
+{
+  success: boolean;
+  message: string;
+  data: {
+    projects?: Project[];    // For collections
+    project?: Project;       // For single resources
+    user?: User;
+    page?: Page;
+    // etc.
+  }
+}
+```
+
+Access data with: `response?.data?.projects` or `response?.data?.project`
+
+## Hook Creation Pattern
+
+When creating new API hooks in [hooks/](mdc:hooks/):
+
+```typescript
+// hooks/useExample.ts
+export const useExamples = () => {
+  return useQuery({
+    queryKey: ['examples'],
+    queryFn: () => exampleApi.getExamples(),
+  });
+};
+
+export const useCreateExample = () => {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: exampleApi.createExample,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['examples'] });
+    },
+  });
+};
+```
+
+## Authentication Integration
+
+- JWT token stored in localStorage as "areteToken"
+- [lib/api/apiClient.ts](mdc:lib/api/apiClient.ts) automatically adds Authorization headers
+- 401 responses trigger automatic redirect to `/login`
+- Use [hooks/useAuth.ts](mdc:hooks/useAuth.ts) for authentication state

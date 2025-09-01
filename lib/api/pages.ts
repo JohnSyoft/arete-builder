@@ -42,6 +42,10 @@ export interface CreatePageRequest {
   slug?: string;
   layout?: any;
   isHomePage?: boolean;
+  // CMS-specific fields
+  collectionId?: string;
+  pageType?: "normal" | "cms" | "404";
+  cmsPageType?: "index" | "detail";
 }
 
 export interface UpdatePageRequest {

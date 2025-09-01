@@ -44,6 +44,7 @@ import {
   TestimonialProperties,
   BlogGridProperties,
   HeroCarouselSimpleProperties,
+  HeadingProperties,
 } from "./property-panels";
 import { CarouselProperties } from "./property-panels/carousel-properties";
 
@@ -248,7 +249,7 @@ export function GlobalPropertiesPanel() {
             />
           )}
           {elementType === "heading" && (
-            <TextProperties
+            <HeadingProperties
               elementProps={elementProps}
               onPropChange={handlePropChange}
             />

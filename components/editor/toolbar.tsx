@@ -10,6 +10,11 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuSeparator,
+  DropdownMenuPortal,
 } from "@/components/ui/dropdown-menu";
 import {
   Save,
@@ -21,7 +26,6 @@ import {
   Tablet,
   Trash2,
   ChevronDown,
-  Plus,
   Settings,
   Database,
   Layout,
@@ -33,7 +37,15 @@ import {
 import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store";
 import { useModalStore } from "@/lib/store/modalStore";
 import { useState } from "react";
-import { Home } from "lucide-react";
+import {
+  Home,
+  ChevronRight,
+  FileText,
+  FolderPlus,
+  AlertTriangle,
+} from "lucide-react";
+import { useCollections } from "@/hooks/useCollections";
+import { useCreatePage } from "@/hooks/usePages";
 
 interface Page {
   id: string;
@@ -71,6 +83,10 @@ export function EditorToolbar({
   const router = useRouter();
   const { openModal } = useModalStore();
   const [currentMode, setCurrentMode] = useState<"design" | "cms">(mode);
+  const { data: collectionsResponse } = useCollections(projectId);
+  const createPageMutation = useCreatePage();
+
+  const collections = collectionsResponse?.collections || [];
 
   const { actions, query, canUndo, canRedo, selected } = useEditor(
     (state, query) => ({
@@ -114,6 +130,79 @@ export function EditorToolbar({
       pages: pages.map((p) => ({ _id: p.id, name: p.name, slug: p.slug })), // Convert to API format
       onSave: (page: any) => {
         // Navigate to the new page after creation
+        if (onPageChange) {
+          onPageChange(page.slug);
+        }
+      },
+    });
+  };
+
+  const handleAddCMSPage = async (
+    collectionId: string,
+    collectionName: string,
+    pageType: "index" | "detail"
+  ) => {
+    try {
+      // Generate slug and name based on collection and page type
+      const collectionSlug = collectionName.toLowerCase().replace(/\s+/g, "-");
+      const pageSlug =
+        pageType === "index" ? collectionSlug : `${collectionSlug}-detail`;
+      const pageName =
+        pageType === "index" ? collectionName : `${collectionName} Detail`;
+
+      // Check if page with this slug already exists
+      const existingPage = pages.find((p) => p.slug === pageSlug);
+      if (existingPage) {
+        alert(
+          `A page with slug "${pageSlug}" already exists. Please choose a different page type or rename the existing page.`
+        );
+        return;
+      }
+
+      // Create the page directly
+      const newPage = await createPageMutation.mutateAsync({
+        project: projectId,
+        name: pageName,
+        slug: pageSlug,
+        isHomePage: false,
+        collectionId,
+        pageType: "cms",
+        cmsPageType: pageType,
+        layout: JSON.stringify({
+          ROOT: {
+            type: { resolvedName: "Container" },
+            isCanvas: true,
+            props: {},
+            displayName: "Container",
+            custom: {},
+            hidden: false,
+            nodes: [],
+            linkedNodes: {},
+          },
+        }),
+      });
+
+      // Navigate to the new page
+      if (onPageChange && newPage.data.page) {
+        onPageChange(newPage.data.page.slug);
+      }
+    } catch (error) {
+      console.error("Error creating CMS page:", error);
+      alert("Failed to create CMS page. Please try again.");
+    }
+  };
+
+  const handleCollectionAction = (collectionId: string) => {
+    // Navigate to the collection in CMS mode
+    router.push(`/cms/${projectId}/collections/${collectionId}`);
+  };
+
+  const handleAdd404Page = () => {
+    openModal("createPage", {
+      projectId,
+      pages: pages.map((p) => ({ _id: p.id, name: p.name, slug: p.slug })),
+      pageType: "404",
+      onSave: (page: any) => {
         if (onPageChange) {
           onPageChange(page.slug);
         }
@@ -192,41 +281,159 @@ export function EditorToolbar({
         <div>
           <div className="flex items-center space-x-2">
             {pages.length > 0 && onPageChange ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="text-sm text-gray-500 hover:text-gray-700"
-                  >
-                    {pageName}
-                    <ChevronDown className="w-3 h-3 ml-1" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="start" className="w-48">
-                  {pages.map((page) => (
-                    <DropdownMenuItem
-                      key={page.id}
-                      onClick={() => onPageChange && onPageChange(page.slug)}
-                      className={
-                        currentPageSlug === page.slug ? "bg-gray-100" : ""
-                      }
+              <div className="flex space-x-1">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="text-sm text-gray-500 hover:text-gray-700"
                     >
-                      {page.name}
-                      {currentPageSlug === page.slug && (
-                        <Badge variant="secondary" className="ml-auto text-xs">
-                          Current
-                        </Badge>
-                      )}
+                      {pageName}
+                      <ChevronDown className="w-3 h-3 ml-1" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="start" className="w-48">
+                    {pages.map((page) => (
+                      <DropdownMenuItem
+                        key={page.id}
+                        onClick={() => onPageChange && onPageChange(page.slug)}
+                        className={
+                          currentPageSlug === page.slug ? "bg-gray-100" : ""
+                        }
+                      >
+                        {page.name}
+                        {currentPageSlug === page.slug && (
+                          <Badge
+                            variant="secondary"
+                            className="ml-auto text-xs"
+                          >
+                            Current
+                          </Badge>
+                        )}
+                      </DropdownMenuItem>
+                    ))}
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={handleAddPage}>
+                      <FileText className="w-4 h-4 mr-2" />
+                      New Page
                     </DropdownMenuItem>
-                  ))}
-                  <Separator className="my-1" />
-                  <DropdownMenuItem onClick={handleAddPage}>
-                    <Plus className="w-4 h-4 mr-2" />
-                    Add Page
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+                    <DropdownMenuSub>
+                      <DropdownMenuSubTrigger className="bg-blue-500 text-white hover:bg-blue-600">
+                        <Database className="w-4 h-4 mr-2" />
+                        New CMS Page
+                      </DropdownMenuSubTrigger>
+                      <DropdownMenuPortal>
+                        <DropdownMenuSubContent>
+                          {collections.length > 0 ? (
+                            collections.map((collection) => (
+                              <DropdownMenuSub key={collection._id}>
+                                <DropdownMenuSubTrigger>
+                                  <Database className="w-4 h-4 mr-2" />
+                                  {collection.name}
+                                  <span className="ml-auto text-xs text-muted-foreground">
+                                    {collection.itemCount || 0} items
+                                  </span>
+                                </DropdownMenuSubTrigger>
+                                <DropdownMenuPortal>
+                                  <DropdownMenuSubContent>
+                                    <DropdownMenuItem
+                                      onClick={() =>
+                                        handleAddCMSPage(
+                                          collection._id,
+                                          collection.name,
+                                          "index"
+                                        )
+                                      }
+                                    >
+                                      <FileText className="w-4 h-4 mr-2" />
+                                      Index
+                                      <span className="ml-auto text-xs text-muted-foreground">
+                                        List page
+                                      </span>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem
+                                      onClick={() =>
+                                        handleAddCMSPage(
+                                          collection._id,
+                                          collection.name,
+                                          "detail"
+                                        )
+                                      }
+                                    >
+                                      <FileText className="w-4 h-4 mr-2" />
+                                      Detail Page
+                                      <span className="ml-auto text-xs text-muted-foreground">
+                                        Item page
+                                      </span>
+                                    </DropdownMenuItem>
+                                  </DropdownMenuSubContent>
+                                </DropdownMenuPortal>
+                              </DropdownMenuSub>
+                            ))
+                          ) : (
+                            <DropdownMenuItem disabled>
+                              <Database className="w-4 h-4 mr-2" />
+                              No collections found
+                            </DropdownMenuItem>
+                          )}
+                        </DropdownMenuSubContent>
+                      </DropdownMenuPortal>
+                    </DropdownMenuSub>
+                    <DropdownMenuItem onClick={handleAdd404Page}>
+                      <AlertTriangle className="w-4 h-4 mr-2" />
+                      New 404 Page
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem disabled>
+                      <FolderPlus className="w-4 h-4 mr-2" />
+                      New Folder
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem disabled>
+                      Sort Alphabetically
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+
+                {/* Collections Dropdown */}
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="text-sm text-gray-500 hover:text-gray-700"
+                    >
+                      Collections
+                      <ChevronDown className="w-3 h-3 ml-1" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="start" className="w-48">
+                    {collections.length > 0 ? (
+                      collections.map((collection, index) => (
+                        <DropdownMenuItem
+                          key={collection._id}
+                          onClick={() => handleCollectionAction(collection._id)}
+                          className={
+                            index === 0
+                              ? "bg-blue-500 text-white hover:bg-blue-600"
+                              : ""
+                          }
+                        >
+                          <Database className="w-4 h-4 mr-2" />
+                          {collection.name}
+                          <ChevronRight className="w-4 h-4 ml-auto" />
+                        </DropdownMenuItem>
+                      ))
+                    ) : (
+                      <DropdownMenuItem disabled>
+                        <Database className="w-4 h-4 mr-2" />
+                        No collections found
+                      </DropdownMenuItem>
+                    )}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
             ) : (
               <span className="text-sm text-gray-500">{pageName}</span>
             )}

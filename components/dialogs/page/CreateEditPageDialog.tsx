@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -13,10 +13,17 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useForm, Controller } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useCreatePage, useUpdatePage } from "@/hooks/usePages";
+import { useCollections } from "@/hooks/useCollections";
 import { type Page } from "@/lib/api/pages";
 
 const pageSchema = yup.object({
@@ -37,12 +44,14 @@ const pageSchema = yup.object({
     )
     .trim(),
   isHomePage: yup.boolean().default(false),
+  collectionId: yup.string().nullable().optional(),
 });
 
 interface PageFormData {
   name: string;
   slug: string;
   isHomePage: boolean;
+  collectionId?: string;
 }
 
 export interface CreateEditPageDialogProps {
@@ -53,6 +62,10 @@ export interface CreateEditPageDialogProps {
   pages?: Page[];
   onSave: (page: Page) => void;
   isLoading?: boolean;
+  pageType?: "normal" | "cms" | "404";
+  cmsPageType?: "index" | "detail";
+  collectionId?: string;
+  collectionName?: string;
 }
 
 export function CreateEditPageDialog({
@@ -63,20 +76,33 @@ export function CreateEditPageDialog({
   pages = [],
   onSave,
   isLoading = false,
+  pageType = "normal",
+  cmsPageType,
+  collectionId,
+  collectionName,
 }: CreateEditPageDialogProps) {
   const createPageMutation = useCreatePage();
   const updatePageMutation = useUpdatePage();
+  const { data: collectionsResponse } = useCollections(projectId);
+  const [selectedCollectionId, setSelectedCollectionId] = useState<string>(
+    collectionId || ""
+  );
+  const [selectedPageType, setSelectedPageType] = useState<"index" | "detail">(
+    "index"
+  );
 
+  const collections = collectionsResponse?.collections || [];
+  const isCMSPage = pageType === "cms";
   const isEditing = !!page;
   const isMutationLoading =
     createPageMutation.isPending || updatePageMutation.isPending;
 
-  const form = useForm<PageFormData>({
-    resolver: yupResolver(pageSchema),
+  const form = useForm({
     defaultValues: {
       name: "",
       slug: "",
       isHomePage: false,
+      collectionId: "",
     },
   });
 
@@ -106,12 +132,14 @@ export function CreateEditPageDialog({
           name: page.name || "",
           slug: page.slug || "",
           isHomePage: page.isHomePage || false,
+          collectionId: (page as any).collectionId || "",
         });
       } else {
         reset({
           name: "",
           slug: "",
           isHomePage: false,
+          collectionId: "",
         });
       }
     }
@@ -119,7 +147,7 @@ export function CreateEditPageDialog({
 
   // Auto-generate slug from name (only for new pages)
   useEffect(() => {
-    if (!isEditing && watchedName) {
+    if (!isEditing && watchedName && !isCMSPage) {
       const autoSlug = watchedName
         .toLowerCase()
         .replace(/\s+/g, "-")
@@ -128,10 +156,78 @@ export function CreateEditPageDialog({
         .replace(/^-|-$/g, "");
       setValue("slug", autoSlug);
     }
-  }, [watchedName, isEditing, setValue]);
+  }, [watchedName, isEditing, setValue, isCMSPage]);
 
-  const onSubmit = async (data: PageFormData) => {
+  // Auto-generate slug for CMS pages based on collection and page type
+  useEffect(() => {
+    if (!isEditing && isCMSPage && selectedCollectionId && selectedPageType) {
+      const selectedCollection = collections.find(
+        (c) => c._id === selectedCollectionId
+      );
+      if (selectedCollection) {
+        const collectionSlug =
+          selectedCollection.slug ||
+          selectedCollection.name.toLowerCase().replace(/\s+/g, "-");
+        const pageSlug =
+          selectedPageType === "index"
+            ? collectionSlug
+            : `${collectionSlug}-detail`;
+        setValue("slug", pageSlug);
+        setValue(
+          "name",
+          selectedPageType === "index"
+            ? selectedCollection.name
+            : `${selectedCollection.name} Detail`
+        );
+      }
+    }
+  }, [
+    selectedCollectionId,
+    selectedPageType,
+    isEditing,
+    isCMSPage,
+    collections,
+    setValue,
+  ]);
+
+  // Set initial values for CMS pages when collection is pre-selected
+  useEffect(() => {
+    if (!isEditing && isCMSPage && collectionId && collectionName && isOpen) {
+      setValue("collectionId", collectionId);
+      setSelectedCollectionId(collectionId);
+      // Auto-generate name and slug based on page type
+      const collectionSlug = collectionName.toLowerCase().replace(/\s+/g, "-");
+      setValue(
+        "name",
+        selectedPageType === "index"
+          ? collectionName
+          : `${collectionName} Detail`
+      );
+      setValue(
+        "slug",
+        selectedPageType === "index"
+          ? collectionSlug
+          : `${collectionSlug}-detail`
+      );
+    }
+  }, [
+    isOpen,
+    isCMSPage,
+    collectionId,
+    collectionName,
+    isEditing,
+    setValue,
+    selectedPageType,
+  ]);
+
+  const onSubmit = async (data: any) => {
     if (isDuplicateSlug) return;
+
+    // Custom validation for CMS pages
+    if (isCMSPage && (!selectedCollectionId || !selectedPageType)) {
+      alert("Please select a page type for the CMS page");
+      return;
+    }
 
     try {
       if (isEditing && page) {
@@ -141,6 +237,7 @@ export function CreateEditPageDialog({
             name: data.name.trim(),
             slug: data.slug.trim(),
             isHomePage: data.isHomePage,
+            ...(isCMSPage && { collectionId: data.collectionId }),
           },
         });
         onSave(updatedPage.data.page);
@@ -150,6 +247,11 @@ export function CreateEditPageDialog({
           name: data.name.trim(),
           slug: data.slug.trim(),
           isHomePage: data.isHomePage,
+          ...(isCMSPage && {
+            collectionId: selectedCollectionId,
+            pageType: "cms",
+            cmsPageType: selectedPageType,
+          }),
           layout: JSON.stringify({
             ROOT: {
               type: { resolvedName: "Container" },
@@ -174,18 +276,33 @@ export function CreateEditPageDialog({
     }
   };
 
-  const isFormValid = isValid && !isDuplicateSlug;
+  const isFormValid =
+    isValid &&
+    !isDuplicateSlug &&
+    (!isCMSPage || (selectedCollectionId && selectedPageType));
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="bg-card border-border max-w-md">
         <DialogHeader>
           <DialogTitle className="text-foreground">
-            {isEditing ? "Edit Page" : "Create New Page"}
+            {isEditing
+              ? "Edit Page"
+              : isCMSPage
+              ? `Create CMS Page - ${collectionName || "Collection"}`
+              : pageType === "404"
+              ? "Create 404 Page"
+              : "Create New Page"}
           </DialogTitle>
           <DialogDescription className="text-muted-foreground">
             {isEditing
               ? "Update your page details."
+              : isCMSPage
+              ? `Create a page connected to the ${
+                  collectionName || "selected"
+                } collection.`
+              : pageType === "404"
+              ? "Create a custom 404 error page."
               : "Create a new page for your project."}
           </DialogDescription>
         </DialogHeader>
@@ -208,9 +325,72 @@ export function CreateEditPageDialog({
             )}
           </div>
 
+          {/* Page Type Selection for CMS Pages */}
+          {isCMSPage && (
+            <div className="space-y-2">
+              <Label htmlFor="pageType" className="text-foreground">
+                Page Type <span className="text-red-500">*</span>
+              </Label>
+              <Select
+                value={selectedPageType}
+                onValueChange={(value: "index" | "detail") => {
+                  setSelectedPageType(value);
+                  // Update name and slug when page type changes
+                  if (collectionName) {
+                    const collectionSlug = collectionName
+                      .toLowerCase()
+                      .replace(/\s+/g, "-");
+                    setValue(
+                      "name",
+                      value === "index"
+                        ? collectionName
+                        : `${collectionName} Detail`
+                    );
+                    setValue(
+                      "slug",
+                      value === "index"
+                        ? collectionSlug
+                        : `${collectionSlug}-detail`
+                    );
+                  }
+                }}
+              >
+                <SelectTrigger className="bg-background border-border text-foreground">
+                  <SelectValue placeholder="Select page type..." />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="index">
+                    <div className="flex flex-col">
+                      <span>Index Page</span>
+                      <span className="text-xs text-muted-foreground">
+                        Lists all items from the collection
+                      </span>
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="detail">
+                    <div className="flex flex-col">
+                      <span>Detail Page</span>
+                      <span className="text-xs text-muted-foreground">
+                        Shows individual item details
+                      </span>
+                    </div>
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+              <p className="text-xs text-muted-foreground">
+                Collection: {collectionName}
+              </p>
+            </div>
+          )}
+
           <div className="space-y-2">
             <Label htmlFor="slug" className="text-foreground">
-              Page Slug
+              Page Slug{" "}
+              {isCMSPage && (
+                <span className="text-xs text-muted-foreground">
+                  (auto-generated)
+                </span>
+              )}
             </Label>
             <Controller
               name="slug"
@@ -221,13 +401,16 @@ export function CreateEditPageDialog({
                   id="slug"
                   placeholder="about-us"
                   className="bg-background border-border text-foreground placeholder:text-muted-foreground"
+                  readOnly={isCMSPage}
                   onChange={(e) => {
-                    const cleanSlug = e.target.value
-                      .toLowerCase()
-                      .replace(/[^a-z0-9-]/g, "")
-                      .replace(/-+/g, "-")
-                      .replace(/^-|-$/g, "");
-                    field.onChange(cleanSlug);
+                    if (!isCMSPage) {
+                      const cleanSlug = e.target.value
+                        .toLowerCase()
+                        .replace(/[^a-z0-9-]/g, "")
+                        .replace(/-+/g, "-")
+                        .replace(/^-|-$/g, "");
+                      field.onChange(cleanSlug);
+                    }
                   }}
                 />
               )}

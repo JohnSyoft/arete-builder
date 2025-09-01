@@ -1,0 +1,79 @@
+---
+description: Frontend code cleanup and maintenance guidelines
+---
+
+# Frontend Code Cleanup and Maintenance
+
+## Component and File Removal
+
+When removing features or refactoring large components:
+
+### Complete Cleanup Strategy
+- **Delete entire component files** when features are removed
+- Remove unused page files from [app/](mdc:app/) directory
+- Clean up associated files:
+  - API hook files ([hooks/](mdc:hooks/))
+  - Store files ([lib/store/](mdc:lib/store/))
+  - Validation schemas ([lib/validations/](mdc:lib/validations/))
+  - Utility functions
+
+### Component Cleanup Checklist
+1. **Remove from component registries**: Update [components/dialogs/Modals.tsx](mdc:components/dialogs/Modals.tsx) if removing modals
+2. **Clean up CraftJS registrations**: Remove from [components/editor/craft-components.tsx](mdc:components/editor/craft-components.tsx) and sidebar
+3. **Remove API integrations**: Delete associated hook files and API functions
+4. **Update route configurations**: Clean up page routes and dynamic routes
+5. **Remove from imports**: Update barrel exports and index files
+
+## State Management Cleanup
+
+### Zustand Store Cleanup
+- Remove unused store slices from [lib/store/](mdc:lib/store/)
+- Clean up modal registrations for removed dialogs
+- Update store types and interfaces
+
+### React Query Cleanup
+- Remove unused query hooks from [hooks/](mdc:hooks/)
+- Clean up API client functions in [lib/api/](mdc:lib/api/)
+- Remove query key definitions for deleted features
+
+## Dependency Management
+
+### Package Cleanup
+```bash
+# Remove unused dependencies
+npm uninstall <package-name>
+
+# Check for unused dependencies
+npm audit
+```
+
+### Import Cleanup
+- Remove unused component imports
+- Clean up unused utility imports
+- Update barrel exports in index files
+- Remove unused type imports
+
+## Asset and Static File Cleanup
+
+### Public Assets
+- Remove unused images from [public/](mdc:public/)
+- Clean up unused fonts and icons
+- Remove deprecated favicons or logos
+
+### CSS and Styling
+- Remove unused CSS classes
+- Clean up unused Tailwind utilities
+- Remove component-specific styles for deleted components
+
+## TypeScript Cleanup
+
+### Type Definitions
+- Remove unused interface definitions
+- Clean up type exports from index files
+- Update shared types when removing features
+- Remove unused generic type parameters
+
+### Configuration Updates
+- Update TypeScript paths when removing directories
+- Clean up unused module declarations
+- Update build configurations for removed features
