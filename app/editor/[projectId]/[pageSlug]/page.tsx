@@ -145,7 +145,7 @@ export default function EditorPage() {
       (window as any).createTestBlock = () => {
         const testHtml =
           '<div class="p-4 bg-blue-100 rounded">Test Block Content</div>';
-        blocks.length === 0 &&
+        if (blocks.length === 0) {
           useUserBlocksStore.getState().addBlock({
             name: "Test Block",
             description: "A simple test block",
@@ -153,6 +153,7 @@ export default function EditorPage() {
             component: () => null, // Will be replaced by converter
             tags: [],
           });
+        }
       };
 
       (window as any).debugResolver = () => {

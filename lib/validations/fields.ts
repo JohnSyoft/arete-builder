@@ -75,4 +75,17 @@ export const fieldSchema = yup.object({
     }),
 });
 
-export type FieldFormData = yup.InferType<typeof fieldSchema>;
+export interface FieldFormData {
+  id: string;
+  name: string;
+  type: "plainText" | "formattedText" | "number" | "date" | "boolean" | "email" | "url" | "image" | "video" | "file" | "reference" | "multiReference" | "select" | "multiSelect" | "json" | "gallery";
+  description: string;
+  required: boolean;
+  textArea: boolean;
+  localization: boolean;
+  placeholder: string;
+  maxLength: string;
+  defaultValue: string;
+  referenceCollection: string;
+  options: string[];
+}
