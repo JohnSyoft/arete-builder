@@ -108,50 +108,50 @@ export function convertHtmlToCraftComponent(html: string, componentName: string 
     let isInEditor = false;
     let useNode: any = null;
     
-    try {
-      const craftCore = require('@craftjs/core');
-      useNode = craftCore.useNode;
+    // try {
+    //   const craftCore = require('@craftjs/core');
+    //   useNode = craftCore.useNode;
       
-      // Only try to use useNode if we're actually in a CraftJS context
-      if (useNode) {
-        const {
-          connectors: { connect, drag },
-          selected,
-          hovered,
-        } = useNode((state: any) => ({
-          selected: state.events.selected,
-          hovered: state.events.hovered,
-        }));
-        isInEditor = true;
+    //   // Only try to use useNode if we're actually in a CraftJS context
+    //   if (useNode) {
+    //     const {
+    //       connectors: { connect, drag },
+    //       selected,
+    //       hovered,
+    //     } = useNode((state: any) => ({
+    //       selected: state.events.selected,
+    //       hovered: state.events.hovered,
+    //     }));
+    //     isInEditor = true;
         
-        // In Editor context, render with CraftJS integration
-        return React.createElement('div', {
-          ref: (ref: any) => {
-            if (ref && connect && drag) {
-              connect(drag(ref));
-            }
-          },
-          className: `relative group p-2 rounded ${selected ? "ring-2 ring-blue-500" : ""} ${hovered ? "ring-1 ring-blue-300" : ""}`,
-          ...props
-        }, [
-          React.createElement('div', {
-            key: 'content',
-            dangerouslySetInnerHTML: { __html: html },
-            className: 'w-full'
-          }),
-          // Show component label when selected/hovered
-          (selected || hovered) && React.createElement('div', {
-            key: 'label',
-            className: 'absolute -top-6 left-0 bg-blue-500 text-white text-xs px-2 py-1 rounded z-10'
-          }, componentName)
-        ]);
-      }
+    //     // In Editor context, render with CraftJS integration
+    //     return React.createElement('div', {
+    //       ref: (ref: any) => {
+    //         if (ref && connect && drag) {
+    //           connect(drag(ref));
+    //         }
+    //       },
+    //       className: `relative group p-2 rounded ${selected ? "ring-2 ring-blue-500" : ""} ${hovered ? "ring-1 ring-blue-300" : ""}`,
+    //       ...props
+    //     }, [
+    //       React.createElement('div', {
+    //         key: 'content',
+    //         dangerouslySetInnerHTML: { __html: html },
+    //         className: 'w-full'
+    //       }),
+    //       // Show component label when selected/hovered
+    //       (selected || hovered) && React.createElement('div', {
+    //         key: 'label',
+    //         className: 'absolute -top-6 left-0 bg-blue-500 text-white text-xs px-2 py-1 rounded z-10'
+    //       }, componentName)
+    //     ]);
+    //   }
       
-    } catch (error) {
-      // Not in Editor context, render as regular HTML for preview
-      console.log('CraftJS context not available, rendering as preview:', error instanceof Error ? error.message : String(error));
-      isInEditor = false;
-    }
+    // } catch (error) {
+    //   // Not in Editor context, render as regular HTML for preview
+    //   console.log('CraftJS context not available, rendering as preview:', error instanceof Error ? error.message : String(error));
+    //   isInEditor = false;
+    // }
 
     if (!isInEditor) {
       // Render as regular HTML for preview outside Editor
