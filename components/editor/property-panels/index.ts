@@ -36,11 +36,10 @@ export { CheckboxGroupProperties } from './checkboxgroup-properties'
 export { CreditCardFormProperties } from './creditcardform-properties'
 export { SignatureProperties } from './signature-properties'
 export { FormProperties } from './form-properties'
-// export { CarouselProperties } from './carousel-properties'
 
 // Business Component Properties
 export { BlogProperties } from './blog-properties'
 export { ProductProperties } from './product-properties'
 export { DoctorProperties } from './doctor-properties'
 export { TestimonialProperties } from './testimonial-properties'
-export {BlogGridProperties} from './blog-grid-properties'
+export { BlogGridProperties } from './blog-grid-properties'

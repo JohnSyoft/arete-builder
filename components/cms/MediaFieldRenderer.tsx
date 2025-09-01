@@ -30,7 +30,7 @@ export function MediaFieldRenderer({
   value,
   onChange,
   placeholder,
-  projectId,
+  // projectId, // Currently unused but kept for future API integration
   disabled = false,
 }: MediaFieldRendererProps) {
   const handleFilesSelected = (files: File[]) => {

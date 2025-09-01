@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+// import { useState } from "react" // Currently unused
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -12,7 +12,7 @@ import { type Project } from "@/lib/api/projects"
 import { ProjectCard } from "@/components/projects/ProjectCard"
 
 export default function DashboardPage() {
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null)
+  // const [selectedProject, setSelectedProject] = useState<Project | null>(null) // Currently unused
   const modalStore = useModalStore()
   const router = useRouter()
 
@@ -36,7 +36,6 @@ export default function DashboardPage() {
   }
 
   const openCreateDialog = () => {
-    setSelectedProject(null)
     modalStore.openModal("createProject", {
       project: null,
       onSuccess: () => {
@@ -46,11 +45,9 @@ export default function DashboardPage() {
   }
 
   const openEditDialog = (project: Project) => {
-    setSelectedProject(project)
     modalStore.openModal("editProject", {
       project,
       onSuccess: () => {
-        setSelectedProject(null)
         // Optional: Add any success handling here
       }
     })

@@ -179,6 +179,8 @@ export function CreateEditCollectionDialog({
 
       onClose();
     } catch (error) {
+      // Handle error appropriately
+      console.error("Collection operation failed:", error);
       toast.error(
         mode === "create"
           ? "Failed to create collection"

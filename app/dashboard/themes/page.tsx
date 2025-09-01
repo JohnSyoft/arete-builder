@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
+// import { useRouter } from "next/navigation" // Currently unused
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -130,7 +130,7 @@ export default function ThemesPage() {
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("all")
   const [currentTheme, setCurrentTheme] = useState<string | null>(null)
-  const router = useRouter()
+  // const router = useRouter() // Currently unused
 
   useEffect(() => {
     setThemes(db.themes.getAll())

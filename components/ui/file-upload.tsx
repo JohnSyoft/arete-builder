@@ -138,6 +138,8 @@ export function FileUpload({
       maxSize,
       accept,
       createFilePreview,
+      validateFile,
+      onFilesSelected,
       onFilesSelected,
       onUploadError,
       value,

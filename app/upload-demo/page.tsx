@@ -14,7 +14,7 @@ export default function UploadDemo() {
   const [multipleImages, setMultipleImages] = useState<string[]>([]);
   const [singleVideo, setSingleVideo] = useState<string>("");
   const [multipleVideos, setMultipleVideos] = useState<string[]>([]);
-  const [files, setFiles] = useState<string[]>([]);
+  // const [files, setFiles] = useState<string[]>([]); // Currently unused
 
   const handleUploadError = (error: string) => {
     console.error("Upload error:", error);

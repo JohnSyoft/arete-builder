@@ -36,3 +36,12 @@ export { SwitchListTileProperties } from "./switchlisttile-properties";
 export { CheckboxGroupProperties } from "./checkboxgroup-properties";
 export { CreditCardFormProperties } from "./creditcardform-properties";
 export { SignatureProperties } from "./signature-properties";
+export { FormProperties } from "./form-properties";
+export { TabProperties } from "./tab-properties";
+export { TabPanelProperties } from "./tabpanel-properties";
+
+// Business Component Properties
+export { BlogProperties } from "./blog-properties";
+export { ProductProperties } from "./product-properties";
+export { DoctorProperties } from "./doctor-properties";
+export { TestimonialProperties } from "./testimonial-properties";

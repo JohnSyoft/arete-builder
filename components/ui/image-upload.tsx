@@ -31,10 +31,7 @@ export function ImageUpload({
   variant = "default",
   onUploadError,
 }: ImageUploadProps) {
-  const currentImages = React.useMemo(() => {
-    if (!value) return [];
-    return Array.isArray(value) ? value : [value];
-  }, [value]);
+  // Remove unused currentImages variable to fix build warning
 
   return (
     <div className={cn("space-y-4", className)}>
