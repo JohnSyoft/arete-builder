@@ -2,6 +2,7 @@ import { useNode, useEditor } from "@craftjs/core";
 import React from "react";
 import { FloatingToolbar } from "@/components/editor/floating-toolbar";
 import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store";
+import { Resizer } from "../Resizer";
 
 interface BoxProps {
   backgroundColor?: string;
@@ -164,12 +165,8 @@ export function Box({
   };
 
   return (
-    <div
-      ref={(ref) => {
-        if (ref) {
-          connect(drag(ref));
-        }
-      }}
+    <Resizer
+      propKey={{ width: "width", height: "height" }}
       className={`relative group ${selected ? "ring-2 ring-blue-500" : ""} ${
         hovered ? "ring-1 ring-blue-300" : ""
       }`}
@@ -192,8 +189,8 @@ export function Box({
           margin,
           borderRadius,
           border: border !== "none" ? `1px solid ${borderColor}` : "none",
-          width: width !== "auto" ? width : undefined,
-          height: height !== "auto" ? height : undefined,
+          width: "100%",
+          height: "100%",
           minHeight: minHeight !== "auto" ? minHeight : undefined,
         }}
       >
@@ -225,7 +222,7 @@ export function Box({
           Box
         </div>
       )}
-    </div>
+    </Resizer>
   );
 }
 

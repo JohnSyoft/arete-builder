@@ -2,6 +2,7 @@ import { useNode, useEditor } from "@craftjs/core";
 import React from "react";
 import { FloatingToolbar } from "@/components/editor/floating-toolbar";
 import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store";
+import { Resizer } from "../Resizer";
 
 interface CardProps {
   variant?: "default" | "outlined" | "elevated" | "flat";
@@ -11,6 +12,7 @@ interface CardProps {
   borderColor?: string;
   padding?: string;
   margin?: string;
+  width?: string;
   height?: string;
   hoverable?: boolean;
   clickable?: boolean;
@@ -26,6 +28,7 @@ export function Card({
   borderColor = "#e5e7eb",
   padding = "16px",
   margin = "8px",
+  width = "auto",
   height = "auto",
   hoverable = false,
   clickable = false,
@@ -105,12 +108,8 @@ export function Card({
   };
 
   return (
-    <div
-      ref={(ref) => {
-        if (ref) {
-          connect(drag(ref));
-        }
-      }}
+    <Resizer
+      propKey={{ width: "width", height: "height" }}
       className={`relative group ${selected ? "ring-2 ring-blue-500" : ""} ${
         hovered ? "ring-1 ring-blue-300" : ""
       }`}
@@ -137,7 +136,8 @@ export function Card({
           borderColor: variant !== "flat" ? borderColor : undefined,
           borderRadius,
           padding,
-          height: height !== "auto" ? height : undefined,
+          width: "100%",
+          height: "100%",
           // overflow,
         }}
       >
@@ -169,7 +169,7 @@ export function Card({
           Card
         </div>
       )}
-    </div>
+    </Resizer>
   );
 }
 
@@ -183,6 +183,7 @@ Card.craft = {
     borderColor: "#e5e7eb",
     padding: "16px",
     margin: "8px",
+    width: "auto",
     height: "auto",
     hoverable: false,
     clickable: false,

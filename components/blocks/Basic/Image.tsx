@@ -1,17 +1,18 @@
-import { useNode, useEditor } from "@craftjs/core"
-import React from "react"
-import { FloatingToolbar } from "@/components/editor/floating-toolbar"
-import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store"
+import { useNode, useEditor } from "@craftjs/core";
+import React from "react";
+import { FloatingToolbar } from "@/components/editor/floating-toolbar";
+import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store";
+import { Resizer } from "../Resizer";
 
 interface ImageProps {
-  src?: string
-  alt?: string
-  width?: string
-  height?: string
-  objectFit?: string
-  borderRadius?: string
-  margin?: string
-  padding?: string
+  src?: string;
+  alt?: string;
+  width?: string;
+  height?: string;
+  objectFit?: string;
+  borderRadius?: string;
+  margin?: string;
+  padding?: string;
 }
 
 export function Image({
@@ -22,66 +23,66 @@ export function Image({
   objectFit = "object-cover",
   borderRadius = "rounded-lg",
   margin = "my-2",
-  padding = "p-0"
+  padding = "p-0",
 }: ImageProps) {
   const {
     connectors: { connect, drag },
     selected,
     hovered,
     actions: { setProp },
-    id
+    id,
   } = useNode((state) => ({
     selected: state.events.selected,
     hovered: state.events.hovered,
-    id: state.id
-  }))
+    id: state.id,
+  }));
 
-  const { actions } = useEditor()
+  const { actions } = useEditor();
 
-  const { openPanel } = usePropertiesPanelStore()
+  const { openPanel } = usePropertiesPanelStore();
 
   const handleShowProperties = () => {
-    openPanel('image', {
-      src,
-      alt,
-      width,
-      height,
-      objectFit,
-      borderRadius,
-      margin,
-      padding
-    }, id, (newProps) => {
-      Object.keys(newProps).forEach(key => {
-        setProp((props: ImageProps) => {
-          (props as any)[key] = newProps[key]
-        })
-      })
-    })
-  }
+    openPanel(
+      "image",
+      {
+        src,
+        alt,
+        width,
+        height,
+        objectFit,
+        borderRadius,
+        margin,
+        padding,
+      },
+      id,
+      (newProps) => {
+        Object.keys(newProps).forEach((key) => {
+          setProp((props: ImageProps) => {
+            (props as any)[key] = newProps[key];
+          });
+        });
+      }
+    );
+  };
 
   const handleImageClick = () => {
-    handleShowProperties()
-  }
+    handleShowProperties();
+  };
 
   const handleAltClick = (e: React.MouseEvent) => {
-    e.stopPropagation()
-    handleShowProperties()
-  }
+    e.stopPropagation();
+    handleShowProperties();
+  };
 
   return (
-    <div
-      ref={(ref) => {
-        if (ref) {
-          connect(drag(ref))
-        }
-      }}
+    <Resizer
+      propKey={{ width: "width", height: "height" }}
       style={{
-        width: width,
+        margin: margin,
+        padding: padding,
       }}
       className={`
         relative 
-        ${margin} 
-        ${padding}
         ${selected ? "ring-2 ring-blue-500" : ""} 
         ${hovered ? "ring-1 ring-blue-300" : ""}
       `}
@@ -90,8 +91,8 @@ export function Image({
         src={src}
         alt={alt}
         style={{
-          width: width,
-          height: height,
+          width: "100%",
+          height: "100%",
         }}
         className={`
           ${objectFit} 
@@ -102,11 +103,12 @@ export function Image({
         `}
         onClick={handleImageClick}
         onError={(e) => {
-          const target = e.target as HTMLImageElement
-          target.src = "/placeholder.svg?height=200&width=300&text=Image+Not+Found"
+          const target = e.target as HTMLImageElement;
+          target.src =
+            "/placeholder.svg?height=200&width=300&text=Image+Not+Found";
         }}
       />
-      
+
       {/* Floating toolbar shown on hover/selection */}
       {(selected || hovered) && (
         <div className="absolute -top-12 left-0 z-50">
@@ -121,7 +123,7 @@ export function Image({
           />
         </div>
       )}
-      
+
       {/* Alt text edit button */}
       {(selected || hovered) && (
         <>
@@ -136,8 +138,8 @@ export function Image({
           </button>
         </>
       )}
-    </div>
-  )
+    </Resizer>
+  );
 }
 
 Image.craft = {
@@ -157,4 +159,4 @@ Image.craft = {
     canMoveIn: () => false,
     canMoveOut: () => true,
   },
-}
+};

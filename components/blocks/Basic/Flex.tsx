@@ -2,6 +2,7 @@ import React from "react";
 import { useNode, useEditor } from "@craftjs/core";
 import { FloatingToolbar } from "@/components/editor/floating-toolbar";
 import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store";
+import { Resizer } from "../Resizer";
 
 interface FlexProps {
   children?: React.ReactNode;
@@ -27,6 +28,9 @@ interface FlexProps {
   order?: string;
   // Overflow control
   overflowX?: "visible" | "hidden" | "scroll" | "auto";
+  // Resizer props
+  width?: string;
+  height?: string;
 }
 
 export function Flex({
@@ -44,6 +48,8 @@ export function Flex({
   flexBasis = "",
   order = "",
   overflowX = "visible",
+  width = "auto",
+  height = "auto",
 }: FlexProps) {
   const {
     connectors: { connect, drag },
@@ -77,6 +83,8 @@ export function Flex({
         flexBasis,
         order,
         overflowX,
+        width,
+        height,
       },
       id,
       (newProps) => {
@@ -177,18 +185,14 @@ export function Flex({
   };
 
   return (
-    <div
-      id="flex-container"
-      is="div"
-      ref={(ref: HTMLDivElement | null) => {
-        if (ref) {
-          connect(drag(ref));
-        }
+    <Resizer
+      propKey={{ width: "width", height: "height" }}
+      style={{
+        margin: margin,
+        padding: padding,
       }}
       className={`
         relative group 
-        ${padding} 
-        ${margin}
         ${minHeight}
         flex 
         ${getFlexDirectionClass(flexDirection)}
@@ -230,7 +234,7 @@ export function Flex({
           Flex {flexDirection}
         </div>
       )}
-    </div>
+    </Resizer>
   );
 }
 
@@ -251,6 +255,8 @@ Flex.craft = {
     flexBasis: "",
     order: "",
     overflowX: "visible",
+    width: "auto",
+    height: "auto",
   },
   rules: {
     canDrag: () => true,

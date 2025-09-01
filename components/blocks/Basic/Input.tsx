@@ -1,25 +1,27 @@
-import { useNode, useEditor } from "@craftjs/core"
-import React from "react"
-import { Input as ShadcnInput } from "@/components/ui/input"
-import { FloatingToolbar } from "@/components/editor/floating-toolbar"
-import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store"
+import { useNode, useEditor } from "@craftjs/core";
+import React from "react";
+import { Input as ShadcnInput } from "@/components/ui/input";
+import { FloatingToolbar } from "@/components/editor/floating-toolbar";
+import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store";
+import { Resizer } from "../Resizer";
 
 export interface InputProps {
-  placeholder?: string
-  type?: "text" | "email" | "password" | "number" | "tel" | "url" | "search"
-  value?: string
-  disabled?: boolean
-  backgroundColor?: string
-  borderColor?: string
-  borderRadius?: string
-  borderWidth?: string
-  textColor?: string
-  fontSize?: string
-  fontWeight?: string
-  padding?: string
-  margin?: string
-  width?: string
-  className?: string
+  placeholder?: string;
+  type?: "text" | "email" | "password" | "number" | "tel" | "url" | "search";
+  value?: string;
+  disabled?: boolean;
+  backgroundColor?: string;
+  borderColor?: string;
+  borderRadius?: string;
+  borderWidth?: string;
+  textColor?: string;
+  fontSize?: string;
+  fontWeight?: string;
+  padding?: string;
+  margin?: string;
+  width?: string;
+  height?: string;
+  className?: string;
 }
 
 export function Input({
@@ -37,6 +39,7 @@ export function Input({
   padding = "0.5rem 0.75rem",
   margin = "",
   width = "100%",
+  height = "auto",
   className = "",
   ...props
 }: InputProps) {
@@ -45,89 +48,117 @@ export function Input({
     actions: { setProp },
     selected,
     isHovered,
-    id
+    id,
   } = useNode((state) => ({
     selected: state.events.selected,
     isHovered: state.events.hovered,
-    id: state.id
-  }))
+    id: state.id,
+  }));
 
   const { enabled, actions } = useEditor((state, query) => ({
     enabled: state.options.enabled,
-    actions: query
-  }))
+    actions: query,
+  }));
 
-  const { openPanel } = usePropertiesPanelStore()
+  const { openPanel } = usePropertiesPanelStore();
 
   const handleShowProperties = () => {
-    openPanel('input', {
-      placeholder,
-      type,
-      value,
-      disabled,
-      backgroundColor,
-      borderColor,
-      borderRadius,
-      borderWidth,
-      textColor,
-      fontSize,
-      fontWeight,
-      padding,
-      margin,
-      width,
-      className
-    }, id, (newProps) => {
-      Object.keys(newProps).forEach(key => {
-        setProp((props: InputProps) => {
-          (props as any)[key] = newProps[key]
-        })
-      })
-    })
-  }
+    openPanel(
+      "input",
+      {
+        placeholder,
+        type,
+        value,
+        disabled,
+        backgroundColor,
+        borderColor,
+        borderRadius,
+        borderWidth,
+        textColor,
+        fontSize,
+        fontWeight,
+        padding,
+        margin,
+        width,
+        height,
+        className,
+      },
+      id,
+      (newProps) => {
+        Object.keys(newProps).forEach((key) => {
+          setProp((props: InputProps) => {
+            (props as any)[key] = newProps[key];
+          });
+        });
+      }
+    );
+  };
 
   const handleDelete = () => {
-    actions.delete(id)
-  }
+    actions.delete(id);
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setProp((props: InputProps) => (props.value = e.target.value))
-  }
+    setProp((props: InputProps) => (props.value = e.target.value));
+  };
 
   // Create custom styles object for proper styling
   const customStyles = {
-    backgroundColor: backgroundColor.startsWith('#') ? backgroundColor : undefined,
-    borderColor: borderColor.startsWith('#') ? borderColor : undefined,
-    borderRadius: borderRadius.includes('rem') || borderRadius.includes('px') ? borderRadius : undefined,
-    borderWidth: borderWidth.includes('px') ? borderWidth : undefined,
-    color: textColor.startsWith('#') ? textColor : undefined,
-    fontSize: fontSize.includes('rem') || fontSize.includes('px') ? fontSize : undefined,
+    backgroundColor: backgroundColor.startsWith("#")
+      ? backgroundColor
+      : undefined,
+    borderColor: borderColor.startsWith("#") ? borderColor : undefined,
+    borderRadius:
+      borderRadius.includes("rem") || borderRadius.includes("px")
+        ? borderRadius
+        : undefined,
+    borderWidth: borderWidth.includes("px") ? borderWidth : undefined,
+    color: textColor.startsWith("#") ? textColor : undefined,
+    fontSize:
+      fontSize.includes("rem") || fontSize.includes("px")
+        ? fontSize
+        : undefined,
     fontWeight: fontWeight,
-    padding: padding.includes('rem') || padding.includes('px') ? padding : undefined,
-    margin: margin.includes('rem') || margin.includes('px') ? margin : undefined,
-    width: width.includes('%') || width.includes('px') || width.includes('rem') ? width : undefined,
-  }
+    padding:
+      padding.includes("rem") || padding.includes("px") ? padding : undefined,
+    margin:
+      margin.includes("rem") || margin.includes("px") ? margin : undefined,
+    width:
+      width.includes("%") || width.includes("px") || width.includes("rem")
+        ? width
+        : undefined,
+  };
 
   // Fallback classes for Tailwind classes that can't be converted to inline styles
-  const fallbackClasses = []
-  if (backgroundColor.startsWith('bg-')) fallbackClasses.push(backgroundColor)
-  if (borderColor.startsWith('border-')) fallbackClasses.push(borderColor)
-  if (borderRadius.startsWith('rounded')) fallbackClasses.push(borderRadius)
-  if (borderWidth === 'border') fallbackClasses.push('border')
-  if (textColor.startsWith('text-')) fallbackClasses.push(textColor)
-  if (fontSize.startsWith('text-')) fallbackClasses.push(fontSize)
-  if (fontWeight.startsWith('font-')) fallbackClasses.push(fontWeight)
-  if (padding.startsWith('p-') || padding.startsWith('px-') || padding.startsWith('py-')) fallbackClasses.push(padding)
-  if (margin.startsWith('m-') || margin.startsWith('mx-') || margin.startsWith('my-')) fallbackClasses.push(margin)
-  if (width.startsWith('w-')) fallbackClasses.push(width)
+  const fallbackClasses = [];
+  if (backgroundColor.startsWith("bg-")) fallbackClasses.push(backgroundColor);
+  if (borderColor.startsWith("border-")) fallbackClasses.push(borderColor);
+  if (borderRadius.startsWith("rounded")) fallbackClasses.push(borderRadius);
+  if (borderWidth === "border") fallbackClasses.push("border");
+  if (textColor.startsWith("text-")) fallbackClasses.push(textColor);
+  if (fontSize.startsWith("text-")) fallbackClasses.push(fontSize);
+  if (fontWeight.startsWith("font-")) fallbackClasses.push(fontWeight);
+  if (
+    padding.startsWith("p-") ||
+    padding.startsWith("px-") ||
+    padding.startsWith("py-")
+  )
+    fallbackClasses.push(padding);
+  if (
+    margin.startsWith("m-") ||
+    margin.startsWith("mx-") ||
+    margin.startsWith("my-")
+  )
+    fallbackClasses.push(margin);
+  if (width.startsWith("w-")) fallbackClasses.push(width);
 
-  const combinedClassName = `${fallbackClasses.join(' ')} ${className}`.trim()
+  const combinedClassName = `${fallbackClasses.join(" ")} ${className}`.trim();
 
   return (
-    <div
-      ref={(ref) => {
-        if (ref) {
-          connect(drag(ref))
-        }
+    <Resizer
+      propKey={{ width: "width", height: "height" }}
+      style={{
+        margin: margin,
       }}
       className={`relative inline-block ${
         selected ? "ring-2 ring-blue-500" : ""
@@ -153,17 +184,17 @@ export function Input({
           position={{ x: 0, y: 0 }}
         />
       )}
-    </div>
-  )
+    </Resizer>
+  );
 }
 
 export const InputSettings = () => {
   const {
     actions: { setProp },
-    props
+    props,
   } = useNode((node) => ({
-    props: node.data.props
-  }))
+    props: node.data.props,
+  }));
 
   return (
     <div className="space-y-4">
@@ -188,7 +219,10 @@ export const InputSettings = () => {
         <select
           value={props.type || "text"}
           onChange={(e) =>
-            setProp((props: InputProps) => (props.type = e.target.value as InputProps["type"]))
+            setProp(
+              (props: InputProps) =>
+                (props.type = e.target.value as InputProps["type"])
+            )
           }
           className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
         >
@@ -222,15 +256,17 @@ export const InputSettings = () => {
             type="checkbox"
             checked={props.disabled || false}
             onChange={(e) =>
-              setProp((props: InputProps) => (props.disabled = e.target.checked))
+              setProp(
+                (props: InputProps) => (props.disabled = e.target.checked)
+              )
             }
           />
           <span className="text-sm text-gray-700">Disabled</span>
         </label>
       </div>
     </div>
-  )
-}
+  );
+};
 
 Input.craft = {
   props: {
@@ -248,9 +284,10 @@ Input.craft = {
     padding: "0.5rem 0.75rem",
     margin: "",
     width: "100%",
-    className: ""
+    height: "auto",
+    className: "",
   },
   related: {
-    settings: InputSettings
-  }
-}
+    settings: InputSettings,
+  },
+};

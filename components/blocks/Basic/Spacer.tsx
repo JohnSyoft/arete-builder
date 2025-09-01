@@ -1,66 +1,70 @@
-import { useNode, useEditor } from "@craftjs/core"
-import React from "react"
-import { FloatingToolbar } from "@/components/editor/floating-toolbar"
-import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store"
+import { useNode, useEditor } from "@craftjs/core";
+import { FloatingToolbar } from "@/components/editor/floating-toolbar";
+import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store";
+import { Resizer } from "../Resizer";
 
 interface SpacerProps {
-  height?: string
-  backgroundColor?: string
-  margin?: string
+  height?: string;
+  width?: string;
+  backgroundColor?: string;
+  margin?: string;
 }
 
 export function Spacer({
   height = "h-8",
+  width = "w-full",
   backgroundColor = "bg-transparent",
-  margin = "my-0"
+  margin = "my-0",
 }: SpacerProps) {
   const {
     connectors: { connect, drag },
     selected,
     hovered,
     actions: { setProp },
-    id
+    id,
   } = useNode((state) => ({
     selected: state.events.selected,
     hovered: state.events.hovered,
-    id: state.id
-  }))
+    id: state.id,
+  }));
 
-  const { actions } = useEditor()
+  const { actions } = useEditor();
 
-  const { openPanel } = usePropertiesPanelStore()
+  const { openPanel } = usePropertiesPanelStore();
 
   const handleShowProperties = () => {
-    openPanel('spacer', {
-      height,
-      backgroundColor,
-      margin
-    }, id, (newProps) => {
-      Object.keys(newProps).forEach(key => {
-        setProp((props: SpacerProps) => {
-          (props as any)[key] = newProps[key]
-        })
-      })
-    })
-  }
+    openPanel(
+      "spacer",
+      {
+        height,
+        width,
+        backgroundColor,
+        margin,
+      },
+      id,
+      (newProps) => {
+        Object.keys(newProps).forEach((key) => {
+          setProp((props: SpacerProps) => {
+            (props as any)[key] = newProps[key];
+          });
+        });
+      }
+    );
+  };
 
   const handleHeightChange = () => {
-    handleShowProperties()
-  }
+    handleShowProperties();
+  };
 
   return (
-    <div
-      ref={(ref) => {
-        if (ref) {
-          connect(drag(ref))
-        }
+    <Resizer
+      propKey={{ width: "width", height: "height" }}
+      style={{
+        margin: margin,
       }}
       className={`
         relative 
-        w-full 
-        ${height} 
         ${backgroundColor} 
-        ${margin}
         ${selected ? "ring-2 ring-blue-500" : ""} 
         ${hovered ? "ring-1 ring-blue-300" : ""}
         cursor-pointer
@@ -82,7 +86,7 @@ export function Spacer({
           />
         </div>
       )}
-      
+
       {(selected || hovered) && (
         <>
           <div className="absolute top-0 left-0 bg-blue-500 text-white text-xs px-2 py-1 rounded-br z-10">
@@ -95,14 +99,15 @@ export function Spacer({
           </div>
         </>
       )}
-    </div>
-  )
+    </Resizer>
+  );
 }
 
 Spacer.craft = {
   displayName: "Spacer",
   props: {
     height: "h-8",
+    width: "w-full",
     backgroundColor: "bg-transparent",
     margin: "my-0",
   },
@@ -111,4 +116,4 @@ Spacer.craft = {
     canMoveIn: () => false,
     canMoveOut: () => true,
   },
-}
+};
