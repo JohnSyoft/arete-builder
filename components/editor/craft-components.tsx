@@ -64,7 +64,16 @@ import { ElderCareTestimonials1 } from "../blocks/Testimonials/ElderCareTestimon
 import { MedicalHero1 } from "../blocks/Hero/MedicalHero1";
 import { CosmeticHero1 } from "../blocks/Hero/CosmeticHero1";
 import { CosmeticAbout1 } from "../blocks/About/CosmeticAbout1";
+import { CosmeticWhyChooseUs1 } from "../blocks/About/CosmeticWhyChooseUs1";
+import { CosmeticWhyChoose2 } from "../blocks/About/CosmeticWhyChoose2";
+import { CosmeticWhatWeDo1 } from "../blocks/WhatWeDo/CosmeticWhatWeDo1";
 import { CosmeticServices1 } from "../blocks/Services/CosmeticServices1";
+import { CosmeticCaseStudies1 } from "../blocks/CaseStudies/CosmeticCaseStudies1";
+import { CosmeticCaseStudy1 } from "../blocks/CaseStudy/CosmeticCaseStudy1";
+import { CosmeticTestimonials2 } from "../blocks/Testimonials/CosmeticTestimonials2";
+import { CosmeticBeforeAfter1 } from "../blocks/Results/CosmeticBeforeAfter1";
+import { CosmeticFooter1 } from "../blocks/Footer/CosmeticFooter1";
+// import { CosmeticFooter2 } from "../blocks/Footer/CosmeticFooter2";
 import { SimpleHeader } from "../blocks/Headers/SimpleHeader";
 import { MegaMenuHeader } from "../blocks/Headers/MegaMenuHeader";
 // import { MiniMaxCarousel1 } from "../blocks/Hero/MiniMaxCarousel1";
@@ -282,7 +291,16 @@ export const CraftForm = Form;
 export const CraftMedicalHero1 = MedicalHero1;
 export const CraftCosmeticHero1 = CosmeticHero1;
 export const CraftCosmeticAbout1 = CosmeticAbout1;
+export const CraftCosmeticWhyChooseUs1 = CosmeticWhyChooseUs1;
+export const CraftCosmeticWhyChoose2 = CosmeticWhyChoose2;
+export const CraftCosmeticWhatWeDo1 = CosmeticWhatWeDo1;
 export const CraftCosmeticServices1 = CosmeticServices1;
+export const CraftCosmeticCaseStudies1 = CosmeticCaseStudies1;
+export const CraftCosmeticCaseStudy1 = CosmeticCaseStudy1;
+export const CraftCosmeticTestimonials2 = CosmeticTestimonials2;
+export const CraftCosmeticBeforeAfter1 = CosmeticBeforeAfter1;
+export const CraftCosmeticFooter1 = CosmeticFooter1;
+// export const CraftCosmeticFooter2 = CosmeticFooter2;
 export const CraftSimpleHeader = SimpleHeader;
 export const CraftMegaMenuHeader = MegaMenuHeader;
 // export const CraftMiniMaxCarousel1 = MiniMaxCarousel1;
@@ -361,8 +379,22 @@ const baseComponentResolver = {
   CosmeticHero1: CraftCosmeticHero1,
   // About blocks
   CosmeticAbout1: CraftCosmeticAbout1,
+  CosmeticWhyChooseUs1: CraftCosmeticWhyChooseUs1,
+  CosmeticWhyChoose2: CraftCosmeticWhyChoose2,
+  // What We Do blocks
+  CosmeticWhatWeDo1: CraftCosmeticWhatWeDo1,
   // Services blocks
   CosmeticServices1: CraftCosmeticServices1,
+  // Case Studies blocks
+  CosmeticCaseStudies1: CraftCosmeticCaseStudies1,
+  CosmeticCaseStudy1: CraftCosmeticCaseStudy1,
+  // Results blocks
+  CosmeticBeforeAfter1: CraftCosmeticBeforeAfter1,
+  // Testimonials blocks
+  CosmeticTestimonials2: CraftCosmeticTestimonials2,
+  // Footer blocks
+  CosmeticFooter1: CraftCosmeticFooter1,
+      // CosmeticFooter2: CraftCosmeticFooter2,
   // Header blocks
   SimpleHeader: CraftSimpleHeader,
   MegaMenuHeader: CraftMegaMenuHeader,

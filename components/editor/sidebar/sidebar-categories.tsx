@@ -59,6 +59,13 @@ import {
   CraftElderCareCTA1,
   CraftElderCareTestimonials1,
   CraftCosmeticServices1,
+  CraftCosmeticCaseStudies1,
+  CraftCosmeticBeforeAfter1,
+  CraftCosmeticWhatWeDo1,
+  CraftCosmeticWhyChoose2,
+  CraftCosmeticTestimonials2,
+  CraftCosmeticFooter1,
+  // CraftCosmeticFooter2,
 } from "@/components/editor/craft-components";
 
 export interface CategoryConfig {
@@ -272,9 +279,39 @@ export const pageCategory = {
       description: "Cosmetic/wellness about section with features and contact",
     },
     {
+      component: CraftCosmeticWhatWeDo1,
+      name: "Cosmetic What We Do",
+      description: "Three-column layout with images, features, and experience counter",
+    },
+    {
+      component: CraftCosmeticWhyChoose2,
+      name: "Cosmetic Why Choose 2",
+      description: "Why choose us section with overlapping images and contact info",
+    },
+    {
       component: CraftCosmeticServices1,
       name: "Cosmetic Services",
       description: "Cosmetic services grid with 6 service cards",
+    },
+    {
+      component: CraftCosmeticCaseStudies1,
+      name: "Cosmetic Case Studies",
+      description: "Case studies section with content and 2x2 grid of case study cards",
+    },
+    {
+      component: CraftCosmeticBeforeAfter1,
+      name: "Cosmetic Before After",
+      description: "Before/after transformation showcase with patient results and statistics",
+    },     {
+      component: CraftCosmeticFooter1,
+      name: "Cosmetic Footer 1",
+      description: "Complete footer with newsletter, brand info, contact details and legal links",
+    },
+  
+    {
+      component: CraftCosmeticTestimonials2,
+      name: "Cosmetic Testimonials 2",
+      description: "Testimonials section with featured testimonial and client carousel",
     },
     {
       component: CraftResearchCards,
@@ -346,6 +383,16 @@ export const pageCategory = {
       name: "Elder Care Testimonials",
       description: "Family testimonials section",
     },
+    {
+      component: CraftCosmeticFooter1,
+      name: "Cosmetic Footer",
+      description: "Complete footer with newsletter, brand info, contact details and legal links",
+    },
+    // {
+    //   component: CraftCosmeticFooter2,
+    //   name: "Cosmetic Footer 2",
+    //   description: "Modern footer with newsletter signup, company info, navigation links and contact details",
+    // },
   ],
 };
 
