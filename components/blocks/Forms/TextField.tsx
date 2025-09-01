@@ -1,13 +1,13 @@
-import { Input, InputProps } from "../Basic/Input"
+import { Input, InputProps } from "../Basic/Input";
 
 // TextField is just an alias to Input for consistency with the form component names
-export interface TextFieldProps extends InputProps {}
+export type TextFieldProps = InputProps;
 
 export function TextField(props: TextFieldProps) {
-  return <Input {...props} />
+  return <Input {...props} />;
 }
 
 TextField.craft = {
   ...Input.craft,
-  displayName: "TextField"
-}
+  displayName: "TextField",
+};

@@ -51,7 +51,7 @@ function EditorContent({
   mode?: "design" | "cms";
   onModeChange?: (mode: "design" | "cms") => void;
 }) {
-  const { actions, query } = useEditor();
+  const { query } = useEditor();
   const { currentViewport } = useViewportStore();
   const { isOpen: sidebarOpen } = useSidebarStore();
 

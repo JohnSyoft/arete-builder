@@ -47,7 +47,12 @@ const projectSchema = yup.object({
   isPublic: yup.boolean().optional().default(false),
 });
 
-type ProjectFormData = yup.InferType<typeof projectSchema>;
+interface ProjectFormData {
+  name: string;
+  description: string;
+  status: "draft" | "published" | "archived";
+  isPublic: boolean;
+}
 
 export interface CreateEditProjectDialogProps {
   isOpen: boolean;

@@ -39,4 +39,12 @@ export const collectionSchema = yup.object({
     .matches(/^#[0-9A-F]{6}$/i, "Color must be a valid hex color"),
 });
 
-export type CollectionFormData = yup.InferType<typeof collectionSchema>;
+export interface CollectionFormData {
+  name: string;
+  description: string;
+  slug: string;
+  singularName: string;
+  pluralName: string;
+  icon: string;
+  color: string;
+}

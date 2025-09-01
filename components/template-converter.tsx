@@ -1,66 +1,65 @@
-"use client"
+"use client";
 
-import React, { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Textarea } from '@/components/ui/textarea'
-import { Input } from '@/components/ui/input'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Badge } from '@/components/ui/badge'
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
 
-interface TemplateConverterProps {}
-
-export function TemplateConverter({}: TemplateConverterProps) {
-  const [htmlInput, setHtmlInput] = useState('')
-  const [componentName, setComponentName] = useState('')
-  const [convertedCode, setConvertedCode] = useState('')
-  const [preview, setPreview] = useState('')
-  const [isConverting, setIsConverting] = useState(false)
+export function TemplateConverter() {
+  const [htmlInput, setHtmlInput] = useState("");
+  const [componentName, setComponentName] = useState("");
+  const [convertedCode, setConvertedCode] = useState("");
+  const [preview, setPreview] = useState("");
+  const [isConverting, setIsConverting] = useState(false);
 
   const convertTemplate = async () => {
-    setIsConverting(true)
+    setIsConverting(true);
     try {
       // Call conversion API or function
-      const response = await fetch('/api/convert-template', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          html: htmlInput, 
+      const response = await fetch("/api/convert-template", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          html: htmlInput,
           componentName,
-          type: 'hero' // Could be dynamic
-        })
-      })
-      
-      const result = await response.json()
-      setConvertedCode(result.code)
-      setPreview(result.preview)
+          type: "hero", // Could be dynamic
+        }),
+      });
+
+      const result = await response.json();
+      setConvertedCode(result.code);
+      setPreview(result.preview);
     } catch (error) {
-      console.error('Conversion failed:', error)
+      console.error("Conversion failed:", error);
     } finally {
-      setIsConverting(false)
+      setIsConverting(false);
     }
-  }
+  };
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(convertedCode)
-  }
+    navigator.clipboard.writeText(convertedCode);
+  };
 
   const downloadFile = () => {
-    const blob = new Blob([convertedCode], { type: 'text/typescript' })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = `${componentName}.tsx`
-    a.click()
-    URL.revokeObjectURL(url)
-  }
+    const blob = new Blob([convertedCode], { type: "text/typescript" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${componentName}.tsx`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
 
   return (
     <div className="max-w-7xl mx-auto p-6 space-y-6">
       <div className="text-center space-y-2">
         <h1 className="text-3xl font-bold">Tailwind to CraftJS Converter</h1>
         <p className="text-muted-foreground">
-          Convert your Tailwind HTML templates into CraftJS-compatible components
+          Convert your Tailwind HTML templates into CraftJS-compatible
+          components
         </p>
       </div>
 
@@ -79,7 +78,7 @@ export function TemplateConverter({}: TemplateConverterProps) {
                 onChange={(e) => setComponentName(e.target.value)}
               />
             </div>
-            
+
             <div>
               <label className="text-sm font-medium">Tailwind HTML</label>
               <Textarea
@@ -91,12 +90,12 @@ export function TemplateConverter({}: TemplateConverterProps) {
               />
             </div>
 
-            <Button 
-              onClick={convertTemplate} 
+            <Button
+              onClick={convertTemplate}
               disabled={!htmlInput || !componentName || isConverting}
               className="w-full"
             >
-              {isConverting ? 'Converting...' : 'Convert to CraftJS'}
+              {isConverting ? "Converting..." : "Convert to CraftJS"}
             </Button>
           </CardContent>
         </Card>
@@ -120,7 +119,7 @@ export function TemplateConverter({}: TemplateConverterProps) {
                 <TabsTrigger value="code">Generated Code</TabsTrigger>
                 <TabsTrigger value="preview">Preview</TabsTrigger>
               </TabsList>
-              
+
               <TabsContent value="code" className="mt-4">
                 <Textarea
                   value={convertedCode}
@@ -130,9 +129,9 @@ export function TemplateConverter({}: TemplateConverterProps) {
                   placeholder="Converted code will appear here..."
                 />
               </TabsContent>
-              
+
               <TabsContent value="preview" className="mt-4">
-                <div 
+                <div
                   className="border rounded-lg p-4 min-h-[400px] bg-white"
                   dangerouslySetInnerHTML={{ __html: preview }}
                 />
@@ -152,34 +151,52 @@ export function TemplateConverter({}: TemplateConverterProps) {
             <div>
               <h4 className="font-semibold mb-2">Text Elements</h4>
               <ul className="text-sm space-y-1">
-                <li><Badge variant="secondary">h1-h6</Badge> → CraftText</li>
-                <li><Badge variant="secondary">p, span</Badge> → CraftText</li>
-                <li><Badge variant="secondary">Classes</Badge> → Props</li>
+                <li>
+                  <Badge variant="secondary">h1-h6</Badge> → CraftText
+                </li>
+                <li>
+                  <Badge variant="secondary">p, span</Badge> → CraftText
+                </li>
+                <li>
+                  <Badge variant="secondary">Classes</Badge> → Props
+                </li>
               </ul>
             </div>
-            
+
             <div>
               <h4 className="font-semibold mb-2">Interactive Elements</h4>
               <ul className="text-sm space-y-1">
-                <li><Badge variant="secondary">button</Badge> → CraftButton</li>
-                <li><Badge variant="secondary">a</Badge> → CraftButton</li>
-                <li><Badge variant="secondary">input</Badge> → CraftInput</li>
+                <li>
+                  <Badge variant="secondary">button</Badge> → CraftButton
+                </li>
+                <li>
+                  <Badge variant="secondary">a</Badge> → CraftButton
+                </li>
+                <li>
+                  <Badge variant="secondary">input</Badge> → CraftInput
+                </li>
               </ul>
             </div>
-            
+
             <div>
               <h4 className="font-semibold mb-2">Structure</h4>
               <ul className="text-sm space-y-1">
-                <li><Badge variant="secondary">div</Badge> → Element wrapper</li>
-                <li><Badge variant="secondary">section</Badge> → Section component</li>
-                <li><Badge variant="secondary">Auto IDs</Badge> → Generated</li>
+                <li>
+                  <Badge variant="secondary">div</Badge> → Element wrapper
+                </li>
+                <li>
+                  <Badge variant="secondary">section</Badge> → Section component
+                </li>
+                <li>
+                  <Badge variant="secondary">Auto IDs</Badge> → Generated
+                </li>
               </ul>
             </div>
           </div>
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
 
-export default TemplateConverter
+export default TemplateConverter;

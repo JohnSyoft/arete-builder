@@ -1,22 +1,26 @@
-"use client"
+"use client";
 
-import type React from "react"
-
-import { useRouter } from "next/navigation"
-import { useForm } from "react-hook-form"
-import { yupResolver } from "@hookform/resolvers/yup"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { useAuth } from "@/hooks/useAuth"
-import { loginSchema, type LoginFormData } from "@/lib/validations/auth"
-import Link from "next/link"
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { useAuth } from "@/hooks/useAuth";
+import { loginSchema, type LoginFormData } from "@/lib/validations/auth";
+import Link from "next/link";
 
 export default function LoginPage() {
-  const router = useRouter()
-  const { login, isLoginLoading, loginError, isAuthenticated } = useAuth()
+  const router = useRouter();
+  const { login, isLoginLoading, loginError, isAuthenticated } = useAuth();
 
   const {
     register,
@@ -28,21 +32,21 @@ export default function LoginPage() {
       email: "",
       password: "",
     },
-  })
+  });
 
   // Redirect if already authenticated
   if (isAuthenticated) {
-    router.replace("/dashboard")
-    return null
+    router.replace("/dashboard");
+    return null;
   }
 
   const onSubmit = (data: LoginFormData) => {
     login(data, {
       onSuccess: () => {
-        router.push("/dashboard")
-      }
-    })
-  }
+        router.push("/dashboard");
+      },
+    });
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background p-4">
@@ -55,14 +59,16 @@ export default function LoginPage() {
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
-              <Input 
-                id="email" 
-                type="email" 
+              <Input
+                id="email"
+                type="email"
                 {...register("email")}
                 aria-invalid={errors.email ? "true" : "false"}
               />
               {errors.email && (
-                <p className="text-sm text-destructive">{errors.email.message}</p>
+                <p className="text-sm text-destructive">
+                  {errors.email.message}
+                </p>
               )}
             </div>
             <div className="space-y-2">
@@ -74,7 +80,9 @@ export default function LoginPage() {
                 aria-invalid={errors.password ? "true" : "false"}
               />
               {errors.password && (
-                <p className="text-sm text-destructive">{errors.password.message}</p>
+                <p className="text-sm text-destructive">
+                  {errors.password.message}
+                </p>
               )}
             </div>
             {loginError && (
@@ -82,18 +90,18 @@ export default function LoginPage() {
                 <AlertDescription>{loginError.message}</AlertDescription>
               </Alert>
             )}
-            <Button 
-              type="submit" 
-              className="w-full" 
+            <Button
+              type="submit"
+              className="w-full"
               disabled={isSubmitting || isLoginLoading}
             >
               {isSubmitting || isLoginLoading ? "Signing in..." : "Sign In"}
             </Button>
           </form>
-          
+
           <div className="mt-6 text-center">
             <p className="text-sm text-muted-foreground">
-              Don't have an account?{" "}
+              Don&apos;t have an account?{" "}
               <Link href="/register" className="text-primary hover:underline">
                 Create one
               </Link>
@@ -102,5 +110,5 @@ export default function LoginPage() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

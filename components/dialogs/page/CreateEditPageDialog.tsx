@@ -1,17 +1,23 @@
-"use client"
+"use client";
 
-import { useEffect } from "react"
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Switch } from "@/components/ui/switch"
-import { useForm, Controller } from "react-hook-form"
-import { yupResolver } from "@hookform/resolvers/yup"
-import * as yup from "yup"
-import { useCreatePage, useUpdatePage } from "@/hooks/usePages"
-import { type Page } from "@/lib/api/pages"
-import React from "react"
+import { useEffect } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { useForm, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { useCreatePage, useUpdatePage } from "@/hooks/usePages";
+import { type Page } from "@/lib/api/pages";
 
 const pageSchema = yup.object({
   name: yup
@@ -25,23 +31,28 @@ const pageSchema = yup.object({
     .required("Page slug is required")
     .min(2, "Slug must be at least 2 characters")
     .max(50, "Slug must be less than 50 characters")
-    .matches(/^[a-z0-9-]+$/, "Slug can only contain lowercase letters, numbers, and hyphens")
+    .matches(
+      /^[a-z0-9-]+$/,
+      "Slug can only contain lowercase letters, numbers, and hyphens"
+    )
     .trim(),
-  isHomePage: yup
-    .boolean()
-    .default(false),
-})
+  isHomePage: yup.boolean().default(false),
+});
 
-type PageFormData = yup.InferType<typeof pageSchema>
+interface PageFormData {
+  name: string;
+  slug: string;
+  isHomePage: boolean;
+}
 
 export interface CreateEditPageDialogProps {
-  isOpen: boolean
-  onClose: () => void
-  page?: Page | null
-  projectId: string
-  pages?: Page[]
-  onSave: (page: Page) => void
-  isLoading?: boolean
+  isOpen: boolean;
+  onClose: () => void;
+  page?: Page | null;
+  projectId: string;
+  pages?: Page[];
+  onSave: (page: Page) => void;
+  isLoading?: boolean;
 }
 
 export function CreateEditPageDialog({
@@ -53,11 +64,12 @@ export function CreateEditPageDialog({
   onSave,
   isLoading = false,
 }: CreateEditPageDialogProps) {
-  const createPageMutation = useCreatePage()
-  const updatePageMutation = useUpdatePage()
+  const createPageMutation = useCreatePage();
+  const updatePageMutation = useUpdatePage();
 
-  const isEditing = !!page
-  const isMutationLoading = createPageMutation.isPending || updatePageMutation.isPending
+  const isEditing = !!page;
+  const isMutationLoading =
+    createPageMutation.isPending || updatePageMutation.isPending;
 
   const form = useForm<PageFormData>({
     resolver: yupResolver(pageSchema),
@@ -66,7 +78,7 @@ export function CreateEditPageDialog({
       slug: "",
       isHomePage: false,
     },
-  })
+  });
 
   const {
     register,
@@ -76,16 +88,15 @@ export function CreateEditPageDialog({
     watch,
     setValue,
     formState: { errors, isValid, isSubmitting },
-  } = form
-  const watchedName = watch("name")
-  const watchedSlug = watch("slug")
-  const watchedIsHomePage = watch("isHomePage")
+  } = form;
+  const watchedName = watch("name");
+  const watchedSlug = watch("slug");
+  const watchedIsHomePage = watch("isHomePage");
 
   // Custom validation for duplicate slugs
-  const isDuplicateSlug = pages.some(p => 
-    p.slug === watchedSlug && 
-    (!isEditing || p._id !== page?._id)
-  )
+  const isDuplicateSlug = pages.some(
+    (p) => p.slug === watchedSlug && (!isEditing || p._id !== page?._id)
+  );
 
   // Reset form when dialog opens/closes or page changes
   useEffect(() => {
@@ -95,16 +106,16 @@ export function CreateEditPageDialog({
           name: page.name || "",
           slug: page.slug || "",
           isHomePage: page.isHomePage || false,
-        })
+        });
       } else {
         reset({
           name: "",
           slug: "",
           isHomePage: false,
-        })
+        });
       }
     }
-  }, [isOpen, isEditing, page, reset])
+  }, [isOpen, isEditing, page, reset]);
 
   // Auto-generate slug from name (only for new pages)
   useEffect(() => {
@@ -114,13 +125,13 @@ export function CreateEditPageDialog({
         .replace(/\s+/g, "-")
         .replace(/[^a-z0-9-]/g, "")
         .replace(/-+/g, "-")
-        .replace(/^-|-$/g, "")
-      setValue("slug", autoSlug)
+        .replace(/^-|-$/g, "");
+      setValue("slug", autoSlug);
     }
-  }, [watchedName, isEditing, setValue])
+  }, [watchedName, isEditing, setValue]);
 
   const onSubmit = async (data: PageFormData) => {
-    if (isDuplicateSlug) return
+    if (isDuplicateSlug) return;
 
     try {
       if (isEditing && page) {
@@ -131,8 +142,8 @@ export function CreateEditPageDialog({
             slug: data.slug.trim(),
             isHomePage: data.isHomePage,
           },
-        })
-        onSave(updatedPage.data.page)
+        });
+        onSave(updatedPage.data.page);
       } else {
         const newPage = await createPageMutation.mutateAsync({
           project: projectId,
@@ -151,32 +162,34 @@ export function CreateEditPageDialog({
               linkedNodes: {},
             },
           }),
-        })
-        onSave(newPage.data.page)
+        });
+        onSave(newPage.data.page);
       }
-      onClose()
+      onClose();
     } catch (error) {
-      console.error(`Error ${isEditing ? "updating" : "creating"} page:`, error)
+      console.error(
+        `Error ${isEditing ? "updating" : "creating"} page:`,
+        error
+      );
     }
-  }
+  };
 
-  const isFormValid = isValid && !isDuplicateSlug
+  const isFormValid = isValid && !isDuplicateSlug;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="bg-card border-border max-w-md">
         <DialogHeader>
           <DialogTitle className="text-foreground">
-            {isEditing ? 'Edit Page' : 'Create New Page'}
+            {isEditing ? "Edit Page" : "Create New Page"}
           </DialogTitle>
           <DialogDescription className="text-muted-foreground">
-            {isEditing 
-              ? 'Update your page details.' 
-              : 'Create a new page for your project.'
-            }
+            {isEditing
+              ? "Update your page details."
+              : "Create a new page for your project."}
           </DialogDescription>
         </DialogHeader>
-        
+
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="name" className="text-foreground">
@@ -213,8 +226,8 @@ export function CreateEditPageDialog({
                       .toLowerCase()
                       .replace(/[^a-z0-9-]/g, "")
                       .replace(/-+/g, "-")
-                      .replace(/^-|-$/g, "")
-                    field.onChange(cleanSlug)
+                      .replace(/^-|-$/g, "");
+                    field.onChange(cleanSlug);
                   }}
                 />
               )}
@@ -226,7 +239,9 @@ export function CreateEditPageDialog({
               <p className="text-sm text-destructive">{errors.slug.message}</p>
             )}
             {isDuplicateSlug && (
-              <p className="text-sm text-destructive">A page with this slug already exists</p>
+              <p className="text-sm text-destructive">
+                A page with this slug already exists
+              </p>
             )}
           </div>
 
@@ -253,18 +268,27 @@ export function CreateEditPageDialog({
           )}
 
           <DialogFooter>
-            <Button type="button" variant="outline" onClick={onClose} disabled={isMutationLoading || isSubmitting}>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={onClose}
+              disabled={isMutationLoading || isSubmitting}
+            >
               Cancel
             </Button>
-            <Button 
+            <Button
               type="submit"
               disabled={!isFormValid || isMutationLoading || isSubmitting}
             >
-              {isMutationLoading || isSubmitting ? 'Saving...' : (isEditing ? 'Save Changes' : 'Create Page')}
+              {isMutationLoading || isSubmitting
+                ? "Saving..."
+                : isEditing
+                ? "Save Changes"
+                : "Create Page"}
             </Button>
           </DialogFooter>
         </form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

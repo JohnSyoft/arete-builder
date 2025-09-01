@@ -11,7 +11,10 @@ export const loginSchema = yup.object({
     .min(6, "Password must be at least 6 characters"),
 });
 
-export type LoginFormData = yup.InferType<typeof loginSchema>;
+export interface LoginFormData {
+  email: string;
+  password: string;
+}
 
 export const registerSchema = yup.object({
   name: yup
@@ -36,4 +39,9 @@ export const registerSchema = yup.object({
     .oneOf([yup.ref("password")], "Passwords must match"),
 });
 
-export type RegisterFormData = yup.InferType<typeof registerSchema>;
+export interface RegisterFormData {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
