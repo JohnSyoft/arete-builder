@@ -161,6 +161,11 @@ sendResponse.forbidden(res, "Access denied");
 - **Every Element component must have a unique `id` prop** - use descriptive names like `componentName-elementPurpose-dynamicId` (e.g., `researchCard-${card.id}`, `heroTitle`, `navigationMenu`)
 - **Complex components (non-basic blocks) should NOT use global properties panels** - only basic components (Box, Text, Button, Flex, Card, Section) should have global panel integration. Complex components like ResearchCards, PhotoGallery, Hero sections should handle their own properties internally through their craft configuration
 
+### UI Component Guidelines
+
+- **SelectItem components**: Never use empty string `value=""` as it will throw an error. Use descriptive values like `"no-collections"`, `"none"`, or `"not-selected"` for disabled placeholder items
+- **Collections Data Access**: Standard pattern is `collectionsResponse?.collections` not `collectionsResponse?.data?.collections` (unless API specifically nests under `.data`)
+
 ## Key File References
 
 - `/app/dashboard/page.tsx` - Main projects dashboard showing full API integration

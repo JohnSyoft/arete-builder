@@ -47,19 +47,32 @@ import {
   HeadingProperties,
 } from "./property-panels";
 import { CarouselProperties } from "./property-panels/carousel-properties";
+import { CMSCardProperties } from "./property-panels/cmscard-properties";
 
 export function GlobalPropertiesPanel() {
   const { isOpen, elementType, elementProps, closePanel, updateProps } =
     usePropertiesPanelStore();
 
-  console.log("GlobalPropertiesPanel render", {
-    isOpen,
-    elementType,
-    elementProps,
-  });
-
   const handlePropChange = (key: string, value: any) => {
-    const newProps = { ...elementProps, [key]: value };
+    console.log("GlobalPropertiesPanel - handlePropChange called:", {
+      key,
+      value,
+    });
+    console.log("GlobalPropertiesPanel - current elementProps:", elementProps);
+
+    let newProps;
+
+    if (key === "_batch") {
+      // Handle batch updates - value contains the complete props object
+      newProps = value;
+      console.log("GlobalPropertiesPanel - batch update with:", newProps);
+    } else {
+      // Handle single prop update
+      newProps = { ...elementProps, [key]: value };
+      console.log("GlobalPropertiesPanel - single prop update:", newProps);
+    }
+
+    console.log("GlobalPropertiesPanel - calling updateProps with:", newProps);
     updateProps(newProps);
   };
 
@@ -360,6 +373,12 @@ export function GlobalPropertiesPanel() {
           )}
           {elementType === "TestimonialCard" && (
             <TestimonialProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "cmscard" && (
+            <CMSCardProperties
               elementProps={elementProps}
               onPropChange={handlePropChange}
             />

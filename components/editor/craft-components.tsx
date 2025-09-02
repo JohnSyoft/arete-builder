@@ -78,7 +78,18 @@ import { SimpleHeader } from "../blocks/Headers/SimpleHeader";
 import { MegaMenuHeader } from "../blocks/Headers/MegaMenuHeader";
 // import { MiniMaxCarousel1 } from "../blocks/Hero/MiniMaxCarousel1";
 import { ResearchCards } from "../blocks/Cards/ResearchCards";
+// Hospitality blocks
+import { HospitalityHero1 } from "../blocks/Hero/HospitalityHero1";
+import { HospitalityAmenities1 } from "../blocks/Services/HospitalityAmenities1";
+import { HospitalityRooms1 } from "../blocks/Rooms/HospitalityRooms1";
+import { HospitalityTestimonials1 } from "../blocks/Testimonials/HospitalityTestimonials1";
+import { HospitalityFooter1 } from "../blocks/Footer/HospitalityFooter1";
+import { HospitalityDining1 } from "../blocks/Dining/HospitalityDining1";
 import { PhotoGallery } from "../blocks/Cards/PhotoGallery";
+// CMS Cards
+import { CosmeticCard1 } from "../blocks/CMS/CosmeticCard1";
+import { HospitalityCard1 } from "../blocks/CMS/HospitalityCard1";
+import { ModernCard1 } from "../blocks/CMS/ModernCard1";
 // Business components
 // import {
 //   CraftBlogCard,
@@ -321,6 +332,20 @@ export const CraftElderCareValues1 = ElderCareValues1;
 export const CraftElderCareTeam1 = ElderCareTeam1;
 export const CraftElderCareCTA1 = ElderCareCTA1;
 export const CraftElderCareTestimonials1 = ElderCareTestimonials1;
+
+// Hospitality blocks
+export const CraftHospitalityHero1 = HospitalityHero1;
+export const CraftHospitalityAmenities1 = HospitalityAmenities1;
+export const CraftHospitalityRooms1 = HospitalityRooms1;
+export const CraftHospitalityTestimonials1 = HospitalityTestimonials1;
+export const CraftHospitalityFooter1 = HospitalityFooter1;
+export const CraftHospitalityDining1 = HospitalityDining1;
+
+// CMS Cards
+export const CraftCosmeticCard1 = CosmeticCard1;
+export const CraftHospitalityCard1 = HospitalityCard1;
+export const CraftModernCard1 = ModernCard1;
+
 // Mutable resolver that can be extended with user-created components
 const baseComponentResolver = {
   Container,
@@ -394,7 +419,7 @@ const baseComponentResolver = {
   CosmeticTestimonials2: CraftCosmeticTestimonials2,
   // Footer blocks
   CosmeticFooter1: CraftCosmeticFooter1,
-      // CosmeticFooter2: CraftCosmeticFooter2,
+  // CosmeticFooter2: CraftCosmeticFooter2,
   // Header blocks
   SimpleHeader: CraftSimpleHeader,
   MegaMenuHeader: CraftMegaMenuHeader,
@@ -414,6 +439,17 @@ const baseComponentResolver = {
   ElderCareTeam1: CraftElderCareTeam1,
   ElderCareCTA1: CraftElderCareCTA1,
   ElderCareTestimonials1: CraftElderCareTestimonials1,
+  // Hospitality blocks
+  HospitalityHero1: CraftHospitalityHero1,
+  HospitalityAmenities1: CraftHospitalityAmenities1,
+  HospitalityRooms1: CraftHospitalityRooms1,
+  HospitalityTestimonials1: CraftHospitalityTestimonials1,
+  HospitalityFooter1: CraftHospitalityFooter1,
+  HospitalityDining1: CraftHospitalityDining1,
+  // CMS Cards
+  CosmeticCard1: CraftCosmeticCard1,
+  HospitalityCard1: CraftHospitalityCard1,
+  ModernCard1: CraftModernCard1,
   // Business components
   // BlogCard: CraftBlogCard,
   // ProductCard: CraftProductCard,

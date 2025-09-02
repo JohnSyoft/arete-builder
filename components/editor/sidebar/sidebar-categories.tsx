@@ -66,6 +66,15 @@ import {
   CraftCosmeticTestimonials2,
   CraftCosmeticFooter1,
   // CraftCosmeticFooter2,
+  CraftHospitalityHero1,
+  CraftHospitalityAmenities1,
+  CraftHospitalityRooms1,
+  CraftHospitalityTestimonials1,
+  CraftHospitalityFooter1,
+  CraftHospitalityDining1,
+  CraftCosmeticCard1,
+  CraftHospitalityCard1,
+  CraftModernCard1,
 } from "@/components/editor/craft-components";
 
 export interface CategoryConfig {
@@ -281,12 +290,14 @@ export const pageCategory = {
     {
       component: CraftCosmeticWhatWeDo1,
       name: "Cosmetic What We Do",
-      description: "Three-column layout with images, features, and experience counter",
+      description:
+        "Three-column layout with images, features, and experience counter",
     },
     {
       component: CraftCosmeticWhyChoose2,
       name: "Cosmetic Why Choose 2",
-      description: "Why choose us section with overlapping images and contact info",
+      description:
+        "Why choose us section with overlapping images and contact info",
     },
     {
       component: CraftCosmeticServices1,
@@ -296,22 +307,27 @@ export const pageCategory = {
     {
       component: CraftCosmeticCaseStudies1,
       name: "Cosmetic Case Studies",
-      description: "Case studies section with content and 2x2 grid of case study cards",
+      description:
+        "Case studies section with content and 2x2 grid of case study cards",
     },
     {
       component: CraftCosmeticBeforeAfter1,
       name: "Cosmetic Before After",
-      description: "Before/after transformation showcase with patient results and statistics",
-    },     {
+      description:
+        "Before/after transformation showcase with patient results and statistics",
+    },
+    {
       component: CraftCosmeticFooter1,
       name: "Cosmetic Footer 1",
-      description: "Complete footer with newsletter, brand info, contact details and legal links",
+      description:
+        "Complete footer with newsletter, brand info, contact details and legal links",
     },
-  
+
     {
       component: CraftCosmeticTestimonials2,
       name: "Cosmetic Testimonials 2",
-      description: "Testimonials section with featured testimonial and client carousel",
+      description:
+        "Testimonials section with featured testimonial and client carousel",
     },
     {
       component: CraftResearchCards,
@@ -386,7 +402,8 @@ export const pageCategory = {
     {
       component: CraftCosmeticFooter1,
       name: "Cosmetic Footer",
-      description: "Complete footer with newsletter, brand info, contact details and legal links",
+      description:
+        "Complete footer with newsletter, brand info, contact details and legal links",
     },
     // {
     //   component: CraftCosmeticFooter2,
@@ -489,6 +506,79 @@ export const formsCategory = {
       component: CraftSignature,
       name: "Signature",
       description: "Signature drawing pad",
+    },
+  ],
+};
+
+export const hospitalityCategory = {
+  name: "Hospitality",
+  icon: (
+    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+      <path d="M10 2L3 7v11h14V7l-7-5zM9 18H5v-7h4v7zm6 0h-4v-7h4v7zm1-8H4V8.5l6-4.3 6 4.3V10z" />
+    </svg>
+  ),
+  items: [
+    {
+      component: CraftHospitalityHero1,
+      name: "Hospitality Hero 1",
+      description:
+        "Luxury hotel hero section with warm amber theme and booking CTA",
+    },
+    {
+      component: CraftHospitalityAmenities1,
+      name: "Hospitality Amenities 1",
+      description: "Premium amenities showcase with elegant grid layout",
+    },
+    {
+      component: CraftHospitalityRooms1,
+      name: "Hospitality Rooms 1",
+      description: "Room and suite showcase with pricing and booking options",
+    },
+    {
+      component: CraftHospitalityTestimonials1,
+      name: "Hospitality Testimonials 1",
+      description: "Guest reviews and satisfaction statistics section",
+    },
+    {
+      component: CraftHospitalityDining1,
+      name: "Hospitality Dining 1",
+      description:
+        "Fine dining restaurant section with chef profile and signature dishes",
+    },
+    {
+      component: CraftHospitalityFooter1,
+      name: "Hospitality Footer 1",
+      description:
+        "Complete hospitality footer with contact, services, and newsletter",
+    },
+  ],
+};
+
+export const cmsCardsCategory = {
+  name: "CMS Cards",
+  icon: (
+    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+      <path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" />
+    </svg>
+  ),
+  items: [
+    {
+      component: CraftCosmeticCard1,
+      name: "Cosmetic Card 1",
+      description:
+        "Elegant cards with category badges, perfect for beauty and wellness content",
+    },
+    {
+      component: CraftHospitalityCard1,
+      name: "Hospitality Card 1",
+      description:
+        "Clean minimalist cards ideal for hotels, restaurants, and luxury services",
+    },
+    {
+      component: CraftModernCard1,
+      name: "Modern Card 1",
+      description:
+        "Horizontal layout cards with meta information, perfect for articles and blogs",
     },
   ],
 };

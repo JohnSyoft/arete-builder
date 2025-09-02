@@ -6,6 +6,7 @@ type ElementType =
   | 'dropdown' | 'switch' | 'radiobutton' | 'slider' | 'ratingbar' | 'counterbutton' | 'pincode' | 'choicechips' | 'checkboxlisttile' | 'switchlisttile' | 'checkboxgroup' | 'creditcardform' | 'signature'
   | 'form' | 'tab' | 'tabpanel' | 'carousel' | 'herocarouselsimple'
   | 'BlogCard' | 'ProductCard' | 'DoctorCard' | 'TestimonialCard'
+  | 'cmscard'
   | null
 
 interface PropertiesPanelState {
@@ -33,7 +34,6 @@ export const usePropertiesPanelStore = create<PropertiesPanelState>((set, get) =
   onPropsChange: null,
   
   openPanel: (elementType, elementProps, elementId, onPropsChange) => {
-    console.log('openPanel called', { elementType, elementProps, elementId })
     set({
       isOpen: true,
       elementType,
@@ -54,8 +54,11 @@ export const usePropertiesPanelStore = create<PropertiesPanelState>((set, get) =
   },
   
   updateProps: (props) => {
+    console.log("Properties Panel Store - updateProps called with:", props);
     const { onPropsChange } = get()
+    console.log("Properties Panel Store - onPropsChange function:", onPropsChange);
     if (onPropsChange) {
+      console.log("Properties Panel Store - calling onPropsChange with:", props);
       onPropsChange(props)
     }
     set({ elementProps: props })

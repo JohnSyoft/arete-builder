@@ -46,3 +46,4 @@ export { BlogProperties } from "./blog-properties";
 export { ProductProperties } from "./product-properties";
 export { DoctorProperties } from "./doctor-properties";
 export { TestimonialProperties } from "./testimonial-properties";
+export { CMSCardProperties } from "./cmscard-properties";

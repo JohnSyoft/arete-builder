@@ -4,6 +4,7 @@ export {
   layoutCategory, 
   pageCategory, 
   formsCategory,
+  hospitalityCategory,
   categoryIcons,
   type CategoryConfig 
 } from './sidebar-categories';

@@ -9,11 +9,15 @@ import {
   layoutCategory,
   pageCategory,
   formsCategory,
+  hospitalityCategory,
   useUserBlocksCategory,
   SidebarNavigation,
   SidebarContent,
 } from "./sidebar/";
-import { headersCategory } from "./sidebar/sidebar-categories";
+import {
+  headersCategory,
+  cmsCardsCategory,
+} from "./sidebar/sidebar-categories";
 
 export function EditorSidebar() {
   const { currentViewport } = useViewportStore();
@@ -41,6 +45,8 @@ export function EditorSidebar() {
     elements: elementsCategory,
     layout: layoutCategory,
     page: pageCategory,
+    hospitality: hospitalityCategory,
+    cmsCards: cmsCardsCategory,
     forms: formsCategory,
     headers: headersCategory,
     // layout: layoutCategory,
