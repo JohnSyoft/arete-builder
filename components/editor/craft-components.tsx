@@ -98,6 +98,8 @@ import { ModernFeatures1 } from "../blocks/Features/ModernFeatures1";
 import { ModernTestimonials1 } from "../blocks/Modern/ModernTestimonials1";
 import { ModernFooter1 } from "../blocks/Modern/ModernFooter1";
 import { ModernContact1 } from "../blocks/Modern/ModernContact1";
+import { ModernTeam1 } from "../blocks/Team/ModernTeam1";
+import { ModernBlog1 } from "../blocks/Blog/ModernBlog1";
 // Business components
 // import {
 //   CraftBlogCard,
@@ -362,6 +364,8 @@ export const CraftModernFeatures1 = ModernFeatures1;
 export const CraftModernTestimonials1 = ModernTestimonials1;
 export const CraftModernFooter1 = ModernFooter1;
 export const CraftModernContact1 = ModernContact1;
+export const CraftModernTeam1 = ModernTeam1;
+export const CraftModernBlog1 = ModernBlog1;
 
 // Mutable resolver that can be extended with user-created components
 const baseComponentResolver = {
@@ -475,6 +479,8 @@ const baseComponentResolver = {
   ModernTestimonials1: CraftModernTestimonials1,
   ModernFooter1: CraftModernFooter1,
   ModernContact1: CraftModernContact1,
+  ModernTeam1: CraftModernTeam1,
+  ModernBlog1: CraftModernBlog1,
   // Business components
   // BlogCard: CraftBlogCard,
   // ProductCard: CraftProductCard,
