@@ -100,11 +100,7 @@ export interface CategoryConfig {
 }
 
 export const categoryIcons = {
-  userBlocks: (
-    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-      <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0z" />
-    </svg>
-  ),
+
   headers: (
     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
       <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 8a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V8z" />

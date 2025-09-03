@@ -224,7 +224,7 @@ Text.craft = {
   },
   rules: {
     canDrag: () => true,
-    canMoveIn: () => false,
+    canMoveIn: () => true,
     canMoveOut: () => true,
   },
 };

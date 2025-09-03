@@ -1,49 +1,48 @@
-import { useNode, useEditor } from "@craftjs/core"
-import React from "react"
-import { FloatingToolbar } from "@/components/editor/floating-toolbar"
-import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store"
+import { useNode, useEditor } from "@craftjs/core";
+import { FloatingToolbar } from "@/components/editor/floating-toolbar";
+import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store";
 
 interface LineBreakProps {
-  height?: string
-  margin?: string
+  height?: string;
+  margin?: string;
 }
 
 export function LineBreak({
   height = "h-4", // Smaller default height for line breaks
-  margin = "my-1"
+  margin = "my-1",
 }: LineBreakProps) {
   const {
     connectors: { connect, drag },
     selected,
     hovered,
     actions: { setProp },
-    id
+    id,
   } = useNode((state) => ({
     selected: state.events.selected,
     hovered: state.events.hovered,
-    id: state.id
-  }))
+    id: state.id,
+  }));
 
-  const { actions } = useEditor()
-  const { openPanel } = usePropertiesPanelStore()
+  const { actions } = useEditor();
+  const { openPanel } = usePropertiesPanelStore();
 
-  const lineBreakProps = { height, margin }
-  
+  const lineBreakProps = { height, margin };
+
   const updateProps = (newProps: Partial<LineBreakProps>) => {
     setProp((props: LineBreakProps) => {
-      Object.assign(props, newProps)
-    })
-  }
+      Object.assign(props, newProps);
+    });
+  };
 
   const handleOpenPanel = () => {
-    openPanel('linebreak', lineBreakProps, id, updateProps)
-  }
+    openPanel("linebreak", lineBreakProps, id, updateProps);
+  };
 
   return (
     <div
       ref={(ref) => {
         if (ref) {
-          connect(drag(ref))
+          connect(drag(ref));
         }
       }}
       className={`
@@ -72,7 +71,7 @@ export function LineBreak({
           />
         </div>
       )}
-      
+
       {(selected || hovered) && (
         <>
           <div className="absolute top-0 left-0 bg-blue-500 text-white text-xs px-2 py-1 rounded-br z-10">
@@ -93,7 +92,7 @@ export function LineBreak({
         </div>
       )}
     </div>
-  )
+  );
 }
 
 LineBreak.craft = {
@@ -104,7 +103,7 @@ LineBreak.craft = {
   },
   rules: {
     canDrag: () => true,
-    canMoveIn: () => false,
+    canMoveIn: () => true,
     canMoveOut: () => true,
   },
-}
+};

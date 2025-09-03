@@ -1,19 +1,19 @@
-import { useNode, useEditor } from "@craftjs/core"
-import React from "react"
-import { FloatingToolbar } from "@/components/editor/floating-toolbar"
-import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store"
-import { ExternalLink } from "lucide-react"
+import { useNode, useEditor } from "@craftjs/core";
+import React from "react";
+import { FloatingToolbar } from "@/components/editor/floating-toolbar";
+import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store";
+import { ExternalLink } from "lucide-react";
 
 interface LinkProps {
-  text?: string
-  href?: string
-  target?: "_self" | "_blank"
-  color?: string
-  fontSize?: string
-  fontWeight?: string
-  textDecoration?: 'underline' | 'no-underline'
-  margin?: string
-  padding?: string
+  text?: string;
+  href?: string;
+  target?: "_self" | "_blank";
+  color?: string;
+  fontSize?: string;
+  fontWeight?: string;
+  textDecoration?: "underline" | "no-underline";
+  margin?: string;
+  padding?: string;
 }
 
 export function Link({
@@ -25,27 +25,26 @@ export function Link({
   fontWeight = "font-normal",
   textDecoration = "underline",
   margin = "my-2",
-  padding = "px-0 py-0"
+  padding = "px-0 py-0",
 }: LinkProps) {
   const {
     connectors: { connect, drag },
     selected,
     hovered,
     actions: { setProp },
-    id
+    id,
   } = useNode((state) => ({
     selected: state.events.selected,
     hovered: state.events.hovered,
-    id: state.id
-  }))
+    id: state.id,
+  }));
 
-  const { actions } = useEditor()
+  const { actions } = useEditor();
 
-  const { openPanel } = usePropertiesPanelStore()
+  const { openPanel } = usePropertiesPanelStore();
 
   const handleShowProperties = () => {
-    console.log('Link handleShowProperties called', { text, href, target, color, fontSize, fontWeight, textDecoration, margin, padding, id })
-    openPanel('link', {
+    console.log("Link handleShowProperties called", {
       text,
       href,
       target,
@@ -54,29 +53,48 @@ export function Link({
       fontWeight,
       textDecoration,
       margin,
-      padding
-    }, id, (newProps) => {
-      console.log('Link props change callback called', newProps)
-      Object.keys(newProps).forEach(key => {
-        setProp((props: LinkProps) => {
-          (props as any)[key] = newProps[key]
-        })
-      })
-    })
-  }
+      padding,
+      id,
+    });
+    openPanel(
+      "link",
+      {
+        text,
+        href,
+        target,
+        color,
+        fontSize,
+        fontWeight,
+        textDecoration,
+        margin,
+        padding,
+      },
+      id,
+      (newProps) => {
+        console.log("Link props change callback called", newProps);
+        Object.keys(newProps).forEach((key) => {
+          setProp((props: LinkProps) => {
+            (props as any)[key] = newProps[key];
+          });
+        });
+      }
+    );
+  };
 
   const handleQuickEdit = () => {
-    handleShowProperties()
-  }
+    handleShowProperties();
+  };
 
   return (
-    <div 
+    <div
       ref={(ref) => {
         if (ref) {
-          connect(drag(ref))
+          connect(drag(ref));
         }
       }}
-      className={`relative group inline-block ${margin} ${padding} ${selected ? "ring-2 ring-blue-500" : ""} ${hovered ? "ring-1 ring-blue-300" : ""}`}
+      className={`relative group inline-block ${margin} ${padding} ${
+        selected ? "ring-2 ring-blue-500" : ""
+      } ${hovered ? "ring-1 ring-blue-300" : ""}`}
     >
       <a
         href={href}
@@ -98,14 +116,17 @@ export function Link({
           contentEditable
           suppressContentEditableWarning
           onBlur={(e: React.FocusEvent<HTMLSpanElement>) =>
-            setProp((props: LinkProps) => (props.text = e.currentTarget.textContent || ""))
+            setProp(
+              (props: LinkProps) =>
+                (props.text = e.currentTarget.textContent || "")
+            )
           }
           className="focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 rounded"
           dangerouslySetInnerHTML={{ __html: text }}
         />
         {target === "_blank" && <ExternalLink className="w-3 h-3" />}
       </a>
-      
+
       {/* Floating toolbar shown on hover/selection */}
       {(selected || hovered) && (
         <div className="absolute -top-12 left-0 z-50">
@@ -121,14 +142,14 @@ export function Link({
           />
         </div>
       )}
-      
+
       {(selected || hovered) && (
         <div className="absolute -top-6 left-0 bg-blue-500 text-white text-xs px-2 py-1 rounded z-10">
           Link
         </div>
       )}
     </div>
-  )
+  );
 }
 
 Link.craft = {
@@ -146,7 +167,7 @@ Link.craft = {
   },
   rules: {
     canDrag: () => true,
-    canMoveIn: () => false,
+    canMoveIn: () => true,
     canMoveOut: () => true,
   },
-}
+};

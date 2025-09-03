@@ -1,15 +1,15 @@
-import { useNode, useEditor } from "@craftjs/core"
-import { FloatingToolbar } from "@/components/editor/floating-toolbar"
-import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store"
-import { Star } from "lucide-react"
+import { useNode, useEditor } from "@craftjs/core";
+import { FloatingToolbar } from "@/components/editor/floating-toolbar";
+import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store";
+import { Star } from "lucide-react";
 
 export interface RatingBarProps {
-  rating?: number
-  maxRating?: number
-  disabled?: boolean
-  size?: "sm" | "md" | "lg"
-  color?: string
-  className?: string
+  rating?: number;
+  maxRating?: number;
+  disabled?: boolean;
+  size?: "sm" | "md" | "lg";
+  color?: string;
+  className?: string;
 }
 
 export function RatingBar({
@@ -18,60 +18,68 @@ export function RatingBar({
   disabled = false,
   size = "md",
   color = "#fbbf24",
-  className = ""
+  className = "",
 }: RatingBarProps) {
   const {
     connectors: { connect, drag },
     selected,
     hovered,
     actions: { setProp },
-    id
+    id,
   } = useNode((state) => ({
     selected: state.events.selected,
     hovered: state.events.hovered,
-    id: state.id
-  }))
+    id: state.id,
+  }));
 
-  const { actions } = useEditor()
-  const { openPanel } = usePropertiesPanelStore()
+  const { actions } = useEditor();
+  const { openPanel } = usePropertiesPanelStore();
 
   const handleShowProperties = () => {
-    openPanel('ratingbar', {
-      rating,
-      maxRating,
-      disabled,
-      size,
-      color
-    }, id, (newProps) => {
-      Object.keys(newProps).forEach(key => {
-        setProp((props: RatingBarProps) => {
-          (props as any)[key] = newProps[key]
-        })
-      })
-    })
-  }
+    openPanel(
+      "ratingbar",
+      {
+        rating,
+        maxRating,
+        disabled,
+        size,
+        color,
+      },
+      id,
+      (newProps) => {
+        Object.keys(newProps).forEach((key) => {
+          setProp((props: RatingBarProps) => {
+            (props as any)[key] = newProps[key];
+          });
+        });
+      }
+    );
+  };
 
   const getSizeClass = () => {
     switch (size) {
-      case "sm": return "w-4 h-4"
-      case "lg": return "w-8 h-8"
-      default: return "w-6 h-6"
+      case "sm":
+        return "w-4 h-4";
+      case "lg":
+        return "w-8 h-8";
+      default:
+        return "w-6 h-6";
     }
-  }
+  };
 
   const handleStarClick = (starIndex: number) => {
     if (!disabled) {
       setProp((props: RatingBarProps) => {
-        props.rating = starIndex + 1
-      })
+        props.rating = starIndex + 1;
+      });
     }
-  }
+  };
 
   return (
     <div
       ref={(ref) => {
         if (ref) {
-          connect(drag(ref))
+          connect(drag(ref));
         }
       }}
       className={`relative inline-flex items-center space-x-1 ${className} ${
@@ -108,7 +116,7 @@ export function RatingBar({
         </div>
       )}
     </div>
-  )
+  );
 }
 
 RatingBar.craft = {
@@ -119,11 +127,11 @@ RatingBar.craft = {
     disabled: false,
     size: "md",
     color: "#fbbf24",
-    className: ""
+    className: "",
   },
   rules: {
     canDrag: () => true,
-    canMoveIn: () => false,
+    canMoveIn: () => true,
     canMoveOut: () => true,
-  }
-}
+  },
+};

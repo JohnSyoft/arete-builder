@@ -1,27 +1,27 @@
-import { useNode, useEditor } from "@craftjs/core"
-import React from "react"
-import { FloatingToolbar } from "@/components/editor/floating-toolbar"
-import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store"
+import { useNode, useEditor } from "@craftjs/core";
+import React from "react";
+import { FloatingToolbar } from "@/components/editor/floating-toolbar";
+import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store";
 
 export interface TextareaProps {
-  placeholder?: string
-  value?: string
-  disabled?: boolean
-  rows?: number
-  cols?: number
-  backgroundColor?: string
-  borderColor?: string
-  borderRadius?: string
-  borderWidth?: string
-  textColor?: string
-  fontSize?: string
-  fontWeight?: string
-  padding?: string
-  margin?: string
-  width?: string
-  height?: string
-  resize?: "none" | "both" | "horizontal" | "vertical"
-  className?: string
+  placeholder?: string;
+  value?: string;
+  disabled?: boolean;
+  rows?: number;
+  cols?: number;
+  backgroundColor?: string;
+  borderColor?: string;
+  borderRadius?: string;
+  borderWidth?: string;
+  textColor?: string;
+  fontSize?: string;
+  fontWeight?: string;
+  padding?: string;
+  margin?: string;
+  width?: string;
+  height?: string;
+  resize?: "none" | "both" | "horizontal" | "vertical";
+  className?: string;
 }
 
 export function Textarea({
@@ -50,101 +50,130 @@ export function Textarea({
     actions: { setProp },
     selected,
     isHovered,
-    id
+    id,
   } = useNode((state) => ({
     selected: state.events.selected,
     isHovered: state.events.hovered,
-    id: state.id
-  }))
+    id: state.id,
+  }));
 
   const { enabled, actions } = useEditor((state, query) => ({
     enabled: state.options.enabled,
-    actions: query
-  }))
+    actions: query,
+  }));
 
-  const { openPanel } = usePropertiesPanelStore()
+  const { openPanel } = usePropertiesPanelStore();
 
   const handleShowProperties = () => {
-    openPanel('textarea', {
-      placeholder,
-      value,
-      disabled,
-      backgroundColor,
-      borderColor,
-      borderRadius,
-      borderWidth,
-      textColor,
-      fontSize,
-      fontWeight,
-      padding,
-      margin,
-      width,
-      height,
-      rows,
-      resize,
-      className
-    }, id, (newProps) => {
-      Object.keys(newProps).forEach(key => {
-        setProp((props: TextareaProps) => {
-          (props as any)[key] = newProps[key]
-        })
-      })
-    })
-  }
+    openPanel(
+      "textarea",
+      {
+        placeholder,
+        value,
+        disabled,
+        backgroundColor,
+        borderColor,
+        borderRadius,
+        borderWidth,
+        textColor,
+        fontSize,
+        fontWeight,
+        padding,
+        margin,
+        width,
+        height,
+        rows,
+        resize,
+        className,
+      },
+      id,
+      (newProps) => {
+        Object.keys(newProps).forEach((key) => {
+          setProp((props: TextareaProps) => {
+            (props as any)[key] = newProps[key];
+          });
+        });
+      }
+    );
+  };
 
   const handleDelete = () => {
-    actions.delete(id)
-  }
+    actions.delete(id);
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setProp((props: TextareaProps) => (props.value = e.target.value))
-  }
+    setProp((props: TextareaProps) => (props.value = e.target.value));
+  };
 
   // Create custom styles object for proper styling
   const customStyles = {
-    backgroundColor: backgroundColor.startsWith('#') ? backgroundColor : undefined,
-    borderColor: borderColor.startsWith('#') ? borderColor : undefined,
-    borderRadius: borderRadius.includes('rem') || borderRadius.includes('px') ? borderRadius : undefined,
-    borderWidth: borderWidth.includes('px') ? borderWidth : undefined,
-    color: textColor.startsWith('#') ? textColor : undefined,
-    fontSize: fontSize.includes('rem') || fontSize.includes('px') ? fontSize : undefined,
+    backgroundColor: backgroundColor.startsWith("#")
+      ? backgroundColor
+      : undefined,
+    borderColor: borderColor.startsWith("#") ? borderColor : undefined,
+    borderRadius:
+      borderRadius.includes("rem") || borderRadius.includes("px")
+        ? borderRadius
+        : undefined,
+    borderWidth: borderWidth.includes("px") ? borderWidth : undefined,
+    color: textColor.startsWith("#") ? textColor : undefined,
+    fontSize:
+      fontSize.includes("rem") || fontSize.includes("px")
+        ? fontSize
+        : undefined,
     fontWeight: fontWeight,
-    padding: padding.includes('rem') || padding.includes('px') ? padding : undefined,
-    margin: margin.includes('rem') || margin.includes('px') ? margin : undefined,
-    width: width.includes('%') || width.includes('px') || width.includes('rem') ? width : undefined,
-    height: height.includes('px') || height.includes('rem') ? height : undefined,
+    padding:
+      padding.includes("rem") || padding.includes("px") ? padding : undefined,
+    margin:
+      margin.includes("rem") || margin.includes("px") ? margin : undefined,
+    width:
+      width.includes("%") || width.includes("px") || width.includes("rem")
+        ? width
+        : undefined,
+    height:
+      height.includes("px") || height.includes("rem") ? height : undefined,
     resize: resize,
-  }
+  };
 
   // Fallback classes for Tailwind classes that can't be converted to inline styles
-  const fallbackClasses = []
-  if (backgroundColor.startsWith('bg-')) fallbackClasses.push(backgroundColor)
-  if (borderColor.startsWith('border-')) fallbackClasses.push(borderColor)
-  if (borderRadius.startsWith('rounded')) fallbackClasses.push(borderRadius)
-  if (borderWidth === 'border') fallbackClasses.push('border')
-  if (textColor.startsWith('text-')) fallbackClasses.push(textColor)
-  if (fontSize.startsWith('text-')) fallbackClasses.push(fontSize)
-  if (fontWeight.startsWith('font-')) fallbackClasses.push(fontWeight)
-  if (padding.startsWith('p-') || padding.startsWith('px-') || padding.startsWith('py-')) fallbackClasses.push(padding)
-  if (margin.startsWith('m-') || margin.startsWith('mx-') || margin.startsWith('my-')) fallbackClasses.push(margin)
-  if (width.startsWith('w-')) fallbackClasses.push(width)
-  if (height.startsWith('h-')) fallbackClasses.push(height)
+  const fallbackClasses = [];
+  if (backgroundColor.startsWith("bg-")) fallbackClasses.push(backgroundColor);
+  if (borderColor.startsWith("border-")) fallbackClasses.push(borderColor);
+  if (borderRadius.startsWith("rounded")) fallbackClasses.push(borderRadius);
+  if (borderWidth === "border") fallbackClasses.push("border");
+  if (textColor.startsWith("text-")) fallbackClasses.push(textColor);
+  if (fontSize.startsWith("text-")) fallbackClasses.push(fontSize);
+  if (fontWeight.startsWith("font-")) fallbackClasses.push(fontWeight);
+  if (
+    padding.startsWith("p-") ||
+    padding.startsWith("px-") ||
+    padding.startsWith("py-")
+  )
+    fallbackClasses.push(padding);
+  if (
+    margin.startsWith("m-") ||
+    margin.startsWith("mx-") ||
+    margin.startsWith("my-")
+  )
+    fallbackClasses.push(margin);
+  if (width.startsWith("w-")) fallbackClasses.push(width);
+  if (height.startsWith("h-")) fallbackClasses.push(height);
 
   const combinedClassName = `
-    ${fallbackClasses.join(' ')} 
+    ${fallbackClasses.join(" ")} 
     ${className}
     focus:outline-none 
     focus:ring-2 
     focus:ring-blue-500 
     focus:border-blue-500
     transition-colors
-  `.trim()
+  `.trim();
 
   return (
     <div
       ref={(ref) => {
         if (ref) {
-          connect(drag(ref))
+          connect(drag(ref));
         }
       }}
       className={`relative inline-block ${
@@ -173,7 +202,7 @@ export function Textarea({
         />
       )}
     </div>
-  )
+  );
 }
 
 Textarea.craft = {
@@ -199,7 +228,7 @@ Textarea.craft = {
   },
   rules: {
     canDrag: () => true,
-    canMoveIn: () => false,
+    canMoveIn: () => true,
     canMoveOut: () => true,
   },
-}
+};

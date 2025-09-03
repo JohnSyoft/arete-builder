@@ -14,22 +14,22 @@ interface CreativeHero1Props extends SectionProps {
   description?: string;
   primaryButtonText?: string;
   secondaryButtonText?: string;
-  
+
   // Creative showcase
   artworkImage1?: string;
   artworkImage2?: string;
   artworkImage3?: string;
   artworkImage4?: string;
-  
+
   // Artist info
   artistName?: string;
   portfolioCount?: string;
   clientsCount?: string;
-  
+
   // Awards/Recognition
   recognition1?: string;
   recognition2?: string;
-  
+
   // Styling
   primaryColor?: string;
   accentColor?: string;
@@ -92,7 +92,7 @@ export function CreativeHero1({
           <div className="absolute top-20 left-10 w-20 h-20 bg-yellow-400 rounded-full opacity-20 transform rotate-45"></div>
           <div className="absolute top-1/3 right-20 w-16 h-16 bg-blue-500 opacity-15"></div>
           <div className="absolute bottom-40 left-1/4 w-12 h-32 bg-pink-400 opacity-10 transform -rotate-12"></div>
-          
+
           {/* Paint Splashes */}
           <div className="absolute top-1/4 right-1/3 w-24 h-24 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full opacity-10 filter blur-sm"></div>
           <div className="absolute bottom-1/3 left-1/3 w-32 h-32 bg-gradient-to-tr from-orange-400 to-red-400 rounded-full opacity-8 filter blur-lg"></div>
@@ -146,7 +146,7 @@ export function CreativeHero1({
                     color={primaryColor}
                   />
                 </Element>
-                
+
                 <Element
                   id="creativeHero1-badge2"
                   is={Box}
@@ -244,10 +244,7 @@ export function CreativeHero1({
                     color="white"
                   />
                 </Element>
-                <Element
-                  id="creativeHero1-artistDetails"
-                  is={Box}
-                >
+                <Element id="creativeHero1-artistDetails" is={Box}>
                   <Element
                     id="creativeHero1-artistName"
                     is={CraftText}
@@ -285,10 +282,7 @@ export function CreativeHero1({
                 gap="32px"
                 margin="0 0 40px 0"
               >
-                <Element
-                  id="creativeHero1-portfolioStat"
-                  is={Box}
-                >
+                <Element id="creativeHero1-portfolioStat" is={Box}>
                   <Element
                     id="creativeHero1-portfolioNumber"
                     is={CraftText}
@@ -308,10 +302,7 @@ export function CreativeHero1({
                   />
                 </Element>
 
-                <Element
-                  id="creativeHero1-clientsStat"
-                  is={Box}
-                >
+                <Element id="creativeHero1-clientsStat" is={Box}>
                   <Element
                     id="creativeHero1-clientsNumber"
                     is={CraftText}
@@ -351,10 +342,13 @@ export function CreativeHero1({
                   fontSize="base"
                   fontWeight="semibold"
                   shadow="lg"
-                  _hover={{ backgroundColor: "#ff5252", transform: "translateY(-2px)" }}
+                  _hover={{
+                    backgroundColor: "#ff5252",
+                    transform: "translateY(-2px)",
+                  }}
                   transition="all 0.3s"
                 />
-                
+
                 <Element
                   id="creativeHero1-secondaryButton"
                   is={CraftButton}
@@ -597,8 +591,8 @@ CreativeHero1.craft = {
   props: {},
   rules: {
     canDrag: () => true,
-    canDrop: () => false,
-    canMoveIn: () => false,
+    canDrop: () => true,
+    canMoveIn: () => true,
     canMoveOut: () => true,
   },
 };

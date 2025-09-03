@@ -13,28 +13,28 @@ interface EcommerceHero1Props extends SectionProps {
   description?: string;
   primaryButtonText?: string;
   secondaryButtonText?: string;
-  
+
   // Product showcase
   featuredProductImage?: string;
   productImage1?: string;
   productImage2?: string;
   productImage3?: string;
-  
+
   // Social proof
   customerCount?: string;
   reviewRating?: string;
   reviewCount?: string;
-  
+
   // Offer
   discountText?: string;
   originalPrice?: string;
   salePrice?: string;
-  
+
   // Brand logos
   brandLogo1?: string;
   brandLogo2?: string;
   brandLogo3?: string;
-  
+
   // Styling
   primaryColor?: string;
   accentColor?: string;
@@ -94,10 +94,14 @@ export function EcommerceHero1({
       >
         {/* Background Pattern */}
         <div className="absolute inset-0 opacity-5">
-          <div className="absolute inset-0" style={{
-            backgroundImage: "radial-gradient(circle at 2px 2px, #000 1px, transparent 0)",
-            backgroundSize: "40px 40px"
-          }}></div>
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage:
+                "radial-gradient(circle at 2px 2px, #000 1px, transparent 0)",
+              backgroundSize: "40px 40px",
+            }}
+          ></div>
         </div>
 
         {/* Sale Badge */}
@@ -243,10 +247,7 @@ export function EcommerceHero1({
                   />
                 </Element>
 
-                <Element
-                  id="ecommerceHero1-customers"
-                  is={Box}
-                >
+                <Element id="ecommerceHero1-customers" is={Box}>
                   <Element
                     id="ecommerceHero1-customerCount"
                     is={CraftText}
@@ -287,7 +288,7 @@ export function EcommerceHero1({
                   _hover={{ backgroundColor: "#db2777" }}
                   transition="all 0.3s"
                 />
-                
+
                 <Element
                   id="ecommerceHero1-secondaryButton"
                   is={CraftButton}
@@ -305,10 +306,7 @@ export function EcommerceHero1({
               </Element>
 
               {/* Trust Brands */}
-              <Element
-                id="ecommerceHero1-brands"
-                is={Box}
-              >
+              <Element id="ecommerceHero1-brands" is={Box}>
                 <Element
                   id="ecommerceHero1-brandsTitle"
                   is={CraftText}
@@ -393,10 +391,7 @@ export function EcommerceHero1({
                   borderRadius="8px"
                   margin="0 0 16px 0"
                 />
-                <Element
-                  id="ecommerceHero1-productInfo"
-                  is={Box}
-                >
+                <Element id="ecommerceHero1-productInfo" is={Box}>
                   <Element
                     id="ecommerceHero1-productName"
                     is={CraftText}
@@ -568,8 +563,8 @@ EcommerceHero1.craft = {
   props: {},
   rules: {
     canDrag: () => true,
-    canDrop: () => false,
-    canMoveIn: () => false,
+    canDrop: () => true,
+    canMoveIn: () => true,
     canMoveOut: () => true,
   },
 };

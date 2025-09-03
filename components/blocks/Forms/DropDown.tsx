@@ -1,15 +1,21 @@
-import { useNode, useEditor } from "@craftjs/core"
-import { FloatingToolbar } from "@/components/editor/floating-toolbar"
-import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useNode, useEditor } from "@craftjs/core";
+import { FloatingToolbar } from "@/components/editor/floating-toolbar";
+import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export interface DropDownProps {
-  placeholder?: string
-  options?: { value: string; label: string }[]
-  value?: string
-  disabled?: boolean
-  width?: string
-  className?: string
+  placeholder?: string;
+  options?: { value: string; label: string }[];
+  value?: string;
+  disabled?: boolean;
+  width?: string;
+  className?: string;
 }
 
 export function DropDown({
@@ -17,49 +23,54 @@ export function DropDown({
   options = [
     { value: "option1", label: "Option 1" },
     { value: "option2", label: "Option 2" },
-    { value: "option3", label: "Option 3" }
+    { value: "option3", label: "Option 3" },
   ],
   value = "",
   disabled = false,
   width = "100%",
-  className = ""
+  className = "",
 }: DropDownProps) {
   const {
     connectors: { connect, drag },
     selected,
     hovered,
     actions: { setProp },
-    id
+    id,
   } = useNode((state) => ({
     selected: state.events.selected,
     hovered: state.events.hovered,
-    id: state.id
-  }))
+    id: state.id,
+  }));
 
-  const { actions } = useEditor()
-  const { openPanel } = usePropertiesPanelStore()
+  const { actions } = useEditor();
+  const { openPanel } = usePropertiesPanelStore();
 
   const handleShowProperties = () => {
-    openPanel('dropdown', {
-      placeholder,
-      options,
-      value,
-      disabled,
-      width
-    }, id, (newProps) => {
-      Object.keys(newProps).forEach(key => {
-        setProp((props: DropDownProps) => {
-          (props as any)[key] = newProps[key]
-        })
-      })
-    })
-  }
+    openPanel(
+      "dropdown",
+      {
+        placeholder,
+        options,
+        value,
+        disabled,
+        width,
+      },
+      id,
+      (newProps) => {
+        Object.keys(newProps).forEach((key) => {
+          setProp((props: DropDownProps) => {
+            (props as any)[key] = newProps[key];
+          });
+        });
+      }
+    );
+  };
 
   return (
     <div
       ref={(ref) => {
         if (ref) {
-          connect(drag(ref))
+          connect(drag(ref));
         }
       }}
       className={`relative ${className} ${
@@ -99,7 +110,7 @@ export function DropDown({
         </div>
       )}
     </div>
-  )
+  );
 }
 
 DropDown.craft = {
@@ -109,16 +120,16 @@ DropDown.craft = {
     options: [
       { value: "option1", label: "Option 1" },
       { value: "option2", label: "Option 2" },
-      { value: "option3", label: "Option 3" }
+      { value: "option3", label: "Option 3" },
     ],
     value: "",
     disabled: false,
     width: "100%",
-    className: ""
+    className: "",
   },
   rules: {
     canDrag: () => true,
-    canMoveIn: () => false,
+    canMoveIn: () => true,
     canMoveOut: () => true,
-  }
-}
+  },
+};

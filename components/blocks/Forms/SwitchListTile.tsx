@@ -1,66 +1,86 @@
-import { useNode, useEditor } from "@craftjs/core"
-import { FloatingToolbar } from "@/components/editor/floating-toolbar"
-import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store"
-import { Switch } from "@/components/ui/switch"
+import { useNode, useEditor } from "@craftjs/core";
+import { FloatingToolbar } from "@/components/editor/floating-toolbar";
+import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store";
+import { Switch } from "@/components/ui/switch";
 
 export interface SwitchListTileProps {
-  items?: { id: string; label: string; subtitle?: string; enabled: boolean }[]
-  disabled?: boolean
-  className?: string
+  items?: { id: string; label: string; subtitle?: string; enabled: boolean }[];
+  disabled?: boolean;
+  className?: string;
 }
 
 export function SwitchListTile({
   items = [
-    { id: "1", label: "Setting 1", subtitle: "Enable this feature", enabled: false },
-    { id: "2", label: "Setting 2", subtitle: "Turn on notifications", enabled: true },
-    { id: "3", label: "Setting 3", subtitle: "Allow data sync", enabled: false }
+    {
+      id: "1",
+      label: "Setting 1",
+      subtitle: "Enable this feature",
+      enabled: false,
+    },
+    {
+      id: "2",
+      label: "Setting 2",
+      subtitle: "Turn on notifications",
+      enabled: true,
+    },
+    {
+      id: "3",
+      label: "Setting 3",
+      subtitle: "Allow data sync",
+      enabled: false,
+    },
   ],
   disabled = false,
-  className = ""
+  className = "",
 }: SwitchListTileProps) {
   const {
     connectors: { connect, drag },
     selected,
     hovered,
     actions: { setProp },
-    id
+    id,
   } = useNode((state) => ({
     selected: state.events.selected,
     hovered: state.events.hovered,
-    id: state.id
-  }))
+    id: state.id,
+  }));
 
-  const { actions } = useEditor()
-  const { openPanel } = usePropertiesPanelStore()
+  const { actions } = useEditor();
+  const { openPanel } = usePropertiesPanelStore();
 
   const handleShowProperties = () => {
-    openPanel('switchlisttile', {
-      items,
-      disabled
-    }, id, (newProps) => {
-      Object.keys(newProps).forEach(key => {
-        setProp((props: SwitchListTileProps) => {
-          (props as any)[key] = newProps[key]
-        })
-      })
-    })
-  }
+    openPanel(
+      "switchlisttile",
+      {
+        items,
+        disabled,
+      },
+      id,
+      (newProps) => {
+        Object.keys(newProps).forEach((key) => {
+          setProp((props: SwitchListTileProps) => {
+            (props as any)[key] = newProps[key];
+          });
+        });
+      }
+    );
+  };
 
   const handleItemToggle = (itemId: string) => {
-    if (disabled) return
+    if (disabled) return;
 
     setProp((props: SwitchListTileProps) => {
-      props.items = (props.items || []).map(item =>
+      props.items = (props.items || []).map((item) =>
         item.id === itemId ? { ...item, enabled: !item.enabled } : item
-      )
-    })
-  }
+      );
+    });
+  };
 
   return (
     <div
       ref={(ref) => {
         if (ref) {
-          connect(drag(ref))
+          connect(drag(ref));
         }
       }}
       className={`relative ${className} ${
@@ -76,7 +96,9 @@ export function SwitchListTile({
             }`}
           >
             <div className="flex-1">
-              <div className="text-sm font-medium text-gray-900">{item.label}</div>
+              <div className="text-sm font-medium text-gray-900">
+                {item.label}
+              </div>
               {item.subtitle && (
                 <div className="text-xs text-gray-500">{item.subtitle}</div>
               )}
@@ -110,23 +132,38 @@ export function SwitchListTile({
         </div>
       )}
     </div>
-  )
+  );
 }
 
 SwitchListTile.craft = {
   displayName: "SwitchListTile",
   props: {
     items: [
-      { id: "1", label: "Setting 1", subtitle: "Enable this feature", enabled: false },
-      { id: "2", label: "Setting 2", subtitle: "Turn on notifications", enabled: true },
-      { id: "3", label: "Setting 3", subtitle: "Allow data sync", enabled: false }
+      {
+        id: "1",
+        label: "Setting 1",
+        subtitle: "Enable this feature",
+        enabled: false,
+      },
+      {
+        id: "2",
+        label: "Setting 2",
+        subtitle: "Turn on notifications",
+        enabled: true,
+      },
+      {
+        id: "3",
+        label: "Setting 3",
+        subtitle: "Allow data sync",
+        enabled: false,
+      },
     ],
     disabled: false,
-    className: ""
+    className: "",
   },
   rules: {
     canDrag: () => true,
-    canMoveIn: () => false,
+    canMoveIn: () => true,
     canMoveOut: () => true,
-  }
-}
+  },
+};

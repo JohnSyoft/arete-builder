@@ -1,14 +1,14 @@
-import { useNode, useEditor } from "@craftjs/core"
-import { FloatingToolbar } from "@/components/editor/floating-toolbar"
-import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store"
+import { useNode, useEditor } from "@craftjs/core";
+import { FloatingToolbar } from "@/components/editor/floating-toolbar";
+import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store";
 
 export interface RadioButtonProps {
-  name?: string
-  options?: { value: string; label: string }[]
-  selectedValue?: string
-  disabled?: boolean
-  direction?: "horizontal" | "vertical"
-  className?: string
+  name?: string;
+  options?: { value: string; label: string }[];
+  selectedValue?: string;
+  disabled?: boolean;
+  direction?: "horizontal" | "vertical";
+  className?: string;
 }
 
 export function RadioButton({
@@ -16,58 +16,70 @@ export function RadioButton({
   options = [
     { value: "option1", label: "Option 1" },
     { value: "option2", label: "Option 2" },
-    { value: "option3", label: "Option 3" }
+    { value: "option3", label: "Option 3" },
   ],
   selectedValue = "",
   disabled = false,
   direction = "vertical",
-  className = ""
+  className = "",
 }: RadioButtonProps) {
   const {
     connectors: { connect, drag },
     selected,
     hovered,
     actions: { setProp },
-    id
+    id,
   } = useNode((state) => ({
     selected: state.events.selected,
     hovered: state.events.hovered,
-    id: state.id
-  }))
+    id: state.id,
+  }));
 
-  const { actions } = useEditor()
-  const { openPanel } = usePropertiesPanelStore()
+  const { actions } = useEditor();
+  const { openPanel } = usePropertiesPanelStore();
 
   const handleShowProperties = () => {
-    openPanel('radiobutton', {
-      name,
-      options,
-      selectedValue,
-      disabled,
-      direction
-    }, id, (newProps) => {
-      Object.keys(newProps).forEach(key => {
-        setProp((props: RadioButtonProps) => {
-          (props as any)[key] = newProps[key]
-        })
-      })
-    })
-  }
+    openPanel(
+      "radiobutton",
+      {
+        name,
+        options,
+        selectedValue,
+        disabled,
+        direction,
+      },
+      id,
+      (newProps) => {
+        Object.keys(newProps).forEach((key) => {
+          setProp((props: RadioButtonProps) => {
+            (props as any)[key] = newProps[key];
+          });
+        });
+      }
+    );
+  };
 
   return (
     <div
       ref={(ref) => {
         if (ref) {
-          connect(drag(ref))
+          connect(drag(ref));
         }
       }}
       className={`relative ${className} ${
         selected ? "ring-2 ring-blue-500 rounded" : ""
       } ${hovered ? "ring-1 ring-blue-300 rounded" : ""}`}
     >
-      <div className={`space-${direction === "horizontal" ? "x" : "y"}-3 ${direction === "horizontal" ? "flex" : "block"}`}>
+      <div
+        className={`space-${direction === "horizontal" ? "x" : "y"}-3 ${
+          direction === "horizontal" ? "flex" : "block"
+        }`}
+      >
         {options.map((option) => (
-          <label key={option.value} className="flex items-center space-x-2 cursor-pointer">
+          <label
+            key={option.value}
+            className="flex items-center space-x-2 cursor-pointer"
+          >
             <input
               type="radio"
               name={name}
@@ -77,8 +89,8 @@ export function RadioButton({
               className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
               onChange={() => {
                 setProp((props: RadioButtonProps) => {
-                  props.selectedValue = option.value
-                })
+                  props.selectedValue = option.value;
+                });
               }}
             />
             <span className="text-sm text-gray-700">{option.label}</span>
@@ -105,7 +117,7 @@ export function RadioButton({
         </div>
       )}
     </div>
-  )
+  );
 }
 
 RadioButton.craft = {
@@ -115,16 +127,16 @@ RadioButton.craft = {
     options: [
       { value: "option1", label: "Option 1" },
       { value: "option2", label: "Option 2" },
-      { value: "option3", label: "Option 3" }
+      { value: "option3", label: "Option 3" },
     ],
     selectedValue: "",
     disabled: false,
     direction: "vertical",
-    className: ""
+    className: "",
   },
   rules: {
     canDrag: () => true,
-    canMoveIn: () => false,
+    canMoveIn: () => true,
     canMoveOut: () => true,
-  }
-}
+  },
+};

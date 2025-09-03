@@ -53,105 +53,109 @@ export const HospitalityAmenities1 = () => {
         hovered ? "ring-1 ring-blue-300" : ""
       }`}
     >
-      <Element
-        id="hospitalityAmenities1-section"
-        is={Section}
-        canvas
-        backgroundColor="#fafafa"
-        padding="0px"
-      >
-        {/* Minimal header */}
+      <Section backgroundColor="#fafafa" padding="0px">
         <Element
-          id="hospitalityAmenities1-header"
+          id="hospitalityAmenities1-content-wrapper"
           is={Box}
-          width="100%"
-          margin="0 auto 0px auto"
+          backgroundColor="transparent"
+          padding="0"
+          margin="0"
           display="block"
+          canvas
         >
+          {/* Minimal header */}
           <Element
-            id="hospitalityAmenities1-title"
-            is={CraftText}
-            text="Amenities"
-            fontSize="text-6xl"
-            fontWeight="font-thin"
-            color="text-black"
-            margin="0 auto 16px auto"
-            textAlign="center"
-            letterSpacing="tracking-tight"
-          />
-
-          <Element
-            id="hospitalityAmenities1-subtitle"
-            is={CraftText}
-            text="Premium facilities designed for your comfort"
-            fontSize="text-lg"
-            color="rgba(0, 0, 0, 0.5)"
-            margin="0 auto"
-            textAlign="center"
-            fontWeight="font-light"
-            letterSpacing="tracking-wide"
-          />
-        </Element>
-
-        {/* Clean amenities grid */}
-        <Element
-          id="hospitalityAmenities1-grid"
-          is={Grid}
-          columns={4}
-          gap="24px"
-        >
-          {amenities.map((amenity, index) => (
+            id="hospitalityAmenities1-header"
+            is={Box}
+            width="100%"
+            margin="0 auto 0px auto"
+            display="block"
+          >
             <Element
-              key={`amenity-${index}`}
-              id={`hospitalityAmenities1-card-${index}`}
-              is={Box}
-              backgroundColor="#ffffff"
-              borderRadius="0px"
-              display="block"
-              border="none"
-            >
-              <Element
-                id={`hospitalityAmenities1-image-${index}`}
-                is={CraftImage}
-                src={amenity.image}
-                alt={amenity.title}
-                width="100%"
-                height="300px"
-                borderRadius="0px"
-              />
+              id="hospitalityAmenities1-title"
+              is={CraftText}
+              text="Amenities"
+              fontSize="text-6xl"
+              fontWeight="font-thin"
+              color="text-black"
+              margin="0 auto 16px auto"
+              textAlign="center"
+              letterSpacing="tracking-tight"
+            />
 
+            <Element
+              id="hospitalityAmenities1-subtitle"
+              is={CraftText}
+              text="Premium facilities designed for your comfort"
+              fontSize="text-lg"
+              color="rgba(0, 0, 0, 0.5)"
+              margin="0 auto"
+              textAlign="center"
+              fontWeight="font-light"
+              letterSpacing="tracking-wide"
+            />
+          </Element>
+
+          {/* Clean amenities grid */}
+          <Element
+            id="hospitalityAmenities1-grid"
+            is={Grid}
+            columns={4}
+            gap="24px"
+          >
+            {amenities.map((amenity, index) => (
               <Element
-                id={`hospitalityAmenities1-content-${index}`}
+                key={`amenity-${index}`}
+                id={`hospitalityAmenities1-card-${index}`}
                 is={Box}
-                padding="32px 0"
+                backgroundColor="#ffffff"
+                borderRadius="0px"
                 display="block"
+                border="none"
               >
                 <Element
-                  id={`hospitalityAmenities1-title-${index}`}
-                  is={CraftText}
-                  text={amenity.title}
-                  fontSize="text-xl"
-                  fontWeight="font-light"
-                  color="text-black"
-                  margin="0 0 8px 0"
-                  letterSpacing="tracking-wide"
+                  id={`hospitalityAmenities1-image-${index}`}
+                  is={CraftImage}
+                  src={amenity.image}
+                  alt={amenity.title}
+                  width="100%"
+                  height="300px"
+                  borderRadius="0px"
                 />
 
                 <Element
-                  id={`hospitalityAmenities1-desc-${index}`}
-                  is={CraftText}
-                  text={amenity.description}
-                  fontSize="text-base"
-                  color="rgba(0, 0, 0, 0.5)"
-                  margin="0"
-                  fontWeight="font-light"
-                  letterSpacing="tracking-wide"
-                />
+                  id={`hospitalityAmenities1-content-${index}`}
+                  is={Box}
+                  padding="32px 0"
+                  display="block"
+                >
+                  <Element
+                    id={`hospitalityAmenities1-title-${index}`}
+                    is={CraftText}
+                    text={amenity.title}
+                    fontSize="text-xl"
+                    fontWeight="font-light"
+                    color="text-black"
+                    margin="0 0 8px 0"
+                    letterSpacing="tracking-wide"
+                  />
+
+                  <Element
+                    id={`hospitalityAmenities1-desc-${index}`}
+                    is={CraftText}
+                    text={amenity.description}
+                    fontSize="text-base"
+                    color="rgba(0, 0, 0, 0.5)"
+                    margin="0"
+                    fontWeight="font-light"
+                    letterSpacing="tracking-wide"
+                  />
+                </Element>
               </Element>
-            </Element>
-          ))}
+            ))}
+          </Element>
         </Element>
-      </Element>
+      </Section>
     </div>
   );
 };
@@ -160,8 +164,9 @@ HospitalityAmenities1.craft = {
   displayName: "Hospitality Amenities 1",
   props: {},
   rules: {
-    canDrop: () => true,
+    canDrag: () => true,
     canMoveIn: () => true,
     canMoveOut: () => true,
   },
+  isCanvas: false,
 };

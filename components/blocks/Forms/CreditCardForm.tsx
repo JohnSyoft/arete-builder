@@ -1,52 +1,57 @@
-import { useNode, useEditor } from "@craftjs/core"
-import { FloatingToolbar } from "@/components/editor/floating-toolbar"
-import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store"
-import { CreditCard } from "lucide-react"
+import { useNode, useEditor } from "@craftjs/core";
+import { FloatingToolbar } from "@/components/editor/floating-toolbar";
+import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store";
+import { CreditCard } from "lucide-react";
 
 export interface CreditCardFormProps {
-  disabled?: boolean
-  compact?: boolean
-  className?: string
+  disabled?: boolean;
+  compact?: boolean;
+  className?: string;
 }
 
 export function CreditCardForm({
   disabled = false,
   compact = false,
-  className = ""
+  className = "",
 }: CreditCardFormProps) {
   const {
     connectors: { connect, drag },
     selected,
     hovered,
     actions: { setProp },
-    id
+    id,
   } = useNode((state) => ({
     selected: state.events.selected,
     hovered: state.events.hovered,
-    id: state.id
-  }))
+    id: state.id,
+  }));
 
-  const { actions } = useEditor()
-  const { openPanel } = usePropertiesPanelStore()
+  const { actions } = useEditor();
+  const { openPanel } = usePropertiesPanelStore();
 
   const handleShowProperties = () => {
-    openPanel('creditcardform', {
-      disabled,
-      compact
-    }, id, (newProps) => {
-      Object.keys(newProps).forEach(key => {
-        setProp((props: CreditCardFormProps) => {
-          (props as any)[key] = newProps[key]
-        })
-      })
-    })
-  }
+    openPanel(
+      "creditcardform",
+      {
+        disabled,
+        compact,
+      },
+      id,
+      (newProps) => {
+        Object.keys(newProps).forEach((key) => {
+          setProp((props: CreditCardFormProps) => {
+            (props as any)[key] = newProps[key];
+          });
+        });
+      }
+    );
+  };
 
   return (
     <div
       ref={(ref) => {
         if (ref) {
-          connect(drag(ref))
+          connect(drag(ref));
         }
       }}
       className={`relative ${className} ${
@@ -56,9 +61,11 @@ export function CreditCardForm({
       <div className="p-4 border border-gray-200 rounded-lg bg-white">
         <div className="flex items-center space-x-2 mb-4">
           <CreditCard className="w-5 h-5 text-gray-600" />
-          <h3 className="text-lg font-medium text-gray-900">Card Information</h3>
+          <h3 className="text-lg font-medium text-gray-900">
+            Card Information
+          </h3>
         </div>
-        
+
         <div className="space-y-4">
           {/* Card Number */}
           <div>
@@ -89,7 +96,11 @@ export function CreditCardForm({
           )}
 
           {/* Expiry and CVV */}
-          <div className={compact ? "grid grid-cols-2 gap-3" : "grid grid-cols-3 gap-3"}>
+          <div
+            className={
+              compact ? "grid grid-cols-2 gap-3" : "grid grid-cols-3 gap-3"
+            }
+          >
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Expiry Date
@@ -148,7 +159,7 @@ export function CreditCardForm({
         </div>
       )}
     </div>
-  )
+  );
 }
 
 CreditCardForm.craft = {
@@ -156,11 +167,11 @@ CreditCardForm.craft = {
   props: {
     disabled: false,
     compact: false,
-    className: ""
+    className: "",
   },
   rules: {
     canDrag: () => true,
-    canMoveIn: () => false,
+    canMoveIn: () => true,
     canMoveOut: () => true,
-  }
-}
+  },
+};

@@ -256,8 +256,8 @@ function createCraftComponent(
     props: {},
     rules: {
       canDrag: () => true,
-      canDrop: () => false,
-      canMoveIn: () => false,
+      canDrop: () => true,
+      canMoveIn: () => true,
       canMoveOut: () => true,
     },
   };

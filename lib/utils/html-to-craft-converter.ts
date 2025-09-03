@@ -180,8 +180,8 @@ export function convertHtmlToCraftComponent(html: string, componentName: string 
     },
     rules: {
       canDrag: () => true,
-      canDrop: () => false,
-      canMoveIn: () => false,
+      canDrop: () => true,
+      canMoveIn: () => true,
       canMoveOut: () => true,
     },
     related: {

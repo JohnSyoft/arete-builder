@@ -13,11 +13,11 @@ interface TechHero1Props extends SectionProps {
   description?: string;
   primaryButtonText?: string;
   secondaryButtonText?: string;
-  
+
   // Hero images
   heroImage?: string;
   dashboardImage?: string;
-  
+
   // Stats
   stat1Number?: string;
   stat1Label?: string;
@@ -25,7 +25,7 @@ interface TechHero1Props extends SectionProps {
   stat2Label?: string;
   stat3Number?: string;
   stat3Label?: string;
-  
+
   // Styling
   gradientFrom?: string;
   gradientTo?: string;
@@ -81,13 +81,13 @@ export function TechHero1({
         {...props}
       >
         {/* Gradient Background */}
-        <div 
+        <div
           className="absolute inset-0 opacity-10"
           style={{
-            background: `linear-gradient(135deg, ${gradientFrom} 0%, ${gradientTo} 100%)`
+            background: `linear-gradient(135deg, ${gradientFrom} 0%, ${gradientTo} 100%)`,
           }}
         />
-        
+
         {/* Animated Background Elements */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute top-20 left-10 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
@@ -183,7 +183,7 @@ export function TechHero1({
                   _hover={{ backgroundColor: "#4f46e5" }}
                   transition="all 0.2s"
                 />
-                
+
                 <Element
                   id="techHero1-secondaryButton"
                   is={CraftButton}
@@ -307,7 +307,7 @@ export function TechHero1({
                 width="100%"
                 height="400px"
               />
-              
+
               {/* Floating Card */}
               <Element
                 id="techHero1-floatingCard"
@@ -343,8 +343,8 @@ TechHero1.craft = {
   props: {},
   rules: {
     canDrag: () => true,
-    canDrop: () => false,
-    canMoveIn: () => false,
+    canDrop: () => true,
+    canMoveIn: () => true,
     canMoveOut: () => true,
   },
 };

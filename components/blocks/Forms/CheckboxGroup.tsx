@@ -1,14 +1,14 @@
-import { useNode, useEditor } from "@craftjs/core"
-import { FloatingToolbar } from "@/components/editor/floating-toolbar"
-import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store"
+import { useNode, useEditor } from "@craftjs/core";
+import { FloatingToolbar } from "@/components/editor/floating-toolbar";
+import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store";
 
 export interface CheckboxGroupProps {
-  label?: string
-  options?: { value: string; label: string }[]
-  selectedValues?: string[]
-  disabled?: boolean
-  direction?: "horizontal" | "vertical"
-  className?: string
+  label?: string;
+  options?: { value: string; label: string }[];
+  selectedValues?: string[];
+  disabled?: boolean;
+  direction?: "horizontal" | "vertical";
+  className?: string;
 }
 
 export function CheckboxGroup({
@@ -16,62 +16,67 @@ export function CheckboxGroup({
   options = [
     { value: "option1", label: "Option 1" },
     { value: "option2", label: "Option 2" },
-    { value: "option3", label: "Option 3" }
+    { value: "option3", label: "Option 3" },
   ],
   selectedValues = [],
   disabled = false,
   direction = "vertical",
-  className = ""
+  className = "",
 }: CheckboxGroupProps) {
   const {
     connectors: { connect, drag },
     selected,
     hovered,
     actions: { setProp },
-    id
+    id,
   } = useNode((state) => ({
     selected: state.events.selected,
     hovered: state.events.hovered,
-    id: state.id
-  }))
+    id: state.id,
+  }));
 
-  const { actions } = useEditor()
-  const { openPanel } = usePropertiesPanelStore()
+  const { actions } = useEditor();
+  const { openPanel } = usePropertiesPanelStore();
 
   const handleShowProperties = () => {
-    openPanel('checkboxgroup', {
-      label,
-      options,
-      selectedValues,
-      disabled,
-      direction
-    }, id, (newProps) => {
-      Object.keys(newProps).forEach(key => {
-        setProp((props: CheckboxGroupProps) => {
-          (props as any)[key] = newProps[key]
-        })
-      })
-    })
-  }
+    openPanel(
+      "checkboxgroup",
+      {
+        label,
+        options,
+        selectedValues,
+        disabled,
+        direction,
+      },
+      id,
+      (newProps) => {
+        Object.keys(newProps).forEach((key) => {
+          setProp((props: CheckboxGroupProps) => {
+            (props as any)[key] = newProps[key];
+          });
+        });
+      }
+    );
+  };
 
   const handleCheckboxChange = (value: string) => {
-    if (disabled) return
+    if (disabled) return;
 
     setProp((props: CheckboxGroupProps) => {
-      const currentSelected = props.selectedValues || []
+      const currentSelected = props.selectedValues || [];
       if (currentSelected.includes(value)) {
-        props.selectedValues = currentSelected.filter(v => v !== value)
+        props.selectedValues = currentSelected.filter((v) => v !== value);
       } else {
-        props.selectedValues = [...currentSelected, value]
+        props.selectedValues = [...currentSelected, value];
       }
-    })
-  }
+    });
+  };
 
   return (
     <div
       ref={(ref) => {
         if (ref) {
-          connect(drag(ref))
+          connect(drag(ref));
         }
       }}
       className={`relative ${className} ${
@@ -79,10 +84,19 @@ export function CheckboxGroup({
       } ${hovered ? "ring-1 ring-blue-300 rounded" : ""}`}
     >
       <fieldset className="p-4">
-        <legend className="text-sm font-medium text-gray-900 mb-3">{label}</legend>
-        <div className={`space-${direction === "horizontal" ? "x" : "y"}-3 ${direction === "horizontal" ? "flex flex-wrap" : "block"}`}>
+        <legend className="text-sm font-medium text-gray-900 mb-3">
+          {label}
+        </legend>
+        <div
+          className={`space-${direction === "horizontal" ? "x" : "y"}-3 ${
+            direction === "horizontal" ? "flex flex-wrap" : "block"
+          }`}
+        >
           {options.map((option) => (
-            <label key={option.value} className="flex items-center space-x-2 cursor-pointer">
+            <label
+              key={option.value}
+              className="flex items-center space-x-2 cursor-pointer"
+            >
               <input
                 type="checkbox"
                 value={option.value}
@@ -116,7 +130,7 @@ export function CheckboxGroup({
         </div>
       )}
     </div>
-  )
+  );
 }
 
 CheckboxGroup.craft = {
@@ -126,16 +140,16 @@ CheckboxGroup.craft = {
     options: [
       { value: "option1", label: "Option 1" },
       { value: "option2", label: "Option 2" },
-      { value: "option3", label: "Option 3" }
+      { value: "option3", label: "Option 3" },
     ],
     selectedValues: [],
     disabled: false,
     direction: "vertical",
-    className: ""
+    className: "",
   },
   rules: {
     canDrag: () => true,
-    canMoveIn: () => false,
+    canMoveIn: () => true,
     canMoveOut: () => true,
-  }
-}
+  },
+};

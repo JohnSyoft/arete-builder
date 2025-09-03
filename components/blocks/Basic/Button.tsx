@@ -113,7 +113,7 @@ export function Button({
         size={size}
         asChild
         style={customStyles}
-        className={`w-full h-full ${borderRadius}`}
+        className={`w-full h-full ${padding} ${borderRadius}`}
       >
         <a href={href} target={target}>
           <span
@@ -182,7 +182,7 @@ Button.craft = {
   },
   rules: {
     canDrag: () => true,
-    canMoveIn: () => false,
+    canMoveIn: () => true,
     canMoveOut: () => true,
   },
 };

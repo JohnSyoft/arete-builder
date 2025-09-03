@@ -1,137 +1,170 @@
-import { useNode, useEditor } from "@craftjs/core"
-import React from "react"
-import { FloatingToolbar } from "@/components/editor/floating-toolbar"
-import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store"
+import { useNode, useEditor } from "@craftjs/core";
+import { FloatingToolbar } from "@/components/editor/floating-toolbar";
+import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store";
 
 interface ListItem {
-  id: string
-  text: string
+  id: string;
+  text: string;
 }
 
 interface ListProps {
-  type?: 'ul' | 'ol'
-  items?: ListItem[]
-  listStyle?: 'disc' | 'circle' | 'square' | 'decimal' | 'decimal-leading-zero' | 'lower-roman' | 'upper-roman' | 'lower-alpha' | 'upper-alpha' | 'none'
-  spacing?: 'tight' | 'normal' | 'relaxed'
-  textAlign?: 'left' | 'center' | 'right'
-  fontSize?: string
-  color?: string
-  margin?: string
-  padding?: string
-  indent?: string
+  type?: "ul" | "ol";
+  items?: ListItem[];
+  listStyle?:
+    | "disc"
+    | "circle"
+    | "square"
+    | "decimal"
+    | "decimal-leading-zero"
+    | "lower-roman"
+    | "upper-roman"
+    | "lower-alpha"
+    | "upper-alpha"
+    | "none";
+  spacing?: "tight" | "normal" | "relaxed";
+  textAlign?: "left" | "center" | "right";
+  fontSize?: string;
+  color?: string;
+  margin?: string;
+  padding?: string;
+  indent?: string;
 }
 
 export function List({
-  type = 'ul',
+  type = "ul",
   items = [
-    { id: '1', text: 'First list item' },
-    { id: '2', text: 'Second list item' },
-    { id: '3', text: 'Third list item' }
+    { id: "1", text: "First list item" },
+    { id: "2", text: "Second list item" },
+    { id: "3", text: "Third list item" },
   ],
-  listStyle = 'disc',
-  spacing = 'normal',
-  textAlign = 'left',
-  fontSize = 'text-base',
-  color = 'text-gray-900',
-  margin = 'my-4',
-  padding = '',
-  indent = 'ml-6'
+  listStyle = "disc",
+  spacing = "normal",
+  textAlign = "left",
+  fontSize = "text-base",
+  color = "text-gray-900",
+  margin = "my-4",
+  padding = "",
+  indent = "ml-6",
 }: ListProps) {
   const {
     connectors: { connect, drag },
     selected,
     hovered,
     actions: { setProp },
-    id
+    id,
   } = useNode((state) => ({
     selected: state.events.selected,
     hovered: state.events.hovered,
-    id: state.id
-  }))
+    id: state.id,
+  }));
 
-  const { actions } = useEditor()
-  const { openPanel } = usePropertiesPanelStore()
+  const { actions } = useEditor();
+  const { openPanel } = usePropertiesPanelStore();
 
   const handleShowProperties = () => {
-    openPanel('list', {
-      type,
-      items,
-      listStyle,
-      spacing,
-      textAlign,
-      fontSize,
-      color,
-      margin,
-      padding,
-      indent
-    }, id, (newProps) => {
-      Object.keys(newProps).forEach(key => {
-        setProp((props: ListProps) => {
-          (props as any)[key] = newProps[key]
-        })
-      })
-    })
-  }
+    openPanel(
+      "list",
+      {
+        type,
+        items,
+        listStyle,
+        spacing,
+        textAlign,
+        fontSize,
+        color,
+        margin,
+        padding,
+        indent,
+      },
+      id,
+      (newProps) => {
+        Object.keys(newProps).forEach((key) => {
+          setProp((props: ListProps) => {
+            (props as any)[key] = newProps[key];
+          });
+        });
+      }
+    );
+  };
 
   const getSpacingClass = (spacingType: string) => {
     switch (spacingType) {
-      case 'tight': return 'space-y-1'
-      case 'normal': return 'space-y-2'
-      case 'relaxed': return 'space-y-3'
-      default: return 'space-y-2'
+      case "tight":
+        return "space-y-1";
+      case "normal":
+        return "space-y-2";
+      case "relaxed":
+        return "space-y-3";
+      default:
+        return "space-y-2";
     }
-  }
+  };
 
   const getTextAlignClass = (align: string) => {
     switch (align) {
-      case 'left': return 'text-left'
-      case 'center': return 'text-center'
-      case 'right': return 'text-right'
-      default: return 'text-left'
+      case "left":
+        return "text-left";
+      case "center":
+        return "text-center";
+      case "right":
+        return "text-right";
+      default:
+        return "text-left";
     }
-  }
+  };
 
   const getListStyleClass = (style: string) => {
     switch (style) {
-      case 'disc': return 'list-disc'
-      case 'circle': return 'list-circle'
-      case 'square': return 'list-square'
-      case 'decimal': return 'list-decimal'
-      case 'decimal-leading-zero': return 'list-decimal-leading-zero'
-      case 'lower-roman': return 'list-lower-roman'
-      case 'upper-roman': return 'list-upper-roman'
-      case 'lower-alpha': return 'list-lower-alpha'
-      case 'upper-alpha': return 'list-upper-alpha'
-      case 'none': return 'list-none'
-      default: return 'list-disc'
+      case "disc":
+        return "list-disc";
+      case "circle":
+        return "list-circle";
+      case "square":
+        return "list-square";
+      case "decimal":
+        return "list-decimal";
+      case "decimal-leading-zero":
+        return "list-decimal-leading-zero";
+      case "lower-roman":
+        return "list-lower-roman";
+      case "upper-roman":
+        return "list-upper-roman";
+      case "lower-alpha":
+        return "list-lower-alpha";
+      case "upper-alpha":
+        return "list-upper-alpha";
+      case "none":
+        return "list-none";
+      default:
+        return "list-disc";
     }
-  }
+  };
 
   const addItem = () => {
     const newItem = {
       id: Date.now().toString(),
-      text: 'New list item'
-    }
+      text: "New list item",
+    };
     setProp((props: ListProps) => {
-      props.items = [...(props.items || []), newItem]
-    })
-  }
+      props.items = [...(props.items || []), newItem];
+    });
+  };
 
   const removeItem = (itemId: string) => {
     setProp((props: ListProps) => {
-      props.items = (props.items || []).filter(item => item.id !== itemId)
-    })
-  }
+      props.items = (props.items || []).filter((item) => item.id !== itemId);
+    });
+  };
 
   const updateItem = (itemId: string, newText: string) => {
     setProp((props: ListProps) => {
-      props.items = (props.items || []).map(item => 
+      props.items = (props.items || []).map((item) =>
         item.id === itemId ? { ...item, text: newText } : item
-      )
-    })
-  }
+      );
+    });
+  };
 
-  const ListTag = type as keyof JSX.IntrinsicElements
+  const ListTag = type as keyof JSX.IntrinsicElements;
 
   const listClasses = `
     ${getListStyleClass(listStyle)}
@@ -142,27 +175,26 @@ export function List({
     ${margin}
     ${padding}
     ${indent}
-  `.trim()
+  `.trim();
 
   return (
-    <div 
+    <div
       ref={(ref) => {
         if (ref) {
-          connect(drag(ref))
+          connect(drag(ref));
         }
       }}
-      className={`relative group ${selected ? "ring-2 ring-blue-500 ring-opacity-50" : ""} ${hovered ? "ring-1 ring-blue-300" : ""}`}
+      className={`relative group ${
+        selected ? "ring-2 ring-blue-500 ring-opacity-50" : ""
+      } ${hovered ? "ring-1 ring-blue-300" : ""}`}
     >
       <ListTag className={listClasses}>
         {items.map((item) => (
-          <li 
-            key={item.id}
-            className="relative group/item"
-          >
+          <li key={item.id} className="relative group/item">
             <span
               contentEditable
               suppressContentEditableWarning
-              onBlur={(e) => updateItem(item.id, e.target.textContent || '')}
+              onBlur={(e) => updateItem(item.id, e.target.textContent || "")}
               className="outline-none"
             >
               {item.text}
@@ -187,7 +219,7 @@ export function List({
           + Add Item
         </button>
       )}
-      
+
       {(selected || hovered) && (
         <div className="absolute -top-12 left-0 z-50">
           <FloatingToolbar
@@ -200,37 +232,37 @@ export function List({
           />
         </div>
       )}
-      
+
       {(selected || hovered) && (
         <div className="absolute -top-6 left-0 bg-blue-500 text-white text-xs px-2 py-1 rounded z-10">
           {type.toUpperCase()} List ({items.length} items)
         </div>
       )}
     </div>
-  )
+  );
 }
 
 List.craft = {
   displayName: "List",
   props: {
-    type: 'ul',
+    type: "ul",
     items: [
-      { id: '1', text: 'First list item' },
-      { id: '2', text: 'Second list item' },
-      { id: '3', text: 'Third list item' }
+      { id: "1", text: "First list item" },
+      { id: "2", text: "Second list item" },
+      { id: "3", text: "Third list item" },
     ],
-    listStyle: 'disc',
-    spacing: 'normal',
-    textAlign: 'left',
-    fontSize: 'text-base',
-    color: 'text-gray-900',
-    margin: 'my-4',
-    padding: '',
-    indent: 'ml-6'
+    listStyle: "disc",
+    spacing: "normal",
+    textAlign: "left",
+    fontSize: "text-base",
+    color: "text-gray-900",
+    margin: "my-4",
+    padding: "",
+    indent: "ml-6",
   },
   rules: {
     canDrag: () => true,
-    canMoveIn: () => false,
+    canMoveIn: () => true,
     canMoveOut: () => true,
   },
-}
+};

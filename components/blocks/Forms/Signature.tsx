@@ -1,17 +1,17 @@
-import React, { useRef } from "react"
-import { useNode, useEditor } from "@craftjs/core"
-import { FloatingToolbar } from "@/components/editor/floating-toolbar"
-import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store"
-import { RotateCcw } from "lucide-react"
+import React, { useRef } from "react";
+import { useNode, useEditor } from "@craftjs/core";
+import { FloatingToolbar } from "@/components/editor/floating-toolbar";
+import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store";
+import { RotateCcw } from "lucide-react";
 
 export interface SignatureProps {
-  width?: number
-  height?: number
-  strokeColor?: string
-  strokeWidth?: number
-  disabled?: boolean
-  placeholder?: string
-  className?: string
+  width?: number;
+  height?: number;
+  strokeColor?: string;
+  strokeWidth?: number;
+  disabled?: boolean;
+  placeholder?: string;
+  className?: string;
 }
 
 export function Signature({
@@ -21,100 +21,105 @@ export function Signature({
   strokeWidth = 2,
   disabled = false,
   placeholder = "Sign here...",
-  className = ""
+  className = "",
 }: SignatureProps) {
-  const canvasRef = useRef<HTMLCanvasElement>(null)
-  const [isDrawing, setIsDrawing] = React.useState(false)
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [isDrawing, setIsDrawing] = React.useState(false);
 
   const {
     connectors: { connect, drag },
     selected,
     hovered,
     actions: { setProp },
-    id
+    id,
   } = useNode((state) => ({
     selected: state.events.selected,
     hovered: state.events.hovered,
-    id: state.id
-  }))
+    id: state.id,
+  }));
 
-  const { actions } = useEditor()
-  const { openPanel } = usePropertiesPanelStore()
+  const { actions } = useEditor();
+  const { openPanel } = usePropertiesPanelStore();
 
   const handleShowProperties = () => {
-    openPanel('signature', {
-      width,
-      height,
-      strokeColor,
-      strokeWidth,
-      disabled,
-      placeholder
-    }, id, (newProps) => {
-      Object.keys(newProps).forEach(key => {
-        setProp((props: SignatureProps) => {
-          (props as any)[key] = newProps[key]
-        })
-      })
-    })
-  }
+    openPanel(
+      "signature",
+      {
+        width,
+        height,
+        strokeColor,
+        strokeWidth,
+        disabled,
+        placeholder,
+      },
+      id,
+      (newProps) => {
+        Object.keys(newProps).forEach((key) => {
+          setProp((props: SignatureProps) => {
+            (props as any)[key] = newProps[key];
+          });
+        });
+      }
+    );
+  };
 
   const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (disabled) return
-    setIsDrawing(true)
-    const canvas = canvasRef.current
-    if (!canvas) return
-    
-    const ctx = canvas.getContext('2d')
-    if (!ctx) return
-    
-    const rect = canvas.getBoundingClientRect()
-    const x = e.clientX - rect.left
-    const y = e.clientY - rect.top
-    
-    ctx.beginPath()
-    ctx.moveTo(x, y)
-  }
+    if (disabled) return;
+    setIsDrawing(true);
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+  };
 
   const draw = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (!isDrawing || disabled) return
-    
-    const canvas = canvasRef.current
-    if (!canvas) return
-    
-    const ctx = canvas.getContext('2d')
-    if (!ctx) return
-    
-    const rect = canvas.getBoundingClientRect()
-    const x = e.clientX - rect.left
-    const y = e.clientY - rect.top
-    
-    ctx.lineWidth = strokeWidth
-    ctx.strokeStyle = strokeColor
-    ctx.lineCap = 'round'
-    ctx.lineJoin = 'round'
-    ctx.lineTo(x, y)
-    ctx.stroke()
-  }
+    if (!isDrawing || disabled) return;
+
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    ctx.lineWidth = strokeWidth;
+    ctx.strokeStyle = strokeColor;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+    ctx.lineTo(x, y);
+    ctx.stroke();
+  };
 
   const stopDrawing = () => {
-    setIsDrawing(false)
-  }
+    setIsDrawing(false);
+  };
 
   const clearSignature = () => {
-    const canvas = canvasRef.current
-    if (!canvas) return
-    
-    const ctx = canvas.getContext('2d')
-    if (!ctx) return
-    
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
-  }
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  };
 
   return (
     <div
       ref={(ref) => {
         if (ref) {
-          connect(drag(ref))
+          connect(drag(ref));
         }
       }}
       className={`relative ${className} ${
@@ -133,7 +138,7 @@ export function Signature({
             <RotateCcw className="w-4 h-4" />
           </button>
         </div>
-        
+
         <canvas
           ref={canvasRef}
           width={width}
@@ -167,7 +172,7 @@ export function Signature({
         </div>
       )}
     </div>
-  )
+  );
 }
 
 Signature.craft = {
@@ -179,11 +184,11 @@ Signature.craft = {
     strokeWidth: 2,
     disabled: false,
     placeholder: "Sign here...",
-    className: ""
+    className: "",
   },
   rules: {
     canDrag: () => true,
-    canMoveIn: () => false,
+    canMoveIn: () => true,
     canMoveOut: () => true,
-  }
-}
+  },
+};

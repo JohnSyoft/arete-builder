@@ -1,14 +1,14 @@
-import { useNode, useEditor } from "@craftjs/core"
-import { FloatingToolbar } from "@/components/editor/floating-toolbar"
-import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store"
+import { useNode, useEditor } from "@craftjs/core";
+import { FloatingToolbar } from "@/components/editor/floating-toolbar";
+import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store";
 
 export interface SliderProps {
-  value?: number
-  min?: number
-  max?: number
-  step?: number
-  disabled?: boolean
-  className?: string
+  value?: number;
+  min?: number;
+  max?: number;
+  step?: number;
+  disabled?: boolean;
+  className?: string;
 }
 
 export function Slider({
@@ -17,44 +17,49 @@ export function Slider({
   max = 100,
   step = 1,
   disabled = false,
-  className = ""
+  className = "",
 }: SliderProps) {
   const {
     connectors: { connect, drag },
     selected,
     hovered,
     actions: { setProp },
-    id
+    id,
   } = useNode((state) => ({
     selected: state.events.selected,
     hovered: state.events.hovered,
-    id: state.id
-  }))
+    id: state.id,
+  }));
 
-  const { actions } = useEditor()
-  const { openPanel } = usePropertiesPanelStore()
+  const { actions } = useEditor();
+  const { openPanel } = usePropertiesPanelStore();
 
   const handleShowProperties = () => {
-    openPanel('slider', {
-      value,
-      min,
-      max,
-      step,
-      disabled
-    }, id, (newProps) => {
-      Object.keys(newProps).forEach(key => {
-        setProp((props: SliderProps) => {
-          (props as any)[key] = newProps[key]
-        })
-      })
-    })
-  }
+    openPanel(
+      "slider",
+      {
+        value,
+        min,
+        max,
+        step,
+        disabled,
+      },
+      id,
+      (newProps) => {
+        Object.keys(newProps).forEach((key) => {
+          setProp((props: SliderProps) => {
+            (props as any)[key] = newProps[key];
+          });
+        });
+      }
+    );
+  };
 
   return (
     <div
       ref={(ref) => {
         if (ref) {
-          connect(drag(ref))
+          connect(drag(ref));
         }
       }}
       className={`relative p-4 ${className} ${
@@ -72,8 +77,8 @@ export function Slider({
           className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
           onChange={(e) => {
             setProp((props: SliderProps) => {
-              props.value = parseInt(e.target.value)
-            })
+              props.value = parseInt(e.target.value);
+            });
           }}
         />
         <div className="flex justify-between text-xs text-gray-500 mt-1">
@@ -102,7 +107,7 @@ export function Slider({
         </div>
       )}
     </div>
-  )
+  );
 }
 
 Slider.craft = {
@@ -113,11 +118,11 @@ Slider.craft = {
     max: 100,
     step: 1,
     disabled: false,
-    className: ""
+    className: "",
   },
   rules: {
     canDrag: () => true,
-    canMoveIn: () => false,
+    canMoveIn: () => true,
     canMoveOut: () => true,
-  }
-}
+  },
+};

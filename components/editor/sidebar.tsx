@@ -6,24 +6,17 @@ import { useSidebarStore } from "@/lib/store/sidebar-store";
 import { useUserBlocksStore } from "@/lib/store/user-blocks-store";
 import {
   elementsCategory,
-  layoutCategory,
-  pageCategory,
   formsCategory,
-  hospitalityCategory,
   useUserBlocksCategory,
   SidebarNavigation,
   SidebarContent,
 } from "./sidebar/";
-import {
-  headersCategory,
-  cmsCardsCategory,
-} from "./sidebar/sidebar-categories";
 
 export function EditorSidebar() {
   const { currentViewport } = useViewportStore();
   const { isOpen } = useSidebarStore();
   const { addBlock } = useUserBlocksStore();
-  const [activeCategory, setActiveCategory] = React.useState("elements");
+  const [activeCategory, setActiveCategory] = React.useState("components");
 
   const userBlocksCategory = useUserBlocksCategory();
 
@@ -41,15 +34,17 @@ export function EditorSidebar() {
 
   // All component categories
   const allCategories = {
-    userBlocks: userBlocksCategory,
+    components: {
+      name: "Components",
+      icon: (
+        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" />
+        </svg>
+      ),
+      items: [], // Will be handled differently with accordions
+    },
     elements: elementsCategory,
-    layout: layoutCategory,
-    page: pageCategory,
-    hospitality: hospitalityCategory,
-    cmsCards: cmsCardsCategory,
     forms: formsCategory,
-    headers: headersCategory,
-    // layout: layoutCategory,
   };
 
   const currentCategory =
@@ -68,7 +63,6 @@ export function EditorSidebar() {
         <SidebarContent
           currentCategory={currentCategory}
           activeCategory={activeCategory}
-          onCreateBlock={handleCreateBlock}
         />
       )}
     </div>

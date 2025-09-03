@@ -13,29 +13,29 @@ interface CorporateHero1Props extends SectionProps {
   description?: string;
   primaryButtonText?: string;
   secondaryButtonText?: string;
-  
+
   // Corporate imagery
   teamImage?: string;
   officeImage?: string;
   presentationImage?: string;
-  
+
   // Trust indicators
   clientsServed?: string;
   yearsExperience?: string;
   globalOffices?: string;
   teamSize?: string;
-  
+
   // Certifications
   certification1?: string;
   certification2?: string;
   certification3?: string;
-  
+
   // Partner logos
   partnerLogo1?: string;
   partnerLogo2?: string;
   partnerLogo3?: string;
   partnerLogo4?: string;
-  
+
   // Styling
   primaryColor?: string;
   accentColor?: string;
@@ -98,11 +98,15 @@ export function CorporateHero1({
       >
         {/* Professional Background Pattern */}
         <div className="absolute inset-0 opacity-5">
-          <div className="absolute inset-0" style={{
-            backgroundImage: "linear-gradient(45deg, #e2e8f0 25%, transparent 25%), linear-gradient(-45deg, #e2e8f0 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #e2e8f0 75%), linear-gradient(-45deg, transparent 75%, #e2e8f0 75%)",
-            backgroundSize: "20px 20px",
-            backgroundPosition: "0 0, 0 10px, 10px -10px, -10px 0px"
-          }}></div>
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage:
+                "linear-gradient(45deg, #e2e8f0 25%, transparent 25%), linear-gradient(-45deg, #e2e8f0 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #e2e8f0 75%), linear-gradient(-45deg, transparent 75%, #e2e8f0 75%)",
+              backgroundSize: "20px 20px",
+              backgroundPosition: "0 0, 0 10px, 10px -10px, -10px 0px",
+            }}
+          ></div>
         </div>
 
         <Element
@@ -153,7 +157,7 @@ export function CorporateHero1({
                     color={primaryColor}
                   />
                 </Element>
-                
+
                 <Element
                   id="corporateHero1-cert2"
                   is={Box}
@@ -241,10 +245,7 @@ export function CorporateHero1({
                 margin="0 0 40px 0"
                 flexWrap="wrap"
               >
-                <Element
-                  id="corporateHero1-clientsMetric"
-                  is={Box}
-                >
+                <Element id="corporateHero1-clientsMetric" is={Box}>
                   <Element
                     id="corporateHero1-clientsNumber"
                     is={CraftText}
@@ -264,10 +265,7 @@ export function CorporateHero1({
                   />
                 </Element>
 
-                <Element
-                  id="corporateHero1-experienceMetric"
-                  is={Box}
-                >
+                <Element id="corporateHero1-experienceMetric" is={Box}>
                   <Element
                     id="corporateHero1-experienceNumber"
                     is={CraftText}
@@ -287,10 +285,7 @@ export function CorporateHero1({
                   />
                 </Element>
 
-                <Element
-                  id="corporateHero1-officesMetric"
-                  is={Box}
-                >
+                <Element id="corporateHero1-officesMetric" is={Box}>
                   <Element
                     id="corporateHero1-officesNumber"
                     is={CraftText}
@@ -310,10 +305,7 @@ export function CorporateHero1({
                   />
                 </Element>
 
-                <Element
-                  id="corporateHero1-teamMetric"
-                  is={Box}
-                >
+                <Element id="corporateHero1-teamMetric" is={Box}>
                   <Element
                     id="corporateHero1-teamNumber"
                     is={CraftText}
@@ -357,7 +349,7 @@ export function CorporateHero1({
                   _hover={{ backgroundColor: "#1e40af", shadow: "lg" }}
                   transition="all 0.3s"
                 />
-                
+
                 <Element
                   id="corporateHero1-secondaryButton"
                   is={CraftButton}
@@ -375,10 +367,7 @@ export function CorporateHero1({
               </Element>
 
               {/* Trusted Partners */}
-              <Element
-                id="corporateHero1-partners"
-                is={Box}
-              >
+              <Element id="corporateHero1-partners" is={Box}>
                 <Element
                   id="corporateHero1-partnersTitle"
                   is={CraftText}
@@ -387,7 +376,7 @@ export function CorporateHero1({
                   color="#64748b"
                   margin="0 0 16px 0"
                 />
-                
+
                 <Element
                   id="corporateHero1-partnerLogos"
                   is={Flex}
@@ -640,8 +629,8 @@ CorporateHero1.craft = {
   props: {},
   rules: {
     canDrag: () => true,
-    canDrop: () => false,
-    canMoveIn: () => false,
+    canDrop: () => true,
+    canMoveIn: () => true,
     canMoveOut: () => true,
   },
 };

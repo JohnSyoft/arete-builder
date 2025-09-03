@@ -14,21 +14,21 @@ interface AgencyHero1Props extends SectionProps {
   description?: string;
   primaryButtonText?: string;
   secondaryButtonText?: string;
-  
+
   // Portfolio images
   portfolioImage1?: string;
   portfolioImage2?: string;
   portfolioImage3?: string;
-  
+
   // Client info
   clientCount?: string;
   projectCount?: string;
   yearsExperience?: string;
-  
+
   // Awards
   award1?: string;
   award2?: string;
-  
+
   // Styling
   primaryColor?: string;
   accentColor?: string;
@@ -135,7 +135,7 @@ export function AgencyHero1({
                     color="#6b7280"
                   />
                 </Element>
-                
+
                 <Element
                   id="agencyHero1-award2"
                   is={Box}
@@ -168,11 +168,7 @@ export function AgencyHero1({
               />
 
               {/* Main Title */}
-              <Element
-                id="agencyHero1-title"
-                is={Box}
-                margin="0 0 24px 0"
-              >
+              <Element id="agencyHero1-title" is={Box} margin="0 0 24px 0">
                 <Element
                   id="agencyHero1-titleMain"
                   is={CraftText}
@@ -219,10 +215,7 @@ export function AgencyHero1({
                 gap="32px"
                 margin="0 0 40px 0"
               >
-                <Element
-                  id="agencyHero1-clientStat"
-                  is={Box}
-                >
+                <Element id="agencyHero1-clientStat" is={Box}>
                   <Element
                     id="agencyHero1-clientNumber"
                     is={CraftText}
@@ -242,10 +235,7 @@ export function AgencyHero1({
                   />
                 </Element>
 
-                <Element
-                  id="agencyHero1-projectStat"
-                  is={Box}
-                >
+                <Element id="agencyHero1-projectStat" is={Box}>
                   <Element
                     id="agencyHero1-projectNumber"
                     is={CraftText}
@@ -265,10 +255,7 @@ export function AgencyHero1({
                   />
                 </Element>
 
-                <Element
-                  id="agencyHero1-experienceStat"
-                  is={Box}
-                >
+                <Element id="agencyHero1-experienceStat" is={Box}>
                   <Element
                     id="agencyHero1-experienceNumber"
                     is={CraftText}
@@ -310,7 +297,7 @@ export function AgencyHero1({
                   _hover={{ backgroundColor: "#1f2937" }}
                   transition="all 0.3s"
                 />
-                
+
                 <Element
                   id="agencyHero1-secondaryButton"
                   is={CraftButton}
@@ -468,8 +455,8 @@ AgencyHero1.craft = {
   props: {},
   rules: {
     canDrag: () => true,
-    canDrop: () => false,
-    canMoveIn: () => false,
+    canDrop: () => true,
+    canMoveIn: () => true,
     canMoveOut: () => true,
   },
 };

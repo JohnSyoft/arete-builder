@@ -1,17 +1,16 @@
-import { useNode, useEditor } from "@craftjs/core"
-import React from "react"
-import { FloatingToolbar } from "@/components/editor/floating-toolbar"
-import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store"
-import { 
-  Star, 
-  Heart, 
-  Home, 
-  User, 
-  Mail, 
-  Phone, 
-  MapPin, 
-  Calendar, 
-  Clock, 
+import { useNode, useEditor } from "@craftjs/core";
+import { FloatingToolbar } from "@/components/editor/floating-toolbar";
+import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store";
+import {
+  Star,
+  Heart,
+  Home,
+  User,
+  Mail,
+  Phone,
+  MapPin,
+  Calendar,
+  Clock,
   Settings,
   Search,
   Menu,
@@ -40,8 +39,8 @@ import {
   Eye,
   EyeOff,
   Lock,
-  Unlock
-} from "lucide-react"
+  Unlock,
+} from "lucide-react";
 
 const iconMap = {
   star: Star,
@@ -82,71 +81,76 @@ const iconMap = {
   eyeOff: EyeOff,
   lock: Lock,
   unlock: Unlock,
-}
+};
 
 interface IconProps {
-  iconName?: keyof typeof iconMap
-  size?: number
-  color?: string
-  strokeWidth?: number
-  margin?: string
-  padding?: string
-  backgroundColor?: string
-  borderRadius?: string
-  border?: string
-  hoverEffect?: boolean
-  onClick?: () => void
+  iconName?: keyof typeof iconMap;
+  size?: number;
+  color?: string;
+  strokeWidth?: number;
+  margin?: string;
+  padding?: string;
+  backgroundColor?: string;
+  borderRadius?: string;
+  border?: string;
+  hoverEffect?: boolean;
+  onClick?: () => void;
 }
 
 export function Icon({
-  iconName = 'star',
+  iconName = "star",
   size = 24,
-  color = 'text-gray-700',
+  color = "text-gray-700",
   strokeWidth = 2,
-  margin = 'my-2',
-  padding = 'p-0',
-  backgroundColor = '',
-  borderRadius = '',
-  border = '',
-  hoverEffect = false
+  margin = "my-2",
+  padding = "p-0",
+  backgroundColor = "",
+  borderRadius = "",
+  border = "",
+  hoverEffect = false,
 }: IconProps) {
   const {
     connectors: { connect, drag },
     selected,
     hovered,
     actions: { setProp },
-    id
+    id,
   } = useNode((state) => ({
     selected: state.events.selected,
     hovered: state.events.hovered,
-    id: state.id
-  }))
+    id: state.id,
+  }));
 
-  const { actions } = useEditor()
-  const { openPanel } = usePropertiesPanelStore()
+  const { actions } = useEditor();
+  const { openPanel } = usePropertiesPanelStore();
 
   const handleShowProperties = () => {
-    openPanel('icon', {
-      iconName,
-      size,
-      color,
-      strokeWidth,
-      margin,
-      padding,
-      backgroundColor,
-      borderRadius,
-      border,
-      hoverEffect
-    }, id, (newProps) => {
-      Object.keys(newProps).forEach(key => {
-        setProp((props: IconProps) => {
-          (props as any)[key] = newProps[key]
-        })
-      })
-    })
-  }
+    openPanel(
+      "icon",
+      {
+        iconName,
+        size,
+        color,
+        strokeWidth,
+        margin,
+        padding,
+        backgroundColor,
+        borderRadius,
+        border,
+        hoverEffect,
+      },
+      id,
+      (newProps) => {
+        Object.keys(newProps).forEach((key) => {
+          setProp((props: IconProps) => {
+            (props as any)[key] = newProps[key];
+          });
+        });
+      }
+    );
+  };
 
-  const IconComponent = iconMap[iconName] || Star
+  const IconComponent = iconMap[iconName] || Star;
 
   const containerClasses = `
     inline-flex items-center justify-center
@@ -156,25 +160,28 @@ export function Icon({
     ${borderRadius}
     ${border}
     ${color}
-    ${hoverEffect ? 'transition-all duration-200 hover:scale-110 cursor-pointer' : ''}
-  `.trim()
+    ${
+      hoverEffect
+        ? "transition-all duration-200 hover:scale-110 cursor-pointer"
+        : ""
+    }
+  `.trim();
 
   return (
-    <div 
+    <div
       ref={(ref) => {
         if (ref) {
-          connect(drag(ref))
+          connect(drag(ref));
         }
       }}
-      className={`relative group ${selected ? "ring-2 ring-blue-500 ring-opacity-50" : ""} ${hovered ? "ring-1 ring-blue-300" : ""}`}
+      className={`relative group ${
+        selected ? "ring-2 ring-blue-500 ring-opacity-50" : ""
+      } ${hovered ? "ring-1 ring-blue-300" : ""}`}
     >
       <div className={containerClasses}>
-        <IconComponent
-          size={size}
-          strokeWidth={strokeWidth}
-        />
+        <IconComponent size={size} strokeWidth={strokeWidth} />
       </div>
-      
+
       {(selected || hovered) && (
         <div className="absolute -top-12 left-0 z-50">
           <FloatingToolbar
@@ -187,33 +194,33 @@ export function Icon({
           />
         </div>
       )}
-      
+
       {(selected || hovered) && (
         <div className="absolute -top-6 left-0 bg-blue-500 text-white text-xs px-2 py-1 rounded z-10">
           Icon ({iconName})
         </div>
       )}
     </div>
-  )
+  );
 }
 
 Icon.craft = {
   displayName: "Icon",
   props: {
-    iconName: 'star',
+    iconName: "star",
     size: 24,
-    color: 'text-gray-700',
+    color: "text-gray-700",
     strokeWidth: 2,
-    margin: 'my-2',
-    padding: 'p-0',
-    backgroundColor: '',
-    borderRadius: '',
-    border: '',
+    margin: "my-2",
+    padding: "p-0",
+    backgroundColor: "",
+    borderRadius: "",
+    border: "",
     hoverEffect: false,
   },
   rules: {
     canDrag: () => true,
-    canMoveIn: () => false,
+    canMoveIn: () => true,
     canMoveOut: () => true,
   },
-}
+};

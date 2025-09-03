@@ -53,184 +53,196 @@ export const HospitalityTestimonials1 = () => {
         hovered ? "ring-1 ring-blue-300" : ""
       }`}
     >
-      <Element
-        id="hospitalityTestimonials1-section"
-        is={Section}
-        canvas
-        backgroundColor="#fafafa"
-        padding="0px"
-      >
-        {/* Minimal header */}
+      <Section backgroundColor="#fafafa" padding="0px">
         <Element
-          id="hospitalityTestimonials1-header"
+          id="hospitalityTestimonials1-content-wrapper"
           is={Box}
-          width="100%"
-          margin="0 auto 0px auto"
+          backgroundColor="transparent"
+          padding="0"
+          margin="0"
           display="block"
+          canvas
         >
+          {/* Minimal header */}
           <Element
-            id="hospitalityTestimonials1-title"
-            is={CraftText}
-            text="Testimonials"
-            fontSize="text-6xl"
-            fontWeight="font-thin"
-            color="text-black"
-            margin="0 auto 16px auto"
-            textAlign="center"
-            letterSpacing="tracking-tight"
-          />
-
-          <Element
-            id="hospitalityTestimonials1-subtitle"
-            is={CraftText}
-            text="Experiences shared by our guests"
-            fontSize="text-lg"
-            color="rgba(0, 0, 0, 0.5)"
-            margin="0 auto"
-            textAlign="center"
-            fontWeight="font-light"
-            letterSpacing="tracking-wide"
-          />
-        </Element>
-
-        {/* Clean testimonials grid */}
-        <Element
-          id="hospitalityTestimonials1-grid"
-          is={Grid}
-          columns={3}
-          gap="24px"
-        >
-          {testimonials.map((testimonial, index) => (
+            id="hospitalityTestimonials1-header"
+            is={Box}
+            width="100%"
+            margin="0 auto 0px auto"
+            display="block"
+          >
             <Element
-              key={`testimonial-${index}`}
-              id={`hospitalityTestimonials1-card-${index}`}
-              is={Box}
-              backgroundColor="#ffffff"
-              borderRadius="0px"
-              display="block"
-              border="none"
-              padding="48px 32px"
-            >
-              <Element
-                id={`hospitalityTestimonials1-quote-${index}`}
-                is={CraftText}
-                text={testimonial.quote}
-                fontSize="text-lg"
-                color="text-black"
-                margin="0 0 32px 0"
-                lineHeight="leading-relaxed"
-                fontWeight="font-light"
-                letterSpacing="tracking-wide"
-              />
+              id="hospitalityTestimonials1-title"
+              is={CraftText}
+              text="Testimonials"
+              fontSize="text-6xl"
+              fontWeight="font-thin"
+              color="text-black"
+              margin="0 auto 16px auto"
+              textAlign="center"
+              letterSpacing="tracking-tight"
+            />
 
+            <Element
+              id="hospitalityTestimonials1-subtitle"
+              is={CraftText}
+              text="Experiences shared by our guests"
+              fontSize="text-lg"
+              color="rgba(0, 0, 0, 0.5)"
+              margin="0 auto"
+              textAlign="center"
+              fontWeight="font-light"
+              letterSpacing="tracking-wide"
+            />
+          </Element>
+
+          {/* Clean testimonials grid */}
+          <Element
+            id="hospitalityTestimonials1-grid"
+            is={Grid}
+            columns={3}
+            gap="24px"
+          >
+            {testimonials.map((testimonial, index) => (
               <Element
-                id={`hospitalityTestimonials1-author-${index}`}
+                key={`testimonial-${index}`}
+                id={`hospitalityTestimonials1-card-${index}`}
                 is={Box}
-                display="flex"
-                alignItems="center"
-                gap="16px"
+                backgroundColor="#ffffff"
+                borderRadius="0px"
+                display="block"
+                border="none"
+                padding="48px 32px"
               >
                 <Element
-                  id={`hospitalityTestimonials1-avatar-${index}`}
-                  is={CraftImage}
-                  src={testimonial.image}
-                  alt={testimonial.name}
-                  width="48px"
-                  height="48px"
-                  borderRadius="50%"
+                  id={`hospitalityTestimonials1-quote-${index}`}
+                  is={CraftText}
+                  text={testimonial.quote}
+                  fontSize="text-lg"
+                  color="text-black"
+                  margin="0 0 32px 0"
+                  lineHeight="leading-relaxed"
+                  fontWeight="font-light"
+                  letterSpacing="tracking-wide"
                 />
 
                 <Element
-                  id={`hospitalityTestimonials1-authorInfo-${index}`}
+                  id={`hospitalityTestimonials1-author-${index}`}
                   is={Box}
-                  display="block"
+                  display="flex"
+                  alignItems="center"
+                  gap="16px"
                 >
                   <Element
-                    id={`hospitalityTestimonials1-name-${index}`}
-                    is={CraftText}
-                    text={testimonial.name}
-                    fontSize="text-base"
-                    fontWeight="font-light"
-                    color="text-black"
-                    margin="0 0 4px 0"
-                    letterSpacing="tracking-wide"
+                    id={`hospitalityTestimonials1-avatar-${index}`}
+                    is={CraftImage}
+                    src={testimonial.image}
+                    alt={testimonial.name}
+                    width="48px"
+                    height="48px"
+                    borderRadius="50%"
                   />
+
                   <Element
-                    id={`hospitalityTestimonials1-title-${index}`}
-                    is={CraftText}
-                    text={testimonial.title}
-                    fontSize="text-sm"
-                    color="rgba(0, 0, 0, 0.5)"
-                    margin="0"
-                    fontWeight="font-light"
-                    letterSpacing="tracking-wide"
-                  />
+                    id={`hospitalityTestimonials1-authorInfo-${index}`}
+                    is={Box}
+                    display="block"
+                  >
+                    <Element
+                      id={`hospitalityTestimonials1-name-${index}`}
+                      is={CraftText}
+                      text={testimonial.name}
+                      fontSize="text-base"
+                      fontWeight="font-light"
+                      color="text-black"
+                      margin="0 0 4px 0"
+                      letterSpacing="tracking-wide"
+                    />
+                    <Element
+                      id={`hospitalityTestimonials1-title-${index}`}
+                      is={CraftText}
+                      text={testimonial.title}
+                      fontSize="text-sm"
+                      color="rgba(0, 0, 0, 0.5)"
+                      margin="0"
+                      fontWeight="font-light"
+                      letterSpacing="tracking-wide"
+                    />
+                  </Element>
                 </Element>
               </Element>
+            ))}
+          </Element>
+
+          {/* Clean stats section */}
+          <Element
+            id="hospitalityTestimonials1-stats"
+            is={Box}
+            display="flex"
+            justifyContent="center"
+            gap="80px"
+            margin="80px auto 0 auto"
+          >
+            <Element
+              id="hospitalityTestimonials1-stat1"
+              is={Box}
+              display="block"
+            >
+              <Element
+                id="hospitalityTestimonials1-statNumber1"
+                is={CraftText}
+                text="4.9"
+                fontSize="text-4xl"
+                fontWeight="font-thin"
+                color="text-black"
+                margin="0 0 8px 0"
+                textAlign="center"
+                letterSpacing="tracking-tight"
+              />
+              <Element
+                id="hospitalityTestimonials1-statLabel1"
+                is={CraftText}
+                text="Average Rating"
+                fontSize="text-sm"
+                color="rgba(0, 0, 0, 0.5)"
+                margin="0"
+                textAlign="center"
+                letterSpacing="tracking-wide"
+                fontWeight="font-light"
+              />
             </Element>
-          ))}
-        </Element>
 
-        {/* Clean stats section */}
-        <Element
-          id="hospitalityTestimonials1-stats"
-          is={Box}
-          display="flex"
-          justifyContent="center"
-          gap="80px"
-          margin="80px auto 0 auto"
-        >
-          <Element id="hospitalityTestimonials1-stat1" is={Box} display="block">
             <Element
-              id="hospitalityTestimonials1-statNumber1"
-              is={CraftText}
-              text="4.9"
-              fontSize="text-4xl"
-              fontWeight="font-thin"
-              color="text-black"
-              margin="0 0 8px 0"
-              textAlign="center"
-              letterSpacing="tracking-tight"
-            />
-            <Element
-              id="hospitalityTestimonials1-statLabel1"
-              is={CraftText}
-              text="Average Rating"
-              fontSize="text-sm"
-              color="rgba(0, 0, 0, 0.5)"
-              margin="0"
-              textAlign="center"
-              letterSpacing="tracking-wide"
-              fontWeight="font-light"
-            />
-          </Element>
-
-          <Element id="hospitalityTestimonials1-stat2" is={Box} display="block">
-            <Element
-              id="hospitalityTestimonials1-statNumber2"
-              is={CraftText}
-              text="100%"
-              fontSize="text-4xl"
-              fontWeight="font-thin"
-              color="text-black"
-              margin="0 0 8px 0"
-              textAlign="center"
-              letterSpacing="tracking-tight"
-            />
-            <Element
-              id="hospitalityTestimonials1-statLabel2"
-              is={CraftText}
-              text="Satisfaction"
-              fontSize="text-sm"
-              color="rgba(0, 0, 0, 0.5)"
-              margin="0"
-              textAlign="center"
-              letterSpacing="tracking-wide"
-              fontWeight="font-light"
-            />
+              id="hospitalityTestimonials1-stat2"
+              is={Box}
+              display="block"
+            >
+              <Element
+                id="hospitalityTestimonials1-statNumber2"
+                is={CraftText}
+                text="100%"
+                fontSize="text-4xl"
+                fontWeight="font-thin"
+                color="text-black"
+                margin="0 0 8px 0"
+                textAlign="center"
+                letterSpacing="tracking-tight"
+              />
+              <Element
+                id="hospitalityTestimonials1-statLabel2"
+                is={CraftText}
+                text="Satisfaction"
+                fontSize="text-sm"
+                color="rgba(0, 0, 0, 0.5)"
+                margin="0"
+                textAlign="center"
+                letterSpacing="tracking-wide"
+                fontWeight="font-light"
+              />
+            </Element>
           </Element>
         </Element>
-      </Element>
+      </Section>
     </div>
   );
 };
@@ -239,8 +251,9 @@ HospitalityTestimonials1.craft = {
   displayName: "Hospitality Testimonials 1",
   props: {},
   rules: {
-    canDrop: () => true,
+    canDrag: () => true,
     canMoveIn: () => true,
     canMoveOut: () => true,
   },
+  isCanvas: false,
 };

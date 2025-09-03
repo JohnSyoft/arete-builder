@@ -279,7 +279,7 @@ export function CosmeticHero1({
                         backgroundColor={buttonColor}
                         textColor="#ffffff"
                         borderRadius="9999px"
-                        padding="10px"
+                        padding="p-4"
                         width="w-auto"
                       />
                     </Element>

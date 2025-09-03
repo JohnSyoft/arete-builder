@@ -54,156 +54,160 @@ export const HospitalityFooter1 = ({
         hovered ? "ring-1 ring-blue-300" : ""
       }`}
     >
-      <Element
-        id="hospitalityFooter1-section"
-        is={Section}
-        canvas
-        backgroundColor={backgroundColor}
-        padding="80px 24px 40px 24px"
-      >
-        <div className="max-w-7xl mx-auto">
-          {/* Clean footer layout */}
-          <Element
-            id="hospitalityFooter1-main"
-            is={Box}
-            display="flex"
-            justifyContent="between"
-            alignItems="start"
-            gap="80px"
-            margin="0 0 60px 0"
-            backgroundColor={backgroundColor}
-          >
-            {/* Left - Brand */}
+      <Section backgroundColor={backgroundColor} padding="80px 24px 40px 24px">
+        <Element
+          id="hospitalityFooter1-content"
+          is={Box}
+          backgroundColor="transparent"
+          padding="0"
+          margin="0"
+          display="block"
+          canvas
+        >
+          <div className="max-w-7xl mx-auto">
+            {/* Clean footer layout */}
             <Element
-              id="hospitalityFooter1-brand"
+              id="hospitalityFooter1-main"
               is={Box}
-              display="block"
-              width="40%"
+              display="flex"
+              justifyContent="between"
+              alignItems="start"
+              gap="80px"
+              margin="0 0 60px 0"
+              backgroundColor={backgroundColor}
+            >
+              {/* Left - Brand */}
+              <Element
+                id="hospitalityFooter1-brand"
+                is={Box}
+                display="block"
+                width="40%"
+                backgroundColor={backgroundColor}
+              >
+                <Element
+                  id="hospitalityFooter1-logo"
+                  is={CraftText}
+                  text={brandText}
+                  fontSize="text-3xl"
+                  fontWeight="font-thin"
+                  color={primaryTextColor}
+                  margin="0 0 24px 0"
+                  letterSpacing="tracking-widest"
+                />
+
+                <Element
+                  id="hospitalityFooter1-tagline"
+                  is={CraftText}
+                  text={taglineText}
+                  fontSize="text-base"
+                  color={primaryTextColor}
+                  margin="0"
+                  lineHeight="leading-relaxed"
+                  fontWeight="font-light"
+                  letterSpacing="tracking-wide"
+                />
+              </Element>
+
+              {/* Right - Contact */}
+              <Element
+                id="hospitalityFooter1-contact"
+                is={Box}
+                display="block"
+                width="30%"
+                backgroundColor={backgroundColor}
+              >
+                <Element
+                  id="hospitalityFooter1-contactTitle"
+                  is={CraftText}
+                  text={contactTitle}
+                  fontSize="text-lg"
+                  fontWeight="font-light"
+                  color={primaryTextColor}
+                  margin="0 0 24px 0"
+                  letterSpacing="tracking-wide"
+                />
+
+                <Element
+                  id="hospitalityFooter1-address"
+                  is={CraftText}
+                  text={address}
+                  fontSize="text-base"
+                  color={primaryTextColor}
+                  margin="0 0 8px 0"
+                  fontWeight="font-light"
+                  letterSpacing="tracking-wide"
+                />
+
+                <Element
+                  id="hospitalityFooter1-city"
+                  is={CraftText}
+                  text={city}
+                  fontSize="text-base"
+                  color={primaryTextColor}
+                  margin="0 0 16px 0"
+                  fontWeight="font-light"
+                  letterSpacing="tracking-wide"
+                />
+
+                <Element
+                  id="hospitalityFooter1-phone"
+                  is={CraftText}
+                  text={phone}
+                  fontSize="text-base"
+                  color={primaryTextColor}
+                  margin="0 0 8px 0"
+                  fontWeight="font-light"
+                  letterSpacing="tracking-wide"
+                />
+
+                <Element
+                  id="hospitalityFooter1-email"
+                  is={CraftText}
+                  text={email}
+                  fontSize="text-base"
+                  color={primaryTextColor}
+                  margin="0"
+                  fontWeight="font-light"
+                  letterSpacing="tracking-wide"
+                />
+              </Element>
+            </Element>
+
+            {/* Clean bottom bar */}
+            <Element
+              id="hospitalityFooter1-bottom"
+              is={Box}
+              display="flex"
+              justifyContent="between"
+              alignItems="center"
+              padding="24px 0"
               backgroundColor={backgroundColor}
             >
               <Element
-                id="hospitalityFooter1-logo"
+                id="hospitalityFooter1-copyright"
                 is={CraftText}
-                text={brandText}
-                fontSize="text-3xl"
-                fontWeight="font-thin"
-                color={primaryTextColor}
-                margin="0 0 24px 0"
+                text={copyrightText}
+                fontSize="text-sm"
+                color={accentColor}
+                margin="0"
+                fontWeight="font-light"
+                letterSpacing="tracking-wide"
+              />
+
+              <Element
+                id="hospitalityFooter1-year"
+                is={CraftText}
+                text={yearText}
+                fontSize="text-sm"
+                color={accentColor}
+                margin="0"
+                fontWeight="font-light"
                 letterSpacing="tracking-widest"
               />
-
-              <Element
-                id="hospitalityFooter1-tagline"
-                is={CraftText}
-                text={taglineText}
-                fontSize="text-base"
-                color={primaryTextColor}
-                margin="0"
-                lineHeight="leading-relaxed"
-                fontWeight="font-light"
-                letterSpacing="tracking-wide"
-              />
             </Element>
-
-            {/* Right - Contact */}
-            <Element
-              id="hospitalityFooter1-contact"
-              is={Box}
-              display="block"
-              width="30%"
-              backgroundColor={backgroundColor}
-            >
-              <Element
-                id="hospitalityFooter1-contactTitle"
-                is={CraftText}
-                text={contactTitle}
-                fontSize="text-lg"
-                fontWeight="font-light"
-                color={primaryTextColor}
-                margin="0 0 24px 0"
-                letterSpacing="tracking-wide"
-              />
-
-              <Element
-                id="hospitalityFooter1-address"
-                is={CraftText}
-                text={address}
-                fontSize="text-base"
-                color={primaryTextColor}
-                margin="0 0 8px 0"
-                fontWeight="font-light"
-                letterSpacing="tracking-wide"
-              />
-
-              <Element
-                id="hospitalityFooter1-city"
-                is={CraftText}
-                text={city}
-                fontSize="text-base"
-                color={primaryTextColor}
-                margin="0 0 16px 0"
-                fontWeight="font-light"
-                letterSpacing="tracking-wide"
-              />
-
-              <Element
-                id="hospitalityFooter1-phone"
-                is={CraftText}
-                text={phone}
-                fontSize="text-base"
-                color={primaryTextColor}
-                margin="0 0 8px 0"
-                fontWeight="font-light"
-                letterSpacing="tracking-wide"
-              />
-
-              <Element
-                id="hospitalityFooter1-email"
-                is={CraftText}
-                text={email}
-                fontSize="text-base"
-                color={primaryTextColor}
-                margin="0"
-                fontWeight="font-light"
-                letterSpacing="tracking-wide"
-              />
-            </Element>
-          </Element>
-
-          {/* Clean bottom bar */}
-          <Element
-            id="hospitalityFooter1-bottom"
-            is={Box}
-            display="flex"
-            justifyContent="between"
-            alignItems="center"
-            padding="24px 0"
-            backgroundColor={backgroundColor}
-          >
-            <Element
-              id="hospitalityFooter1-copyright"
-              is={CraftText}
-              text={copyrightText}
-              fontSize="text-sm"
-              color={accentColor}
-              margin="0"
-              fontWeight="font-light"
-              letterSpacing="tracking-wide"
-            />
-
-            <Element
-              id="hospitalityFooter1-year"
-              is={CraftText}
-              text={yearText}
-              fontSize="text-sm"
-              color={accentColor}
-              margin="0"
-              fontWeight="font-light"
-              letterSpacing="tracking-widest"
-            />
-          </Element>
-        </div>
-      </Element>
+          </div>
+        </Element>
+      </Section>
     </div>
   );
 };
@@ -227,8 +231,9 @@ HospitalityFooter1.craft = {
     yearText: "MMXXIV",
   },
   rules: {
-    canDrop: () => true,
+    canDrag: () => true,
     canMoveIn: () => true,
     canMoveOut: () => true,
   },
+  isCanvas: false,
 };

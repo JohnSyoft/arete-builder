@@ -14,26 +14,26 @@ interface StartupHero1Props extends SectionProps {
   description?: string;
   primaryButtonText?: string;
   secondaryButtonText?: string;
-  
+
   // Video/Demo
   videoThumbnail?: string;
   demoImage?: string;
-  
+
   // Social proof
   customerLogos?: string[];
   userCount?: string;
-  
+
   // Product features
   feature1?: string;
   feature2?: string;
   feature3?: string;
-  
+
   // Metrics
   metric1Value?: string;
   metric1Label?: string;
   metric2Value?: string;
   metric2Label?: string;
-  
+
   // Styling
   primaryColor?: string;
   accentColor?: string;
@@ -102,12 +102,16 @@ export function StartupHero1({
         <div className="absolute inset-0 overflow-hidden">
           {/* Grid Pattern */}
           <div className="absolute inset-0 opacity-5">
-            <div className="absolute inset-0" style={{
-              backgroundImage: "linear-gradient(rgb(0 0 0 / 0.05) 1px, transparent 1px), linear-gradient(90deg, rgb(0 0 0 / 0.05) 1px, transparent 1px)",
-              backgroundSize: "24px 24px"
-            }}></div>
+            <div
+              className="absolute inset-0"
+              style={{
+                backgroundImage:
+                  "linear-gradient(rgb(0 0 0 / 0.05) 1px, transparent 1px), linear-gradient(90deg, rgb(0 0 0 / 0.05) 1px, transparent 1px)",
+                backgroundSize: "24px 24px",
+              }}
+            ></div>
           </div>
-          
+
           {/* Gradient Orbs */}
           <div className="absolute top-0 left-1/4 w-96 h-96 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-pulse"></div>
           <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-gradient-to-r from-indigo-500 to-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-pulse animation-delay-2000"></div>
@@ -182,10 +186,10 @@ export function StartupHero1({
                   zIndex="1"
                 />
                 {/* Underline Animation */}
-                <div 
+                <div
                   className="absolute bottom-2 left-0 right-0 h-3 opacity-30 rounded-full"
                   style={{
-                    background: `linear-gradient(135deg, ${gradientFrom} 0%, ${gradientTo} 100%)`
+                    background: `linear-gradient(135deg, ${gradientFrom} 0%, ${gradientTo} 100%)`,
                   }}
                 ></div>
               </Element>
@@ -229,7 +233,7 @@ export function StartupHero1({
                   fontWeight="medium"
                 />
               </Element>
-              
+
               <Element
                 id="startupHero1-feature2"
                 is={Box}
@@ -247,7 +251,7 @@ export function StartupHero1({
                   fontWeight="medium"
                 />
               </Element>
-              
+
               <Element
                 id="startupHero1-feature3"
                 is={Box}
@@ -289,7 +293,7 @@ export function StartupHero1({
                 _hover={{ transform: "translateY(-2px)", shadow: "xl" }}
                 transition="all 0.3s"
               />
-              
+
               <Element
                 id="startupHero1-secondaryButton"
                 is={CraftButton}
@@ -301,7 +305,10 @@ export function StartupHero1({
                 borderRadius="8px"
                 fontSize="base"
                 fontWeight="semibold"
-                _hover={{ backgroundColor: "#f8fafc", borderColor: accentColor }}
+                _hover={{
+                  backgroundColor: "#f8fafc",
+                  borderColor: accentColor,
+                }}
                 transition="all 0.3s"
               />
             </Element>
@@ -430,11 +437,7 @@ export function StartupHero1({
           </Element>
 
           {/* Social Proof */}
-          <Element
-            id="startupHero1-socialProof"
-            is={Box}
-            textAlign="center"
-          >
+          <Element id="startupHero1-socialProof" is={Box} textAlign="center">
             <Element
               id="startupHero1-socialProofTitle"
               is={CraftText}
@@ -443,7 +446,7 @@ export function StartupHero1({
               color="#94a3b8"
               margin="0 0 24px 0"
             />
-            
+
             <Element
               id="startupHero1-logoGrid"
               is={Flex}
@@ -479,8 +482,8 @@ StartupHero1.craft = {
   props: {},
   rules: {
     canDrag: () => true,
-    canDrop: () => false,
-    canMoveIn: () => false,
+    canDrop: () => true,
+    canMoveIn: () => true,
     canMoveOut: () => true,
   },
 };
