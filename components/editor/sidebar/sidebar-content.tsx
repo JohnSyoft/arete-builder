@@ -12,12 +12,6 @@ import {
   CraftMedicalHero1,
   CraftCosmeticHero1,
   CraftHospitalityHero1,
-  CraftTechHero1,
-  CraftAgencyHero1,
-  CraftEcommerceHero1,
-  CraftStartupHero1,
-  CraftCreativeHero1,
-  CraftCorporateHero1,
   CraftMiniMaxHero1,
   CraftModernSaaSHero1,
 
@@ -112,36 +106,6 @@ const componentsByType = {
       component: CraftHospitalityHero1,
       name: "Hospitality Hero",
       description: "Luxury hotel hero section with elegant design",
-    },
-    {
-      component: CraftTechHero1,
-      name: "Tech Hero",
-      description: "Modern technology hero with gradient design",
-    },
-    {
-      component: CraftAgencyHero1,
-      name: "Agency Hero",
-      description: "Creative agency hero with portfolio showcase",
-    },
-    {
-      component: CraftEcommerceHero1,
-      name: "E-commerce Hero",
-      description: "Product showcase hero for online stores",
-    },
-    {
-      component: CraftStartupHero1,
-      name: "Startup Hero",
-      description: "Modern startup hero with growth messaging",
-    },
-    {
-      component: CraftCreativeHero1,
-      name: "Creative Hero",
-      description: "Artistic hero section for creative portfolios",
-    },
-    {
-      component: CraftCorporateHero1,
-      name: "Corporate Hero",
-      description: "Professional corporate hero section",
     },
     {
       component: CraftMiniMaxHero1,

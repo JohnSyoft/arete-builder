@@ -75,12 +75,6 @@ import {
   CraftCosmeticCard1,
   CraftHospitalityCard1,
   CraftModernCard1,
-  CraftTechHero1,
-  CraftAgencyHero1,
-  CraftEcommerceHero1,
-  CraftStartupHero1,
-  CraftCreativeHero1,
-  CraftCorporateHero1,
 } from "@/components/editor/craft-components";
 
 export interface CategoryConfig {
@@ -100,7 +94,6 @@ export interface CategoryConfig {
 }
 
 export const categoryIcons = {
-
   headers: (
     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
       <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 8a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V8z" />
@@ -283,36 +276,6 @@ export const pageCategory = {
       component: CraftCosmeticHero1,
       name: "Cosmetic Hero 1",
       description: "Cosmetic/wellness hero with brown theme",
-    },
-    {
-      component: CraftTechHero1,
-      name: "Tech Hero 1",
-      description: "Modern tech/SaaS hero with gradients and metrics",
-    },
-    {
-      component: CraftAgencyHero1,
-      name: "Agency Hero 1",
-      description: "Creative agency hero with portfolio showcase",
-    },
-    {
-      component: CraftEcommerceHero1,
-      name: "Ecommerce Hero 1",
-      description: "Product showcase hero with pricing and social proof",
-    },
-    {
-      component: CraftStartupHero1,
-      name: "Startup Hero 1",
-      description: "Clean startup hero with features and demo showcase",
-    },
-    {
-      component: CraftCreativeHero1,
-      name: "Creative Hero 1",
-      description: "Creative studio hero with artwork gallery",
-    },
-    {
-      component: CraftCorporateHero1,
-      name: "Corporate Hero 1",
-      description: "Professional business hero with trust indicators",
     },
     {
       component: CraftCosmeticAbout1,

@@ -19,7 +19,6 @@ interface ButtonProps {
   target?: "_self" | "_blank";
   backgroundColor?: string;
   textColor?: string;
-  borderColor?: string;
   borderRadius?: string;
   margin?: string;
   padding?: string;
@@ -100,7 +99,11 @@ export function Button({
   };
 
   const customStyles = {
-    // Only use inline styles for values that aren't Tailwind classes
+    backgroundColor: backgroundColor || undefined,
+    color: textColor || undefined,
+    borderRadius: borderRadius || undefined,
+    boxShadow: boxShadow || undefined,
+    opacity: opacity || undefined,
   };
 
   return (
@@ -118,7 +121,7 @@ export function Button({
         size={size}
         asChild
         style={customStyles}
-        className={`w-full h-full ${padding || ""} ${backgroundColor || ""} ${textColor || ""} ${borderColor || ""} ${borderRadius || ""} ${boxShadow || ""} ${opacity || ""}`}
+        className={`w-full h-full ${padding || ""}`}
       >
         <a href={href} target={target} rel={rel || undefined}>
           <span

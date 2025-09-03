@@ -1,22 +1,36 @@
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 interface ButtonPropertiesProps {
-  elementProps: any
-  onPropChange: (key: string, value: any) => void
+  elementProps: any;
+  onPropChange: (key: string, value: any) => void;
 }
 
-export function ButtonProperties({ elementProps, onPropChange }: ButtonPropertiesProps) {
+export function ButtonProperties({
+  elementProps,
+  onPropChange,
+}: ButtonPropertiesProps) {
   return (
     <div className="space-y-4">
       <div>
         <Label htmlFor="buttonText">Button Text</Label>
         <Input
           id="buttonText"
-          value={elementProps?.text || ''}
-          onChange={(e) => onPropChange('text', e.target.value)}
+          value={elementProps?.text || ""}
+          onChange={(e) => onPropChange("text", e.target.value)}
           placeholder="Button text"
           className="mt-1"
         />
@@ -26,8 +40,8 @@ export function ButtonProperties({ elementProps, onPropChange }: ButtonPropertie
         <Label htmlFor="href">Link URL</Label>
         <Input
           id="href"
-          value={elementProps?.href || ''}
-          onChange={(e) => onPropChange('href', e.target.value)}
+          value={elementProps?.href || ""}
+          onChange={(e) => onPropChange("href", e.target.value)}
           placeholder="https://example.com"
           className="mt-1"
         />
@@ -36,27 +50,38 @@ export function ButtonProperties({ elementProps, onPropChange }: ButtonPropertie
       <Accordion type="multiple" className="w-full">
         {/* Style Section */}
         <AccordionItem value="style">
-          <AccordionTrigger className="text-sm font-medium">Button Style</AccordionTrigger>
+          <AccordionTrigger className="text-sm font-medium">
+            Button Style
+          </AccordionTrigger>
           <AccordionContent className="space-y-4">
             <div>
               <Label htmlFor="variant">Button Variant</Label>
-              <Select value={elementProps?.variant || 'default'} onValueChange={(value) => onPropChange('variant', value)}>
+              <Select
+                value={elementProps?.variant || "default"}
+                onValueChange={(value) => onPropChange("variant", value)}
+              >
                 <SelectTrigger className="mt-1">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="default">Default</SelectItem>
-                  <SelectItem value="outline">Outline</SelectItem>
-                  <SelectItem value="secondary">Secondary</SelectItem>
-                  <SelectItem value="ghost">Ghost</SelectItem>
-                  <SelectItem value="link">Link</SelectItem>
+                  <SelectItem value="#e5e7eb">Gray 200</SelectItem>
+                  <SelectItem value="#d1d5db">Gray 300</SelectItem>
+                  <SelectItem value="#9ca3af">Gray 400</SelectItem>
+                  <SelectItem value="#3b82f6">Blue</SelectItem>
+                  <SelectItem value="#2563eb">Blue 600</SelectItem>
+                  <SelectItem value="#ef4444">Red</SelectItem>
+                  <SelectItem value="#22c55e">Green</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div>
               <Label htmlFor="size">Button Size</Label>
-              <Select value={elementProps?.size || 'default'} onValueChange={(value) => onPropChange('size', value)}>
+              <Select
+                value={elementProps?.size || "default"}
+                onValueChange={(value) => onPropChange("size", value)}
+              >
                 <SelectTrigger className="mt-1">
                   <SelectValue />
                 </SelectTrigger>
@@ -71,7 +96,12 @@ export function ButtonProperties({ elementProps, onPropChange }: ButtonPropertie
 
             <div>
               <Label htmlFor="width">Width</Label>
-              <Select value={elementProps?.width || 'auto'} onValueChange={(value) => onPropChange('width', value === 'auto' ? '' : value)}>
+              <Select
+                value={elementProps?.width || "auto"}
+                onValueChange={(value) =>
+                  onPropChange("width", value === "auto" ? "" : value)
+                }
+              >
                 <SelectTrigger className="mt-1">
                   <SelectValue placeholder="Auto" />
                 </SelectTrigger>
@@ -90,11 +120,21 @@ export function ButtonProperties({ elementProps, onPropChange }: ButtonPropertie
 
         {/* Colors Section */}
         <AccordionItem value="colors">
-          <AccordionTrigger className="text-sm font-medium">Colors</AccordionTrigger>
+          <AccordionTrigger className="text-sm font-medium">
+            Colors
+          </AccordionTrigger>
           <AccordionContent className="space-y-4">
             <div>
               <Label htmlFor="backgroundColor">Background Color</Label>
-              <Select value={elementProps?.backgroundColor || 'default'} onValueChange={(value) => onPropChange('backgroundColor', value === 'default' ? '' : value)}>
+              <Select
+                value={elementProps?.backgroundColor || "default"}
+                onValueChange={(value) =>
+                  onPropChange(
+                    "backgroundColor",
+                    value === "default" ? "" : value
+                  )
+                }
+              >
                 <SelectTrigger className="mt-1">
                   <SelectValue placeholder="Default" />
                 </SelectTrigger>
@@ -121,7 +161,12 @@ export function ButtonProperties({ elementProps, onPropChange }: ButtonPropertie
 
             <div>
               <Label htmlFor="textColor">Text Color</Label>
-              <Select value={elementProps?.textColor || 'default'} onValueChange={(value) => onPropChange('textColor', value === 'default' ? '' : value)}>
+              <Select
+                value={elementProps?.textColor || "default"}
+                onValueChange={(value) =>
+                  onPropChange("textColor", value === "default" ? "" : value)
+                }
+              >
                 <SelectTrigger className="mt-1">
                   <SelectValue placeholder="Default" />
                 </SelectTrigger>
@@ -143,7 +188,12 @@ export function ButtonProperties({ elementProps, onPropChange }: ButtonPropertie
 
             <div>
               <Label htmlFor="borderColor">Border Color</Label>
-              <Select value={elementProps?.borderColor || 'default'} onValueChange={(value) => onPropChange('borderColor', value === 'default' ? '' : value)}>
+              <Select
+                value={elementProps?.borderColor || "default"}
+                onValueChange={(value) =>
+                  onPropChange("borderColor", value === "default" ? "" : value)
+                }
+              >
                 <SelectTrigger className="mt-1">
                   <SelectValue placeholder="Default" />
                 </SelectTrigger>
@@ -164,11 +214,18 @@ export function ButtonProperties({ elementProps, onPropChange }: ButtonPropertie
 
         {/* Spacing Section */}
         <AccordionItem value="spacing">
-          <AccordionTrigger className="text-sm font-medium">Spacing</AccordionTrigger>
+          <AccordionTrigger className="text-sm font-medium">
+            Spacing
+          </AccordionTrigger>
           <AccordionContent className="space-y-4">
             <div>
               <Label htmlFor="margin">Margin</Label>
-              <Select value={elementProps?.margin || 'none'} onValueChange={(value) => onPropChange('margin', value === 'none' ? '' : value)}>
+              <Select
+                value={elementProps?.margin || "none"}
+                onValueChange={(value) =>
+                  onPropChange("margin", value === "none" ? "" : value)
+                }
+              >
                 <SelectTrigger className="mt-1">
                   <SelectValue placeholder="None" />
                 </SelectTrigger>
@@ -189,7 +246,12 @@ export function ButtonProperties({ elementProps, onPropChange }: ButtonPropertie
 
             <div>
               <Label htmlFor="padding">Padding</Label>
-              <Select value={elementProps?.padding || 'default'} onValueChange={(value) => onPropChange('padding', value === 'default' ? '' : value)}>
+              <Select
+                value={elementProps?.padding || "default"}
+                onValueChange={(value) =>
+                  onPropChange("padding", value === "default" ? "" : value)
+                }
+              >
                 <SelectTrigger className="mt-1">
                   <SelectValue placeholder="Default" />
                 </SelectTrigger>
@@ -197,9 +259,13 @@ export function ButtonProperties({ elementProps, onPropChange }: ButtonPropertie
                   <SelectItem value="default">Default</SelectItem>
                   <SelectItem value="px-2 py-1">Small (8px x 4px)</SelectItem>
                   <SelectItem value="px-3 py-2">Medium (12px x 8px)</SelectItem>
-                  <SelectItem value="px-4 py-2">Default (16px x 8px)</SelectItem>
+                  <SelectItem value="px-4 py-2">
+                    Default (16px x 8px)
+                  </SelectItem>
                   <SelectItem value="px-6 py-3">Large (24px x 12px)</SelectItem>
-                  <SelectItem value="px-8 py-4">Extra Large (32px x 16px)</SelectItem>
+                  <SelectItem value="px-8 py-4">
+                    Extra Large (32px x 16px)
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -208,11 +274,18 @@ export function ButtonProperties({ elementProps, onPropChange }: ButtonPropertie
 
         {/* Effects Section */}
         <AccordionItem value="effects">
-          <AccordionTrigger className="text-sm font-medium">Effects</AccordionTrigger>
+          <AccordionTrigger className="text-sm font-medium">
+            Effects
+          </AccordionTrigger>
           <AccordionContent className="space-y-4">
             <div>
               <Label htmlFor="borderRadius">Border Radius</Label>
-              <Select value={elementProps?.borderRadius || 'default'} onValueChange={(value) => onPropChange('borderRadius', value === 'default' ? '' : value)}>
+              <Select
+                value={elementProps?.borderRadius || "default"}
+                onValueChange={(value) =>
+                  onPropChange("borderRadius", value === "default" ? "" : value)
+                }
+              >
                 <SelectTrigger className="mt-1">
                   <SelectValue placeholder="Default" />
                 </SelectTrigger>
@@ -232,24 +305,44 @@ export function ButtonProperties({ elementProps, onPropChange }: ButtonPropertie
 
             <div>
               <Label htmlFor="boxShadow">Shadow</Label>
-              <Select value={elementProps?.boxShadow || 'none'} onValueChange={(value) => onPropChange('boxShadow', value === 'none' ? '' : value)}>
+              <Select
+                value={elementProps?.boxShadow || "none"}
+                onValueChange={(value) =>
+                  onPropChange("boxShadow", value === "none" ? "" : value)
+                }
+              >
                 <SelectTrigger className="mt-1">
                   <SelectValue placeholder="None" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="none">None</SelectItem>
-                  <SelectItem value="0 1px 2px 0 rgb(0 0 0 / 0.05)">Small</SelectItem>
-                  <SelectItem value="0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)">Default</SelectItem>
-                  <SelectItem value="0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)">Medium</SelectItem>
-                  <SelectItem value="0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)">Large</SelectItem>
-                  <SelectItem value="0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)">Extra Large</SelectItem>
+                  <SelectItem value="0 1px 2px 0 rgb(0 0 0 / 0.05)">
+                    Small
+                  </SelectItem>
+                  <SelectItem value="0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)">
+                    Default
+                  </SelectItem>
+                  <SelectItem value="0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)">
+                    Medium
+                  </SelectItem>
+                  <SelectItem value="0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)">
+                    Large
+                  </SelectItem>
+                  <SelectItem value="0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)">
+                    Extra Large
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div>
               <Label htmlFor="opacity">Opacity</Label>
-              <Select value={elementProps?.opacity || 'full'} onValueChange={(value) => onPropChange('opacity', value === 'full' ? '' : value)}>
+              <Select
+                value={elementProps?.opacity || "full"}
+                onValueChange={(value) =>
+                  onPropChange("opacity", value === "full" ? "" : value)
+                }
+              >
                 <SelectTrigger className="mt-1">
                   <SelectValue placeholder="100%" />
                 </SelectTrigger>
@@ -268,11 +361,18 @@ export function ButtonProperties({ elementProps, onPropChange }: ButtonPropertie
 
         {/* Behavior Section */}
         <AccordionItem value="behavior">
-          <AccordionTrigger className="text-sm font-medium">Behavior</AccordionTrigger>
+          <AccordionTrigger className="text-sm font-medium">
+            Behavior
+          </AccordionTrigger>
           <AccordionContent className="space-y-4">
             <div>
               <Label htmlFor="target">Link Target</Label>
-              <Select value={elementProps?.target || 'same'} onValueChange={(value) => onPropChange('target', value === 'same' ? '' : value)}>
+              <Select
+                value={elementProps?.target || "same"}
+                onValueChange={(value) =>
+                  onPropChange("target", value === "same" ? "" : value)
+                }
+              >
                 <SelectTrigger className="mt-1">
                   <SelectValue placeholder="Same Window" />
                 </SelectTrigger>
@@ -287,7 +387,12 @@ export function ButtonProperties({ elementProps, onPropChange }: ButtonPropertie
 
             <div>
               <Label htmlFor="rel">Link Relationship</Label>
-              <Select value={elementProps?.rel || 'none'} onValueChange={(value) => onPropChange('rel', value === 'none' ? '' : value)}>
+              <Select
+                value={elementProps?.rel || "none"}
+                onValueChange={(value) =>
+                  onPropChange("rel", value === "none" ? "" : value)
+                }
+              >
                 <SelectTrigger className="mt-1">
                   <SelectValue placeholder="None" />
                 </SelectTrigger>
@@ -296,7 +401,9 @@ export function ButtonProperties({ elementProps, onPropChange }: ButtonPropertie
                   <SelectItem value="nofollow">No Follow</SelectItem>
                   <SelectItem value="noopener">No Opener</SelectItem>
                   <SelectItem value="noreferrer">No Referrer</SelectItem>
-                  <SelectItem value="nofollow noopener">No Follow + No Opener</SelectItem>
+                  <SelectItem value="nofollow noopener">
+                    No Follow + No Opener
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -304,5 +411,5 @@ export function ButtonProperties({ elementProps, onPropChange }: ButtonPropertie
         </AccordionItem>
       </Accordion>
     </div>
-  )
+  );
 }
