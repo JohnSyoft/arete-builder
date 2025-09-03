@@ -86,6 +86,13 @@ import { HospitalityTestimonials1 } from "../blocks/Testimonials/HospitalityTest
 import { HospitalityFooter1 } from "../blocks/Footer/HospitalityFooter1";
 import { HospitalityDining1 } from "../blocks/Dining/HospitalityDining1";
 import { PhotoGallery } from "../blocks/Cards/PhotoGallery";
+// Modern Hero Components
+import { TechHero1 } from "../blocks/Hero/TechHero1";
+import { AgencyHero1 } from "../blocks/Hero/AgencyHero1";
+import { EcommerceHero1 } from "../blocks/Hero/EcommerceHero1";
+import { StartupHero1 } from "../blocks/Hero/StartupHero1";
+import { CreativeHero1 } from "../blocks/Hero/CreativeHero1";
+import { CorporateHero1 } from "../blocks/Hero/CorporateHero1";
 // CMS Cards
 import { CosmeticCard1 } from "../blocks/CMS/CosmeticCard1";
 import { HospitalityCard1 } from "../blocks/CMS/HospitalityCard1";
@@ -311,6 +318,12 @@ export const CraftSignature = Signature;
 export const CraftForm = Form;
 export const CraftMedicalHero1 = MedicalHero1;
 export const CraftCosmeticHero1 = CosmeticHero1;
+export const CraftTechHero1 = TechHero1;
+export const CraftAgencyHero1 = AgencyHero1;
+export const CraftEcommerceHero1 = EcommerceHero1;
+export const CraftStartupHero1 = StartupHero1;
+export const CraftCreativeHero1 = CreativeHero1;
+export const CraftCorporateHero1 = CorporateHero1;
 export const CraftCosmeticAbout1 = CosmeticAbout1;
 export const CraftCosmeticWhyChooseUs1 = CosmeticWhyChooseUs1;
 export const CraftCosmeticWhyChoose2 = CosmeticWhyChoose2;
@@ -423,6 +436,12 @@ const baseComponentResolver = {
   // Hero blocks
   MedicalHero1: CraftMedicalHero1,
   CosmeticHero1: CraftCosmeticHero1,
+  TechHero1: CraftTechHero1,
+  AgencyHero1: CraftAgencyHero1,
+  EcommerceHero1: CraftEcommerceHero1,
+  StartupHero1: CraftStartupHero1,
+  CreativeHero1: CraftCreativeHero1,
+  CorporateHero1: CraftCorporateHero1,
   // About blocks
   CosmeticAbout1: CraftCosmeticAbout1,
   CosmeticWhyChooseUs1: CraftCosmeticWhyChooseUs1,
