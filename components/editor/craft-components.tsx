@@ -90,6 +90,16 @@ import { PhotoGallery } from "../blocks/Cards/PhotoGallery";
 import { CosmeticCard1 } from "../blocks/CMS/CosmeticCard1";
 import { HospitalityCard1 } from "../blocks/CMS/HospitalityCard1";
 import { ModernCard1 } from "../blocks/CMS/ModernCard1";
+// Modern Components
+import { MiniMaxHero1 } from "../blocks/Hero/MiniMaxHero1";
+import { ModernSaaSHero1 } from "../blocks/Hero/ModernSaaSHero1";
+import { ModernPricing1 } from "../blocks/Pricing/ModernPricing1";
+import { ModernFeatures1 } from "../blocks/Features/ModernFeatures1";
+import { ModernTestimonials1 } from "../blocks/Modern/ModernTestimonials1";
+import { ModernFooter1 } from "../blocks/Modern/ModernFooter1";
+import { ModernContact1 } from "../blocks/Modern/ModernContact1";
+import { ModernTeam1 } from "../blocks/Team/ModernTeam1";
+import { ModernBlog1 } from "../blocks/Blog/ModernBlog1";
 // Business components
 // import {
 //   CraftBlogCard,
@@ -346,6 +356,17 @@ export const CraftCosmeticCard1 = CosmeticCard1;
 export const CraftHospitalityCard1 = HospitalityCard1;
 export const CraftModernCard1 = ModernCard1;
 
+// Modern Components
+export const CraftMiniMaxHero1 = MiniMaxHero1;
+export const CraftModernSaaSHero1 = ModernSaaSHero1;
+export const CraftModernPricing1 = ModernPricing1;
+export const CraftModernFeatures1 = ModernFeatures1;
+export const CraftModernTestimonials1 = ModernTestimonials1;
+export const CraftModernFooter1 = ModernFooter1;
+export const CraftModernContact1 = ModernContact1;
+export const CraftModernTeam1 = ModernTeam1;
+export const CraftModernBlog1 = ModernBlog1;
+
 // Mutable resolver that can be extended with user-created components
 const baseComponentResolver = {
   Container,
@@ -450,6 +471,16 @@ const baseComponentResolver = {
   CosmeticCard1: CraftCosmeticCard1,
   HospitalityCard1: CraftHospitalityCard1,
   ModernCard1: CraftModernCard1,
+  // Modern Components
+  MiniMaxHero1: CraftMiniMaxHero1,
+  ModernSaaSHero1: CraftModernSaaSHero1,
+  ModernPricing1: CraftModernPricing1,
+  ModernFeatures1: CraftModernFeatures1,
+  ModernTestimonials1: CraftModernTestimonials1,
+  ModernFooter1: CraftModernFooter1,
+  ModernContact1: CraftModernContact1,
+  ModernTeam1: CraftModernTeam1,
+  ModernBlog1: CraftModernBlog1,
   // Business components
   // BlogCard: CraftBlogCard,
   // ProductCard: CraftProductCard,
