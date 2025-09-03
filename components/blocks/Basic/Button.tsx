@@ -19,11 +19,15 @@ interface ButtonProps {
   target?: "_self" | "_blank";
   backgroundColor?: string;
   textColor?: string;
+  borderColor?: string;
   borderRadius?: string;
   margin?: string;
   padding?: string;
   width?: string;
   height?: string;
+  boxShadow?: string;
+  opacity?: string;
+  rel?: string;
 }
 
 export function Button({
@@ -39,6 +43,9 @@ export function Button({
   padding = "",
   width = "w-auto",
   height = "h-auto",
+  boxShadow = "",
+  opacity = "",
+  rel = "",
 }: ButtonProps) {
   const {
     connectors: { connect, drag },
@@ -72,6 +79,9 @@ export function Button({
         padding,
         width,
         height,
+        boxShadow,
+        opacity,
+        rel,
       },
       id,
       (newProps) => {
@@ -90,20 +100,15 @@ export function Button({
   };
 
   const customStyles = {
-    backgroundColor: backgroundColor || undefined,
-    color: textColor || undefined,
-    borderRadius: borderRadius || undefined,
-    padding: padding || undefined,
+    // Only use inline styles for values that aren't Tailwind classes
   };
 
   return (
     <Resizer
       propKey={{ width: "width", height: "height" }}
-      style={{
-        margin: margin,
-      }}
       className={`
         relative 
+        ${margin || ""}
         ${selected ? "ring-2 ring-blue-500" : ""} 
         ${hovered ? "ring-1 ring-blue-300" : ""}
       `}
@@ -113,9 +118,9 @@ export function Button({
         size={size}
         asChild
         style={customStyles}
-        className={`w-full h-full ${padding} ${borderRadius}`}
+        className={`w-full h-full ${padding || ""} ${backgroundColor || ""} ${textColor || ""} ${borderColor || ""} ${borderRadius || ""} ${boxShadow || ""} ${opacity || ""}`}
       >
-        <a href={href} target={target}>
+        <a href={href} target={target} rel={rel || undefined}>
           <span
             contentEditable
             suppressContentEditableWarning
@@ -179,6 +184,9 @@ Button.craft = {
     padding: "",
     width: "w-auto",
     height: "h-auto",
+    boxShadow: "",
+    opacity: "",
+    rel: "",
   },
   rules: {
     canDrag: () => true,

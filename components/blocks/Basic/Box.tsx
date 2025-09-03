@@ -26,6 +26,12 @@ interface BoxProps {
   justifyContent?: "start" | "center" | "end" | "between" | "around" | "evenly";
   flexDirection?: "row" | "column" | "row-reverse" | "column-reverse";
   gap?: string;
+  backgroundImage?: string;
+  gradient?: string;
+  backgroundSize?: string;
+  backgroundPosition?: string;
+  borderWidth?: string;
+  borderStyle?: string;
   children?: React.ReactNode;
 }
 
@@ -45,6 +51,12 @@ export function Box({
   justifyContent = "start",
   flexDirection = "row",
   gap = "0",
+  backgroundImage = "",
+  gradient = "",
+  backgroundSize = "cover",
+  backgroundPosition = "center",
+  borderWidth = "0px",
+  borderStyle = "solid",
   children,
 }: BoxProps) {
   const {
@@ -81,6 +93,12 @@ export function Box({
         justifyContent,
         flexDirection,
         gap,
+        backgroundImage,
+        gradient,
+        backgroundSize,
+        backgroundPosition,
+        borderWidth,
+        borderStyle,
       },
       id,
       (newProps) => {
@@ -170,6 +188,9 @@ export function Box({
       className={`relative group ${selected ? "ring-2 ring-blue-500" : ""} ${
         hovered ? "ring-1 ring-blue-300" : ""
       }`}
+      style={{
+        margin: margin || undefined,
+      }}
     >
       <div
         className={`
@@ -183,12 +204,23 @@ export function Box({
           }
         `}
         style={{
-          backgroundColor,
+          backgroundColor: gradient ? undefined : backgroundColor,
+          backgroundImage: gradient
+            ? gradient
+            : backgroundImage
+            ? `url(${backgroundImage})`
+            : undefined,
+          backgroundSize:
+            backgroundImage || gradient ? backgroundSize : undefined,
+          backgroundPosition:
+            backgroundImage || gradient ? backgroundPosition : undefined,
           color: textColor,
-          padding,
-          margin,
-          borderRadius,
-          border: border !== "none" ? `1px solid ${borderColor}` : "none",
+          padding: padding || undefined,
+          borderRadius: borderRadius || undefined,
+          border:
+            borderWidth && borderWidth !== "0px"
+              ? `${borderWidth} ${borderStyle} ${borderColor}`
+              : "none",
           width: "100%",
           height: "100%",
           minHeight: minHeight !== "auto" ? minHeight : undefined,
@@ -244,6 +276,12 @@ Box.craft = {
     justifyContent: "start",
     flexDirection: "row",
     gap: "0",
+    backgroundImage: "",
+    gradient: "",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    borderWidth: "0px",
+    borderStyle: "solid",
   },
   rules: {
     canDrag: () => true,
