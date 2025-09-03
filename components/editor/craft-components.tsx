@@ -63,6 +63,12 @@ import { ElderCareCTA1 } from "../blocks/CTA/ElderCareCTA1";
 import { ElderCareTestimonials1 } from "../blocks/Testimonials/ElderCareTestimonials1";
 import { MedicalHero1 } from "../blocks/Hero/MedicalHero1";
 import { CosmeticHero1 } from "../blocks/Hero/CosmeticHero1";
+import { EmpowermentHero1 } from "../blocks/Hero/EmpowermentHero1";
+import { CollaborationHero1 } from "../blocks/Hero/CollaborationHero1";
+import { LearningPlatformHero } from "../blocks/Hero/LearningPlatformHero";
+import { ProductivityHero } from "../blocks/Hero/ProductivityHero";
+import { ExpenseTrackingHero } from "../blocks/Hero/ExpenseTrackingHero";
+import { CommunityResourcesHero } from "../blocks/Hero/CommunityResourcesHero";
 import { CosmeticAbout1 } from "../blocks/About/CosmeticAbout1";
 import { CosmeticWhyChooseUs1 } from "../blocks/About/CosmeticWhyChooseUs1";
 import { CosmeticWhyChoose2 } from "../blocks/About/CosmeticWhyChoose2";
@@ -86,6 +92,21 @@ import { HospitalityTestimonials1 } from "../blocks/Testimonials/HospitalityTest
 import { HospitalityFooter1 } from "../blocks/Footer/HospitalityFooter1";
 import { HospitalityDining1 } from "../blocks/Dining/HospitalityDining1";
 import { PhotoGallery } from "../blocks/Cards/PhotoGallery";
+// New Hospitality Components
+import { ResortBookingHero } from "../blocks/Hero/ResortBookingHero";
+import { LuxurySuites } from "../blocks/Content/LuxurySuites";
+import { SpaWellness } from "../blocks/Services/SpaWellness";
+import { FineDining } from "../blocks/Content/FineDining";
+import { WeddingEvents } from "../blocks/Content/WeddingEvents";
+// CMS blocks
+import {
+  CMSField,
+  CMSPrevNext,
+  CMSPrevButton,
+  CMSNextButton,
+} from "../blocks/CMS/CMSField";
+import { HotelAmenities } from "../blocks/Content/HotelAmenities";
+import { PropertyGallery } from "../blocks/Content/PropertyGallery";
 // Modern Hero Components
 // CMS Cards
 import { CosmeticCard1 } from "../blocks/CMS/CosmeticCard1";
@@ -94,6 +115,7 @@ import { ModernCard1 } from "../blocks/CMS/ModernCard1";
 // Modern Components
 import { MiniMaxHero1 } from "../blocks/Hero/MiniMaxHero1";
 import { ModernSaaSHero1 } from "../blocks/Hero/ModernSaaSHero1";
+import { EnvironmentalHero1 } from "../blocks/Hero/EnvironmentalHero1";
 import { ModernPricing1 } from "../blocks/Pricing/ModernPricing1";
 import { ModernFeatures1 } from "../blocks/Features/ModernFeatures1";
 import { ModernTestimonials1 } from "../blocks/Modern/ModernTestimonials1";
@@ -312,6 +334,12 @@ export const CraftSignature = Signature;
 export const CraftForm = Form;
 export const CraftMedicalHero1 = MedicalHero1;
 export const CraftCosmeticHero1 = CosmeticHero1;
+export const CraftEmpowermentHero1 = EmpowermentHero1;
+export const CraftCollaborationHero1 = CollaborationHero1;
+export const CraftLearningPlatformHero = LearningPlatformHero;
+export const CraftProductivityHero = ProductivityHero;
+export const CraftExpenseTrackingHero = ExpenseTrackingHero;
+export const CraftCommunityResourcesHero = CommunityResourcesHero;
 export const CraftCosmeticAbout1 = CosmeticAbout1;
 export const CraftCosmeticWhyChooseUs1 = CosmeticWhyChooseUs1;
 export const CraftCosmeticWhyChoose2 = CosmeticWhyChoose2;
@@ -328,6 +356,15 @@ export const CraftMegaMenuHeader = MegaMenuHeader;
 // export const CraftMiniMaxCarousel1 = MiniMaxCarousel1;
 export const CraftResearchCards = ResearchCards;
 export const CraftPhotoGallery = PhotoGallery;
+
+// New Hospitality Components
+export const CraftResortBookingHero = ResortBookingHero;
+export const CraftLuxurySuites = LuxurySuites;
+export const CraftSpaWellness = SpaWellness;
+export const CraftFineDining = FineDining;
+export const CraftWeddingEvents = WeddingEvents;
+export const CraftHotelAmenities = HotelAmenities;
+export const CraftPropertyGallery = PropertyGallery;
 
 // export const CraftHeroCarouselSimple = HeroCarouselSimple;
 export const CraftMedicalServices1 = MedicalServices1;
@@ -360,6 +397,7 @@ export const CraftModernCard1 = ModernCard1;
 // Modern Components
 export const CraftMiniMaxHero1 = MiniMaxHero1;
 export const CraftModernSaaSHero1 = ModernSaaSHero1;
+export const CraftEnvironmentalHero1 = EnvironmentalHero1;
 export const CraftModernPricing1 = ModernPricing1;
 export const CraftModernFeatures1 = ModernFeatures1;
 export const CraftModernTestimonials1 = ModernTestimonials1;
@@ -367,6 +405,12 @@ export const CraftModernFooter1 = ModernFooter1;
 export const CraftModernContact1 = ModernContact1;
 export const CraftModernTeam1 = ModernTeam1;
 export const CraftModernBlog1 = ModernBlog1;
+
+// CMS Components
+export const CraftCMSField = CMSField;
+export const CraftCMSPrevNext = CMSPrevNext;
+export const CraftCMSPrevButton = CMSPrevButton;
+export const CraftCMSNextButton = CMSNextButton;
 
 // Mutable resolver that can be extended with user-created components
 const baseComponentResolver = {
@@ -424,6 +468,12 @@ const baseComponentResolver = {
   // Hero blocks
   MedicalHero1: CraftMedicalHero1,
   CosmeticHero1: CraftCosmeticHero1,
+  EmpowermentHero1: CraftEmpowermentHero1,
+  CollaborationHero1: CraftCollaborationHero1,
+  LearningPlatformHero: CraftLearningPlatformHero,
+  ProductivityHero: CraftProductivityHero,
+  ExpenseTrackingHero: CraftExpenseTrackingHero,
+  CommunityResourcesHero: CraftCommunityResourcesHero,
   // About blocks
   CosmeticAbout1: CraftCosmeticAbout1,
   CosmeticWhyChooseUs1: CraftCosmeticWhyChooseUs1,
@@ -468,6 +518,14 @@ const baseComponentResolver = {
   HospitalityTestimonials1: CraftHospitalityTestimonials1,
   HospitalityFooter1: CraftHospitalityFooter1,
   HospitalityDining1: CraftHospitalityDining1,
+  // New Hospitality Components
+  ResortBookingHero: CraftResortBookingHero,
+  LuxurySuites: CraftLuxurySuites,
+  SpaWellness: CraftSpaWellness,
+  FineDining: CraftFineDining,
+  WeddingEvents: CraftWeddingEvents,
+  HotelAmenities: CraftHotelAmenities,
+  PropertyGallery: CraftPropertyGallery,
   // CMS Cards
   CosmeticCard1: CraftCosmeticCard1,
   HospitalityCard1: CraftHospitalityCard1,
@@ -482,6 +540,12 @@ const baseComponentResolver = {
   ModernContact1: CraftModernContact1,
   ModernTeam1: CraftModernTeam1,
   ModernBlog1: CraftModernBlog1,
+  EnvironmentalHero1: CraftEnvironmentalHero1,
+  // CMS components
+  CMSField: CraftCMSField,
+  CMSPrevNext: CraftCMSPrevNext,
+  CMSPrevButton: CraftCMSPrevButton,
+  CMSNextButton: CraftCMSNextButton,
   // Business components
   // BlogCard: CraftBlogCard,
   // ProductCard: CraftProductCard,

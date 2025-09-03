@@ -143,7 +143,7 @@ sendResponse.forbidden(res, "Access denied");
 - Frontend API responses are auto-unwrapped by Axios interceptor: `response.data` not `response.data.data`
 - CraftJS is used for drag-and-drop editor functionality in `/app/editor/`
 - New CraftJS components must be added to both `/components/editor/craft-components.tsx` (resolver) and `/components/editor/sidebar.tsx` (sidebar menu)
-- **When removing features/code sections**: Delete entire files and directories if they're no longer used. Don't leave empty stubs or unused files in the codebase. This includes model files, route directories, controller files, validation files, and any associated assets. If instructed to remove sections of code, delete the complete files and folders when they become unused - this maintains a clean codebase and prevents confusion.
+- **When removing features/code sections**: Delete entire files and directories if they're no longer used. Don't leave empty stubs or unused files in the codebase. This includes model files, route directories, controller files, validation files, and any associated assets. If instructed to remove sections of code, delete the complete files and folders when they become unused - this maintains a clean codebase and prevents confusion. Additionally, ensure that any references to the removed components are also cleaned up throughout the codebase. when creating a craft component rules should have canDrag,canDrop,canMoveIn,canMoveOut as ()=>true
 
 ## Available CraftJS Components
 

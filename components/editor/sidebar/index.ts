@@ -1,10 +1,8 @@
 export { BlockItem, SimpleBlockItem } from './block-item';
 export { 
   elementsCategory, 
-  layoutCategory, 
-  pageCategory, 
   formsCategory,
-  hospitalityCategory,
+  fieldsCategory,
   categoryIcons,
   type CategoryConfig 
 } from './sidebar-categories';

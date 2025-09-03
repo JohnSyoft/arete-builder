@@ -43,14 +43,19 @@ import {
   FileText,
   FolderPlus,
   AlertTriangle,
+  Trash2 as Trash2Icon,
 } from "lucide-react";
 import { useCollections } from "@/hooks/useCollections";
-import { useCreatePage } from "@/hooks/usePages";
+import { useCreatePage, useDeletePage, useUpdatePage } from "@/hooks/usePages";
+import { useCollectionItems } from "@/hooks/useCollectionItems";
 
 interface Page {
   id: string;
   name: string;
   slug: string;
+  pageType?: "normal" | "cms" | "404";
+  collection?: string;
+  cmsPageType?: "index" | "detail";
 }
 
 interface EditorToolbarProps {
@@ -85,9 +90,52 @@ export function EditorToolbar({
   const [currentMode, setCurrentMode] = useState<"design" | "cms">(mode);
   const { data: collectionsResponse } = useCollections(projectId);
   const createPageMutation = useCreatePage();
+  const deletePageMutation = useDeletePage();
+  const updatePageMutation = useUpdatePage();
 
   const collections = collectionsResponse?.collections || [];
 
+  // Check if there are any CMS pages in the project and get connected collections
+  const cmsPages = pages.filter((page) => page.pageType === "cms");
+  const currentPage = pages.find((page) => page.slug === currentPageSlug);
+
+  // Only show items dropdown when on a CMS detail page
+  const isCurrentPageCMSDetail =
+    currentPage?.pageType === "cms" && currentPage?.cmsPageType === "detail";
+
+  // Get unique collection IDs from CMS pages
+  const connectedCollectionIds = Array.from(
+    new Set(cmsPages.map((page) => page.collection).filter(Boolean))
+  );
+
+  // Get connected collections
+  const connectedCollections = collections.filter((collection) =>
+    connectedCollectionIds.includes(collection._id)
+  );
+
+  // Fetch items for the current page's collection, but only if current page is CMS detail
+  const collectionItemsQuery = useCollectionItems(
+    currentPage?.collection || "",
+    {
+      limit: 10,
+      status: "published",
+    }
+  );
+
+  // Only use the data if we're on a CMS detail page and have items
+  const allCollectionItems =
+    isCurrentPageCMSDetail && collectionItemsQuery.data?.items
+      ? collectionItemsQuery.data.items.map((item: any) => {
+          const collection = collections.find(
+            (c) => c._id === currentPage?.collection
+          );
+          return {
+            ...item,
+            collectionName: collection?.name || "Unknown Collection",
+            collectionId: collection?._id || "",
+          };
+        })
+      : [];
   const { actions, query, canUndo, canRedo, selected } = useEditor(
     (state, query) => ({
       canUndo: query.history.canUndo(),
@@ -165,7 +213,7 @@ export function EditorToolbar({
         name: pageName,
         slug: pageSlug,
         isHomePage: false,
-        collectionId,
+        collection: collectionId, // Changed from collectionId to collection
         pageType: "cms",
         cmsPageType: pageType,
         layout: JSON.stringify({
@@ -195,6 +243,51 @@ export function EditorToolbar({
   const handleCollectionAction = (collectionId: string) => {
     // Navigate to the collection in CMS mode
     router.push(`/cms/${projectId}/collections/${collectionId}`);
+  };
+
+  const handleItemAction = (itemId: string, collectionId: string) => {
+    // Navigate to the specific item in CMS mode
+    router.push(
+      `/cms/${projectId}/collections/${collectionId}/items/${itemId}`
+    );
+  };
+
+  const handleEditInCMS = () => {
+    if (currentPage?.collection) {
+      // Navigate to the collection in CMS mode
+      router.push(`/cms/${projectId}/collections/${currentPage.collection}`);
+    }
+  };
+
+  const handleSwapCollection = async (
+    newCollectionId: string,
+    newCollectionName: string
+  ) => {
+    if (!currentPage) return;
+
+    const confirmSwap = confirm(
+      `Are you sure you want to change this page from "${
+        collections.find((c) => c._id === currentPage.collection)?.name
+      }" collection to "${newCollectionName}" collection? This will update the page settings.`
+    );
+
+    if (!confirmSwap) return;
+
+    try {
+      // Update the current page with the new collection
+      await updatePageMutation.mutateAsync({
+        id: currentPage.id,
+        pageData: {
+          collection: newCollectionId,
+        },
+      });
+
+      // The page will automatically refresh with the new collection data
+      console.log("Collection swapped successfully!");
+    } catch (error) {
+      console.error("Error swapping collection:", error);
+      alert("Failed to swap collection. Please try again.");
+    }
   };
 
   const handleAdd404Page = () => {
@@ -231,6 +324,46 @@ export function EditorToolbar({
           }
         },
       });
+    }
+  };
+
+  const handleDeletePage = async () => {
+    const currentPage = pages.find((page) => page.slug === currentPageSlug);
+    if (!currentPage) return;
+
+    // Safety checks
+    if (pages.length <= 1) {
+      alert(
+        "Cannot delete the last page. A project must have at least one page."
+      );
+      return;
+    }
+
+    // Check if this is the home page
+    const isHomePage = currentPage.slug === "home" || currentPage.slug === "";
+    if (isHomePage) {
+      const confirmDelete = confirm(
+        "You are about to delete the home page. This will make your website inaccessible to visitors. Are you sure you want to continue?"
+      );
+      if (!confirmDelete) return;
+    } else {
+      const confirmDelete = confirm(
+        `Are you sure you want to delete the page "${currentPage.name}"? This action cannot be undone.`
+      );
+      if (!confirmDelete) return;
+    }
+
+    try {
+      await deletePageMutation.mutateAsync(currentPage.id);
+
+      // Navigate to the first available page after deletion
+      const remainingPages = pages.filter((p) => p.id !== currentPage.id);
+      if (remainingPages.length > 0 && onPageChange) {
+        onPageChange(remainingPages[0].slug);
+      }
+    } catch (error) {
+      console.error("Error deleting page:", error);
+      alert("Failed to delete page. Please try again.");
     }
   };
 
@@ -385,6 +518,20 @@ export function EditorToolbar({
                       New 404 Page
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
+                    <DropdownMenuItem
+                      onClick={handleDeletePage}
+                      className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                      disabled={pages.length <= 1}
+                    >
+                      <Trash2Icon className="w-4 h-4 mr-2" />
+                      Delete Page
+                      {pages.length <= 1 && (
+                        <span className="ml-auto text-xs text-muted-foreground">
+                          (Last page)
+                        </span>
+                      )}
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
                     <DropdownMenuItem disabled>
                       <FolderPlus className="w-4 h-4 mr-2" />
                       New Folder
@@ -396,43 +543,124 @@ export function EditorToolbar({
                   </DropdownMenuContent>
                 </DropdownMenu>
 
-                {/* Collections Dropdown */}
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="text-sm text-gray-500 hover:text-gray-700"
-                    >
-                      Collections
-                      <ChevronDown className="w-3 h-3 ml-1" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="start" className="w-48">
-                    {collections.length > 0 ? (
-                      collections.map((collection, index) => (
-                        <DropdownMenuItem
-                          key={collection._id}
-                          onClick={() => handleCollectionAction(collection._id)}
-                          className={
-                            index === 0
-                              ? "bg-blue-500 text-white hover:bg-blue-600"
-                              : ""
-                          }
-                        >
-                          <Database className="w-4 h-4 mr-2" />
-                          {collection.name}
-                          <ChevronRight className="w-4 h-4 ml-auto" />
-                        </DropdownMenuItem>
-                      ))
-                    ) : (
-                      <DropdownMenuItem disabled>
+                {/* Collections Dropdown - Only show if current page is a CMS detail page */}
+                {isCurrentPageCMSDetail && (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="text-sm text-gray-500 hover:text-gray-700"
+                      >
+                        {collections.find(
+                          (c) => c._id === currentPage?.collection
+                        )?.name || "Collections"}
+                        <ChevronDown className="w-3 h-3 ml-1" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="start" className="w-48">
+                      <DropdownMenuItem
+                        onClick={() => handleEditInCMS()}
+                        className="flex items-center"
+                      >
                         <Database className="w-4 h-4 mr-2" />
-                        No collections found
+                        Edit in CMS
                       </DropdownMenuItem>
-                    )}
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuSub>
+                        <DropdownMenuSubTrigger>
+                          Swap Collection...
+                        </DropdownMenuSubTrigger>
+                        <DropdownMenuPortal>
+                          <DropdownMenuSubContent>
+                            {collections
+                              .filter((c) => c._id !== currentPage?.collection)
+                              .map((collection) => (
+                                <DropdownMenuItem
+                                  key={collection._id}
+                                  onClick={() =>
+                                    handleSwapCollection(
+                                      collection._id,
+                                      collection.name
+                                    )
+                                  }
+                                >
+                                  <Database className="w-4 h-4 mr-2" />
+                                  {collection.name}
+                                  <span className="ml-auto text-xs text-muted-foreground">
+                                    {collection.itemCount || 0} items
+                                  </span>
+                                </DropdownMenuItem>
+                              ))}
+                            {collections.filter(
+                              (c) => c._id !== currentPage?.collection
+                            ).length === 0 && (
+                              <DropdownMenuItem disabled>
+                                No other collections available
+                              </DropdownMenuItem>
+                            )}
+                          </DropdownMenuSubContent>
+                        </DropdownMenuPortal>
+                      </DropdownMenuSub>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                )}
+
+                {/* Items Dropdown - Only show if current page is a CMS detail page */}
+                {isCurrentPageCMSDetail && (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="text-sm text-gray-500 hover:text-gray-700"
+                      >
+                        Items
+                        <ChevronDown className="w-3 h-3 ml-1" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="start" className="w-64">
+                      {allCollectionItems.length > 0 ? (
+                        allCollectionItems.map((item, index) => {
+                          // Get the display title from the item data
+                          const displayTitle =
+                            item.data?.title ||
+                            item.data?.name ||
+                            item.slug ||
+                            `Item ${item._id.slice(-6)}`;
+
+                          return (
+                            <DropdownMenuItem
+                              key={item._id}
+                              onClick={() =>
+                                handleItemAction(item._id, item.collectionId)
+                              }
+                              className="flex flex-col items-start p-3"
+                            >
+                              <div className="flex items-center w-full">
+                                <Database className="w-4 h-4 mr-2 flex-shrink-0" />
+                                <div className="flex-1 min-w-0">
+                                  <div className="font-medium text-sm truncate">
+                                    {displayTitle}
+                                  </div>
+                                  <div className="text-xs text-muted-foreground truncate">
+                                    {item.collectionName}
+                                  </div>
+                                </div>
+                                <ChevronRight className="w-4 h-4 ml-2 flex-shrink-0" />
+                              </div>
+                            </DropdownMenuItem>
+                          );
+                        })
+                      ) : (
+                        <DropdownMenuItem disabled>
+                          <Database className="w-4 h-4 mr-2" />
+                          No items found
+                        </DropdownMenuItem>
+                      )}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                )}
               </div>
             ) : (
               <span className="text-sm text-gray-500">{pageName}</span>

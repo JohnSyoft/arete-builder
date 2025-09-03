@@ -4,9 +4,12 @@ import React from "react";
 import { useViewportStore } from "@/lib/store/viewport-store";
 import { useSidebarStore } from "@/lib/store/sidebar-store";
 import { useUserBlocksStore } from "@/lib/store/user-blocks-store";
+import { usePageBySlug } from "@/hooks/usePages";
+import { useParams } from "next/navigation";
 import {
   elementsCategory,
   formsCategory,
+  fieldsCategory,
   useUserBlocksCategory,
   SidebarNavigation,
   SidebarContent,
@@ -17,7 +20,17 @@ export function EditorSidebar() {
   const { isOpen } = useSidebarStore();
   const { addBlock } = useUserBlocksStore();
   const [activeCategory, setActiveCategory] = React.useState("components");
-
+  const params = useParams();
+  // Get current page info to determine if it's CMS detail page
+  const { data: pageResponse } = usePageBySlug(
+    params.projectId as string,
+    params.pageSlug as string
+  );
+  console.log({ pageResponse });
+  const currentPage = pageResponse?.data?.page;
+  const isCMSDetailPage =
+    currentPage?.pageType === "cms" && currentPage?.cmsPageType === "detail";
+  console.log({ isCMSDetailPage });
   const userBlocksCategory = useUserBlocksCategory();
 
   const handleCreateBlock = (blockData: {
@@ -32,7 +45,7 @@ export function EditorSidebar() {
     });
   };
 
-  // All component categories
+  // All component categories - conditionally include Fields category
   const allCategories = {
     components: {
       name: "Components",
@@ -45,6 +58,7 @@ export function EditorSidebar() {
     },
     elements: elementsCategory,
     forms: formsCategory,
+    ...(isCMSDetailPage ? { fields: fieldsCategory } : {}),
   };
 
   const currentCategory =

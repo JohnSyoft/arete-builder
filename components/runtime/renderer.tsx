@@ -31,6 +31,9 @@ import { TabRuntime as Tab } from "@/components/blocks/Basic/TabRuntime";
 import { TabPanelRuntime as TabPanel } from "@/components/blocks/Basic/TabPanelRuntime";
 import { CarouselRuntime as Carousel } from "@/components/blocks/Basic/CarouselRuntime";
 import { BlogGridRuntime as BlogGrid } from "@/components/blocks/Basic/BlogGridRuntime";
+import { ResizerRuntime as Resizer } from "@/components/blocks/Basic/ResizerRuntime";
+
+// Hero runtime components
 
 // Component mapping for runtime rendering
 const componentMap: Record<string, React.ComponentType<any>> = {
@@ -64,6 +67,7 @@ const componentMap: Record<string, React.ComponentType<any>> = {
   TabPanel,
   Carousel,
   BlogGrid,
+  Resizer,
 };
 
 interface RendererProps {

@@ -5,12 +5,14 @@ export interface BlockItemProps {
   component: React.ComponentType;
   name: string;
   description?: string;
+  image?: string;
 }
 
 export const BlockItem = ({
   component: Component,
   name,
   description,
+  image,
 }: BlockItemProps) => {
   const {
     connectors: { create },
@@ -33,12 +35,25 @@ export const BlockItem = ({
           }
         }
       }}
-      className="p-3 bg-gray-50 rounded-lg border border-gray-200 cursor-grab hover:bg-gray-100 transition-colors"
+      className=" bg-gray-50 rounded-lg border border-gray-200 cursor-grab hover:bg-gray-100 transition-colors"
       draggable={false}
     >
-      <h4 className="font-medium text-sm">{name}</h4>
+      {image && (
+        <div className="mb-2 w-full h-40 bg-gray-100 rounded overflow-hidden">
+          <img
+            src={image}
+            alt={name}
+            className="w-full h-full object-cover"
+            onError={(e) => {
+              // Fallback if image fails to load
+              e.currentTarget.style.display = "none";
+            }}
+          />
+        </div>
+      )}
+      <h4 className="p-3 font-medium text-sm">{name}</h4>
       {description && (
-        <p className="text-xs text-gray-600 mt-1">{description}</p>
+        <p className="p-3 text-xs text-gray-600 mt-1">{description}</p>
       )}
     </div>
   );

@@ -199,7 +199,7 @@ export function Box({
           ${getGapClass()}
           ${
             !children
-              ? "min-h-[100px] border-2 border-dashed border-gray-300 bg-gray-50/50"
+              ? "border-2 border-dashed border-gray-300 bg-gray-50/50"
               : ""
           }
         `}
@@ -222,18 +222,11 @@ export function Box({
               ? `${borderWidth} ${borderStyle} ${borderColor}`
               : "none",
           width: "100%",
-          height: "100%",
+          height: height ?? "100%",
           minHeight: minHeight !== "auto" ? minHeight : undefined,
         }}
       >
-        {children || (
-          <div className="flex items-center justify-center h-full text-center text-gray-500">
-            <div>
-              <div className="text-lg font-medium">Box Container</div>
-              <div className="text-sm mt-1">Add content to this container</div>
-            </div>
-          </div>
-        )}
+        {children}
       </div>
 
       {(selected || hovered) && (

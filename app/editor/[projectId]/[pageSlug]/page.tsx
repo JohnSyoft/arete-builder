@@ -9,6 +9,7 @@ import { GlobalPropertiesPanel } from "@/components/editor/global-properties-pan
 import { Modals } from "@/components/dialogs/Modals";
 import { getCurrentResolver } from "@/components/editor/craft-components";
 import { useUserBlocksStore } from "@/lib/store/user-blocks-store";
+import { useCMSContextStore } from "@/lib/store/cmsContextStore";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "@/components/icons";
 import { useViewportStore } from "@/lib/store/viewport-store";
@@ -131,6 +132,7 @@ export default function EditorPage() {
   const router = useRouter();
   const { toggleSidebar } = useSidebarStore();
   const { initializeComponents, blocks } = useUserBlocksStore();
+  const { setCollectionContext, clearContext } = useCMSContextStore();
   const [mode, setMode] = useState<"design" | "cms">("design");
 
   const projectId = params.projectId as string;
@@ -321,6 +323,24 @@ export default function EditorPage() {
     return currentPageData.layout;
   }, [currentPageData]);
 
+  // Set CMS collection context when on CMS detail page
+  useEffect(() => {
+    if (currentPageData) {
+      if (
+        currentPageData.pageType === "cms" &&
+        currentPageData.cmsPageType === "detail" &&
+        currentPageData.collection
+      ) {
+        setCollectionContext(currentPageData.collection);
+      } else {
+        clearContext();
+      }
+    }
+
+    // Cleanup on unmount
+    return () => clearContext();
+  }, [currentPageData, setCollectionContext, clearContext]);
+
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -357,7 +377,14 @@ export default function EditorPage() {
         <EditorContent
           project={project}
           currentPage={currentPageData}
-          pages={pages.map((p) => ({ id: p._id, name: p.name, slug: p.slug }))}
+          pages={pages.map((p) => ({
+            id: p._id,
+            name: p.name,
+            slug: p.slug,
+            pageType: p.pageType,
+            cmsPageType: p?.cmsPageType,
+            collection: p?.collection,
+          }))}
           layoutData={layoutData}
           onPreview={handlePreview}
           onPageChange={handlePageChange}

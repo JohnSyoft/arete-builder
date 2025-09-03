@@ -132,7 +132,7 @@ export function CreateEditPageDialog({
           name: page.name || "",
           slug: page.slug || "",
           isHomePage: page.isHomePage || false,
-          collectionId: (page as any).collectionId || "",
+          collectionId: (page as any).collection || "", // Read from collection field
         });
       } else {
         reset({
@@ -237,7 +237,7 @@ export function CreateEditPageDialog({
             name: data.name.trim(),
             slug: data.slug.trim(),
             isHomePage: data.isHomePage,
-            ...(isCMSPage && { collectionId: data.collectionId }),
+            ...(isCMSPage && { collection: data.collectionId }), // Use collection field for API
           },
         });
         onSave(updatedPage.data.page);
@@ -248,7 +248,7 @@ export function CreateEditPageDialog({
           slug: data.slug.trim(),
           isHomePage: data.isHomePage,
           ...(isCMSPage && {
-            collectionId: selectedCollectionId,
+            collection: selectedCollectionId, // Changed from collectionId to collection
             pageType: "cms",
             cmsPageType: selectedPageType,
           }),

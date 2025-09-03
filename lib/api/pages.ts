@@ -7,6 +7,10 @@ export interface Page {
   slug: string;
   layout: any; // JSON layout structure
   isHomePage: boolean;
+  // CMS-specific fields
+  pageType?: "normal" | "cms" | "404";
+  collection?: string; // Collection ID for CMS pages
+  cmsPageType?: "index" | "detail";
   settings?: {
     title?: string;
     description?: string;
@@ -43,8 +47,8 @@ export interface CreatePageRequest {
   layout?: any;
   isHomePage?: boolean;
   // CMS-specific fields
-  collectionId?: string;
   pageType?: "normal" | "cms" | "404";
+  collection?: string; // Changed from collectionId to match backend
   cmsPageType?: "index" | "detail";
 }
 
@@ -57,6 +61,10 @@ export interface UpdatePageRequest {
   isHomePage?: boolean;
   isPublished?: boolean;
   settings?: Partial<Page['settings']>;
+  // CMS-specific fields
+  pageType?: "normal" | "cms" | "404";
+  collection?: string;
+  cmsPageType?: "index" | "detail";
 }
 
 export const pagesApi = {
