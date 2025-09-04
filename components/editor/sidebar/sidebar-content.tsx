@@ -11,6 +11,8 @@ import {
   // Hero components
   CraftMedicalHero1,
   CraftCosmeticHero1,
+  CraftHealthcareHero1,
+  CraftHealthcareGridHero1,
   CraftEmpowermentHero1,
   CraftCollaborationHero1,
   CraftLearningPlatformHero,
@@ -121,6 +123,18 @@ const componentsByType = {
       image: "/cosmeticHero.png",
     },
     {
+      component: CraftHealthcareHero1,
+      name: "Healthcare Hero",
+      description: "Clean healthcare hero with patient focus and stats",
+      image: "/placeholder.svg",
+    },
+    {
+      component: CraftHealthcareGridHero1,
+      name: "Healthcare Grid Hero",
+      description: "Healthcare grid layout hero with multiple images",
+      image: "/placeholder.svg",
+    },
+    {
       component: CraftEmpowermentHero1,
       name: "Empowerment Hero",
       description: "Eco-friendly retreat hero with badge and dual buttons",
@@ -194,19 +208,19 @@ const componentsByType = {
       component: CraftMedicalServices1,
       name: "Medical Services",
       description: "Comprehensive medical services grid",
-      image: "/medicalServices.png",
+      image: "/placeholder.svg",
     },
     {
       component: CraftCosmeticServices1,
       name: "Beauty Services",
       description: "Cosmetic treatment services showcase",
-      image: "/comseticServices.png",
+      image: "/placeholder.svg",
     },
     {
       component: CraftHospitalityAmenities1,
       name: "Amenities",
       description: "Hotel amenities and facilities grid",
-      image: "/amentiesServices.png",
+      image: "/placeholder.svg",
     },
     {
       component: CraftElderCareServices1,
@@ -224,7 +238,7 @@ const componentsByType = {
       component: CraftSpaWellness,
       name: "Spa & Wellness",
       description: "Spa services and wellness treatments showcase",
-      image: "/spaAndWelness.png",
+      image: "/placeholder.svg",
     },
     {
       component: CraftHotelAmenities,
@@ -238,7 +252,7 @@ const componentsByType = {
       component: CraftCosmeticAbout1,
       name: "About Section",
       description: "Professional about section with expertise focus",
-      image: "/cosmeticAbout.png",
+      image: "/placeholder.svg",
     },
     {
       component: CraftCosmeticWhyChooseUs1,
@@ -256,13 +270,13 @@ const componentsByType = {
       component: CraftCosmeticWhatWeDo1,
       name: "What We Do",
       description: "Service offerings and specializations",
-      image: "/cosmeticWhatWeDo.png",
+      image: "/placeholder.svg",
     },
     {
       component: CraftCosmeticWhyChoose2,
       name: "Why Choose Us v2",
       description: "Competitive advantages and benefits",
-      image: "/cosmeticWhyChooseUs.png",
+      image: "/placeholder.svg",
     },
     {
       component: CraftWhyChooseUs1,

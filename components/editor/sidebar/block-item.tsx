@@ -35,7 +35,9 @@ export const BlockItem = ({
           }
         }
       }}
-      className=" bg-gray-50 rounded-lg border border-gray-200 cursor-grab hover:bg-gray-100 transition-colors"
+      className={`${
+        !image && "p-3"
+      } bg-gray-50 rounded-lg border border-gray-200 cursor-grab hover:bg-gray-100 transition-colors`}
       draggable={false}
     >
       {image && (
@@ -51,9 +53,11 @@ export const BlockItem = ({
           />
         </div>
       )}
-      <h4 className="p-3 font-medium text-sm">{name}</h4>
+      <h4 className={`${image && "p-3"} font-medium text-sm`}>{name}</h4>
       {description && (
-        <p className="p-3 text-xs text-gray-600 mt-1">{description}</p>
+        <p className={`${image && "p-3"} text-xs text-gray-600 mt-1`}>
+          {description}
+        </p>
       )}
     </div>
   );

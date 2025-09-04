@@ -63,6 +63,7 @@ import { ElderCareCTA1 } from "../blocks/CTA/ElderCareCTA1";
 import { ElderCareTestimonials1 } from "../blocks/Testimonials/ElderCareTestimonials1";
 import { MedicalHero1 } from "../blocks/Hero/MedicalHero1";
 import { CosmeticHero1 } from "../blocks/Hero/CosmeticHero1";
+import { HealthcareHero1 } from "../blocks/Hero/HealthcareHero1";
 import { EmpowermentHero1 } from "../blocks/Hero/EmpowermentHero1";
 import { CollaborationHero1 } from "../blocks/Hero/CollaborationHero1";
 import { LearningPlatformHero } from "../blocks/Hero/LearningPlatformHero";
@@ -98,13 +99,6 @@ import { LuxurySuites } from "../blocks/Content/LuxurySuites";
 import { SpaWellness } from "../blocks/Services/SpaWellness";
 import { FineDining } from "../blocks/Content/FineDining";
 import { WeddingEvents } from "../blocks/Content/WeddingEvents";
-// CMS blocks
-import {
-  CMSField,
-  CMSPrevNext,
-  CMSPrevButton,
-  CMSNextButton,
-} from "../blocks/CMS/CMSField";
 import { HotelAmenities } from "../blocks/Content/HotelAmenities";
 import { PropertyGallery } from "../blocks/Content/PropertyGallery";
 // Modern Hero Components
@@ -334,6 +328,7 @@ export const CraftSignature = Signature;
 export const CraftForm = Form;
 export const CraftMedicalHero1 = MedicalHero1;
 export const CraftCosmeticHero1 = CosmeticHero1;
+export const CraftHealthcareHero1 = HealthcareHero1;
 export const CraftEmpowermentHero1 = EmpowermentHero1;
 export const CraftCollaborationHero1 = CollaborationHero1;
 export const CraftLearningPlatformHero = LearningPlatformHero;
@@ -406,12 +401,6 @@ export const CraftModernContact1 = ModernContact1;
 export const CraftModernTeam1 = ModernTeam1;
 export const CraftModernBlog1 = ModernBlog1;
 
-// CMS Components
-export const CraftCMSField = CMSField;
-export const CraftCMSPrevNext = CMSPrevNext;
-export const CraftCMSPrevButton = CMSPrevButton;
-export const CraftCMSNextButton = CMSNextButton;
-
 // Mutable resolver that can be extended with user-created components
 const baseComponentResolver = {
   Container,
@@ -468,6 +457,7 @@ const baseComponentResolver = {
   // Hero blocks
   MedicalHero1: CraftMedicalHero1,
   CosmeticHero1: CraftCosmeticHero1,
+  HealthcareHero1: CraftHealthcareHero1,
   EmpowermentHero1: CraftEmpowermentHero1,
   CollaborationHero1: CraftCollaborationHero1,
   LearningPlatformHero: CraftLearningPlatformHero,
@@ -541,11 +531,6 @@ const baseComponentResolver = {
   ModernTeam1: CraftModernTeam1,
   ModernBlog1: CraftModernBlog1,
   EnvironmentalHero1: CraftEnvironmentalHero1,
-  // CMS components
-  CMSField: CraftCMSField,
-  CMSPrevNext: CraftCMSPrevNext,
-  CMSPrevButton: CraftCMSPrevButton,
-  CMSNextButton: CraftCMSNextButton,
   // Business components
   // BlogCard: CraftBlogCard,
   // ProductCard: CraftProductCard,
