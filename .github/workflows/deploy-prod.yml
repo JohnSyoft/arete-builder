@@ -1,0 +1,16 @@
+name: Prod - Deploy to vercel on merge
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  call_cron_url:
+    runs-on: ubuntu-latest
+
+    steps:
+    
+      - name: Call Vercel URL
+        run: |
+          # Use curl to make an HTTP GET request to the vercel URL
+          curl -X GET https://api.vercel.com/v1/integrations/deploy/prj_LZZh2VcH1VZsEXomjxZDcoGGp2GP/jJk6JxxYUP
