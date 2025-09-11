@@ -31,6 +31,8 @@ interface FlexProps {
   // Resizer props
   width?: string;
   height?: string;
+  // Non-editable prop for card wrappers
+  nonEditable?: boolean;
 }
 
 export function Flex({
@@ -50,6 +52,7 @@ export function Flex({
   overflowX = "visible",
   width = "auto",
   height = "auto",
+  nonEditable = false,
 }: FlexProps) {
   const {
     connectors: { connect, drag },
@@ -67,6 +70,8 @@ export function Flex({
   const { openPanel } = usePropertiesPanelStore();
 
   const handleShowProperties = () => {
+    if (nonEditable) return; // Don't show properties panel for non-editable components
+    
     openPanel(
       "flex",
       {
@@ -187,10 +192,10 @@ export function Flex({
   return (
     <Resizer
       propKey={{ width: "width", height: "height" }}
-      style={{
-        margin: margin,
-        padding: padding,
-      }}
+      // style={{
+      //   margin: margin,
+      //   padding: padding,
+      // }}
       className={`
         relative group 
         ${minHeight}
@@ -202,21 +207,16 @@ export function Flex({
         ${getWrapClass(wrap)}
         ${getAdvancedFlexClasses()}
         ${getOverflowXClass(overflowX)}
-        ${selected ? "ring-2 ring-blue-500" : ""} 
-        ${hovered ? "ring-1 ring-blue-300" : ""}
+        ${!nonEditable && selected ? "ring-2 ring-blue-500" : ""} 
+        ${!nonEditable && hovered ? "ring-1 ring-blue-300" : ""}
+        ${margin}
+        ${padding}
       `}
     >
-      {children || (
-        // Show placeholder only when there are no children
-        <div className="text-center text-gray-500 text-sm w-full py-4">
-          Flex Container
-          <br />
-          <span className="text-xs">Drop components here</span>
-        </div>
-      )}
+      {children}
 
-      {/* Floating toolbar */}
-      {(selected || hovered) && (
+      {/* Floating toolbar - only show if not non-editable */}
+      {!nonEditable && (selected || hovered) && (
         <div className="absolute -top-12 left-0 z-50">
           <FloatingToolbar
             elementType="container"
@@ -229,7 +229,8 @@ export function Flex({
         </div>
       )}
 
-      {(selected || hovered) && (
+      {/* Selection indicator - only show if not non-editable */}
+      {!nonEditable && (selected || hovered) && (
         <div className="absolute -top-6 left-0 bg-purple-500 text-white text-xs px-2 py-1 rounded z-10">
           Flex {flexDirection}
         </div>
@@ -257,11 +258,12 @@ Flex.craft = {
     overflowX: "visible",
     width: "auto",
     height: "auto",
+    nonEditable: false,
   },
   rules: {
-    canDrag: () => true,
-    canMoveIn: () => true,
-    canMoveOut: () => true,
+    canDrag: (node) => !node.data.props.nonEditable,
+    canMoveIn: (node) => !node.data.props.nonEditable,
+    canMoveOut: (node) => !node.data.props.nonEditable,
   },
   isCanvas: true, // Allow components to be dropped into this flex container
 };

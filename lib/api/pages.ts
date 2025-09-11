@@ -80,6 +80,11 @@ export const pagesApi = {
     return await apiClient.get(`/pages/project/${projectId}/slug/${slug}`);
   },
 
+  // Editor-specific version that handles complex CMS detail page slugs
+  getPageBySlugEditor: async (projectId: string, slug: string): Promise<PageResponse> => {
+    return await apiClient.post(`/pages/project/${projectId}/editor-slug`, { slug });
+  },
+
   createPage: async (pageData: CreatePageRequest): Promise<PageResponse> => {
     return await apiClient.post("/pages", pageData);
   },

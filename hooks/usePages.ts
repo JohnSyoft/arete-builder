@@ -21,10 +21,20 @@ export const usePage = (id: string, enabled: boolean = true) => {
   });
 };
 
-export const usePageBySlug = (projectId: string, slug: string) => {
+export const usePageBySlug = (projectId: string, slug: any) => {
+  // Detect if this is a CMS detail page slug (contains :id)
+  const isCMSDetailSlug = slug && slug.includes(':id');
+  
   return useQuery({
     queryKey: ['page', 'slug', projectId, slug],
-    queryFn: () => pagesApi.getPageBySlug(projectId, slug),
+    queryFn: () => {
+      // Use editor API for CMS detail page slugs, regular API for others
+      if (isCMSDetailSlug) {
+        return pagesApi.getPageBySlugEditor(projectId, slug);
+      } else {
+        return pagesApi.getPageBySlug(projectId, slug);
+      }
+    },
     enabled: !!(projectId && slug),
   });
 };

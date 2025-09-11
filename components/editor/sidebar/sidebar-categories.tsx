@@ -1,41 +1,52 @@
 import {
   CraftAlert,
   CraftBadge,
+  CraftBox,
   CraftButton,
   CraftCard,
   CraftCheckbox,
   CraftCheckboxGroup,
   CraftCheckboxListTile,
   CraftChoiceChips,
+  CraftColumns,
   CraftCounterButton,
   CraftCreditCardForm,
+  CraftDivider,
+  CraftFlex,
   CraftForm,
   CraftDropDown,
+  CraftGrid,
   CraftHeading,
   CraftIcon,
   CraftImage,
   CraftInput,
+  CraftLineBreak,
   CraftLink,
   CraftList,
+  CraftMap,
+  CraftNavigation,
+  CraftNavigationItem,
   CraftPinCode,
   CraftRadioButton,
   CraftRatingBar,
+  CraftRow,
+  CraftSection,
   CraftSelect,
   CraftSignature,
   CraftSlider,
+  CraftSpacer,
   CraftSwitch,
   CraftSwitchListTile,
   CraftTab,
   CraftTabPanel,
   CraftCarousel,
   CraftBlogCard,
+  CraftBlogGrid,
   CraftProductCard,
   CraftText,
   CraftTextarea,
-  CraftCMSField,
-  CraftCMSPrevNext,
-  CraftCMSPrevButton,
-  CraftCMSNextButton,
+  CraftVideo,
+  CraftFormattedText,
 } from "@/components/editor/craft-components";
 
 export interface CategoryConfig {
@@ -87,6 +98,11 @@ export const elementsCategory = {
       description: "Editable text element",
     },
     {
+      component: CraftFormattedText,
+      name: "Formatted Text",
+      description: "Rich text with formatting",
+    },
+    {
       component: CraftHeading,
       name: "Heading",
       description: "H1-H6 heading elements",
@@ -132,6 +148,71 @@ export const elementsCategory = {
       description: "Alert messages and notifications",
     },
     {
+      component: CraftBox,
+      name: "Box",
+      description: "Flexible container element",
+    },
+    {
+      component: CraftSection,
+      name: "Section",
+      description: "Page section container",
+    },
+    {
+      component: CraftRow,
+      name: "Row",
+      description: "Horizontal layout container",
+    },
+    {
+      component: CraftColumns,
+      name: "Columns",
+      description: "Multi-column layout",
+    },
+    {
+      component: CraftGrid,
+      name: "Grid",
+      description: "CSS Grid layout container",
+    },
+    {
+      component: CraftFlex,
+      name: "Flex",
+      description: "Flexbox layout container",
+    },
+    {
+      component: CraftSpacer,
+      name: "Spacer",
+      description: "Add spacing between elements",
+    },
+    {
+      component: CraftDivider,
+      name: "Divider",
+      description: "Visual separator line",
+    },
+    {
+      component: CraftLineBreak,
+      name: "Line Break",
+      description: "Force line break",
+    },
+    {
+      component: CraftVideo,
+      name: "Video",
+      description: "Embedded video player",
+    },
+    {
+      component: CraftMap,
+      name: "Map",
+      description: "Interactive map component",
+    },
+    {
+      component: CraftNavigation,
+      name: "Navigation",
+      description: "Navigation menu component",
+    },
+    {
+      component: CraftNavigationItem,
+      name: "Navigation Item",
+      description: "Single navigation menu item",
+    },
+    {
       component: CraftTab,
       name: "Tab",
       description: "Tab navigation with panels",
@@ -145,6 +226,11 @@ export const elementsCategory = {
       component: CraftCarousel,
       name: "Carousel",
       description: "Interactive image/content slider",
+    },
+    {
+      component: CraftBlogGrid,
+      name: "Blog Grid",
+      description: "Grid layout for blog posts",
     },
     {
       component: CraftBlogCard,
@@ -256,29 +342,82 @@ export const formsCategory = {
   ],
 };
 
-export const fieldsCategory = {
+// Dynamic CMS fields category - will be populated based on current page's collection
+export const createFieldsCategory = (collectionFields: any[] = [], collectionId?: string) => ({
   name: "CMS Fields",
   icon: categoryIcons.fields,
-  items: [
-    {
-      component: CraftCMSField,
-      name: "CMS Field",
-      description: "Dynamic CMS field component",
-    },
-    {
-      component: CraftCMSPrevNext,
-      name: "Previous/Next Navigation",
-      description: "Navigation between CMS items",
-    },
-    {
-      component: CraftCMSPrevButton,
-      name: "Previous Button",
-      description: "Navigate to previous CMS item",
-    },
-    {
-      component: CraftCMSNextButton,
-      name: "Next Button",
-      description: "Navigate to next CMS item",
-    },
-  ],
+  items: () => {
+    const items = [];
+    
+    // Add each field from the collection as a draggable component
+    collectionFields.forEach((field) => {
+      const { component, props } = createCMSFieldComponent(field, collectionId);
+      items.push({
+        component: component,
+        props: props, // Pass CMS field props
+        name: field.name,
+        description: `${field.type} field - ${field.description || 'CMS field'}`,
+        fieldType: field.type, // Keep for display purposes in sidebar
+      });
+    });
+
+    // Add navigation components for CMS detail pages
+    items.push(
+      {
+        component: CraftText, // Placeholder - will be replaced with actual CMS nav components
+        name: "Previous/Next Navigation",
+        description: "Navigate between CMS items",
+      },
+      {
+        component: CraftButton, // Placeholder - will be replaced with actual CMS nav components  
+        name: "Previous Button",
+        description: "Navigate to previous CMS item",
+      },
+      {
+        component: CraftButton, // Placeholder - will be replaced with actual CMS nav components
+        name: "Next Button", 
+        description: "Navigate to next CMS item",
+      }
+    );
+
+    return items;
+  },
+});
+
+// Helper function to create CMS field components dynamically
+const createCMSFieldComponent = (field: any, collectionId?: string) => {
+  // Create CMS field props
+  const cmsProps = {
+    cmsField: field.name,
+    cmsFieldType: field.type,
+    cmsFieldId: field.id,
+    cmsCollectionId: collectionId,
+    cmsFieldLabel: field.name.charAt(0).toUpperCase() + field.name.slice(1),
+  };
+
+  // Based on field type, return appropriate component with CMS props
+  switch (field.type) {
+    case 'plainText':
+    case 'richText':
+      return { component: CraftText, props: cmsProps };
+    case 'formattedText':
+      return { component: CraftFormattedText, props: cmsProps };
+    case 'image':
+      return { component: CraftImage, props: cmsProps };
+    case 'number':
+      return { component: CraftInput, props: cmsProps };
+    case 'date':
+      return { component: CraftInput, props: cmsProps };
+    case 'boolean':
+      return { component: CraftCheckbox, props: cmsProps };
+    case 'select':
+      return { component: CraftSelect, props: cmsProps };
+    case 'multiSelect':
+      return { component: CraftCheckboxGroup, props: cmsProps };
+    case 'reference':
+    case 'multiReference':
+      return { component: CraftCard, props: cmsProps }; // Display referenced content in cards
+    default:
+      return { component: CraftText, props: cmsProps };
+  }
 };

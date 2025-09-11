@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useParams } from "next/navigation";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import {
@@ -10,7 +11,10 @@ import {
 } from "@/components/ui/select";
 import { ImageUpload } from "@/components/ui/image-upload";
 import { Button } from "@/components/ui/button";
-import { Link } from "lucide-react";
+import { Link, Loader2 } from "lucide-react";
+import { useUpload } from "@/hooks/useUpload";
+import { toast } from "sonner";
+import { CMSFieldSelector } from "./CMSFieldSelector";
 
 interface ImagePropertiesProps {
   elementProps: any;
@@ -21,22 +25,70 @@ export function ImageProperties({
   elementProps,
   onPropChange,
 }: ImagePropertiesProps) {
+  const params = useParams();
+  const projectId = params.projectId as string;
   const [showManualInput, setShowManualInput] = useState(false);
+
+  const { uploadSingle, isUploading } = useUpload();
+  
+  // Check if this is a CMS field (read-only content)
+  const isCMSField = !!(elementProps?.cmsField && elementProps?.cmsFieldId && elementProps?.cmsCollectionId);
+
+  const handleImageUpload = async (files: FileList | File[]) => {
+    alert("Uploading image...");
+    if (!files || files.length === 0) return;
+
+    try {
+      const file = Array.isArray(files) ? files[0] : files[0];
+      const uploadedFile = await uploadSingle(file);
+
+      if (uploadedFile?.url) {
+        onPropChange("src", uploadedFile.url);
+        toast.success("Image uploaded successfully!");
+      }
+    } catch (error) {
+      console.error("Upload failed:", error);
+      toast.error("Failed to upload image. Please try again.");
+    }
+  };
 
   return (
     <div className="space-y-4">
+      {/* CMS Field Selector */}
+      <CMSFieldSelector 
+        elementProps={elementProps}
+        onPropChange={onPropChange}
+        fieldTypes={['image', 'gallery']}
+      />
+
+      {/* CMS Field Info - only show if bound to CMS */}
+      {isCMSField && (
+        <div className="bg-green-50 border border-green-200 rounded-lg p-3">
+          <div className="flex items-center space-x-2">
+            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+            <span className="text-sm font-medium text-green-800">CMS Field Bound</span>
+          </div>
+          <p className="text-xs text-green-600 mt-1">
+            Image from "{elementProps?.cmsFieldLabel || elementProps?.cmsField}" field.
+            Only styling can be edited.
+          </p>
+        </div>
+      )}
+
       <div>
         <div className="flex items-center justify-between mb-2">
           <Label htmlFor="src">Image</Label>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setShowManualInput(!showManualInput)}
-            className="text-xs"
-          >
-            <Link className="w-3 h-3 mr-1" />
-            {showManualInput ? "Upload" : "URL"}
-          </Button>
+          {!isCMSField && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setShowManualInput(!showManualInput)}
+              className="text-xs"
+            >
+              <Link className="w-3 h-3 mr-1" />
+              {showManualInput ? "Upload" : "URL"}
+            </Button>
+          )}
         </div>
 
         {showManualInput ? (
@@ -44,18 +96,28 @@ export function ImageProperties({
             id="src"
             value={elementProps?.src || ""}
             onChange={(e) => onPropChange("src", e.target.value)}
-            placeholder="https://example.com/image.jpg"
+            placeholder={isCMSField ? "Image populated from CMS" : "https://example.com/image.jpg"}
             className="mt-1"
+            disabled={isUploading || isCMSField}
           />
         ) : (
-          <ImageUpload
-            value={elementProps?.src || ""}
-            onChange={(url) => onPropChange("src", url)}
-            multiple={false}
-            maxFiles={1}
-            placeholder="Upload an image"
-            variant="preview"
-          />
+          <div className="relative">
+            <ImageUpload
+              value={elementProps?.src || ""}
+              onChange={(url) => onPropChange("src", url)}
+              onFilesSelected={handleImageUpload}
+              multiple={false}
+              maxFiles={1}
+              placeholder={isCMSField ? "Image from CMS field" : (isUploading ? "Uploading..." : "Upload an image")}
+              variant="preview"
+              disabled={isUploading || isCMSField}
+            />
+            {isUploading && (
+              <div className="absolute inset-0 bg-white/50 flex items-center justify-center rounded-lg">
+                <Loader2 className="h-6 w-6 animate-spin text-blue-500" />
+              </div>
+            )}
+          </div>
         )}
       </div>
 

@@ -15,6 +15,8 @@ interface ButtonProps {
     | "ghost"
     | "link";
   size?: "default" | "sm" | "lg" | "icon";
+  navigationType?: "page" | "url";
+  pageSlug?: string;
   href?: string;
   target?: "_self" | "_blank";
   backgroundColor?: string;
@@ -26,6 +28,7 @@ interface ButtonProps {
   height?: string;
   boxShadow?: string;
   opacity?: string;
+  nonEditable?: boolean;
   rel?: string;
 }
 
@@ -33,6 +36,8 @@ export function Button({
   text = "Click me",
   variant = "default",
   size = "default",
+  navigationType = "url",
+  pageSlug = "",
   href = "#",
   target = "_self",
   backgroundColor = "",
@@ -45,6 +50,7 @@ export function Button({
   boxShadow = "",
   opacity = "",
   rel = "",
+  nonEditable = false,
 }: ButtonProps) {
   const {
     connectors: { connect, drag },
@@ -63,6 +69,8 @@ export function Button({
   const { openPanel } = usePropertiesPanelStore();
 
   const handleShowProperties = () => {
+    if (nonEditable) return; // Don't show properties panel for non-editable components
+    
     openPanel(
       "button",
       {
@@ -141,7 +149,7 @@ export function Button({
       </UIButton>
 
       {/* Floating toolbar shown on hover/selection */}
-      {(selected || hovered) && (
+      {!nonEditable && (selected || hovered) && (
         <div className="absolute -top-12 left-0 z-50">
           <FloatingToolbar
             elementType="button"
@@ -155,7 +163,7 @@ export function Button({
         </div>
       )}
 
-      {(selected || hovered) && (
+      {!nonEditable && (selected || hovered) && (
         <>
           <div className="absolute -top-6 left-0 bg-blue-500 text-white text-xs px-2 py-1 rounded z-10">
             Button
@@ -178,6 +186,8 @@ Button.craft = {
     text: "Click me",
     variant: "default",
     size: "default",
+    navigationType: "url",
+    pageSlug: "",
     href: "#",
     target: "_self",
     backgroundColor: "",
@@ -190,6 +200,7 @@ Button.craft = {
     boxShadow: "",
     opacity: "",
     rel: "",
+    nonEditable: false,
   },
   rules: {
     canDrag: () => true,

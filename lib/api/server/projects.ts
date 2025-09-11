@@ -16,7 +16,7 @@ interface ProjectApiResponse {
  */
 export async function getProject(projectId: string) {
   const apiUrl = getApiUrl()
-  const endpoint = `${apiUrl}/api/v1/projects/${projectId}`
+  const endpoint = `${apiUrl}/projects/${projectId}`
   
   try {
     const response = await fetch(endpoint, defaultFetchOptions)
@@ -42,7 +42,7 @@ export async function getProject(projectId: string) {
 export async function getProjects(query: Record<string, any> = {}) {
   const apiUrl = getApiUrl()
   const queryString = new URLSearchParams(query).toString()
-  const endpoint = `${apiUrl}/api/v1/projects${queryString ? `?${queryString}` : ''}`
+  const endpoint = `${apiUrl}/projects${queryString ? `?${queryString}` : ''}`
   
   try {
     const response = await fetch(endpoint, defaultFetchOptions)

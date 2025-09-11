@@ -14,6 +14,12 @@ interface BadgeProps extends Omit<UIBadgeProps, "children"> {
   margin?: string;
   width?: string;
   height?: string;
+  // CMS props
+  cmsField?: string;
+  cmsFieldType?: string;
+  cmsFieldId?: string;
+  cmsCollectionId?: string;
+  cmsFieldLabel?: string;
 }
 
 export function Badge({
@@ -23,6 +29,11 @@ export function Badge({
   margin = "my-1",
   width = "auto",
   height = "auto",
+  cmsField,
+  cmsFieldType,
+  cmsFieldId,
+  cmsCollectionId,
+  cmsFieldLabel,
   ...props
 }: BadgeProps) {
   const {

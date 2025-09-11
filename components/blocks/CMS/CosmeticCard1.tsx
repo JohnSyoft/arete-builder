@@ -32,6 +32,7 @@ interface DisplayOptions {
 
 interface CosmeticCard1Props {
   collection?: string;
+  collectionName?: string;
   fieldMappings?: FieldMapping;
   displayOptions?: DisplayOptions;
   itemsToShow?: number;
@@ -42,6 +43,16 @@ interface CosmeticCard1Props {
   primaryColor?: string;
   accentColor?: string;
   textColor?: string;
+
+  // CMS context data for properties panel
+  cmsCollectionId?: string;
+  cmsCollectionName?: string;
+  cmsFields?: Array<{
+    id: string;
+    name: string;
+    type: string;
+    label: string;
+  }>;
 
   // Preview data (for design mode)
   previewData?: Array<{
@@ -57,6 +68,7 @@ interface CosmeticCard1Props {
 
 export function CosmeticCard1({
   collection = "",
+  collectionName = "",
   fieldMappings = {
     image: "featured_image",
     title: "title",
@@ -73,7 +85,7 @@ export function CosmeticCard1({
     showCategory: true,
     showExcerpt: true,
     excerptLength: 120,
-    imageHeight: "250px",
+    imageHeight: "200px",
   },
   itemsToShow = 3,
   columns = 3,
@@ -83,6 +95,10 @@ export function CosmeticCard1({
   primaryColor = "#481E0B",
   accentColor = "#E67E22",
   textColor = "#333333",
+  // CMS context data
+  cmsCollectionId,
+  cmsCollectionName,
+  cmsFields = [],
   previewData = [
     {
       image:
@@ -133,6 +149,20 @@ export function CosmeticCard1({
   }));
 
   const { openPanel } = usePropertiesPanelStore();
+
+  // Helper function to get CMS field props for a specific field
+  const getCMSFieldProps = (fieldName: string, fieldType: string) => {
+    const field = cmsFields.find(f => f.name === fieldName);
+    if (!field || !cmsCollectionId) return {};
+    
+    return {
+      cmsField: field.name,
+      cmsFieldType: field.type,
+      cmsFieldId: field.id,
+      cmsCollectionId: cmsCollectionId,
+      cmsFieldLabel: field.label,
+    };
+  };
 
   const handleShowProperties = () => {
     openPanel(
@@ -189,17 +219,12 @@ export function CosmeticCard1({
     status: "published",
   });
 
-  // Debug CMS data updates
+  // Debug prop changes
   useEffect(() => {
-    console.log("=== CosmeticCard1 Debug Info ===");
-    console.log("Collection ID:", collection);
-    console.log("Field Mappings:", fieldMappings);
-    console.log("CMS Items:", cmsItems);
-    console.log("Is Loading:", isLoading);
-    console.log("Error:", error);
-    console.log("Items to Show:", itemsToShow);
-    console.log("================================");
-  }, [collection, fieldMappings, cmsItems, isLoading, error]);
+    console.log("CosmeticCard1 - itemsToShow changed:", itemsToShow);
+  }, [itemsToShow]);
+
+  console.log({ itemsToShow });
 
   // Transform CMS data to display format - memoized to prevent unnecessary re-renders
   const transformCMSItem = useMemo(() => {
@@ -277,7 +302,6 @@ export function CosmeticCard1({
     transformCMSItem,
     previewData,
   ]);
-  console.log({ displayData });
 
   const truncateText = (text: string, length: number) => {
     if (!text) return "";
@@ -309,38 +333,6 @@ export function CosmeticCard1({
         display="block"
         canvas
       >
-        {/* Collection Title */}
-        {collection && (
-          <Element
-            id="cosmeticCard1Title"
-            is={Box}
-            backgroundColor="transparent"
-            padding="0"
-            margin="0 0 48px 0"
-            display="block"
-            canvas={false}
-          >
-            <CraftText
-              text={`Latest from ${collection}`}
-              tagName="h2"
-              fontSize="text-4xl md:text-5xl"
-              fontWeight="font-bold"
-              color={primaryColor}
-              textAlign="text-center"
-              margin="0 0 16px 0"
-            />
-            <CraftText
-              text="Discover our premium treatments and wellness solutions"
-              tagName="p"
-              fontSize="text-lg md:text-xl"
-              fontWeight="font-normal"
-              color={accentColor}
-              textAlign="text-center"
-              margin="0"
-            />
-          </Element>
-        )}
-
         {/* Cards Grid */}
         <Element
           id="cosmeticCard1Grid"
@@ -351,8 +343,9 @@ export function CosmeticCard1({
           minColumnWidth="320px"
           gap={gap}
           autoRows="auto"
+          padding="p-4"
         >
-          {isLoading && collection
+          {isLoading
             ? // Loading state
               Array(itemsToShow)
                 .fill(null)
@@ -408,13 +401,14 @@ export function CosmeticCard1({
                         margin="0 0 24px 0"
                         display="block"
                         width="100%"
-                        height="280px"
+                        height="200px"
                         canvas
                       >
                         <CraftImage
                           src={item.image}
                           alt={item.title || "Card image"}
                           width="w-full"
+                          {...getCMSFieldProps(fieldMappings.image || 'image', 'image')}
                           height="h-full"
                           objectFit="object-cover"
                           borderRadius="12px"
@@ -438,6 +432,7 @@ export function CosmeticCard1({
                             text={item.category}
                             tagName="span"
                             fontSize="text-sm"
+                            {...getCMSFieldProps(fieldMappings.category || 'category', 'plainText')}
                             fontWeight="font-semibold"
                             color="white"
                             textAlign="text-center"
@@ -486,6 +481,7 @@ export function CosmeticCard1({
                                 text={item.date}
                                 tagName="span"
                                 fontSize="text-sm"
+                                {...getCMSFieldProps(fieldMappings.date || 'date', 'date')}
                                 fontWeight="font-medium"
                                 color={accentColor}
                                 textAlign="text-left"
@@ -531,6 +527,7 @@ export function CosmeticCard1({
                                   text={item.author}
                                   tagName="span"
                                   fontSize="text-sm"
+                                  {...getCMSFieldProps(fieldMappings.author || 'author', 'plainText')}
                                   fontWeight="font-medium"
                                   color="#666666"
                                   textAlign="text-left"
@@ -556,6 +553,7 @@ export function CosmeticCard1({
                           text={item.title || "Card Title"}
                           tagName="h3"
                           fontSize="text-xl md:text-2xl"
+                          {...getCMSFieldProps(fieldMappings.title || 'title', 'plainText')}
                           fontWeight="font-bold"
                           color={textColor}
                           textAlign="text-left"
@@ -582,6 +580,7 @@ export function CosmeticCard1({
                             )}
                             tagName="p"
                             fontSize="text-base"
+                            {...getCMSFieldProps(fieldMappings.excerpt || 'excerpt', 'formattedText')}
                             fontWeight="font-normal"
                             color="#666666"
                             textAlign="text-left"
@@ -616,9 +615,10 @@ export function CosmeticCard1({
                             text="Read More"
                             size="sm"
                             backgroundColor={primaryColor}
+                            {...getCMSFieldProps(fieldMappings.url || 'url', 'link')}
                             textColor="white"
                             borderRadius="25px"
-                            padding="12px 24px"
+                            padding="8px 16px"
                             width="w-auto"
                           />
                         </Element>
@@ -650,45 +650,6 @@ export function CosmeticCard1({
                   </Element>
                 );
               })}
-        </Element>
-
-        {/* CMS Configuration Info */}
-        <Element
-          id="cosmeticCard1Config"
-          is={Box}
-          backgroundColor="rgba(72, 30, 11, 0.05)"
-          padding="20px"
-          margin="40px 0 0 0"
-          borderRadius="10px"
-          display="block"
-          border="1px dashed #E67E22"
-          canvas={false}
-        >
-          <CraftText
-            text={
-              collection
-                ? isLoading
-                  ? `Loading data from collection: ${collection}...`
-                  : cmsItems && cmsItems.length > 0
-                  ? `Displaying ${
-                      cmsItems.length
-                    } items from collection: ${collection} | Field Mappings: ${Object.entries(
-                      fieldMappings
-                    )
-                      .map(([key, value]) => `${key}→${value}`)
-                      .join(", ")}`
-                  : `Collection "${collection}" is empty or has no published items`
-                : `No collection selected - showing preview data | Available field mappings: ${Object.keys(
-                    fieldMappings
-                  ).join(", ")}`
-            }
-            tagName="p"
-            fontSize="text-sm"
-            fontWeight="font-normal"
-            color="#666666"
-            textAlign="text-center"
-            margin="0"
-          />
         </Element>
       </Element>
 
@@ -722,6 +683,7 @@ CosmeticCard1.craft = {
   displayName: "Cosmetic Card 1",
   props: {
     collection: "",
+    collectionName: "",
     fieldMappings: {
       image: "image",
       title: "title",
@@ -736,7 +698,7 @@ CosmeticCard1.craft = {
       showCategory: true,
       showExcerpt: true,
       excerptLength: 120,
-      imageHeight: "250px",
+      imageHeight: "200px",
     },
     itemsToShow: 3,
     columns: 3,
@@ -746,6 +708,10 @@ CosmeticCard1.craft = {
     primaryColor: "#481E0B",
     accentColor: "#E67E22",
     textColor: "#333333",
+    // CMS context data
+    cmsCollectionId: "",
+    cmsCollectionName: "",
+    cmsFields: [],
   },
   rules: {
     canDrag: () => true,

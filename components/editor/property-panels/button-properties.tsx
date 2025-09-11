@@ -13,6 +13,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { useProjectPages } from "@/hooks/usePages";
+import { useParams } from "next/navigation";
 
 interface ButtonPropertiesProps {
   elementProps: any;
@@ -23,6 +25,20 @@ export function ButtonProperties({
   elementProps,
   onPropChange,
 }: ButtonPropertiesProps) {
+  const params = useParams();
+  const projectId = params?.projectId as string;
+  
+  // Fetch project pages for navigation dropdown
+  const { data: pagesResponse } = useProjectPages(projectId, !!projectId);
+  const pages = pagesResponse?.data?.pages || [];
+  
+  // Filter out pages that are CMS detail pages (contain :id)
+  const navigablePages = pages.filter((page: any) => 
+    !page.slug?.includes(':id') 
+  );
+
+  const navigationType = elementProps?.navigationType || "url";
+
   return (
     <div className="space-y-4">
       <div>
@@ -36,16 +52,58 @@ export function ButtonProperties({
         />
       </div>
 
+      {/* Navigation Type Selection */}
       <div>
-        <Label htmlFor="href">Link URL</Label>
-        <Input
-          id="href"
-          value={elementProps?.href || ""}
-          onChange={(e) => onPropChange("href", e.target.value)}
-          placeholder="https://example.com"
-          className="mt-1"
-        />
+        <Label htmlFor="navigationType">Navigation Type</Label>
+        <Select
+          value={navigationType}
+          onValueChange={(value) => onPropChange("navigationType", value)}
+        >
+          <SelectTrigger className="mt-1">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="page">Navigate to Page</SelectItem>
+            <SelectItem value="url">External URL</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
+
+      {/* Page Selection (for internal navigation) */}
+      {navigationType === "page" && (
+        <div>
+          <Label htmlFor="pageSlug">Select Page</Label>
+          <Select
+            value={elementProps?.pageSlug || ""}
+            onValueChange={(value) => onPropChange("pageSlug", value)}
+          >
+            <SelectTrigger className="mt-1">
+              <SelectValue placeholder="Choose a page..." />
+            </SelectTrigger>
+            <SelectContent>
+              {navigablePages.map((page: any) => (
+                <SelectItem key={page._id} value={page.slug}>
+                  {page.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      )}
+
+      {/* URL Input (for external navigation) */}
+      {navigationType === "url" && (
+        <div>
+          <Label htmlFor="href">External URL</Label>
+          <Input
+            id="href"
+            value={elementProps?.href || ""}
+            onChange={(e) => onPropChange("href", e.target.value)}
+            placeholder="https://example.com"
+            className="mt-1"
+          />
+        </div>
+      )}
 
       <Accordion type="multiple" className="w-full">
         {/* Style Section */}
@@ -359,56 +417,56 @@ export function ButtonProperties({
           </AccordionContent>
         </AccordionItem>
 
-        {/* Behavior Section */}
-        <AccordionItem value="behavior">
-          <AccordionTrigger className="text-sm font-medium">
-            Behavior
-          </AccordionTrigger>
-          <AccordionContent className="space-y-4">
-            <div>
-              <Label htmlFor="target">Link Target</Label>
-              <Select
-                value={elementProps?.target || "same"}
-                onValueChange={(value) =>
-                  onPropChange("target", value === "same" ? "" : value)
-                }
-              >
-                <SelectTrigger className="mt-1">
-                  <SelectValue placeholder="Same Window" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="same">Same Window</SelectItem>
-                  <SelectItem value="_blank">New Window/Tab</SelectItem>
-                  <SelectItem value="_parent">Parent Frame</SelectItem>
-                  <SelectItem value="_top">Top Frame</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+        {/* Behavior Section - Only for external URLs */}
+        {navigationType === "url" && (
+          <AccordionItem value="behavior">
+            <AccordionTrigger className="text-sm font-medium">
+              Link Behavior
+            </AccordionTrigger>
+            <AccordionContent className="space-y-4">
+              <div>
+                <Label htmlFor="target">Link Target</Label>
+                <Select
+                  value={elementProps?.target || "_self"}
+                  onValueChange={(value) => onPropChange("target", value)}
+                >
+                  <SelectTrigger className="mt-1">
+                    <SelectValue placeholder="Same Window" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="_self">Same Window</SelectItem>
+                    <SelectItem value="_blank">New Window/Tab</SelectItem>
+                    <SelectItem value="_parent">Parent Frame</SelectItem>
+                    <SelectItem value="_top">Top Frame</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
 
-            <div>
-              <Label htmlFor="rel">Link Relationship</Label>
-              <Select
-                value={elementProps?.rel || "none"}
-                onValueChange={(value) =>
-                  onPropChange("rel", value === "none" ? "" : value)
-                }
-              >
-                <SelectTrigger className="mt-1">
-                  <SelectValue placeholder="None" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="none">None</SelectItem>
-                  <SelectItem value="nofollow">No Follow</SelectItem>
-                  <SelectItem value="noopener">No Opener</SelectItem>
-                  <SelectItem value="noreferrer">No Referrer</SelectItem>
-                  <SelectItem value="nofollow noopener">
-                    No Follow + No Opener
-                  </SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </AccordionContent>
-        </AccordionItem>
+              <div>
+                <Label htmlFor="rel">Link Relationship</Label>
+                <Select
+                  value={elementProps?.rel || "none"}
+                  onValueChange={(value) =>
+                    onPropChange("rel", value === "none" ? "" : value)
+                  }
+                >
+                  <SelectTrigger className="mt-1">
+                    <SelectValue placeholder="None" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="none">None</SelectItem>
+                    <SelectItem value="nofollow">No Follow</SelectItem>
+                    <SelectItem value="noopener">No Opener</SelectItem>
+                    <SelectItem value="noreferrer">No Referrer</SelectItem>
+                    <SelectItem value="nofollow noopener">
+                      No Follow + No Opener
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        )}
       </Accordion>
     </div>
   );

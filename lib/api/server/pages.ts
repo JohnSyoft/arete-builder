@@ -25,7 +25,7 @@ interface PagesApiResponse {
  */
 export async function getPageBySlug(projectId: string, slug: string) {
   const apiUrl = getApiUrl()
-  const endpoint = `${apiUrl}/api/v1/pages/project/${projectId}/slug/${slug}`
+  const endpoint = `${apiUrl}/pages/project/${projectId}/slug/${slug}`
   
   try {
     const response = await fetch(endpoint, defaultFetchOptions)
@@ -50,7 +50,7 @@ export async function getPageBySlug(projectId: string, slug: string) {
  */
 export async function getProjectPages(projectId: string) {
   const apiUrl = getApiUrl()
-  const endpoint = `${apiUrl}/api/v1/pages/project/${projectId}`
+  const endpoint = `${apiUrl}/pages/project/${projectId}`
   
   try {
     const response = await fetch(endpoint, defaultFetchOptions)
@@ -75,7 +75,7 @@ export async function getProjectPages(projectId: string) {
  */
 export async function getPage(pageId: string) {
   const apiUrl = getApiUrl()
-  const endpoint = `${apiUrl}/api/v1/pages/${pageId}`
+  const endpoint = `${apiUrl}/pages/${pageId}`
   
   try {
     const response = await fetch(endpoint, defaultFetchOptions)

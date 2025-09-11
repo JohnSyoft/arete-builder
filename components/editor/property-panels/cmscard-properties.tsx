@@ -7,7 +7,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -170,7 +169,7 @@ export function CMSCardProperties({
   return (
     <div className="space-y-6">
       {/* Collection Selection */}
-      <div className="space-y-2">
+      {/* <div className="space-y-2">
         <Label className="text-sm font-medium">CMS Collection</Label>
         <Select value={collection || ""} onValueChange={handleCollectionChange}>
           <SelectTrigger>
@@ -198,12 +197,12 @@ export function CMSCardProperties({
             No collections found for this project. Create a collection first.
           </p>
         )}
-      </div>
+      </div> */}
 
       {/* Field Mappings */}
       {collection && (
         <>
-          <Separator />
+          {/* <Separator /> */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <Label className="text-sm font-medium">Field Mappings</Label>
@@ -256,7 +255,7 @@ export function CMSCardProperties({
       <div className="space-y-3">
         <Label className="text-sm font-medium">Display Options</Label>
 
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 gap-3">
           <div className="space-y-1">
             <Label className="text-xs">Items to Show</Label>
             <Input
@@ -270,47 +269,6 @@ export function CMSCardProperties({
               className="h-8"
             />
           </div>
-
-          <div className="space-y-1">
-            <Label className="text-xs">Columns</Label>
-            <Select
-              value={columns?.toString() || "3"}
-              onValueChange={(value) =>
-                onPropChange("columns", parseInt(value))
-              }
-            >
-              <SelectTrigger className="h-8">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="1">1 Column</SelectItem>
-                <SelectItem value="2">2 Columns</SelectItem>
-                <SelectItem value="3">3 Columns</SelectItem>
-                <SelectItem value="4">4 Columns</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-
-        {/* Toggle Options */}
-        <div className="space-y-2">
-          {[
-            { key: "showImage", label: "Show Images" },
-            { key: "showDate", label: "Show Dates" },
-            { key: "showAuthor", label: "Show Authors" },
-            { key: "showCategory", label: "Show Categories" },
-            { key: "showExcerpt", label: "Show Excerpts" },
-          ].map((option) => (
-            <div key={option.key} className="flex items-center justify-between">
-              <Label className="text-xs">{option.label}</Label>
-              <Switch
-                checked={displayOptions[option.key] !== false}
-                onCheckedChange={(checked) =>
-                  handleDisplayOptionChange(option.key, checked)
-                }
-              />
-            </div>
-          ))}
         </div>
 
         {/* Excerpt Length */}
@@ -332,54 +290,6 @@ export function CMSCardProperties({
             />
           </div>
         )}
-      </div>
-
-      {/* Style Options */}
-      <Separator />
-      <div className="space-y-3">
-        <Label className="text-sm font-medium">Style Options</Label>
-
-        <div className="space-y-2">
-          <div className="space-y-1">
-            <Label className="text-xs">Background Color</Label>
-            <Input
-              type="color"
-              value={backgroundColor}
-              onChange={(e) => onPropChange("backgroundColor", e.target.value)}
-              className="h-8 w-full"
-            />
-          </div>
-
-          <div className="space-y-1">
-            <Label className="text-xs">Card Background</Label>
-            <Input
-              type="color"
-              value={cardBackground}
-              onChange={(e) => onPropChange("cardBackground", e.target.value)}
-              className="h-8 w-full"
-            />
-          </div>
-
-          <div className="space-y-1">
-            <Label className="text-xs">Primary Color</Label>
-            <Input
-              type="color"
-              value={primaryColor}
-              onChange={(e) => onPropChange("primaryColor", e.target.value)}
-              className="h-8 w-full"
-            />
-          </div>
-
-          <div className="space-y-1">
-            <Label className="text-xs">Accent Color</Label>
-            <Input
-              type="color"
-              value={accentColor}
-              onChange={(e) => onPropChange("accentColor", e.target.value)}
-              className="h-8 w-full"
-            />
-          </div>
-        </div>
       </div>
 
       {/* Status Badge */}

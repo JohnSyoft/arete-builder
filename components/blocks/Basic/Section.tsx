@@ -5,6 +5,7 @@ import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store";
 
 export interface SectionProps {
   children?: React.ReactNode;
+  nonEditable?: boolean;
   // Background properties
   backgroundColor?: string;
   backgroundImage?: string;
@@ -45,6 +46,7 @@ export interface SectionProps {
 
 export function Section({
   children,
+  nonEditable = false,
   // Background properties
   backgroundColor = "",
   backgroundImage = "",
@@ -98,6 +100,8 @@ export function Section({
   const { openPanel } = usePropertiesPanelStore();
 
   const handleShowProperties = () => {
+    if (nonEditable) return; // Don't show properties panel for non-editable components
+    
     openPanel(
       "container",
       {
@@ -207,7 +211,7 @@ export function Section({
       )}
 
       {/* Floating toolbar shown on hover/selection */}
-      {(selected || hovered) && (
+      {!nonEditable && (selected || hovered) && (
         <div className="absolute -top-0 left-1/2 transform -translate-x-1/2 z-50">
           <FloatingToolbar
             elementType="container"
@@ -222,7 +226,7 @@ export function Section({
         </div>
       )}
 
-      {(selected || hovered) && (
+      {!nonEditable && (selected || hovered) && (
         <div className="absolute top-0 left-0 bg-blue-500 text-white text-xs px-2 py-1 rounded-br z-10">
           Section
         </div>
@@ -270,6 +274,7 @@ Section.craft = {
     hasContentWrapper: false,
     contentMaxWidth: "7xl",
     contentPadding: "px-4 sm:px-6 lg:px-8 py-24 lg:py-32",
+    nonEditable: false,
   },
   rules: {
     canDrag: () => true,

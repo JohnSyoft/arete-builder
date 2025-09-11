@@ -15,6 +15,7 @@ interface BoxProps {
   width?: string;
   height?: string;
   minHeight?: string;
+  nonEditable?: boolean;
   display?:
     | "block"
     | "flex"
@@ -57,6 +58,7 @@ export function Box({
   backgroundPosition = "center",
   borderWidth = "0px",
   borderStyle = "solid",
+  nonEditable = false,
   children,
 }: BoxProps) {
   const {
@@ -75,6 +77,8 @@ export function Box({
   const { openPanel } = usePropertiesPanelStore();
 
   const handleShowProperties = () => {
+    if (nonEditable) return; // Don't show properties panel for non-editable components
+    
     openPanel(
       "container",
       {
@@ -229,7 +233,7 @@ export function Box({
         {children}
       </div>
 
-      {(selected || hovered) && (
+      {!nonEditable && (selected || hovered) && (
         <div className="absolute -top-12 left-0 z-50">
           <FloatingToolbar
             elementType="container"
@@ -242,7 +246,7 @@ export function Box({
         </div>
       )}
 
-      {(selected || hovered) && (
+      {!nonEditable && (selected || hovered) && (
         <div className="absolute -top-6 left-0 bg-blue-500 text-white text-xs px-2 py-1 rounded z-10">
           Box
         </div>
@@ -275,6 +279,7 @@ Box.craft = {
     backgroundPosition: "center",
     borderWidth: "0px",
     borderStyle: "solid",
+    nonEditable: false,
   },
   rules: {
     canDrag: () => true,

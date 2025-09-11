@@ -123,29 +123,7 @@ export function DashboardLayout({ children, activeTab = "projects" }: DashboardL
             ))}
           </div>
 
-          {/* Quick Actions */}
-          <div className="mt-8 pt-6 border-t border-border">
-            <p className="px-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">
-              Quick Actions
-            </p>
-            <div className="space-y-1">
-              <Button
-                variant="ghost"
-                className="w-full justify-start h-10 px-4 text-muted-foreground hover:bg-accent hover:text-foreground"
-                onClick={() => router.push("/dashboard")}
-              >
-                <Home className="mr-3 h-4 w-4" />
-                Dashboard
-              </Button>
-              <Button
-                variant="ghost"
-                className="w-full justify-start h-10 px-4 text-muted-foreground hover:bg-accent hover:text-foreground"
-              >
-                <HelpCircle className="mr-3 h-4 w-4" />
-                Help & Support
-              </Button>
-            </div>
-          </div>
+        
         </nav>
 
         {/* Bottom Section */}

@@ -5,7 +5,7 @@
  * @returns The API base URL
  */
 export function getApiUrl(): string {
-  return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001'
+  return `${process.env.NEXT_PUBLIC_API_URL}/api/v1` || 'http://localhost:5001/api/v1'
 }
 
 /**

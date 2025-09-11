@@ -6,6 +6,7 @@ export interface BlockItemProps {
   name: string;
   description?: string;
   image?: string;
+  props?: any; // Additional props to pass to the component
 }
 
 export const BlockItem = ({
@@ -13,6 +14,7 @@ export const BlockItem = ({
   name,
   description,
   image,
+  props: additionalProps = {},
 }: BlockItemProps) => {
   const {
     connectors: { create },
@@ -29,7 +31,7 @@ export const BlockItem = ({
             Component
           );
           try {
-            create(ref, React.createElement(Component));
+            create(ref, React.createElement(Component, additionalProps));
           } catch (error) {
             console.error("Error creating BlockItem component:", error);
           }

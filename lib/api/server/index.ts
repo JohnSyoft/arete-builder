@@ -2,6 +2,7 @@
 
 export { getProject, getProjects } from './projects'
 export { getPageBySlug, getProjectPages, getPage } from './pages'
+export { getCollectionItem, getCollectionItemBySlug, getCollectionItems } from './collections'
 export { getApiUrl, defaultHeaders, defaultFetchOptions, handleApiError, handleNetworkError } from './config'
 
 // Re-export commonly used types

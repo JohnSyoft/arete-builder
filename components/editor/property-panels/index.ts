@@ -1,4 +1,5 @@
 export { TextProperties } from './text-properties'
+export { FormattedTextProperties } from './formatted-text-properties'
 export { HeadingProperties } from './heading-properties'
 export { ImageProperties } from './image-properties'
 export { ButtonProperties } from './button-properties'

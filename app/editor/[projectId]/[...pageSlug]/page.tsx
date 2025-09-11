@@ -41,6 +41,8 @@ function EditorContent({
   onSave,
   mode = "design",
   onModeChange,
+  selectedItem,
+  onItemChange,
 }: {
   project: Project;
   currentPage: ApiPage;
@@ -51,6 +53,8 @@ function EditorContent({
   onSave: (layout: any) => void;
   mode?: "design" | "cms";
   onModeChange?: (mode: "design" | "cms") => void;
+  selectedItem?: any;
+  onItemChange?: (item: any) => void;
 }) {
   const { query } = useEditor();
   const { currentViewport } = useViewportStore();
@@ -87,6 +91,8 @@ function EditorContent({
         onPageChange={onPageChange}
         mode={mode}
         onModeChange={onModeChange}
+        selectedItem={selectedItem}
+        onItemChange={onItemChange}
       />{" "}
       <div className="flex h-[calc(100vh-4rem)] relative">
         <EditorSidebar />
@@ -134,9 +140,26 @@ export default function EditorPage() {
   const { initializeComponents, blocks } = useUserBlocksStore();
   const { setCollectionContext, clearContext } = useCMSContextStore();
   const [mode, setMode] = useState<"design" | "cms">("design");
+  const [selectedItem, setSelectedItem] = useState<any>(null);
 
   const projectId = params.projectId as string;
-  const pageSlug = params.pageSlug as string;
+  const pageSlugSegments = params.pageSlug as string[];
+  
+  // Handle both single slug and CMS detail page patterns
+  const pageSlug = useMemo(() => {
+    if (pageSlugSegments.length === 1) {
+      // Regular page: ['about'] -> 'about'
+      return pageSlugSegments[0];
+    } else if (pageSlugSegments.length === 2) {
+      // CMS detail page: ['blog', 'item-id'] -> 'blog/:id'
+      return `${pageSlugSegments[0]}/:id`;
+    }
+    // Fallback for other patterns
+    return pageSlugSegments.join('/');
+  }, [pageSlugSegments]);
+
+  console.log("Editor pageSlugSegments:", pageSlugSegments);
+  console.log("Editor resolved pageSlug:", pageSlug);
 
   // Initialize user components on page load
   useEffect(() => {
@@ -230,7 +253,25 @@ export default function EditorPage() {
 
   const handlePreview = () => {
     if (project && currentPageData) {
-      window.open(`/site/${project._id}/${currentPageData.slug}`, "_blank");
+      // For CMS detail pages, we need to construct the preview URL properly
+      if (currentPageData.pageType === "cms" && currentPageData.cmsPageType === "detail") {
+        if (selectedItem && selectedItem.slug) {
+          // Use the selected item's slug for preview: /site/{projectId}/{collectionSlug}/{itemSlug}
+          const collectionSlug = pageSlugSegments[0];
+          const previewUrl = `/site/${project._id}/${collectionSlug}/${selectedItem.slug}`;
+          console.log("CMS Preview URL:", previewUrl, { selectedItem, collectionSlug });
+          window.open(previewUrl, "_blank");
+        } else {
+          // Fallback: if no selected item, show a warning or use the URL segment
+          console.warn("No selected item for CMS detail page preview");
+          if (pageSlugSegments.length === 2) {
+            window.open(`/site/${project._id}/${pageSlugSegments[0]}/${pageSlugSegments[1]}`, "_blank");
+          }
+        }
+      } else {
+        // Regular page preview
+        window.open(`/site/${project._id}/${currentPageData.slug}`, "_blank");
+      }
     }
   };
 
@@ -244,6 +285,14 @@ export default function EditorPage() {
     setMode(newMode);
     if (newMode === "cms") {
       router.push(`/cms/${projectId}`);
+    }
+  };
+
+  const handleItemChange = (item: any) => {
+    setSelectedItem(item);
+    // Set the collection context with the selected item data
+    if (item && currentPageData?.collection) {
+      setCollectionContext(currentPageData.collection, item);
     }
   };
 
@@ -331,7 +380,12 @@ export default function EditorPage() {
         currentPageData.cmsPageType === "detail" &&
         currentPageData.collection
       ) {
-        setCollectionContext(currentPageData.collection);
+        // Set collection context with selected item if available
+        if (selectedItem) {
+          setCollectionContext(currentPageData.collection, selectedItem);
+        } else {
+          setCollectionContext(currentPageData.collection);
+        }
       } else {
         clearContext();
       }
@@ -339,7 +393,7 @@ export default function EditorPage() {
 
     // Cleanup on unmount
     return () => clearContext();
-  }, [currentPageData, setCollectionContext, clearContext]);
+  }, [currentPageData, selectedItem, setCollectionContext, clearContext]);
 
   if (isLoading) {
     return (
@@ -391,6 +445,8 @@ export default function EditorPage() {
           onSave={handleSave}
           mode={mode}
           onModeChange={handleModeChange}
+          selectedItem={selectedItem}
+          onItemChange={handleItemChange}
         />
       </Editor>
       <Modals />

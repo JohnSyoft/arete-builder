@@ -31,14 +31,12 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     getProject(params.projectId),
     getProjectPages(params.projectId)
   ])
-
   if (!project) {
     notFound()
   }
 
   // Find the home page or first page
   const homePage = pages.find((page: any) => page.isHomePage) || pages[0]
-
   if (!homePage) {
     notFound()
   }

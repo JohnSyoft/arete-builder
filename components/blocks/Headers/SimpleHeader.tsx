@@ -1,11 +1,18 @@
 import { useNode, Element } from "@craftjs/core";
 import { useState } from "react";
-import { Text as CraftText } from "@/components/blocks/Basic/Text";
 import { Button as CraftButton } from "@/components/blocks/Basic/Button";
 import { Image as CraftImage } from "@/components/blocks/Basic/Image";
 import { Box } from "@/components/blocks/Basic/Box";
 import { Flex } from "@/components/blocks/Basic/Flex";
 import { Section, SectionProps } from "@/components/blocks/Basic/Section";
+import { NavigationItem } from "@/components/blocks/Navigation/NavigationItem";
+
+interface NavigationItemData {
+  id: string;
+  label: string;
+  href: string;
+  children?: NavigationItemData[];
+}
 
 interface SimpleHeaderProps extends SectionProps {
   // Logo
@@ -13,11 +20,7 @@ interface SimpleHeaderProps extends SectionProps {
   logoAlt?: string;
 
   // Navigation
-  navigationItems?: Array<{
-    id: string;
-    label: string;
-    href: string;
-  }>;
+  navigationItems?: NavigationItemData[];
 
   // CTA Button
   ctaText?: string;
@@ -30,10 +33,29 @@ export function SimpleHeader({
   logoSrc = "https://via.placeholder.com/150x50?text=LOGO",
   logoAlt = "Company Logo",
   navigationItems = [
-    { id: "1", label: "Home", href: "/" },
-    { id: "2", label: "About", href: "/about" },
-    { id: "3", label: "Services", href: "/services" },
-    { id: "4", label: "Contact", href: "/contact" },
+    { id: "1", label: "Home", href: "/", children: [] },
+    { id: "2", label: "About", href: "/about", children: [] },
+    {
+      id: "3",
+      label: "Services",
+      href: "/services",
+      children: [
+        {
+          id: "3-1",
+          label: "Web Design",
+          href: "/services/web-design",
+          children: [],
+        },
+        {
+          id: "3-2",
+          label: "Development",
+          href: "/services/development",
+          children: [],
+        },
+        { id: "3-3", label: "SEO", href: "/services/seo", children: [] },
+      ],
+    },
+    { id: "4", label: "Contact", href: "/contact", children: [] },
   ],
   ctaText = "Get Started",
   headerHeight = "80px",
@@ -45,43 +67,15 @@ export function SimpleHeader({
     hovered,
     actions: { setProp },
     id,
+    currentNavigationItems,
   } = useNode((state) => ({
     selected: state.events.selected,
     hovered: state.events.hovered,
     id: state.id,
+    currentNavigationItems: state.data.props.navigationItems,
   }));
 
-  const [editingNavigation, setEditingNavigation] = useState(false);
-
-  const addNavigationItem = () => {
-    setProp((props: SimpleHeaderProps) => {
-      const newItem = {
-        id: Date.now().toString(),
-        label: "New Item",
-        href: "/new-item",
-      };
-      props.navigationItems = [...(props.navigationItems || []), newItem];
-    });
-  };
-
-  const removeNavigationItem = (itemId: string) => {
-    setProp((props: SimpleHeaderProps) => {
-      props.navigationItems =
-        props.navigationItems?.filter((item) => item.id !== itemId) || [];
-    });
-  };
-
-  const updateNavigationItem = (
-    itemId: string,
-    updates: Partial<(typeof navigationItems)[0]>
-  ) => {
-    setProp((props: SimpleHeaderProps) => {
-      props.navigationItems =
-        props.navigationItems?.map((item) =>
-          item.id === itemId ? { ...item, ...updates } : item
-        ) || [];
-    });
-  };
+  const [hoveredNavId, setHoveredNavId] = useState<string | null>(null);
 
   // Set header defaults
   const headerProps = {
@@ -139,8 +133,8 @@ export function SimpleHeader({
               <CraftImage
                 src={logoSrc}
                 alt={logoAlt}
-                width="w-32"
-                height="h-12"
+                width="100px"
+                height="100px"
                 objectFit="object-contain"
                 borderRadius=""
                 margin=""
@@ -155,53 +149,29 @@ export function SimpleHeader({
               flexDirection="row"
               justifyContent="center"
               alignItems="center"
-              gap="gap-8"
+              gap="gap-2"
               margin="0"
               wrap="nowrap"
             >
-              {navigationItems?.map((item) => (
-                <Element
-                  key={item.id}
-                  is={Box}
-                  backgroundColor="transparent"
-                  padding="8px 12px"
-                  margin="0"
-                  display="flex"
-                  alignItems="center"
-                  canvas
+              {currentNavigationItems?.map((item) => (
+                <div
+                  key={`navigationItem-${item.id}`}
+                  className="relative"
+                  style={{ position: "relative" }}
+                  onMouseEnter={() => setHoveredNavId(item.id)}
+                  onMouseLeave={() => setHoveredNavId(null)}
                 >
-                  {editingNavigation ? (
-                    <div className="flex items-center gap-2">
-                      <input
-                        type="text"
-                        value={item.label}
-                        onChange={(e) =>
-                          updateNavigationItem(item.id, {
-                            label: e.target.value,
-                          })
-                        }
-                        className="text-sm border rounded px-2 py-1"
-                        onBlur={() => setEditingNavigation(false)}
-                        autoFocus
-                      />
-                      <button
-                        onClick={() => removeNavigationItem(item.id)}
-                        className="text-red-500 hover:text-red-700 text-xs"
-                      >
-                        ×
-                      </button>
-                    </div>
-                  ) : (
-                    <CraftText
-                      text={item.label}
-                      tagName="span"
-                      fontSize="text-base"
-                      fontWeight="font-medium"
-                      color="text-gray-700"
-                      textAlign="text-center"
-                    />
-                  )}
-                </Element>
+                  <Element
+                    is={NavigationItem}
+                    id={item.id}
+                    label={item.label}
+                    href={item.href}
+                    childItems={item.children || []}
+                    isParent={item.children && item.children.length > 0}
+                    canvas
+                  />
+                
+                </div>
               ))}
             </Element>
 
@@ -230,23 +200,6 @@ export function SimpleHeader({
         </Element>
       </Section>
 
-      {/* Header Controls */}
-      {(selected || hovered) && (
-        <div className="absolute top-2 left-2 flex gap-2 z-50">
-          <button
-            onClick={() => setEditingNavigation(!editingNavigation)}
-            className="bg-green-500 text-white text-xs px-2 py-1 rounded hover:bg-green-600"
-          >
-            {editingNavigation ? "Done" : "Edit Nav"}
-          </button>
-          <button
-            onClick={addNavigationItem}
-            className="bg-purple-500 text-white text-xs px-2 py-1 rounded hover:bg-purple-600"
-          >
-            + Nav Item
-          </button>
-        </div>
-      )}
 
       {/* Header Label */}
       {(selected || hovered) && (
@@ -273,10 +226,29 @@ SimpleHeader.craft = {
     logoSrc: "https://via.placeholder.com/150x50?text=LOGO",
     logoAlt: "Company Logo",
     navigationItems: [
-      { id: "1", label: "Home", href: "/" },
-      { id: "2", label: "About", href: "/about" },
-      { id: "3", label: "Services", href: "/services" },
-      { id: "4", label: "Contact", href: "/contact" },
+      { id: "1", label: "Home", href: "/", children: [] },
+      { id: "2", label: "About", href: "/about", children: [] },
+      {
+        id: "3",
+        label: "Services",
+        href: "/services",
+        children: [
+          {
+            id: "3-1",
+            label: "Web Design",
+            href: "/services/web-design",
+            children: [],
+          },
+          {
+            id: "3-2",
+            label: "Development",
+            href: "/services/development",
+            children: [],
+          },
+          { id: "3-3", label: "SEO", href: "/services/seo", children: [] },
+        ],
+      },
+      { id: "4", label: "Contact", href: "/contact", children: [] },
     ],
     ctaText: "Get Started",
     headerHeight: "80px",

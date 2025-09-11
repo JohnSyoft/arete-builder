@@ -2,6 +2,7 @@ import { useNode, useEditor } from "@craftjs/core";
 import React from "react";
 import { FloatingToolbar } from "@/components/editor/floating-toolbar";
 import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store";
+import { useCMSContextStore } from "@/lib/store/cmsContextStore";
 import { Resizer } from "../Resizer";
 
 export interface HeadingProps {
@@ -25,6 +26,14 @@ export interface HeadingProps {
   shadow?: string;
   width?: string;
   height?: string;
+  // CMS props
+  cmsField?: string;
+  cmsFieldType?: string;
+  cmsFieldId?: string;
+  cmsCollectionId?: string;
+  cmsFieldLabel?: string;
+  // Non-editable prop
+  nonEditable?: boolean;
 }
 
 export function Heading({
@@ -48,6 +57,12 @@ export function Heading({
   shadow = "",
   width = "auto",
   height = "auto",
+  cmsField,
+  cmsFieldType,
+  cmsFieldId,
+  cmsCollectionId,
+  cmsFieldLabel,
+  nonEditable = false,
 }: HeadingProps) {
   const {
     connectors: { connect, drag },
@@ -63,8 +78,39 @@ export function Heading({
 
   const { actions } = useEditor();
   const { openPanel } = usePropertiesPanelStore();
+  const { currentItemData } = useCMSContextStore();
+
+  // Check if this is a CMS field (read-only content) or non-editable
+  const isCMSField = !!(cmsField && cmsFieldId && cmsCollectionId);
+  const isReadOnly = isCMSField || nonEditable;
+
+  // If this is a CMS field and we have item data, use the CMS data
+  const displayText = React.useMemo(() => {
+    if (cmsField && currentItemData?.data?.[cmsField]) {
+      const value = currentItemData.data[cmsField];
+
+      // Handle different field types
+      switch (cmsFieldType) {
+        case "date":
+          return new Date(value).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          });
+        case "number":
+          return String(value);
+        case "toggle":
+          return value ? "✓ Yes" : "✗ No";
+        default:
+          return String(value);
+      }
+    }
+    return text;
+  }, [cmsField, currentItemData, text, cmsFieldType]);
 
   const handleShowProperties = () => {
+    if (nonEditable) return; // Don't show properties panel for non-editable components
+    
     openPanel(
       "heading",
       {
@@ -88,13 +134,28 @@ export function Heading({
         shadow,
         width,
         height,
+        // CMS props
+        cmsField,
+        cmsFieldType,
+        cmsFieldId,
+        cmsCollectionId,
+        cmsFieldLabel,
+        // CMS context data for the properties panel
+        _cmsContext: {
+          currentCollectionId: currentItemData?.collection || null,
+          currentItemData,
+          projectId: window.location.pathname.split('/')[2], // Extract projectId from URL
+        }
       },
       id,
       (newProps) => {
+        console.log("Heading onPropsChange called with:", newProps);
         Object.keys(newProps).forEach((key) => {
-          setProp((props: HeadingProps) => {
-            (props as any)[key] = newProps[key];
-          });
+          if (key !== '_cmsContext') { // Don't update the context data
+            setProp((props: HeadingProps) => {
+              (props as any)[key] = newProps[key];
+            });
+          }
         });
       }
     );
@@ -143,12 +204,16 @@ export function Heading({
   const getTextAlignClass = (align: string) => {
     switch (align) {
       case "left":
+      case "text-left":
         return "text-left";
       case "center":
+      case "text-center":
         return "text-center";
       case "right":
+      case "text-right":
         return "text-right";
       case "justify":
+      case "text-justify":
         return "text-justify";
       default:
         return "text-left";
@@ -190,20 +255,14 @@ export function Heading({
   return (
     <Resizer
       propKey={{ width: "width", height: "height" }}
-      style={{
-        margin: margin,
-        padding: padding,
-        width: width,
-        height: height,
-      }}
       className={`relative group ${selected ? "ring-2 ring-blue-500" : ""} ${
         hovered ? "ring-1 ring-blue-300" : ""
-      } ${backgroundColor} ${borderRadius} ${border} ${borderColor} ${shadow} ${opacity}`}
+      } ${margin}`}
     >
       <HeadingTag
-        contentEditable
+        contentEditable={!isReadOnly}
         suppressContentEditableWarning
-        onBlur={(e) => {
+        onBlur={isReadOnly ? undefined : (e) => {
           setProp((props: HeadingProps) => {
             props.text = e.target.textContent || "";
           });
@@ -213,24 +272,34 @@ export function Heading({
         className={`
           ${getDefaultFontSize(level)}
           ${getDefaultFontWeight(level)}
-          ${textAlign}
+          ${getTextAlignClass(textAlign)}
           ${textColor}
           ${fontFamily}
           ${lineHeight}
           ${letterSpacing}
           ${textTransform}
+          ${backgroundColor}
+          ${opacity}
+          ${borderRadius}
+          ${border}
+          ${borderColor}
+          ${shadow}
+          ${padding}
           outline-none
           min-h-[1.5rem]
-          w-full
-          h-full
+          block
         `
           .trim()
           .replace(/\s+/g, " ")}
-        style={{ outline: "none", cursor: "text" }}
-        dangerouslySetInnerHTML={{ __html: text }}
+        style={{ 
+          outline: "none", 
+          cursor: isReadOnly ? "default" : "text",
+          userSelect: isReadOnly ? "none" : "auto"
+        }}
+        dangerouslySetInnerHTML={{ __html: displayText }}
       />
 
-      {(selected || hovered) && (
+      {!nonEditable && (selected || hovered) && (
         <div className="absolute -top-12 left-0 z-50">
           <FloatingToolbar
             elementType="text"
@@ -243,9 +312,12 @@ export function Heading({
         </div>
       )}
 
-      {(selected || hovered) && (
-        <div className="absolute -top-6 left-0 bg-blue-500 text-white text-xs px-2 py-1 rounded z-10">
-          H{level} Heading
+      {!nonEditable && (selected || hovered) && (
+        <div className={`absolute -top-6 left-0 text-white text-xs px-2 py-1 rounded z-10 ${
+          isCMSField ? "bg-green-500" : "bg-blue-500"
+        }`}>
+          {isCMSField ? `CMS Field: ${cmsFieldLabel || cmsField}` : `H${level} Heading`}
+          {isReadOnly && <span className="ml-1 opacity-75">(read-only)</span>}
         </div>
       )}
     </Resizer>
@@ -275,10 +347,18 @@ Heading.craft = {
     shadow: "",
     width: "auto",
     height: "auto",
+    // CMS props
+    cmsField: "",
+    cmsFieldType: "",
+    cmsFieldId: "",
+    cmsCollectionId: "",
+    cmsFieldLabel: "",
+    // Non-editable prop
+    nonEditable: false,
   },
   rules: {
-    canDrag: () => true,
-    canMoveIn: () => true,
-    canMoveOut: () => true,
+    canDrag: (node) => !node.data.props.nonEditable,
+    canMoveIn: (node) => !node.data.props.nonEditable,
+    canMoveOut: (node) => !node.data.props.nonEditable,
   },
 };

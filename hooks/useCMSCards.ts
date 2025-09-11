@@ -15,18 +15,23 @@ export const useCMSCardData = (
 ) => {
   const { itemsToShow = 6, status = "published", sortBy = "createdAt", sortOrder = "desc" } = options;
 
-  // Get collection schema
-  const { data: collectionResponse } = useCollection(collectionId);
-  const collection = collectionResponse?.collection;
-
-  // Get collection items
-  const { data: itemsResponse, isLoading, error } = useCollectionItems(collectionId, {
+  // Create a stable options object that React Query can properly track
+  const queryOptions = useMemo(() => ({
     limit: itemsToShow,
     status,
     sortBy,
     sortOrder,
     populate: true, // Populate reference fields
-  });
+  }), [itemsToShow, status, sortBy, sortOrder]);
+
+  console.log("useCMSCardData - Options changed:", { itemsToShow, queryOptions });
+
+  // Get collection schema
+  const { data: collectionResponse } = useCollection(collectionId);
+  const collection = collectionResponse?.collection;
+
+  // Get collection items with stable options
+  const { data: itemsResponse, isLoading, error } = useCollectionItems(collectionId, queryOptions);
   
   console.log("useCMSCardData - Raw itemsResponse:", itemsResponse);
   const items = itemsResponse?.items || [];

@@ -13,20 +13,18 @@ export const fieldSchema = yup.object({
     .oneOf([
       "plainText",
       "formattedText", 
-      "number",
       "date",
-      "boolean",
-      "email",
-      "url",
+      "datetime",
+      "link",
       "image",
-      "video",
+      "gallery",
+      "color",
+      "toggle",
+      "number",
+      "option",
       "file",
       "reference",
-      "multiReference",
-      "select",
-      "multiSelect",
-      "json",
-      "gallery"
+      "multiReference"
     ], "Invalid field type"),
   description: yup
     .string()

@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 
 type ElementType = 
-  | 'text' | 'button' | 'image' | 'spacer' | 'divider' | 'container' | 'columns' | 'link' | 'video' | 'map' | 'badge' | 'input' 
+  | 'text' | 'formattedText' | 'button' | 'image' | 'spacer' | 'divider' | 'container' | 'columns' | 'link' | 'video' | 'map' | 'badge' | 'input' 
   | 'row' | 'card' | 'heading' | 'select' | 'checkbox' | 'textarea' | 'linebreak' | 'icon' | 'grid' | 'navigation' | 'list' | 'alert' | 'flexrow' | 'flex'
   | 'dropdown' | 'switch' | 'radiobutton' | 'slider' | 'ratingbar' | 'counterbutton' | 'pincode' | 'choicechips' | 'checkboxlisttile' | 'switchlisttile' | 'checkboxgroup' | 'creditcardform' | 'signature'
   | 'form' | 'tab' | 'tabpanel' | 'carousel' | 'herocarouselsimple'
@@ -17,7 +17,7 @@ interface PropertiesPanelState {
   onPropsChange: ((props: any) => void) | null
   
   openPanel: (
-    elementType: Exclude<ElementType, null>,
+  elementType: Exclude<ElementType, null>,
     elementProps: any,
     elementId: string,
     onPropsChange: (props: any) => void
@@ -61,6 +61,8 @@ export const usePropertiesPanelStore = create<PropertiesPanelState>((set, get) =
       console.log("Properties Panel Store - calling onPropsChange with:", props);
       onPropsChange(props)
     }
+    console.log("Properties Panel Store - setting elementProps to:", props);
     set({ elementProps: props })
+    console.log("Properties Panel Store - elementProps updated, new state:", get().elementProps);
   }
 }))

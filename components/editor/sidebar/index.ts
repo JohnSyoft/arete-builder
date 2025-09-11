@@ -2,7 +2,7 @@ export { BlockItem, SimpleBlockItem } from './block-item';
 export { 
   elementsCategory, 
   formsCategory,
-  fieldsCategory,
+  createFieldsCategory,
   categoryIcons,
   type CategoryConfig 
 } from './sidebar-categories';

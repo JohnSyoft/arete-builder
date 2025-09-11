@@ -4,8 +4,10 @@ import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store";
+import {FormattedTextProperties} from './property-panels/formatted-text-properties'
 import {
   TextProperties,
+  // FormattedTextProperties,
   ImageProperties,
   ButtonProperties,
   ContainerProperties,
@@ -53,26 +55,20 @@ export function GlobalPropertiesPanel() {
   const { isOpen, elementType, elementProps, closePanel, updateProps } =
     usePropertiesPanelStore();
 
+  // Debug logging to see when elementProps change
+  console.log("GlobalPropertiesPanel elementProps:", elementProps);
+
   const handlePropChange = (key: string, value: any) => {
-    console.log("GlobalPropertiesPanel - handlePropChange called:", {
-      key,
-      value,
-    });
-    console.log("GlobalPropertiesPanel - current elementProps:", elementProps);
-
+    console.log("GlobalPropertiesPanel handlePropChange:", { key, value });
     let newProps;
-
     if (key === "_batch") {
       // Handle batch updates - value contains the complete props object
       newProps = value;
-      console.log("GlobalPropertiesPanel - batch update with:", newProps);
     } else {
       // Handle single prop update
       newProps = { ...elementProps, [key]: value };
-      console.log("GlobalPropertiesPanel - single prop update:", newProps);
     }
-
-    console.log("GlobalPropertiesPanel - calling updateProps with:", newProps);
+    console.log("GlobalPropertiesPanel updating props to:", newProps);
     updateProps(newProps);
   };
 
@@ -91,6 +87,12 @@ export function GlobalPropertiesPanel() {
         <div className="p-4">
           {elementType === "text" && (
             <TextProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "formattedText" && (
+            <FormattedTextProperties
               elementProps={elementProps}
               onPropChange={handlePropChange}
             />

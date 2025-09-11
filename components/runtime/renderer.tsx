@@ -32,6 +32,7 @@ import { TabPanelRuntime as TabPanel } from "@/components/blocks/Basic/TabPanelR
 import { CarouselRuntime as Carousel } from "@/components/blocks/Basic/CarouselRuntime";
 import { BlogGridRuntime as BlogGrid } from "@/components/blocks/Basic/BlogGridRuntime";
 import { ResizerRuntime as Resizer } from "@/components/blocks/Basic/ResizerRuntime";
+import { FormattedTextRuntime as FormattedText } from "@/components/blocks/Basic/FormattedTextRuntime";
 
 // Hero runtime components
 
@@ -68,27 +69,156 @@ const componentMap: Record<string, React.ComponentType<any>> = {
   Carousel,
   BlogGrid,
   Resizer,
+  FormattedText,
 };
 
 interface RendererProps {
   layout: any;
+  cmsItem?: any;
+  cmsContext?: {
+    collectionId: string;
+    itemId: string;
+    itemSlug: string;
+    collectionSlug: string;
+  };
 }
 
-function renderNode(nodeId: string, nodes: any): React.ReactNode {
+// Helper function to inject CMS data into component props
+function injectCMSData(props: any, node: any, cmsItem?: any, cmsContext?: any) {
+  if (!cmsItem || !props) return props;
+  
+  // Check if this is a CMS field component using the new props-based approach
+  const isCMSField = !!(props.cmsField && props.cmsFieldId && props.cmsCollectionId);
+  
+  // Fallback: Check for old custom approach
+  const isCMSFieldCustom = !!(node.custom?.isDynamicCMSField && node.custom?.cmsField);
+  
+  if ((isCMSField || isCMSFieldCustom) && cmsItem.data) {
+    const cmsField = props.cmsField || node.custom?.cmsField;
+    const cmsFieldType = props.cmsFieldType || node.custom?.cmsFieldType;
+    const cmsFieldLabel = props.cmsFieldLabel || node.custom?.cmsFieldLabel;
+    
+    const fieldValue = cmsItem.data[cmsField];
+    
+    console.log('Injecting CMS data:', {
+      cmsField,
+      cmsFieldType,
+      fieldValue,
+      cmsItemData: cmsItem.data,
+      isPropsBased: isCMSField,
+      isCustomBased: isCMSFieldCustom
+    });
+    
+    // Clone props to avoid mutation
+    const newProps = { ...props };
+    
+    // Inject actual CMS data based on field type
+    switch (cmsFieldType) {
+      case 'plainText':
+      case 'richText':
+      case 'formattedText':
+        if (fieldValue) {
+          newProps.text = fieldValue;
+        }
+        break;
+      case 'image':
+        if (fieldValue) {
+          newProps.src = fieldValue;
+          newProps.alt = `${cmsFieldLabel} from ${cmsItem.slug || cmsItem._id}`;
+        }
+        break;
+      case 'number':
+        if (fieldValue !== undefined) {
+          newProps.value = fieldValue;
+          newProps.text = String(fieldValue);
+        }
+        break;
+      case 'date':
+      case 'datetime':
+        if (fieldValue) {
+          const date = new Date(fieldValue);
+          const formattedDate = date.toLocaleDateString('en-US', { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric',
+            ...(cmsFieldType === 'datetime' && { 
+              hour: '2-digit', 
+              minute: '2-digit' 
+            })
+          });
+          newProps.text = formattedDate;
+        }
+        break;
+      case 'boolean':
+        if (fieldValue !== undefined) {
+          newProps.checked = fieldValue;
+          newProps.text = fieldValue ? "Yes" : "No";
+        }
+        break;
+      case 'link':
+        if (fieldValue) {
+          newProps.href = fieldValue;
+          newProps.text = newProps.text || `Visit ${cmsFieldLabel}`;
+        }
+        break;
+      case 'file':
+        if (fieldValue) {
+          newProps.href = fieldValue;
+          newProps.text = newProps.text || `Download ${cmsFieldLabel}`;
+        }
+        break;
+      case 'toggle':
+      case 'option':
+        if (fieldValue !== undefined) {
+          newProps.text = String(fieldValue);
+        }
+        break;
+      case 'color':
+        if (fieldValue) {
+          newProps.text = fieldValue;
+          newProps.style = { ...newProps.style, color: fieldValue };
+        }
+        break;
+      default:
+        if (fieldValue !== undefined && fieldValue !== null) {
+          newProps.text = String(fieldValue);
+        }
+    }
+    
+    return newProps;
+  }
+  
+  return props;
+}
+
+function renderNode(nodeId: string, nodes: any, cmsItem?: any, cmsContext?: any): React.ReactNode {
   const node = nodes[nodeId];
   if (!node) return null;
 
   const { type, props, nodes: childNodes, linkedNodes } = node;
+  
+  // Inject CMS data into props if this is a CMS field component
+  const enhancedProps = injectCMSData(props, node, cmsItem, cmsContext);
   const componentName = type?.resolvedName;
-  console.log({ componentName });
+  
+  // Debug logging for CMS components
+  if (props.cmsField) {
+    console.log('Rendering CMS component:', {
+      componentName,
+      cmsField: props.cmsField,
+      cmsFieldType: props.cmsFieldType,
+      originalProps: props,
+      enhancedProps
+    });
+  }
   // Handle Container (root element)
   if (componentName === "Container" || componentName === "Wrapper") {
     return (
       <div key={nodeId} className="min-h-screen">
-        {childNodes?.map((childId: string) => renderNode(childId, nodes))}
+        {childNodes?.map((childId: string) => renderNode(childId, nodes, cmsItem, cmsContext))}
         {linkedNodes &&
           Object.values(linkedNodes).map((linkedId: unknown) =>
-            renderNode(linkedId as string, nodes)
+            renderNode(linkedId as string, nodes, cmsItem, cmsContext)
           )}
       </div>
     );
@@ -98,11 +228,11 @@ function renderNode(nodeId: string, nodes: any): React.ReactNode {
   if (typeof type === "string") {
     const Tag = type as keyof JSX.IntrinsicElements;
     return (
-      <Tag key={nodeId} {...props}>
-        {childNodes?.map((childId: string) => renderNode(childId, nodes))}
+      <Tag key={nodeId} {...enhancedProps}>
+        {childNodes?.map((childId: string) => renderNode(childId, nodes, cmsItem, cmsContext))}
         {linkedNodes &&
           Object.values(linkedNodes).map((linkedId: unknown) =>
-            renderNode(linkedId as string, nodes)
+            renderNode(linkedId as string, nodes, cmsItem, cmsContext)
           )}
       </Tag>
     );
@@ -116,17 +246,17 @@ function renderNode(nodeId: string, nodes: any): React.ReactNode {
     );
     // If component not found, wrap in SectionRuntime with the component's props
     const children = [
-      ...(childNodes?.map((childId: string) => renderNode(childId, nodes)) ||
+      ...(childNodes?.map((childId: string) => renderNode(childId, nodes, cmsItem, cmsContext)) ||
         []),
       ...(linkedNodes
         ? Object.values(linkedNodes).map((linkedId: unknown) =>
-            renderNode(linkedId as string, nodes)
+            renderNode(linkedId as string, nodes, cmsItem, cmsContext)
           )
         : []),
     ];
 
     return (
-      <Section key={nodeId} {...props}>
+      <Section key={nodeId} {...enhancedProps}>
         {children.length > 0 ? children : null}
       </Section>
     );
@@ -134,22 +264,22 @@ function renderNode(nodeId: string, nodes: any): React.ReactNode {
 
   // Render children if the component has them
   const children = [
-    ...(childNodes?.map((childId: string) => renderNode(childId, nodes)) || []),
+    ...(childNodes?.map((childId: string) => renderNode(childId, nodes, cmsItem, cmsContext)) || []),
     ...(linkedNodes
       ? Object.values(linkedNodes).map((linkedId: unknown) =>
-          renderNode(linkedId as string, nodes)
+          renderNode(linkedId as string, nodes, cmsItem, cmsContext)
         )
       : []),
   ];
 
   return (
-    <Component key={nodeId} {...props}>
+    <Component key={nodeId} {...enhancedProps}>
       {children.length > 0 ? children : null}
     </Component>
   );
 }
 
-export function RuntimeRenderer({ layout }: RendererProps) {
+export function RuntimeRenderer({ layout, cmsItem, cmsContext }: RendererProps) {
   if (!layout || !layout.ROOT) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -162,6 +292,13 @@ export function RuntimeRenderer({ layout }: RendererProps) {
       </div>
     );
   }
-  // console.log(renderNode("ROOT", layout),"ROOT Render")
-  return <div className="runtime-renderer">{renderNode("ROOT", layout)}</div>;
+  
+  // Add CMS context to the layout if available
+  if (cmsItem && cmsContext) {
+    // TODO: Inject CMS data into components that need it
+    // This could be done by passing context through a React Context Provider
+    // or by modifying the layout structure to include CMS data
+    console.log("Rendering with CMS context:", { cmsItem, cmsContext });
+  }
+  return <div className="runtime-renderer">{renderNode("ROOT", layout, cmsItem, cmsContext)}</div>;
 }

@@ -30,6 +30,7 @@ export function Grid({
   justifyItems = "stretch",
   alignItems = "stretch",
 }: GridProps) {
+  console.log({ autoFit });
   const {
     connectors: { connect, drag },
     selected,

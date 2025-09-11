@@ -2,6 +2,7 @@ import type React from "react";
 import { useNode } from "@craftjs/core";
 // Basic blocks
 import { Text } from "@/components/blocks/Basic/Text";
+import { FormattedText } from "@/components/blocks/Basic/FormattedText";
 import { Image } from "@/components/blocks/Basic/Image";
 import { Button } from "@/components/blocks/Basic/Button";
 import { Spacer } from "@/components/blocks/Basic/Spacer";
@@ -22,6 +23,7 @@ import { Select } from "../blocks/Basic/Select";
 import { Icon } from "../blocks/Basic/Icon";
 import { Grid } from "../blocks/Basic/Grid";
 import { Navigation } from "../blocks/Basic/Navigation";
+import { NavigationItem } from "../blocks/Navigation/NavigationItem";
 import { Checkbox } from "../blocks/Basic/Checkbox";
 import { List } from "../blocks/Basic/List";
 import { Alert } from "../blocks/Basic/Alert";
@@ -63,8 +65,7 @@ import { ElderCareCTA1 } from "../blocks/CTA/ElderCareCTA1";
 import { ElderCareTestimonials1 } from "../blocks/Testimonials/ElderCareTestimonials1";
 import { MedicalHero1 } from "../blocks/Hero/MedicalHero1";
 import { CosmeticHero1 } from "../blocks/Hero/CosmeticHero1";
-import { HealthcareHero1 } from "../blocks/Hero/HealthcareHero1";
-import { EmpowermentHero1 } from "../blocks/Hero/EmpowermentHero1";
+import { HealthcareGridHero1 } from "../blocks/Hero/HealthcareGridHero1";
 import { CollaborationHero1 } from "../blocks/Hero/CollaborationHero1";
 import { LearningPlatformHero } from "../blocks/Hero/LearningPlatformHero";
 import { ProductivityHero } from "../blocks/Hero/ProductivityHero";
@@ -106,6 +107,7 @@ import { PropertyGallery } from "../blocks/Content/PropertyGallery";
 import { CosmeticCard1 } from "../blocks/CMS/CosmeticCard1";
 import { HospitalityCard1 } from "../blocks/CMS/HospitalityCard1";
 import { ModernCard1 } from "../blocks/CMS/ModernCard1";
+import { CMSCollectionWrapper } from "../blocks/CMS/CMSCollectionWrapper";
 // Modern Components
 import { MiniMaxHero1 } from "../blocks/Hero/MiniMaxHero1";
 import { ModernSaaSHero1 } from "../blocks/Hero/ModernSaaSHero1";
@@ -277,6 +279,7 @@ function createCraftComponent(
 
 // Basic blocks (with full CraftJS integration)
 export const CraftText = Text;
+export const CraftFormattedText = FormattedText;
 export const CraftImage = Image;
 export const CraftButton = Button;
 export const CraftSpacer = Spacer;
@@ -297,6 +300,11 @@ export const CraftSelect = Select;
 export const CraftIcon = Icon;
 export const CraftGrid = Grid;
 export const CraftNavigation = Navigation;
+export const CraftNavigationItem = NavigationItem;
+
+// Export for sidebar and dynamic import
+export { Navigation };
+export { NavigationItem };
 export const CraftCheckbox = Checkbox;
 export const CraftList = List;
 export const CraftAlert = Alert;
@@ -328,8 +336,8 @@ export const CraftSignature = Signature;
 export const CraftForm = Form;
 export const CraftMedicalHero1 = MedicalHero1;
 export const CraftCosmeticHero1 = CosmeticHero1;
-export const CraftHealthcareHero1 = HealthcareHero1;
-export const CraftEmpowermentHero1 = EmpowermentHero1;
+export const CraftHealthcareGridHero1 = HealthcareGridHero1;
+// export const CraftEmpowermentHero1 = EmpowermentHero1;
 export const CraftCollaborationHero1 = CollaborationHero1;
 export const CraftLearningPlatformHero = LearningPlatformHero;
 export const CraftProductivityHero = ProductivityHero;
@@ -388,6 +396,7 @@ export const CraftHospitalityDining1 = HospitalityDining1;
 export const CraftCosmeticCard1 = CosmeticCard1;
 export const CraftHospitalityCard1 = HospitalityCard1;
 export const CraftModernCard1 = ModernCard1;
+export const CraftCMSCollectionWrapper = CMSCollectionWrapper;
 
 // Modern Components
 export const CraftMiniMaxHero1 = MiniMaxHero1;
@@ -407,6 +416,7 @@ const baseComponentResolver = {
   Canvas,
   // Basic blocks
   Text: CraftText,
+  FormattedText: FormattedText,
   Image: CraftImage,
   Button: CraftButton,
   Spacer: CraftSpacer,
@@ -427,6 +437,7 @@ const baseComponentResolver = {
   Icon: CraftIcon,
   Grid: CraftGrid,
   Navigation: CraftNavigation,
+  NavigationItem: CraftNavigationItem,
   Checkbox: CraftCheckbox,
   List: CraftList,
   Alert: CraftAlert,
@@ -457,8 +468,8 @@ const baseComponentResolver = {
   // Hero blocks
   MedicalHero1: CraftMedicalHero1,
   CosmeticHero1: CraftCosmeticHero1,
-  HealthcareHero1: CraftHealthcareHero1,
-  EmpowermentHero1: CraftEmpowermentHero1,
+  HealthcareGridHero1: CraftHealthcareGridHero1,
+  // EmpowermentHero1: CraftEmpowermentHero1,
   CollaborationHero1: CraftCollaborationHero1,
   LearningPlatformHero: CraftLearningPlatformHero,
   ProductivityHero: CraftProductivityHero,
@@ -520,6 +531,7 @@ const baseComponentResolver = {
   CosmeticCard1: CraftCosmeticCard1,
   HospitalityCard1: CraftHospitalityCard1,
   ModernCard1: CraftModernCard1,
+  CMSCollectionWrapper: CraftCMSCollectionWrapper,
   // Modern Components
   MiniMaxHero1: CraftMiniMaxHero1,
   ModernSaaSHero1: CraftModernSaaSHero1,
@@ -573,3 +585,6 @@ export function unregisterUserComponent(id: string) {
   // Update the exported resolver
   componentResolver = createCombinedResolver();
 }
+
+// Export components for direct import
+export { FormattedText };

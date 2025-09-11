@@ -1,6 +1,8 @@
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useProjectPages } from "@/hooks/usePages"
+import { useParams } from "next/navigation"
 
 interface LinkPropertiesProps {
   elementProps: any
@@ -8,6 +10,20 @@ interface LinkPropertiesProps {
 }
 
 export function LinkProperties({ elementProps, onPropChange }: LinkPropertiesProps) {
+  const params = useParams()
+  const projectId = params?.projectId as string
+  
+  // Fetch project pages for navigation dropdown
+  const { data: pagesResponse } = useProjectPages(projectId, !!projectId)
+  const pages = pagesResponse?.data?.pages || []
+  
+  // Filter out pages that are CMS detail pages (contain :id)
+  const navigablePages = pages.filter((page: any) => 
+    !page.slug?.includes(':id') && page.status === 'published'
+  )
+
+  const navigationType = elementProps?.navigationType || "url"
+
   return (
     <div className="space-y-4">
       <div>
@@ -21,16 +37,58 @@ export function LinkProperties({ elementProps, onPropChange }: LinkPropertiesPro
         />
       </div>
 
+      {/* Navigation Type Selection */}
       <div>
-        <Label htmlFor="linkHref">Link URL</Label>
-        <Input
-          id="linkHref"
-          value={elementProps?.href || ''}
-          onChange={(e) => onPropChange('href', e.target.value)}
-          placeholder="https://example.com"
-          className="mt-1"
-        />
+        <Label htmlFor="navigationType">Navigation Type</Label>
+        <Select
+          value={navigationType}
+          onValueChange={(value) => onPropChange("navigationType", value)}
+        >
+          <SelectTrigger className="mt-1">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="page">Navigate to Page</SelectItem>
+            <SelectItem value="url">External URL</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
+
+      {/* Page Selection (for internal navigation) */}
+      {navigationType === "page" && (
+        <div>
+          <Label htmlFor="pageSlug">Select Page</Label>
+          <Select
+            value={elementProps?.pageSlug || ""}
+            onValueChange={(value) => onPropChange("pageSlug", value)}
+          >
+            <SelectTrigger className="mt-1">
+              <SelectValue placeholder="Choose a page..." />
+            </SelectTrigger>
+            <SelectContent>
+              {navigablePages.map((page: any) => (
+                <SelectItem key={page._id} value={page.slug}>
+                  {page.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      )}
+
+      {/* URL Input (for external navigation) */}
+      {navigationType === "url" && (
+        <div>
+          <Label htmlFor="linkHref">External URL</Label>
+          <Input
+            id="linkHref"
+            value={elementProps?.href || ''}
+            onChange={(e) => onPropChange('href', e.target.value)}
+            placeholder="https://example.com"
+            className="mt-1"
+          />
+        </div>
+      )}
 
       <div>
         <Label htmlFor="linkTarget">Open In</Label>

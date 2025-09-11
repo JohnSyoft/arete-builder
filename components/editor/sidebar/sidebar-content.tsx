@@ -11,9 +11,8 @@ import {
   // Hero components
   CraftMedicalHero1,
   CraftCosmeticHero1,
-  CraftHealthcareHero1,
   CraftHealthcareGridHero1,
-  CraftEmpowermentHero1,
+  // CraftEmpowermentHero1,
   CraftCollaborationHero1,
   CraftLearningPlatformHero,
   CraftProductivityHero,
@@ -75,8 +74,6 @@ import {
 
   // Header components
   CraftSimpleHeader,
-  CraftMegaMenuHeader,
-
   // Content blocks
   CraftResearchCards,
   CraftPhotoGallery,
@@ -123,23 +120,17 @@ const componentsByType = {
       image: "/cosmeticHero.png",
     },
     {
-      component: CraftHealthcareHero1,
-      name: "Healthcare Hero",
-      description: "Clean healthcare hero with patient focus and stats",
-      image: "/placeholder.svg",
-    },
-    {
       component: CraftHealthcareGridHero1,
       name: "Healthcare Grid Hero",
       description: "Healthcare grid layout hero with multiple images",
-      image: "/placeholder.svg",
+      image: "/healthCareGridHero.png",
     },
-    {
-      component: CraftEmpowermentHero1,
-      name: "Empowerment Hero",
-      description: "Eco-friendly retreat hero with badge and dual buttons",
-      image: "/placeholder.svg",
-    },
+    // {
+    //   component: CraftEmpowermentHero1,
+    //   name: "Empowerment Hero",
+    //   description: "Eco-friendly retreat hero with badge and dual buttons",
+    //   image: "/placeholder.svg",
+    // },
     {
       component: CraftCollaborationHero1,
       name: "Collaboration Hero",
@@ -156,19 +147,19 @@ const componentsByType = {
       component: CraftProductivityHero,
       name: "Productivity Hero",
       description: "Split-screen productivity app with form and stats",
-      image: "/placeholder.svg",
+      image: "/productivityHero.png",
     },
     {
       component: CraftExpenseTrackingHero,
       name: "Expense Tracking Hero",
       description: "Financial app hero with phone mockup and app store buttons",
-      image: "/placeholder.svg",
+      image: "/expenseTrackingHero.png",
     },
     {
       component: CraftCommunityResourcesHero,
       name: "Community Resources Hero",
       description: "Developer community platform with gradient button",
-      image: "/placeholder.svg",
+      image: "/communityResourcesHero.png",
     },
     {
       component: CraftHospitalityHero1,
@@ -181,20 +172,20 @@ const componentsByType = {
       name: "AI Model Hero",
       description:
         "Multi-slide carousel hero for AI models with automatic transitions",
-      image: "/placeholder.svg",
+      image: "/AIHero.png",
     },
     {
       component: CraftModernSaaSHero1,
       name: "SaaS Hero",
       description: "Modern SaaS hero with features and trust indicators",
-      image: "/placeholder.svg",
+      image: "/sassHero.png",
     },
     {
       component: CraftEnvironmentalHero1,
       name: "Environmental Hero",
       description:
         "Environmental conservation hero with grid layout and wavy background",
-      image: "/placeholder.svg",
+      image: "/enviornmentHero.png",
     },
     {
       component: CraftResortBookingHero,
@@ -208,19 +199,19 @@ const componentsByType = {
       component: CraftMedicalServices1,
       name: "Medical Services",
       description: "Comprehensive medical services grid",
-      image: "/placeholder.svg",
+      image: "/medicalService.png",
     },
     {
       component: CraftCosmeticServices1,
       name: "Beauty Services",
       description: "Cosmetic treatment services showcase",
-      image: "/placeholder.svg",
+      image: "/beautyService.png",
     },
     {
       component: CraftHospitalityAmenities1,
       name: "Amenities",
       description: "Hotel amenities and facilities grid",
-      image: "/placeholder.svg",
+      image: "/amenityService.png",
     },
     {
       component: CraftElderCareServices1,
@@ -448,12 +439,12 @@ const componentsByType = {
       description: "Clean navigation header",
       image: "/placeholder.svg",
     },
-    {
-      component: CraftMegaMenuHeader,
-      name: "Mega Menu Header",
-      description: "Advanced navigation with mega menu",
-      image: "/placeholder.svg",
-    },
+    // {
+    //   component: CraftMegaMenuHeader,
+    //   name: "Mega Menu Header",
+    //   description: "Advanced navigation with mega menu",
+    //   image: "/placeholder.svg",
+    // },
   ],
   footers: [
     {
@@ -773,10 +764,36 @@ export const SidebarContent = ({
             </Accordion>
           )}
 
+          {/* CMS Fields category with special handling */}
+          {activeCategory === "fields" && (
+            <div className="space-y-3">
+              <div className="text-sm text-muted-foreground px-2 mb-4">
+                Drag these fields to display data from your collection
+              </div>
+              {categoryItems.map((item: any, index: number) => (
+                <div key={index} className="space-y-1">
+                  {item.fieldType && (
+                    <div className="text-xs text-muted-foreground px-2 capitalize">
+                      {item.fieldType} Field
+                    </div>
+                  )}
+                  <BlockItem
+                    component={item.component}
+                    name={item.name}
+                    description={item.description}
+                    image={item.image}
+                    props={item.props}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+
           {/* Regular category items for other categories */}
           {activeCategory !== "userBlocks" &&
             activeCategory !== "page" &&
             activeCategory !== "components" &&
+            activeCategory !== "fields" &&
             categoryItems.map((item: any, index: number) => (
               <BlockItem
                 key={index}

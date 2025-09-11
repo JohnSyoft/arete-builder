@@ -4,7 +4,7 @@ import { apiClient } from '@/lib/api/apiClient'
 export interface Field {
   id: string
   name: string
-  type: 'title' | 'slug' | 'content' | 'plainText' | 'formattedText' | 'date' | 'link' | 'image' | 'gallery' | 'color' | 'toggle' | 'number' | 'option' | 'file' | 'reference' | 'multiReference'
+  type: 'plainText' | 'formattedText' | 'date' | 'datetime' | 'link' | 'image' | 'gallery' | 'color' | 'toggle' | 'number' | 'option' | 'file' | 'reference' | 'multiReference'
   description?: string
   required?: boolean
   maxLength?: number

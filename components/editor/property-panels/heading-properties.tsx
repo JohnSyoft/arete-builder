@@ -4,6 +4,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { CMSFieldSelector } from "./CMSFieldSelector"
 
 interface HeadingPropertiesProps {
   elementProps: any
@@ -11,8 +12,32 @@ interface HeadingPropertiesProps {
 }
 
 export function HeadingProperties({ elementProps, onPropChange }: HeadingPropertiesProps) {
+  // Check if this is a CMS field (read-only content)
+  const isCMSField = !!(elementProps?.cmsField && elementProps?.cmsFieldId && elementProps?.cmsCollectionId);
+  
   return (
     <div className="space-y-4">
+      {/* CMS Field Selector */}
+      <CMSFieldSelector 
+        elementProps={elementProps}
+        onPropChange={onPropChange}
+        fieldTypes={['plainText', 'formattedText']}
+      />
+
+      {/* CMS Field Info - only show if bound to CMS */}
+      {isCMSField && (
+        <div className="bg-green-50 border border-green-200 rounded-lg p-3">
+          <div className="flex items-center space-x-2">
+            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+            <span className="text-sm font-medium text-green-800">CMS Field Bound</span>
+          </div>
+          <p className="text-xs text-green-600 mt-1">
+            Content from "{elementProps?.cmsFieldLabel || elementProps?.cmsField}" field.
+            Only styling can be edited.
+          </p>
+        </div>
+      )}
+
       {/* Content Section */}
       <div>
         <Label htmlFor="text">Heading Text</Label>
@@ -20,10 +45,16 @@ export function HeadingProperties({ elementProps, onPropChange }: HeadingPropert
           id="text"
           value={elementProps?.text || ''}
           onChange={(e) => onPropChange('text', e.target.value)}
-          placeholder="Enter heading text"
+          placeholder={isCMSField ? "Content populated from CMS" : "Enter heading text"}
           className="mt-1"
           rows={2}
+          disabled={isCMSField}
         />
+        {isCMSField && (
+          <p className="text-xs text-gray-500 mt-1">
+            This field is read-only because it displays dynamic content from your CMS.
+          </p>
+        )}
       </div>
       
       <div>

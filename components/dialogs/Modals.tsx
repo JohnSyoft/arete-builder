@@ -10,6 +10,7 @@ import { CreateEditCollectionDialog } from "@/components/dialogs/CreateEditColle
 import { ManageFieldsDialog } from "@/components/dialogs/ManageFieldsDialog";
 import { DeleteCollectionDialog } from "@/components/dialogs/DeleteCollectionDialog";
 import { CollectionItemEditDialog } from "@/components/dialogs/CollectionItemEditDialog";
+import { CardSelectionDialog } from "@/components/dialogs/CardSelectionDialog";
 
 // Modal registry
 const modals: Record<string, React.ComponentType<any>> = {
@@ -23,6 +24,7 @@ const modals: Record<string, React.ComponentType<any>> = {
   manageFields: ManageFieldsDialog,
   deleteCollection: DeleteCollectionDialog,
   editCollectionItem: CollectionItemEditDialog,
+  cardSelection: CardSelectionDialog,
   // Add more dialogs here as needed
 };
 

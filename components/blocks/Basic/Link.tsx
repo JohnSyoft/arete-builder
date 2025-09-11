@@ -6,6 +6,8 @@ import { ExternalLink } from "lucide-react";
 
 interface LinkProps {
   text?: string;
+  navigationType?: "page" | "url";
+  pageSlug?: string;
   href?: string;
   target?: "_self" | "_blank";
   color?: string;
@@ -14,10 +16,14 @@ interface LinkProps {
   textDecoration?: "underline" | "no-underline";
   margin?: string;
   padding?: string;
+  // Non-editable prop
+  nonEditable?: boolean;
 }
 
 export function Link({
   text = "Click here",
+  navigationType = "url",
+  pageSlug = "",
   href = "#",
   target = "_self",
   color = "text-blue-600",
@@ -26,6 +32,7 @@ export function Link({
   textDecoration = "underline",
   margin = "my-2",
   padding = "px-0 py-0",
+  nonEditable = false,
 }: LinkProps) {
   const {
     connectors: { connect, drag },
@@ -156,6 +163,8 @@ Link.craft = {
   displayName: "Link",
   props: {
     text: "Click here",
+    navigationType: "url",
+    pageSlug: "",
     href: "#",
     target: "_self",
     color: "text-blue-600",

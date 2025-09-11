@@ -24,10 +24,10 @@ interface EnvironmentalHero1Props extends SectionProps {
 export function EnvironmentalHero1({
   mainTitle = "Protect the planet for future generations",
   description = "Every step we take towards sustainability is a commitment to preserving nature's beauty and resources, for today and tomorrow.",
-  image1 = "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&h=300&fit=crop",
-  image2 = "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=300&h=600&fit=crop",
-  image3 = "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800&h=300&fit=crop",
-  image4 = "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=400&h=600&fit=crop",
+  image1 = "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&h=300&fit=crop&q=80",
+  image2 = "https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=300&h=600&fit=crop&q=80",
+  image3 = "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800&h=300&fit=crop&q=80",
+  image4 = "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=600&fit=crop&q=80",
   backgroundColor = "#F5F5DC",
   textColor = "#2D4A3A",
   shapeColor = "#E8F5E8",
@@ -158,7 +158,7 @@ export function EnvironmentalHero1({
               >
                 <CraftImage
                   src={image1}
-                  alt="Environmental conservation wildlife"
+                  alt="Forest landscape with misty mountains"
                   width="w-full"
                   height="h-full"
                   objectFit="object-cover"
@@ -186,7 +186,7 @@ export function EnvironmentalHero1({
               >
                 <CraftImage
                   src={image2}
-                  alt="Sustainable forest conservation"
+                  alt="Lush green tropical forest canopy"
                   width="w-full"
                   height="h-full"
                   objectFit="object-cover"
@@ -214,7 +214,7 @@ export function EnvironmentalHero1({
               >
                 <CraftImage
                   src={image4}
-                  alt="Beach cleanup environmental action"
+                  alt="Mountain landscape with pristine nature"
                   width="w-full"
                   height="h-full"
                   objectFit="object-cover"
@@ -242,7 +242,7 @@ export function EnvironmentalHero1({
               >
                 <CraftImage
                   src={image3}
-                  alt="Wind turbines renewable energy"
+                  alt="Wind energy and renewable power"
                   width="w-full"
                   height="h-full"
                   objectFit="object-cover"
@@ -280,13 +280,13 @@ EnvironmentalHero1.craft = {
     description:
       "Every step we take towards sustainability is a commitment to preserving nature's beauty and resources, for today and tomorrow.",
     image1:
-      "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&h=300&fit=crop&q=80",
     image2:
-      "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=300&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=300&h=600&fit=crop&q=80",
     image3:
-      "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800&h=300&fit=crop&q=80",
     image4:
-      "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=400&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=600&fit=crop&q=80",
     backgroundColor: "#F5F5DC",
     textColor: "#2D4A3A",
     shapeColor: "#E8F5E8",

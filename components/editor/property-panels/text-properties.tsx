@@ -1,34 +1,80 @@
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Separator } from "@/components/ui/separator"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { CMSFieldSelector } from "./CMSFieldSelector";
 
 interface TextPropertiesProps {
-  elementProps: any
-  onPropChange: (key: string, value: any) => void
+  elementProps: any;
+  onPropChange: (key: string, value: any) => void;
 }
 
-export function TextProperties({ elementProps, onPropChange }: TextPropertiesProps) {
+export function TextProperties({
+  elementProps,
+  onPropChange,
+}: TextPropertiesProps) {
+  // Check if this is a CMS field (read-only content)
+  const isCMSField = !!(elementProps?.cmsField && elementProps?.cmsFieldId && elementProps?.cmsCollectionId);
+  
   return (
     <div className="space-y-4">
+      {/* CMS Field Selector */}
+      <CMSFieldSelector 
+        elementProps={elementProps}
+        onPropChange={onPropChange}
+        fieldTypes={['plainText', 'formattedText', 'date', 'number']}
+      />
+
+      {/* CMS Field Info - only show if bound to CMS */}
+      {isCMSField && (
+        <div className="bg-green-50 border border-green-200 rounded-lg p-3">
+          <div className="flex items-center space-x-2">
+            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+            <span className="text-sm font-medium text-green-800">CMS Field Bound</span>
+          </div>
+          <p className="text-xs text-green-600 mt-1">
+            Content from "{elementProps?.cmsFieldLabel || elementProps?.cmsField}" field.
+            Only styling can be edited.
+          </p>
+        </div>
+      )}
+
       {/* Content Section */}
       <div>
         <Label htmlFor="text">Text Content</Label>
         <Textarea
           id="text"
-          value={elementProps?.text || ''}
-          onChange={(e) => onPropChange('text', e.target.value)}
-          placeholder="Enter text content"
+          value={elementProps?.text || ""}
+          onChange={(e) => onPropChange("text", e.target.value)}
+          placeholder={isCMSField ? "Content populated from CMS" : "Enter text content"}
           className="mt-1"
           rows={3}
+          disabled={isCMSField}
         />
+        {isCMSField && (
+          <p className="text-xs text-gray-500 mt-1">
+            This field is read-only because it displays dynamic content from your CMS.
+          </p>
+        )}
       </div>
-      
+
       <div>
         <Label htmlFor="tagName">Tag Type</Label>
-        <Select value={elementProps?.tagName || 'p'} onValueChange={(value) => onPropChange('tagName', value)}>
+        <Select
+          value={elementProps?.tagName || "p"}
+          onValueChange={(value) => onPropChange("tagName", value)}
+        >
           <SelectTrigger className="mt-1">
             <SelectValue />
           </SelectTrigger>
@@ -48,11 +94,18 @@ export function TextProperties({ elementProps, onPropChange }: TextPropertiesPro
       <Accordion type="multiple" className="w-full">
         {/* Typography Section */}
         <AccordionItem value="typography">
-          <AccordionTrigger className="text-sm font-medium">Typography</AccordionTrigger>
+          <AccordionTrigger className="text-sm font-medium">
+            Typography
+          </AccordionTrigger>
           <AccordionContent className="space-y-4">
             <div>
               <Label htmlFor="fontFamily">Font Family</Label>
-              <Select value={elementProps?.fontFamily || 'default'} onValueChange={(value) => onPropChange('fontFamily', value === 'default' ? '' : value)}>
+              <Select
+                value={elementProps?.fontFamily || "default"}
+                onValueChange={(value) =>
+                  onPropChange("fontFamily", value === "default" ? "" : value)
+                }
+              >
                 <SelectTrigger className="mt-1">
                   <SelectValue placeholder="Default" />
                 </SelectTrigger>
@@ -67,7 +120,10 @@ export function TextProperties({ elementProps, onPropChange }: TextPropertiesPro
 
             <div>
               <Label htmlFor="fontSize">Font Size</Label>
-              <Select value={elementProps?.fontSize || 'text-base'} onValueChange={(value) => onPropChange('fontSize', value)}>
+              <Select
+                value={elementProps?.fontSize || "text-base"}
+                onValueChange={(value) => onPropChange("fontSize", value)}
+              >
                 <SelectTrigger className="mt-1">
                   <SelectValue />
                 </SelectTrigger>
@@ -88,7 +144,10 @@ export function TextProperties({ elementProps, onPropChange }: TextPropertiesPro
 
             <div>
               <Label htmlFor="fontWeight">Font Weight</Label>
-              <Select value={elementProps?.fontWeight || 'font-normal'} onValueChange={(value) => onPropChange('fontWeight', value)}>
+              <Select
+                value={elementProps?.fontWeight || "font-normal"}
+                onValueChange={(value) => onPropChange("fontWeight", value)}
+              >
                 <SelectTrigger className="mt-1">
                   <SelectValue />
                 </SelectTrigger>
@@ -99,7 +158,9 @@ export function TextProperties({ elementProps, onPropChange }: TextPropertiesPro
                   <SelectItem value="font-medium">Medium (500)</SelectItem>
                   <SelectItem value="font-semibold">Semibold (600)</SelectItem>
                   <SelectItem value="font-bold">Bold (700)</SelectItem>
-                  <SelectItem value="font-extrabold">Extra Bold (800)</SelectItem>
+                  <SelectItem value="font-extrabold">
+                    Extra Bold (800)
+                  </SelectItem>
                   <SelectItem value="font-black">Black (900)</SelectItem>
                 </SelectContent>
               </Select>
@@ -107,7 +168,12 @@ export function TextProperties({ elementProps, onPropChange }: TextPropertiesPro
 
             <div>
               <Label htmlFor="lineHeight">Line Height</Label>
-              <Select value={elementProps?.lineHeight || 'default'} onValueChange={(value) => onPropChange('lineHeight', value === 'default' ? '' : value)}>
+              <Select
+                value={elementProps?.lineHeight || "default"}
+                onValueChange={(value) =>
+                  onPropChange("lineHeight", value === "default" ? "" : value)
+                }
+              >
                 <SelectTrigger className="mt-1">
                   <SelectValue placeholder="Default" />
                 </SelectTrigger>
@@ -117,7 +183,9 @@ export function TextProperties({ elementProps, onPropChange }: TextPropertiesPro
                   <SelectItem value="leading-tight">Tight (1.25)</SelectItem>
                   <SelectItem value="leading-snug">Snug (1.375)</SelectItem>
                   <SelectItem value="leading-normal">Normal (1.5)</SelectItem>
-                  <SelectItem value="leading-relaxed">Relaxed (1.625)</SelectItem>
+                  <SelectItem value="leading-relaxed">
+                    Relaxed (1.625)
+                  </SelectItem>
                   <SelectItem value="leading-loose">Loose (2)</SelectItem>
                 </SelectContent>
               </Select>
@@ -125,25 +193,42 @@ export function TextProperties({ elementProps, onPropChange }: TextPropertiesPro
 
             <div>
               <Label htmlFor="letterSpacing">Letter Spacing</Label>
-              <Select value={elementProps?.letterSpacing || 'default'} onValueChange={(value) => onPropChange('letterSpacing', value === 'default' ? '' : value)}>
+              <Select
+                value={elementProps?.letterSpacing || "default"}
+                onValueChange={(value) =>
+                  onPropChange(
+                    "letterSpacing",
+                    value === "default" ? "" : value
+                  )
+                }
+              >
                 <SelectTrigger className="mt-1">
                   <SelectValue placeholder="Default" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="default">Default</SelectItem>
-                  <SelectItem value="tracking-tighter">Tighter (-0.05em)</SelectItem>
-                  <SelectItem value="tracking-tight">Tight (-0.025em)</SelectItem>
+                  <SelectItem value="tracking-tighter">
+                    Tighter (-0.05em)
+                  </SelectItem>
+                  <SelectItem value="tracking-tight">
+                    Tight (-0.025em)
+                  </SelectItem>
                   <SelectItem value="tracking-normal">Normal (0em)</SelectItem>
                   <SelectItem value="tracking-wide">Wide (0.025em)</SelectItem>
                   <SelectItem value="tracking-wider">Wider (0.05em)</SelectItem>
-                  <SelectItem value="tracking-widest">Widest (0.1em)</SelectItem>
+                  <SelectItem value="tracking-widest">
+                    Widest (0.1em)
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div>
               <Label htmlFor="textAlign">Text Alignment</Label>
-              <Select value={elementProps?.textAlign || 'text-left'} onValueChange={(value) => onPropChange('textAlign', value)}>
+              <Select
+                value={elementProps?.textAlign || "text-left"}
+                onValueChange={(value) => onPropChange("textAlign", value)}
+              >
                 <SelectTrigger className="mt-1">
                   <SelectValue />
                 </SelectTrigger>
@@ -158,7 +243,12 @@ export function TextProperties({ elementProps, onPropChange }: TextPropertiesPro
 
             <div>
               <Label htmlFor="textTransform">Text Transform</Label>
-              <Select value={elementProps?.textTransform || 'none'} onValueChange={(value) => onPropChange('textTransform', value === 'none' ? '' : value)}>
+              <Select
+                value={elementProps?.textTransform || "none"}
+                onValueChange={(value) =>
+                  onPropChange("textTransform", value === "none" ? "" : value)
+                }
+              >
                 <SelectTrigger className="mt-1">
                   <SelectValue placeholder="None" />
                 </SelectTrigger>
@@ -173,7 +263,12 @@ export function TextProperties({ elementProps, onPropChange }: TextPropertiesPro
 
             <div>
               <Label htmlFor="textDecoration">Text Decoration</Label>
-              <Select value={elementProps?.textDecoration || 'none'} onValueChange={(value) => onPropChange('textDecoration', value === 'none' ? '' : value)}>
+              <Select
+                value={elementProps?.textDecoration || "none"}
+                onValueChange={(value) =>
+                  onPropChange("textDecoration", value === "none" ? "" : value)
+                }
+              >
                 <SelectTrigger className="mt-1">
                   <SelectValue placeholder="None" />
                 </SelectTrigger>
@@ -190,11 +285,16 @@ export function TextProperties({ elementProps, onPropChange }: TextPropertiesPro
 
         {/* Colors Section */}
         <AccordionItem value="colors">
-          <AccordionTrigger className="text-sm font-medium">Colors</AccordionTrigger>
+          <AccordionTrigger className="text-sm font-medium">
+            Colors
+          </AccordionTrigger>
           <AccordionContent className="space-y-4">
             <div>
               <Label htmlFor="color">Text Color</Label>
-              <Select value={elementProps?.color || 'text-gray-900'} onValueChange={(value) => onPropChange('color', value)}>
+              <Select
+                value={elementProps?.color || "text-gray-900"}
+                onValueChange={(value) => onPropChange("color", value)}
+              >
                 <SelectTrigger className="mt-1">
                   <SelectValue />
                 </SelectTrigger>
@@ -239,7 +339,15 @@ export function TextProperties({ elementProps, onPropChange }: TextPropertiesPro
 
             <div>
               <Label htmlFor="backgroundColor">Background Color</Label>
-              <Select value={elementProps?.backgroundColor || 'transparent'} onValueChange={(value) => onPropChange('backgroundColor', value === 'transparent' ? '' : value)}>
+              <Select
+                value={elementProps?.backgroundColor || "transparent"}
+                onValueChange={(value) =>
+                  onPropChange(
+                    "backgroundColor",
+                    value === "transparent" ? "" : value
+                  )
+                }
+              >
                 <SelectTrigger className="mt-1">
                   <SelectValue placeholder="Transparent" />
                 </SelectTrigger>
@@ -275,11 +383,18 @@ export function TextProperties({ elementProps, onPropChange }: TextPropertiesPro
 
         {/* Spacing Section */}
         <AccordionItem value="spacing">
-          <AccordionTrigger className="text-sm font-medium">Spacing</AccordionTrigger>
+          <AccordionTrigger className="text-sm font-medium">
+            Spacing
+          </AccordionTrigger>
           <AccordionContent className="space-y-4">
             <div>
               <Label htmlFor="margin">Margin</Label>
-              <Select value={elementProps?.margin || 'none'} onValueChange={(value) => onPropChange('margin', value === 'none' ? '' : value)}>
+              <Select
+                value={elementProps?.margin || "my-2"}
+                onValueChange={(value) =>
+                  onPropChange("margin", value === "none" ? "" : value)
+                }
+              >
                 <SelectTrigger className="mt-1">
                   <SelectValue />
                 </SelectTrigger>
@@ -309,7 +424,12 @@ export function TextProperties({ elementProps, onPropChange }: TextPropertiesPro
 
             <div>
               <Label htmlFor="padding">Padding</Label>
-              <Select value={elementProps?.padding || 'none'} onValueChange={(value) => onPropChange('padding', value === 'none' ? '' : value)}>
+              <Select
+                value={elementProps?.padding || "px-0 py-0"}
+                onValueChange={(value) =>
+                  onPropChange("padding", value === "none" ? "" : value)
+                }
+              >
                 <SelectTrigger className="mt-1">
                   <SelectValue />
                 </SelectTrigger>
@@ -320,10 +440,18 @@ export function TextProperties({ elementProps, onPropChange }: TextPropertiesPro
                   <SelectItem value="p-4">All Sides (16px)</SelectItem>
                   <SelectItem value="p-6">All Sides (24px)</SelectItem>
                   <SelectItem value="p-8">All Sides (32px)</SelectItem>
-                  <SelectItem value="py-1 px-2">Vertical 4px, Horizontal 8px</SelectItem>
-                  <SelectItem value="py-2 px-4">Vertical 8px, Horizontal 16px</SelectItem>
-                  <SelectItem value="py-3 px-6">Vertical 12px, Horizontal 24px</SelectItem>
-                  <SelectItem value="py-4 px-8">Vertical 16px, Horizontal 32px</SelectItem>
+                  <SelectItem value="py-1 px-2">
+                    Vertical 4px, Horizontal 8px
+                  </SelectItem>
+                  <SelectItem value="py-2 px-4">
+                    Vertical 8px, Horizontal 16px
+                  </SelectItem>
+                  <SelectItem value="py-3 px-6">
+                    Vertical 12px, Horizontal 24px
+                  </SelectItem>
+                  <SelectItem value="py-4 px-8">
+                    Vertical 16px, Horizontal 32px
+                  </SelectItem>
                   <SelectItem value="px-0 py-0">None</SelectItem>
                 </SelectContent>
               </Select>
@@ -333,11 +461,18 @@ export function TextProperties({ elementProps, onPropChange }: TextPropertiesPro
 
         {/* Effects Section */}
         <AccordionItem value="effects">
-          <AccordionTrigger className="text-sm font-medium">Effects</AccordionTrigger>
+          <AccordionTrigger className="text-sm font-medium">
+            Effects
+          </AccordionTrigger>
           <AccordionContent className="space-y-4">
             <div>
               <Label htmlFor="textShadow">Text Shadow</Label>
-              <Select value={elementProps?.textShadow || 'none'} onValueChange={(value) => onPropChange('textShadow', value === 'none' ? '' : value)}>
+              <Select
+                value={elementProps?.textShadow || "none"}
+                onValueChange={(value) =>
+                  onPropChange("textShadow", value === "none" ? "" : value)
+                }
+              >
                 <SelectTrigger className="mt-1">
                   <SelectValue placeholder="None" />
                 </SelectTrigger>
@@ -354,7 +489,12 @@ export function TextProperties({ elementProps, onPropChange }: TextPropertiesPro
 
             <div>
               <Label htmlFor="opacity">Opacity</Label>
-              <Select value={elementProps?.opacity || 'full'} onValueChange={(value) => onPropChange('opacity', value === 'full' ? '' : value)}>
+              <Select
+                value={elementProps?.opacity || "full"}
+                onValueChange={(value) =>
+                  onPropChange("opacity", value === "full" ? "" : value)
+                }
+              >
                 <SelectTrigger className="mt-1">
                   <SelectValue placeholder="100%" />
                 </SelectTrigger>
@@ -372,7 +512,12 @@ export function TextProperties({ elementProps, onPropChange }: TextPropertiesPro
 
             <div>
               <Label htmlFor="borderRadius">Border Radius</Label>
-              <Select value={elementProps?.borderRadius || 'none'} onValueChange={(value) => onPropChange('borderRadius', value === 'none' ? '' : value)}>
+              <Select
+                value={elementProps?.borderRadius || "none"}
+                onValueChange={(value) =>
+                  onPropChange("borderRadius", value === "none" ? "" : value)
+                }
+              >
                 <SelectTrigger className="mt-1">
                   <SelectValue placeholder="None" />
                 </SelectTrigger>
@@ -391,7 +536,12 @@ export function TextProperties({ elementProps, onPropChange }: TextPropertiesPro
 
             <div>
               <Label htmlFor="border">Border</Label>
-              <Select value={elementProps?.border || 'none'} onValueChange={(value) => onPropChange('border', value === 'none' ? '' : value)}>
+              <Select
+                value={elementProps?.border || "none"}
+                onValueChange={(value) =>
+                  onPropChange("border", value === "none" ? "" : value)
+                }
+              >
                 <SelectTrigger className="mt-1">
                   <SelectValue placeholder="None" />
                 </SelectTrigger>
@@ -399,13 +549,25 @@ export function TextProperties({ elementProps, onPropChange }: TextPropertiesPro
                   <SelectItem value="none">None</SelectItem>
                   <SelectItem value="border">1px Gray</SelectItem>
                   <SelectItem value="border-2">2px Gray</SelectItem>
-                  <SelectItem value="border border-gray-300">1px Gray 300</SelectItem>
-                  <SelectItem value="border border-gray-400">1px Gray 400</SelectItem>
-                  <SelectItem value="border border-blue-500">1px Blue</SelectItem>
+                  <SelectItem value="border border-gray-300">
+                    1px Gray 300
+                  </SelectItem>
+                  <SelectItem value="border border-gray-400">
+                    1px Gray 400
+                  </SelectItem>
+                  <SelectItem value="border border-blue-500">
+                    1px Blue
+                  </SelectItem>
                   <SelectItem value="border border-red-500">1px Red</SelectItem>
-                  <SelectItem value="border border-green-500">1px Green</SelectItem>
-                  <SelectItem value="border-dashed border-gray-300">Dashed Gray</SelectItem>
-                  <SelectItem value="border-dotted border-gray-300">Dotted Gray</SelectItem>
+                  <SelectItem value="border border-green-500">
+                    1px Green
+                  </SelectItem>
+                  <SelectItem value="border-dashed border-gray-300">
+                    Dashed Gray
+                  </SelectItem>
+                  <SelectItem value="border-dotted border-gray-300">
+                    Dotted Gray
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -413,5 +575,5 @@ export function TextProperties({ elementProps, onPropChange }: TextPropertiesPro
         </AccordionItem>
       </Accordion>
     </div>
-  )
+  );
 }

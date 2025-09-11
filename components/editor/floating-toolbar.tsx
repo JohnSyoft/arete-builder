@@ -15,6 +15,7 @@ interface ToolbarButton {
 interface FloatingToolbarProps {
   elementType:
     | "text"
+    | "formattedText"
     | "button"
     | "image"
     | "container"
