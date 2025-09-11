@@ -6,12 +6,14 @@ interface SidebarNavigationProps {
   allCategories: Record<string, any>;
   activeCategory: string;
   setActiveCategory: (category: string) => void;
+  isComponentEditor?: boolean;
 }
 
 export const SidebarNavigation = ({
   allCategories,
   activeCategory,
   setActiveCategory,
+  isComponentEditor = false,
 }: SidebarNavigationProps) => {
   const { isOpen, toggleSidebar } = useSidebarStore();
 

@@ -167,6 +167,14 @@ console.log({componentSlug})
     }
   };
 
+  // Check if we're in the component editor context
+  const isInComponentEditor = () => {
+    if (typeof window !== 'undefined') {
+      return window.location.pathname.includes('/components/') && window.location.pathname.includes('/editor');
+    }
+    return false;
+  };
+
   // Render component layout content
   const renderComponentContent = () => {
     if (isLoadingComponent) {
@@ -177,11 +185,13 @@ console.log({componentSlug})
       );
     }
 
+    // If nonEditable is false, render CraftJS children for editing
+    if (!nonEditable) {
+      return children;
+    }
+
     if (componentLayout && componentSlug) {
       try {
-        // Create a temporary editor to render the component layout
-        const { Frame, Element } = require("@craftjs/core");
-        
         // Get the main card node from the layout (should be the first child of ROOT)
         const rootNode = componentLayout.ROOT;
         if (rootNode && rootNode.nodes && rootNode.nodes.length > 0) {
@@ -189,7 +199,7 @@ console.log({componentSlug})
           const cardNode = componentLayout[cardNodeId];
           
           if (cardNode && cardNode.nodes && cardNode.nodes.length > 0) {
-            // Render the card's children directly
+            // Render the card's children directly as static content for index pages
             return (
               <div className="w-full">
                 {cardNode.nodes.map((nodeId: string) => {
@@ -318,8 +328,8 @@ console.log({componentSlug})
       }}
       onDoubleClick={handleDoubleClick}
     >
-      {/* Render component content if componentSlug is provided, otherwise render children */}
-      {componentSlug ? renderComponentContent() : children}
+      {/* Render component content only when nonEditable is true */}
+      {componentSlug && nonEditable ? renderComponentContent() : children}
     </div>
   );
 

@@ -281,10 +281,33 @@ export default function ComponentEditorPage() {
 
   const layoutData = useMemo(() => {
     if (currentComponent?.layout) {
-      // If component has existing layout, use it
-      return typeof currentComponent.layout === 'string' 
+      // If component has existing layout, use it but make all fields editable
+      const layout = typeof currentComponent.layout === 'string' 
         ? JSON.parse(currentComponent.layout) 
         : currentComponent.layout;
+        
+      // Recursively make all nodes editable by setting nonEditable to false
+      const makeNodesEditable = (layoutObj: any) => {
+        const editableLayout = { ...layoutObj };
+        console.log({editableLayout})
+        Object.keys(editableLayout).forEach(nodeId => {
+          const node = editableLayout[nodeId];
+          if (node && typeof node === 'object') {
+            // Make this node editable
+            editableLayout[nodeId] = {
+              ...node,
+              props: {
+                ...node.props,
+                nonEditable: false, // Override to make editable in component editor
+              }
+            };
+          }
+        });
+        
+        return editableLayout;
+      };
+      
+      return makeNodesEditable(layout);
     }
 
     // Default empty layout for new components

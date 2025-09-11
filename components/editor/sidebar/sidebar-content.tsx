@@ -102,6 +102,7 @@ import {
 interface SidebarContentProps {
   currentCategory: any;
   activeCategory: string;
+  isComponentEditor?: boolean;
 }
 
 // Component categories organized by type
@@ -497,6 +498,7 @@ const componentsByType = {
 export const SidebarContent = ({
   currentCategory,
   activeCategory,
+  isComponentEditor = false,
 }: SidebarContentProps) => {
   const { openModal } = useModalStore();
 
@@ -527,8 +529,8 @@ export const SidebarContent = ({
 
       <ScrollArea className="flex-1">
         <div className="p-4 space-y-3">
-          {/* New unified components category with accordions */}
-          {activeCategory === "components" && (
+          {/* New unified components category with accordions - hide in component editor */}
+          {activeCategory === "components" && !isComponentEditor && (
             <Accordion
               type="multiple"
               defaultValue={["hero", "services"]}
@@ -804,8 +806,8 @@ export const SidebarContent = ({
               />
             ))}
 
-          {/* Special accordion handling for page elements */}
-          {activeCategory === "page" && (
+          {/* Special accordion handling for page elements - hide in component editor */}
+          {activeCategory === "page" && !isComponentEditor && (
             <Accordion type="single" collapsible defaultValue="medical">
               <AccordionItem value="medical">
                 <AccordionTrigger className="text-sm font-medium">
