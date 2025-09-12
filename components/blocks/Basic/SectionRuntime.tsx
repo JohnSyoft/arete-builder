@@ -84,7 +84,7 @@ export function SectionRuntime({
     const paddingMap: Record<string, string> = {
       "p-0": "0px",
       "p-1": "4px",
-      "p-2": "8px", 
+      "p-2": "8px",
       "p-3": "12px",
       "p-4": "16px",
       "p-5": "20px",
@@ -104,7 +104,7 @@ export function SectionRuntime({
       "m-0": "0px",
       "m-1": "4px",
       "m-2": "8px",
-      "m-3": "12px", 
+      "m-3": "12px",
       "m-4": "16px",
       "m-5": "20px",
       "m-6": "24px",
@@ -153,24 +153,24 @@ export function SectionRuntime({
   // Handle background
   if (gradient && gradient !== "") {
     sectionStyles.background = gradient
-  } else if (backgroundImage && backgroundImage !== "") {
+  } if (backgroundImage && backgroundImage !== "") {
     sectionStyles.backgroundImage = `url(${backgroundImage})`
     sectionStyles.backgroundSize = backgroundSize
     sectionStyles.backgroundPosition = backgroundPosition
     sectionStyles.backgroundRepeat = backgroundRepeat
     sectionStyles.backgroundAttachment = backgroundAttachment
-  } else if (backgroundColor && backgroundColor !== "") {
+  } if (backgroundColor && backgroundColor !== "") {
     sectionStyles.backgroundColor = backgroundColor
   }
 
   return (
-    <section 
-      style={sectionStyles} 
+    <section
+      style={sectionStyles}
       className={`relative ${className}`}
     >
       {hasOverlay && (
-        <div 
-          className="absolute inset-0 z-10" 
+        <div
+          className="absolute inset-0 z-10"
           style={{
             backgroundColor: overlayColor,
             opacity: parseFloat(overlayOpacity)

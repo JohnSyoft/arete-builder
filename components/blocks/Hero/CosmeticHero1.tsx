@@ -58,7 +58,7 @@ export function CosmeticHero1({
   // Set section defaults for cosmetic hero
   const heroProps = {
     backgroundColor: primaryColor,
-    padding: "p-0",
+    padding: "m-4",
     minHeight: "min-h-[600px]",
     hasContentWrapper: true,
     contentMaxWidth: "7xl",
