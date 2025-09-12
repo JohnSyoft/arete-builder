@@ -211,17 +211,15 @@ export default async function PublicPage({ params }: PageProps) {
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
-      <nav className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
+      {/* <nav className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            {/* Logo/Brand */}
             <div className="flex items-center">
               <a href={`/site/${project._id}/${pages.find((p: any) => p.isHomePage)?.slug || 'home'}`} className="text-xl font-bold text-gray-900">
                 {project.name}
               </a>
             </div>
 
-            {/* Navigation Links */}
             <div className="hidden md:flex space-x-8">
               {pages.filter((p: any) => !p.isHomePage && p.pageType !== "cms").map((navPage: any) => (
                 <Link
@@ -239,7 +237,7 @@ export default async function PublicPage({ params }: PageProps) {
             </div>
           </div>
         </div>
-      </nav>
+      </nav> */}
 
       {/* Page Content */}
       <main>

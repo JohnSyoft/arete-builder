@@ -15,6 +15,7 @@ import {
   SidebarNavigation,
   SidebarContent,
 } from "./sidebar/";
+import { useCollectionsCategory } from "./sidebar/collections-category-generator";
 
 export function EditorSidebar() {
   const { currentViewport } = useViewportStore();
@@ -81,7 +82,7 @@ export function EditorSidebar() {
   const collectionFields = collection?.fields || [];
   
   const userBlocksCategory = useUserBlocksCategory();
-  
+  const collectionsCategory = useCollectionsCategory(params.projectId as string);
   // Create dynamic fields category with current collection's fields
   const fieldsCategory = React.useMemo(() => 
     createFieldsCategory(collectionFields, collection?._id), 
@@ -142,9 +143,18 @@ export function EditorSidebar() {
       },
       elements: elementsCategory,
       forms: formsCategory,
+      collections: {
+        name: "Collections",
+        icon: (
+          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 01-1-1v-6a1 1 0 00-1-1h-2z" />
+          </svg>
+        ),
+        items: collectionsCategory.items,
+      },
       ...(isCMSPage && collectionFields.length > 0 ? { fields: fieldsCategory } : {}),
     };
-  }, [isComponentEditor, isCMSComponent, collectionFields, fieldsCategory, elementsCategory, formsCategory, isCMSPage]);
+  }, [isComponentEditor, isCMSComponent, collectionFields, fieldsCategory, elementsCategory, formsCategory, isCMSPage, collectionsCategory]);
 
   const currentCategory =
     allCategories[activeCategory as keyof typeof allCategories];

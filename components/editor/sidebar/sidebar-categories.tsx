@@ -47,7 +47,12 @@ import {
   CraftTextarea,
   CraftVideo,
   CraftFormattedText,
+  CraftCollectionWrapper,
+  CraftHeaderWrapper,
 } from "@/components/editor/craft-components";
+import { CollectionCard } from "./CollectionCard";
+import { useCollections } from "@/hooks/useCollections";
+import { useProjects } from "@/hooks/useProjects";
 
 export interface CategoryConfig {
   name: string;
@@ -86,6 +91,11 @@ export const categoryIcons = {
       />
     </svg>
   ),
+  collections: (
+    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+      <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" />
+    </svg>
+  ),
 };
 
 export const elementsCategory = {
@@ -101,6 +111,16 @@ export const elementsCategory = {
       component: CraftFormattedText,
       name: "Formatted Text",
       description: "Rich text with formatting",
+    },
+    {
+      component: CraftCollectionWrapper,
+      name: "Collection Wrapper",
+      description: "Display CMS collection items with customizable card designs",
+    },
+    {
+      component: CraftHeaderWrapper,
+      name: "Header",
+      description: "Website header with logo and navigation menu",
     },
     {
       component: CraftHeading,
@@ -201,16 +221,6 @@ export const elementsCategory = {
       component: CraftMap,
       name: "Map",
       description: "Interactive map component",
-    },
-    {
-      component: CraftNavigation,
-      name: "Navigation",
-      description: "Navigation menu component",
-    },
-    {
-      component: CraftNavigationItem,
-      name: "Navigation Item",
-      description: "Single navigation menu item",
     },
     {
       component: CraftTab,
@@ -340,6 +350,19 @@ export const formsCategory = {
       description: "Signature drawing pad",
     },
   ],
+};
+
+// Collections category - shows available collections for drag and drop
+export const createCollectionsCategory = (projectId?: string) => {
+  // This will be a function that returns the category with dynamic collections
+  return {
+    name: "Collections",
+    icon: categoryIcons.collections,
+    items: () => {
+      // We'll use the hooks inside the component that renders this
+      return [];
+    },
+  };
 };
 
 // Dynamic CMS fields category - will be populated based on current page's collection

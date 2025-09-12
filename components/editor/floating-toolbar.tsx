@@ -40,7 +40,8 @@ interface FloatingToolbarProps {
     | "divider"
     | "badge"
     | "input"
-    | "section";
+    | "section"
+    | "headerWrapper";
   onEdit?: () => void;
   onGenerateAI?: () => void;
   onSettings: () => void;

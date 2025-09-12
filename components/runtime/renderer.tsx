@@ -33,6 +33,8 @@ import { CarouselRuntime as Carousel } from "@/components/blocks/Basic/CarouselR
 import { BlogGridRuntime as BlogGrid } from "@/components/blocks/Basic/BlogGridRuntime";
 import { ResizerRuntime as Resizer } from "@/components/blocks/Basic/ResizerRuntime";
 import { FormattedTextRuntime as FormattedText } from "@/components/blocks/Basic/FormattedTextRuntime";
+import { CollectionWrapperRuntime as CollectionWrapper } from "@/components/blocks/CMS/CollectionWrapperRuntime";
+import { HeaderWrapperRuntime as HeaderWrapper } from "@/components/blocks/UI/HeaderWrapperRuntime";
 
 // Hero runtime components
 
@@ -70,6 +72,8 @@ const componentMap: Record<string, React.ComponentType<any>> = {
   BlogGrid,
   Resizer,
   FormattedText,
+  CollectionWrapper,
+  HeaderWrapper,
 };
 
 interface RendererProps {

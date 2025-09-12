@@ -23,6 +23,7 @@ import {
   FlexProperties,
   CardProperties,
   GridProperties,
+  // CollectionWrapperProperties,
   AlertProperties,
   NavigationProperties,
   TabProperties,
@@ -47,16 +48,17 @@ import {
   BlogGridProperties,
   HeroCarouselSimpleProperties,
   HeadingProperties,
+  // CollectionWrapperProperties,
 } from "./property-panels";
 import { CarouselProperties } from "./property-panels/carousel-properties";
 import { CMSCardProperties } from "./property-panels/cmscard-properties";
-
+import { CollectionWrapperProperties } from "./property-panels/collection-wrapper-properties";
+import { HeaderWrapperProperties } from "./property-panels/header-wrapper-properties";
 export function GlobalPropertiesPanel() {
   const { isOpen, elementType, elementProps, closePanel, updateProps } =
     usePropertiesPanelStore();
 
   // Debug logging to see when elementProps change
-  console.log("GlobalPropertiesPanel elementProps:", elementProps);
 
   const handlePropChange = (key: string, value: any) => {
     console.log("GlobalPropertiesPanel handlePropChange:", { key, value });
@@ -75,7 +77,7 @@ export function GlobalPropertiesPanel() {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-y-0 right-0 w-80 bg-white border-l border-gray-200 shadow-lg z-50 transform transition-transform duration-300 flex flex-col">
+    <div className="fixed inset-y-0 right-0 w-96 bg-white border-l border-gray-200 shadow-lg z-50 transform transition-transform duration-300 flex flex-col">
       <div className="flex items-center justify-between p-4 border-b border-gray-200">
         <h3 className="text-lg font-semibold">Properties</h3>
         <Button variant="ghost" size="sm" onClick={closePanel}>
@@ -349,6 +351,18 @@ export function GlobalPropertiesPanel() {
           )}
           {elementType === "flex" && (
             <FlexProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "collectionWrapper" && (
+            <CollectionWrapperProperties
+              elementProps={elementProps}
+              onPropChange={handlePropChange}
+            />
+          )}
+          {elementType === "headerWrapper" && (
+            <HeaderWrapperProperties
               elementProps={elementProps}
               onPropChange={handlePropChange}
             />

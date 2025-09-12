@@ -54,6 +54,7 @@ export function Flex({
   height = "auto",
   nonEditable = false,
 }: FlexProps) {
+  console.log({flexDirection})
   const {
     connectors: { connect, drag },
     selected,

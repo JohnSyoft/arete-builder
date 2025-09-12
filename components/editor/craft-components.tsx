@@ -108,6 +108,8 @@ import { CosmeticCard1 } from "../blocks/CMS/CosmeticCard1";
 import { HospitalityCard1 } from "../blocks/CMS/HospitalityCard1";
 import { ModernCard1 } from "../blocks/CMS/ModernCard1";
 import { CMSCollectionWrapper } from "../blocks/CMS/CMSCollectionWrapper";
+import { CollectionWrapper } from "../blocks/CMS/CollectionWrapper";
+import { HeaderWrapper } from "../blocks/UI/HeaderWrapper";
 // Modern Components
 import { MiniMaxHero1 } from "../blocks/Hero/MiniMaxHero1";
 import { ModernSaaSHero1 } from "../blocks/Hero/ModernSaaSHero1";
@@ -397,6 +399,8 @@ export const CraftCosmeticCard1 = CosmeticCard1;
 export const CraftHospitalityCard1 = HospitalityCard1;
 export const CraftModernCard1 = ModernCard1;
 export const CraftCMSCollectionWrapper = CMSCollectionWrapper;
+export const CraftCollectionWrapper = CollectionWrapper;
+export const CraftHeaderWrapper = HeaderWrapper;
 
 // Modern Components
 export const CraftMiniMaxHero1 = MiniMaxHero1;
@@ -532,6 +536,8 @@ const baseComponentResolver = {
   HospitalityCard1: CraftHospitalityCard1,
   ModernCard1: CraftModernCard1,
   CMSCollectionWrapper: CraftCMSCollectionWrapper,
+  CollectionWrapper: CraftCollectionWrapper,
+  HeaderWrapper: CraftHeaderWrapper,
   // Modern Components
   MiniMaxHero1: CraftMiniMaxHero1,
   ModernSaaSHero1: CraftModernSaaSHero1,

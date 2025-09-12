@@ -250,6 +250,14 @@ console.log({componentSlug})
           </div>
         );
       
+      case "FormattedText":
+        return (
+          <div 
+            className={`prose prose-sm max-w-none ${props.fontSize || 'text-sm'} ${props.fontWeight || 'font-normal'} ${props.color || 'text-gray-700'} ${props.textAlign || 'text-left'} ${props.margin || 'mb-2'} ${props.lineHeight || 'leading-relaxed'}`}
+            dangerouslySetInnerHTML={{ __html: props.text || '' }}
+          />
+        );
+      
       case "Image":
         return (
           <img

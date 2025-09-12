@@ -81,7 +81,7 @@ const Indicators = styled.div<{ $bound?: "row" | "column" }>`
   }
 `;
 
-export const Resizer = ({ propKey, children, ...props }: any) => {
+export const Resizer = ({ propKey, children, className, ...props }: any) => {
   const {
     id,
     actions: { setProp },
@@ -195,6 +195,7 @@ export const Resizer = ({ propKey, children, ...props }: any) => {
         return acc;
       }, {})}
       className={cx([
+        className,
         {
           "m-auto": isRootNode,
           flex: true,

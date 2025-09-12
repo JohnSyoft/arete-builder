@@ -244,15 +244,47 @@ export default function ComponentEditorPage() {
   const isLoading = projectLoading || componentLoading;
   const error = projectError || componentError;
 
+  // Ensure CMS field nodes maintain nonEditable: true when saving
+  const processLayoutForSave = (layout: any) => {
+    const processedLayout = { ...layout };
+    
+    Object.keys(processedLayout).forEach(nodeId => {
+      const node = processedLayout[nodeId];
+      if (node && typeof node === 'object' && node.props) {
+        // Check if this is a CMS field node
+        const isCMSField = node.props.cmsField || 
+          node.props.cmsFieldId || 
+          node.props.cmsCollectionId ||
+          node.props.cmsFieldType;
+        
+        if (isCMSField) {
+          // Ensure CMS field nodes are non-editable
+          processedLayout[nodeId] = {
+            ...node,
+            props: {
+              ...node.props,
+              nonEditable: true,
+            }
+          };
+        }
+      }
+    });
+    
+    return processedLayout;
+  };
+
   const handleSave = async (layout: any) => {
     try {
+      // Process layout to ensure CMS fields remain non-editable
+      const processedLayout = processLayoutForSave(layout);
+      
       if (currentComponent?.isNew) {
         // Create new component
         await createComponentMutation.mutateAsync({
           projectId,
           name: currentComponent.name,
           type: currentComponent.type as "card" | "section" | "custom" | "cms-collection" | "hero",
-          layout: JSON.stringify(layout),
+          layout: JSON.stringify(processedLayout),
           config: currentComponent.config,
         });
         console.log("Component created successfully");
@@ -261,7 +293,7 @@ export default function ComponentEditorPage() {
         await updateComponentMutation.mutateAsync({
           id: currentComponent._id,
           data: {
-            layout: JSON.stringify(layout),
+            layout: JSON.stringify(processedLayout),
           },
         });
         console.log("Component updated successfully");
@@ -286,19 +318,27 @@ export default function ComponentEditorPage() {
         ? JSON.parse(currentComponent.layout) 
         : currentComponent.layout;
         
-      // Recursively make all nodes editable by setting nonEditable to false
+      // Recursively make nodes editable, but preserve nonEditable: true for CMS field nodes
       const makeNodesEditable = (layoutObj: any) => {
         const editableLayout = { ...layoutObj };
         console.log({editableLayout})
         Object.keys(editableLayout).forEach(nodeId => {
           const node = editableLayout[nodeId];
           if (node && typeof node === 'object') {
-            // Make this node editable
+            // Check if this is a CMS field node (has CMS field properties)
+            const isCMSField = node.props && (
+              node.props.cmsField || 
+              node.props.cmsFieldId || 
+              node.props.cmsCollectionId ||
+              node.props.cmsFieldType
+            );
+            
+            // Only make non-CMS field nodes editable
             editableLayout[nodeId] = {
               ...node,
               props: {
                 ...node.props,
-                nonEditable: false, // Override to make editable in component editor
+                nonEditable: isCMSField ? true : false, // Keep CMS fields non-editable
               }
             };
           }

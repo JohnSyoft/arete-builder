@@ -152,8 +152,8 @@ export function useCMSHandlers({
           'index-layout'
         );
         
-        // Generate both layouts using the merged function
-        const { indexLayout: pageLayout, cardLayout: componentLayout } = generateCMSLayouts(
+        // Generate layout using the simplified CollectionWrapper approach
+        const { indexLayout } = generateCMSLayouts(
           collection, 
           sampleItems, 
           undefined, 
@@ -161,35 +161,8 @@ export function useCMSHandlers({
           componentSlug
         );
         
-        // Create a new CMS collection component for this specific design
-        try {
-          const component = await getOrCreateCMSCollectionComponent.mutateAsync({
-            projectId,
-            collectionId,
-            collectionName: collection.name,
-            slug: componentSlug,
-            layout: componentLayout,
-            config: {
-              collection: collectionId,
-              collectionName: collection.name,
-              itemsToShow: Math.min(sampleItems?.length || 6, 9),
-              columns: collection.fields.some(f => f.type === 'image' || f.type === 'gallery') ? 3 : 2,
-              gap: "gap-8",
-              backgroundColor: "#fdf7f3",
-              cardBackground: "#ffffff",
-              primaryColor: "#481E0B",
-              accentColor: "#E67E22",
-              textColor: "#333333",
-            },
-          });
-            
-          // Use the full page layout for the page
-          generatedLayout = pageLayout;
-        } catch (error) {
-          console.error("Error creating/getting CMS collection component:", error);
-          // Fallback to the full page layout if component creation fails
-          generatedLayout = pageLayout;
-        }
+        // Use the simplified layout directly
+        generatedLayout = indexLayout;
       }
 
       const newPage = await createPageMutation.mutateAsync({

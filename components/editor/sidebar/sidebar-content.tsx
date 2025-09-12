@@ -803,6 +803,7 @@ export const SidebarContent = ({
                 name={item.name}
                 description={item.description}
                 image={item.image}
+                props={item.props}
               />
             ))}
 

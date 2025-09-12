@@ -178,7 +178,7 @@ export const generateCMSDetailLayout = (
     else {
       switch (field.type) {
         case 'image':
-        if (sampleValue || field.placeholder) {
+          // Always create image component for image fields, regardless of sample data
           layout[fieldNodeId] = {
             type: { resolvedName: "Image" },
             isCanvas: false,
@@ -199,8 +199,8 @@ export const generateCMSDetailLayout = (
             linkedNodes: {},
             parent: contentSectionNodeId,
           }
-        }
-        break
+          layout[contentSectionNodeId].nodes.push(fieldNodeId)
+          break
 
         case 'date':
         case 'datetime':
