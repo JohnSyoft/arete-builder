@@ -37,7 +37,7 @@ export function MedicalHero1({
   patientsRecoverText = "150K+ Patients Recover",
   patientAvatars = [
     "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=50&h=50&fit=crop&crop=face",
-    "https://images.unsplash.com/photo-1494790108755-2616b612b577?w=50&h=50&fit=crop&crop=face",
+    "https://images.unsplash.com/photo-1666214280465-a40313304801?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=50&h=50&fit=crop&crop=face",
     "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=50&h=50&fit=crop&crop=face",
   ],
@@ -612,7 +612,7 @@ MedicalHero1.craft = {
     patientsRecoverText: "150K+ Patients Recover",
     patientAvatars: [
       "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=50&h=50&fit=crop&crop=face",
-      "https://images.unsplash.com/photo-1494790108755-2616b612b577?w=50&h=50&fit=crop&crop=face",
+      "https://images.unsplash.com/photo-1666214280465-a40313304801?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=50&h=50&fit=crop&crop=face",
       "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=50&h=50&fit=crop&crop=face",
     ],

@@ -2,6 +2,7 @@ import { useNode, useEditor } from "@craftjs/core";
 import React from "react";
 import { FloatingToolbar } from "@/components/editor/floating-toolbar";
 import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store";
+import { Resizer } from "../Resizer";
 
 interface GridProps {
   children?: React.ReactNode;
@@ -15,6 +16,8 @@ interface GridProps {
   padding?: string;
   justifyItems?: "stretch" | "start" | "center" | "end";
   alignItems?: "stretch" | "start" | "center" | "end";
+  width?: string;
+  height?: string;
 }
 
 export function Grid({
@@ -29,6 +32,8 @@ export function Grid({
   padding = "0px",
   justifyItems = "stretch",
   alignItems = "stretch",
+  width = "100%",
+  height = "auto",
 }: GridProps) {
   console.log({ autoFit });
   const {
@@ -60,6 +65,8 @@ export function Grid({
         padding,
         justifyItems,
         alignItems,
+        width,
+        height,
       },
       id,
       (newProps) => {
@@ -88,17 +95,14 @@ export function Grid({
       justifyItems,
       alignItems,
       padding,
+      width,
+      height,
       minHeight: "200px",
     };
   };
 
-  return (
+  const gridContent = (
     <div
-      ref={(ref) => {
-        if (ref) {
-          connect(drag(ref));
-        }
-      }}
       className={`relative group ${selected ? "ring-2 ring-blue-500" : ""} ${
         hovered ? "ring-1 ring-blue-300" : ""
       }`}
@@ -135,6 +139,19 @@ export function Grid({
       )}
     </div>
   );
+
+  return (
+    <Resizer
+      propKey={{ width: "width", height: "height" }}
+      ref={(ref) => {
+        if (ref) {
+          connect(drag(ref));
+        }
+      }}
+    >
+      {gridContent}
+    </Resizer>
+  );
 }
 
 Grid.craft = {
@@ -151,6 +168,8 @@ Grid.craft = {
     padding: "0px",
     justifyItems: "stretch",
     alignItems: "stretch",
+    width: "100%",
+    height: "auto",
   },
   rules: {
     canDrag: () => true,

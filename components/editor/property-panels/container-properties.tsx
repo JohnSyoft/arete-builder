@@ -146,35 +146,138 @@ export function ContainerProperties({ elementProps, onPropChange }: ContainerPro
         
         <div>
           <Label htmlFor="padding">Padding</Label>
-          <Select value={elementProps?.padding || '16px'} onValueChange={(value) => onPropChange('padding', value)}>
+          <Select value={elementProps?.padding || 'p-4'} onValueChange={(value) => onPropChange('padding', value)}>
             <SelectTrigger className="mt-1">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="0px">None</SelectItem>
-              <SelectItem value="8px">Small (8px)</SelectItem>
-              <SelectItem value="16px">Medium (16px)</SelectItem>
-              <SelectItem value="24px">Large (24px)</SelectItem>
-              <SelectItem value="32px">Extra Large (32px)</SelectItem>
+              <SelectItem value="p-0">None</SelectItem>
+              <SelectItem value="p-2">Small</SelectItem>
+              <SelectItem value="p-4">Medium</SelectItem>
+              <SelectItem value="p-6">Large</SelectItem>
+              <SelectItem value="p-8">Extra Large</SelectItem>
             </SelectContent>
           </Select>
         </div>
 
         <div>
           <Label htmlFor="margin">Margin</Label>
-          <Select value={elementProps?.margin || '0px'} onValueChange={(value) => onPropChange('margin', value)}>
+          <Select value={elementProps?.margin || 'm-0'} onValueChange={(value) => onPropChange('margin', value)}>
             <SelectTrigger className="mt-1">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="0px">None</SelectItem>
-              <SelectItem value="8px">Small (8px)</SelectItem>
-              <SelectItem value="16px">Medium (16px)</SelectItem>
-              <SelectItem value="24px">Large (24px)</SelectItem>
-              <SelectItem value="32px">Extra Large (32px)</SelectItem>
+              <SelectItem value="m-0">None</SelectItem>
+              <SelectItem value="m-2">Small</SelectItem>
+              <SelectItem value="m-4">Medium</SelectItem>
+              <SelectItem value="m-6">Large</SelectItem>
+              <SelectItem value="m-8">Extra Large</SelectItem>
             </SelectContent>
           </Select>
         </div>
+      </div>
+
+      {/* Overlay Section */}
+      <div className="space-y-3">
+        <h4 className="text-sm font-medium text-gray-700 border-b pb-1">Overlay</h4>
+        
+        <div className="flex items-center space-x-2">
+          <input
+            type="checkbox"
+            id="hasOverlay"
+            checked={elementProps?.hasOverlay || false}
+            onChange={(e) => onPropChange('hasOverlay', e.target.checked)}
+            className="rounded"
+          />
+          <Label htmlFor="hasOverlay">Enable Overlay</Label>
+        </div>
+
+        {elementProps?.hasOverlay && (
+          <>
+            <div>
+              <Label htmlFor="overlayColor">Overlay Color</Label>
+              <Input
+                id="overlayColor"
+                type="color"
+                value={elementProps?.overlayColor || '#000000'}
+                onChange={(e) => onPropChange('overlayColor', e.target.value)}
+                className="mt-1 h-10"
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="overlayOpacity">Overlay Opacity</Label>
+              <Input
+                id="overlayOpacity"
+                type="range"
+                min="0"
+                max="1"
+                step="0.1"
+                value={elementProps?.overlayOpacity || '0.2'}
+                onChange={(e) => onPropChange('overlayOpacity', e.target.value)}
+                className="mt-1"
+              />
+              <div className="text-xs text-gray-500 mt-1">
+                {Math.round((elementProps?.overlayOpacity || 0.2) * 100)}%
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+
+      {/* Content Wrapper Section */}
+      <div className="space-y-3">
+        <h4 className="text-sm font-medium text-gray-700 border-b pb-1">Content Wrapper</h4>
+        
+        <div className="flex items-center space-x-2">
+          <input
+            type="checkbox"
+            id="hasContentWrapper"
+            checked={elementProps?.hasContentWrapper || false}
+            onChange={(e) => onPropChange('hasContentWrapper', e.target.checked)}
+            className="rounded"
+          />
+          <Label htmlFor="hasContentWrapper">Enable Content Wrapper</Label>
+        </div>
+
+        {elementProps?.hasContentWrapper && (
+          <>
+            <div>
+              <Label htmlFor="contentMaxWidth">Max Width</Label>
+              <Select value={elementProps?.contentMaxWidth || '7xl'} onValueChange={(value) => onPropChange('contentMaxWidth', value)}>
+                <SelectTrigger className="mt-1">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="none">None</SelectItem>
+                  <SelectItem value="xs">XS</SelectItem>
+                  <SelectItem value="sm">SM</SelectItem>
+                  <SelectItem value="md">MD</SelectItem>
+                  <SelectItem value="lg">LG</SelectItem>
+                  <SelectItem value="xl">XL</SelectItem>
+                  <SelectItem value="2xl">2XL</SelectItem>
+                  <SelectItem value="3xl">3XL</SelectItem>
+                  <SelectItem value="4xl">4XL</SelectItem>
+                  <SelectItem value="5xl">5XL</SelectItem>
+                  <SelectItem value="6xl">6XL</SelectItem>
+                  <SelectItem value="7xl">7XL</SelectItem>
+                  <SelectItem value="full">Full</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div>
+              <Label htmlFor="contentPadding">Content Padding</Label>
+              <Input
+                id="contentPadding"
+                value={elementProps?.contentPadding || 'px-4 sm:px-6 lg:px-8 py-24 lg:py-32'}
+                onChange={(e) => onPropChange('contentPadding', e.target.value)}
+                placeholder="px-4 sm:px-6 lg:px-8 py-24 lg:py-32"
+                className="mt-1"
+              />
+            </div>
+          </>
+        )}
       </div>
 
       {/* Size Section */}
@@ -196,9 +299,9 @@ export function ContainerProperties({ elementProps, onPropChange }: ContainerPro
           <Label htmlFor="minHeight">Min Height</Label>
           <Input
             id="minHeight"
-            value={elementProps?.minHeight || '200px'}
+            value={elementProps?.minHeight || 'min-h-[200px]'}
             onChange={(e) => onPropChange('minHeight', e.target.value)}
-            placeholder="200px, auto, 500px"
+            placeholder="min-h-[200px], auto, min-h-[500px]"
             className="mt-1"
           />
         </div>

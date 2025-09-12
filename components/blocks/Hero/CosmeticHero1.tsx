@@ -58,11 +58,11 @@ export function CosmeticHero1({
   // Set section defaults for cosmetic hero
   const heroProps = {
     backgroundColor: primaryColor,
-    padding: "0",
-    minHeight: "600px",
+    padding: "p-0",
+    minHeight: "min-h-[600px]",
     hasContentWrapper: true,
     contentMaxWidth: "7xl",
-    borderRadius: "20px",
+    borderRadius: "rounded-[20px]",
     contentPadding:
       "px-4 py-16 sm:px-6 sm:py-20 md:px-8 md:py-24 lg:px-8 lg:py-32",
     ...props,
@@ -85,8 +85,7 @@ export function CosmeticHero1({
         hovered ? "ring-1 ring-blue-300" : ""
       }`}
     >
-      <Section padding="20px">
-        <Section {...heroProps}>
+      <Section {...heroProps}>
           {/* Background Pattern */}
           {/* <div
           className="absolute inset-0 opacity-10"
@@ -506,7 +505,6 @@ export function CosmeticHero1({
               </Element>
             </Element>
           </Element>
-        </Section>
       </Section>
 
       {/* Selection indicators */}
@@ -524,12 +522,16 @@ CosmeticHero1.craft = {
   props: {
     // Section props
     backgroundColor: "#481E0B",
-    padding: "0",
-    minHeight: "600px",
+    padding: "p-0",
+    minHeight: "min-h-[600px]",
     hasContentWrapper: true,
     contentMaxWidth: "7xl",
-    contentPadding:
-      "px-4 py-16 sm:px-6 sm:py-20 md:px-8 md:py-24 lg:px-8 lg:py-32",
+    borderRadius: "rounded-[20px]",
+    contentPadding: "px-4 py-16 sm:px-6 sm:py-20 md:px-8 md:py-24 lg:px-8 lg:py-32",
+    backgroundImage: "https://demo.awaikenthemes.com/glowix/wp-content/uploads/2025/04/hero-bg-shape.svg",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center",
+    backgroundSize: "cover",
 
     // Cosmetic Hero specific props
     brandName: "WELCOME TO GLOWIX",
@@ -553,5 +555,5 @@ CosmeticHero1.craft = {
     canMoveIn: () => true,
     canMoveOut: () => true,
   },
-  isCanvas: false,
+  isCanvas: true, // Allow components to be dropped into this section
 };

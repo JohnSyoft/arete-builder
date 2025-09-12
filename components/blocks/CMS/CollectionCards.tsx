@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 
 interface CardData {
   title?: string;
@@ -11,6 +12,7 @@ interface CardData {
   price?: string;
   rating?: number;
   tags?: string[];
+  isExternal?: boolean;
 }
 
 interface BaseCardProps {
@@ -63,23 +65,42 @@ export const getFieldValue = (itemData: any, fieldName: string): string => {
 };
 
 // Base card wrapper with hover effects
-const CardWrapper: React.FC<{ children: React.ReactNode; className?: string; link?: string }> = ({ 
+const CardWrapper: React.FC<{ 
+  children: React.ReactNode; 
+  className?: string; 
+  link?: string;
+  isExternal?: boolean;
+}> = ({ 
   children, 
   className = '', 
-  link 
+  link,
+  isExternal = false
 }) => {
   const baseClasses = "bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-[1.02]";
   
   if (link) {
+    // External link - opens in new tab
+    if (isExternal || link.startsWith('http') || link.startsWith('mailto:') || link.startsWith('tel:')) {
+      return (
+        <a 
+          href={link} 
+          className={`${baseClasses} ${className} cursor-pointer block`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {children}
+        </a>
+      );
+    }
+    
+    // Internal link - uses Next.js Link for client-side navigation
     return (
-      <a 
-        href={link} 
+      <Link 
+        href={link}
         className={`${baseClasses} ${className} cursor-pointer block`}
-        target="_blank"
-        rel="noopener noreferrer"
       >
         {children}
-      </a>
+      </Link>
     );
   }
   
@@ -96,6 +117,7 @@ export const DefaultCard: React.FC<BaseCardProps> = ({ item, index, data, classN
     key={item._id || index} 
     className={`${className} max-w-sm`}
     link={data.link}
+    isExternal={data.isExternal}
   >
     {data.image && (
       <div className="relative h-48 overflow-hidden">
@@ -136,6 +158,7 @@ export const MinimalCard: React.FC<BaseCardProps> = ({ item, index, data, classN
     key={item._id || index} 
     className={`${className} p-6 border border-gray-200 hover:border-gray-300`}
     link={data.link}
+    isExternal={data.isExternal}
   >
     {data.title && (
       <h3 className="font-semibold text-gray-900 mb-2 text-lg">
@@ -161,6 +184,7 @@ export const DetailedCard: React.FC<BaseCardProps> = ({ item, index, data, class
     key={item._id || index} 
     className={`${className} max-w-md`}
     link={data.link}
+    isExternal={data.isExternal}
   >
     {data.image && (
       <div className="relative h-56 overflow-hidden">
@@ -227,6 +251,7 @@ export const ImageFocusedCard: React.FC<BaseCardProps> = ({ item, index, data, c
     key={item._id || index} 
     className={`${className} relative group overflow-hidden`}
     link={data.link}
+    isExternal={data.isExternal}
   >
     {data.image ? (
       <div className="relative h-80 overflow-hidden">
@@ -285,6 +310,7 @@ export const TextFocusedCard: React.FC<BaseCardProps> = ({ item, index, data, cl
     key={item._id || index} 
     className={`${className} p-8 max-w-lg`}
     link={data.link}
+    isExternal={data.isExternal}
   >
     {data.category && (
       <div className="text-xs text-blue-600 font-semibold uppercase tracking-wide mb-2">
@@ -325,6 +351,7 @@ export const CompactCard: React.FC<BaseCardProps> = ({ item, index, data, classN
     key={item._id || index} 
     className={`${className} p-4 flex items-center space-x-4 max-w-2xl`}
     link={data.link}
+    isExternal={data.isExternal}
   >
     {data.image && (
       <div className="w-20 h-20 flex-shrink-0">
@@ -367,6 +394,7 @@ export const GridCard: React.FC<BaseCardProps> = ({ item, index, data, className
     key={item._id || index} 
     className={`${className} group relative`}
     link={data.link}
+    isExternal={data.isExternal}
   >
     <div className="aspect-square overflow-hidden">
       {data.image ? (

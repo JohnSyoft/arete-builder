@@ -6,90 +6,52 @@ import { Resizer } from "../Resizer";
 import { useCollectionItems } from "@/hooks/useCollectionItems";
 import { useCollection } from "@/hooks/useCollections";
 import { cardComponents, getFieldValue, type CardDesignType } from './CollectionCards';
+import { 
+  type CollectionWrapperBaseProps, 
+  COLLECTION_WRAPPER_CRAFT_CONFIG, 
+  mergeWithDefaults 
+} from './CollectionWrapperConfig';
 
-interface CollectionWrapperProps {
-  children?: React.ReactNode;
-  // Flex properties (inherited from Flex)
-  flexDirection?: "row" | "column" | "row-reverse" | "column-reverse";
-  gap?: string;
-  justifyContent?:
-    | "start"
-    | "center"
-    | "end"
-    | "between"
-    | "around"
-    | "evenly"
-    | "space-between";
-  alignItems?: "start" | "center" | "end" | "stretch" | "baseline";
-  wrap?: "nowrap" | "wrap" | "wrap-reverse";
-  minHeight?: string;
-  padding?: string;
-  margin?: string;
-  // Advanced flex properties
-  flexGrow?: string;
-  flexShrink?: string;
-  flexBasis?: string;
-  order?: string;
-  // Overflow control
-  overflowX?: "visible" | "hidden" | "scroll" | "auto";
-  // Resizer props
-  width?: string;
-  height?: string;
-  // Collection-specific properties
-  collectionId?: string;
-  projectId?: string;
-  collectionName?: string;
-  maxItems?: number;
-  cardDesign?: CardDesignType;
-  // Field mapping for cards
-  titleField?: string;
-  descriptionField?: string;
-  imageField?: string;
-  dateField?: string;
-  linkField?: string;
-  categoryField?: string;
-  authorField?: string;
-  priceField?: string;
-  ratingField?: string;
-  tagsField?: string;
-  // Always non-editable for collection wrapper
-  nonEditable?: boolean;
-}
+// Collection Wrapper extends the base props interface
+interface CollectionWrapperProps extends CollectionWrapperBaseProps {}
 
-export function CollectionWrapper({
-  children,
-  flexDirection = "row",
-  gap = "gap-4",
-  justifyContent = "start",
-  alignItems = "start",
-  wrap = "wrap",
-  minHeight = "min-h-[200px]",
-  padding = "p-4",
-  margin = "my-4",
-  flexGrow = "",
-  flexShrink = "",
-  flexBasis = "",
-  order = "",
-  overflowX = "visible",
-  width = "auto",
-  height = "auto",
-  collectionId = "",
-  projectId = "",
-  collectionName = "Collection",
-  maxItems = 3,
-  cardDesign = "default",
-  titleField = "title",
-  descriptionField = "description",
-  imageField = "image",
-  dateField = "date",
-  linkField = "link",
-  categoryField = "category",
-  authorField = "author",
-  priceField = "price",
-  ratingField = "rating",
-  tagsField = "tags",
-  nonEditable = true, // Always true for collection wrapper
-}: CollectionWrapperProps) {
+export function CollectionWrapper(props: CollectionWrapperProps) {
+  // Merge props with defaults using shared utility
+  const mergedProps = mergeWithDefaults(props);
+  const {
+    children,
+    flexDirection,
+    gap,
+    justifyContent,
+    alignItems,
+    wrap,
+    minHeight,
+    padding,
+    margin,
+    flexGrow,
+    flexShrink,
+    flexBasis,
+    order,
+    overflowX,
+    width,
+    height,
+    collectionId,
+    projectId,
+    collectionName,
+    maxItems,
+    cardDesign,
+    titleField,
+    descriptionField,
+    imageField,
+    dateField,
+    linkField,
+    categoryField,
+    authorField,
+    priceField,
+    ratingField,
+    tagsField,
+    nonEditable,
+  } = mergedProps;
   const {
     connectors: { connect, drag },
     selected,
@@ -299,6 +261,18 @@ export function CollectionWrapper({
 
   // Get the card component for the selected design
   const CardComponent = cardComponents[cardDesign] || cardComponents.default;
+  
+  // For editor preview, we don't want actual navigation, so we'll disable links
+  const editorPreviewItemsWithoutLinks = useMemo(() => {
+    return editorPreviewItems.map(({ item, data }) => ({
+      item,
+      data: {
+        ...data,
+        link: undefined, // Disable links in editor preview
+        isExternal: false,
+      }
+    }));
+  }, [editorPreviewItems]);
 
   // Render collection items in editor preview
   const renderCollectionItems = () => {
@@ -340,7 +314,7 @@ export function CollectionWrapper({
         ${getAdvancedFlexClasses()}
         ${getOverflowXClass(overflowX)}
       `}>
-        {editorPreviewItems.map(({ item, data }, index) => (
+        {editorPreviewItemsWithoutLinks.map(({ item, data }, index) => (
           <CardComponent 
             key={item._id || index}
             item={item}
@@ -433,46 +407,5 @@ export function CollectionWrapper({
   );
 }
 
-CollectionWrapper.craft = {
-  displayName: "Collection Wrapper",
-  props: {
-    children: undefined,
-    flexDirection: "row",
-    gap: "gap-4",
-    justifyContent: "start",
-    alignItems: "start",
-    wrap: "wrap",
-    minHeight: "min-h-[200px]",
-    padding: "p-4",
-    margin: "my-4",
-    flexGrow: "",
-    flexShrink: "",
-    flexBasis: "",
-    order: "",
-    overflowX: "visible",
-    width: "auto",
-    height: "auto",
-    collectionId: "",
-    projectId: "",
-    collectionName: "Collection",
-    maxItems: 3,
-    cardDesign: "default",
-    titleField: "title",
-    descriptionField: "description",
-    imageField: "image",
-    dateField: "date",
-    linkField: "link",
-    categoryField: "category",
-    authorField: "author",
-    priceField: "price",
-    ratingField: "rating",
-    tagsField: "tags",
-    nonEditable: true,
-  },
-  rules: {
-    canDrag: () => true,
-    canMoveIn: () => false, // Don't allow children in editor - it's a collection wrapper
-    canMoveOut: () => true,
-  },
-  isCanvas: false, // Not a canvas - it renders collection items at runtime
-};
+// Use shared craft configuration
+CollectionWrapper.craft = COLLECTION_WRAPPER_CRAFT_CONFIG;

@@ -10,6 +10,8 @@ import { Plus, Trash2, GripVertical, Link, Loader2 } from "lucide-react";
 import { FlexProperties } from "./flex-properties";
 import { ImageUpload } from "@/components/ui/image-upload";
 import { useUpload } from "@/hooks/useUpload";
+import { useProjectPages } from "@/hooks/usePages";
+import { useProjects } from "@/hooks/useProjects";
 import { toast } from "sonner";
 
 interface HeaderWrapperPropertiesProps {
@@ -21,6 +23,14 @@ export function HeaderWrapperProperties({ elementProps, onPropChange }: HeaderWr
   const [localProps, setLocalProps] = useState(elementProps);
   const [showManualInput, setShowManualInput] = useState(false);
   const { uploadSingle, isUploading } = useUpload();
+  
+  // Get current project and pages
+  const { data: projectsResponse } = useProjects();
+  const currentProject = projectsResponse?.data?.projects?.[0];
+  const projectId = currentProject?._id;
+  
+  const { data: pagesResponse } = useProjectPages(projectId);
+  const pages = pagesResponse?.data?.pages || [];
 
   useEffect(() => {
     setLocalProps(elementProps);
@@ -54,6 +64,8 @@ export function HeaderWrapperProperties({ elementProps, onPropChange }: HeaderWr
       id: `nav-${Date.now()}`,
       label: "New Item",
       href: "/",
+      pageId: "",
+      pageSlug: "",
       children: [],
     };
     const updatedItems = [...(localProps.navigationItems || []), newItem];
@@ -62,7 +74,33 @@ export function HeaderWrapperProperties({ elementProps, onPropChange }: HeaderWr
 
   const updateNavigationItem = (index: number, field: string, value: any) => {
     const updatedItems = [...(localProps.navigationItems || [])];
-    updatedItems[index] = { ...updatedItems[index], [field]: value };
+    
+    // If updating the page selection, also set the href
+    if (field === 'pageId') {
+      if (value === 'custom') {
+        // Custom URL selection - clear page-related fields
+        updatedItems[index] = {
+          ...updatedItems[index],
+          [field]: value,
+          href: '',
+          pageSlug: ''
+        };
+      } else {
+        // Page selection - set href and slug
+        const selectedPage = pages.find(page => page._id === value);
+        if (selectedPage) {
+          updatedItems[index] = {
+            ...updatedItems[index],
+            [field]: value,
+            href: `/${selectedPage.slug}`,
+            pageSlug: selectedPage.slug
+          };
+        }
+      }
+    } else {
+      updatedItems[index] = { ...updatedItems[index], [field]: value };
+    }
+    
     handlePropChange("navigationItems", updatedItems);
   };
 
@@ -81,6 +119,8 @@ export function HeaderWrapperProperties({ elementProps, onPropChange }: HeaderWr
       id: `sub-${Date.now()}`,
       label: "New Sub Item",
       href: "/",
+      pageId: "",
+      pageSlug: "",
     }];
     updatedItems[parentIndex] = parentItem;
     handlePropChange("navigationItems", updatedItems);
@@ -91,10 +131,36 @@ export function HeaderWrapperProperties({ elementProps, onPropChange }: HeaderWr
     const parentItem = { ...updatedItems[parentIndex] };
     if (parentItem.children) {
       const updatedChildren = [...parentItem.children];
-      updatedChildren[subIndex] = {
-        ...updatedChildren[subIndex],
-        [field]: value,
-      };
+      
+      // If updating the page selection, also set the href
+      if (field === 'pageId') {
+        if (value === 'custom') {
+          // Custom URL selection - clear page-related fields
+          updatedChildren[subIndex] = {
+            ...updatedChildren[subIndex],
+            [field]: value,
+            href: '',
+            pageSlug: ''
+          };
+        } else {
+          // Page selection - set href and slug
+          const selectedPage = pages.find(page => page._id === value);
+          if (selectedPage) {
+            updatedChildren[subIndex] = {
+              ...updatedChildren[subIndex],
+              [field]: value,
+              href: `/${selectedPage.slug}`,
+              pageSlug: selectedPage.slug
+            };
+          }
+        }
+      } else {
+        updatedChildren[subIndex] = {
+          ...updatedChildren[subIndex],
+          [field]: value,
+        };
+      }
+      
       parentItem.children = updatedChildren;
       updatedItems[parentIndex] = parentItem;
       handlePropChange("navigationItems", updatedItems);
@@ -257,13 +323,34 @@ export function HeaderWrapperProperties({ elementProps, onPropChange }: HeaderWr
                   />
                 </div>
                 <div>
-                  <Label htmlFor={`nav-href-${index}`}>URL</Label>
-                  <Input
-                    id={`nav-href-${index}`}
-                    value={item.href}
-                    onChange={(e) => updateNavigationItem(index, "href", e.target.value)}
-                    placeholder="/page"
-                  />
+                  <Label htmlFor={`nav-page-${index}`}>Page</Label>
+                  <Select
+                    value={item.pageId || ""}
+                    onValueChange={(value) => updateNavigationItem(index, "pageId", value)}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a page" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="custom">Custom URL...</SelectItem>
+                      {pages.map((page) => (
+                        <SelectItem key={page._id} value={page._id}>
+                          <div className="flex items-center justify-between w-full">
+                            <span>{page.name}</span>
+                            <span className="text-xs text-gray-500 ml-2">/{page.slug}</span>
+                          </div>
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  {item.pageId === "custom" && (
+                    <Input
+                      value={item.href || ""}
+                      onChange={(e) => updateNavigationItem(index, "href", e.target.value)}
+                      placeholder="Enter custom URL"
+                      className="mt-2"
+                    />
+                  )}
                 </div>
               </div>
 
@@ -283,20 +370,43 @@ export function HeaderWrapperProperties({ elementProps, onPropChange }: HeaderWr
                 </div>
 
                 {(item.children || []).map((subItem, subIndex) => (
-                  <div key={subItem.id} className="flex items-center space-x-2 bg-gray-50 p-2 rounded">
-                    <div className="flex-1 grid grid-cols-2 gap-2">
-                      <Input
-                        value={subItem.label}
-                        onChange={(e) => updateSubNavigationItem(index, subIndex, "label", e.target.value)}
-                        placeholder="Sub Item Label"
-                        className="text-xs"
-                      />
-                      <Input
-                        value={subItem.href}
-                        onChange={(e) => updateSubNavigationItem(index, subIndex, "href", e.target.value)}
-                        placeholder="/sub-page"
-                        className="text-xs"
-                      />
+                  <div key={subItem.id} className="flex items-center space-x-2 bg-gray-50 p-3 rounded">
+                    <div className="flex-1 space-y-2">
+                      <div className="grid grid-cols-2 gap-2">
+                        <Input
+                          value={subItem.label}
+                          onChange={(e) => updateSubNavigationItem(index, subIndex, "label", e.target.value)}
+                          placeholder="Sub Item Label"
+                          className="text-xs"
+                        />
+                        <Select
+                          value={subItem.pageId || ""}
+                          onValueChange={(value) => updateSubNavigationItem(index, subIndex, "pageId", value)}
+                        >
+                          <SelectTrigger className="text-xs">
+                            <SelectValue placeholder="Select page" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="custom">Custom URL...</SelectItem>
+                            {pages.map((page) => (
+                              <SelectItem key={page._id} value={page._id}>
+                                <div className="flex items-center justify-between w-full">
+                                  <span className="text-xs">{page.name}</span>
+                                  <span className="text-xs text-gray-500 ml-1">/{page.slug}</span>
+                                </div>
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      {subItem.pageId === "custom" && (
+                        <Input
+                          value={subItem.href || ""}
+                          onChange={(e) => updateSubNavigationItem(index, subIndex, "href", e.target.value)}
+                          placeholder="Enter custom URL"
+                          className="text-xs"
+                        />
+                      )}
                     </div>
                     <Button
                       variant="ghost"

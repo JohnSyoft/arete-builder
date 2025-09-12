@@ -61,12 +61,12 @@ export function Section({
   borderColor = "#e5e7eb",
   borderRadius = "0px",
   // Spacing properties
-  padding = "16px",
-  margin = "0px",
+  padding = "p-4",
+  margin = "m-0",
   // Size properties
   width = "100%",
   height = "auto",
-  minHeight = "200px",
+  minHeight = "min-h-[200px]",
   maxHeight = "none",
   // Shadow and effects
   boxShadow = "none",
@@ -143,14 +143,68 @@ export function Section({
     );
   };
 
+  // Convert Tailwind classes to CSS values for inline styles
+  const getPaddingValue = (paddingClass: string) => {
+    const paddingMap: Record<string, string> = {
+      "p-0": "0px",
+      "p-1": "4px",
+      "p-2": "8px", 
+      "p-3": "12px",
+      "p-4": "16px",
+      "p-5": "20px",
+      "p-6": "24px",
+      "p-8": "32px",
+      "p-10": "40px",
+      "p-12": "48px",
+      "p-16": "64px",
+      "p-20": "80px",
+      "p-24": "96px",
+    };
+    return paddingMap[paddingClass] || paddingClass;
+  };
+
+  const getMarginValue = (marginClass: string) => {
+    const marginMap: Record<string, string> = {
+      "m-0": "0px",
+      "m-1": "4px",
+      "m-2": "8px",
+      "m-3": "12px", 
+      "m-4": "16px",
+      "m-5": "20px",
+      "m-6": "24px",
+      "m-8": "32px",
+      "m-10": "40px",
+      "m-12": "48px",
+      "m-16": "64px",
+      "m-20": "80px",
+      "m-24": "96px",
+    };
+    return marginMap[marginClass] || marginClass;
+  };
+
+  const getMinHeightValue = (minHeightClass: string) => {
+    if (minHeightClass.startsWith("min-h-[")) {
+      return minHeightClass.replace("min-h-[", "").replace("]", "");
+    }
+    const minHeightMap: Record<string, string> = {
+      "min-h-0": "0px",
+      "min-h-full": "100%",
+      "min-h-screen": "100vh",
+      "min-h-min": "min-content",
+      "min-h-max": "max-content",
+      "min-h-fit": "fit-content",
+    };
+    return minHeightMap[minHeightClass] || minHeightClass;
+  };
+
   // Build dynamic styles
   const sectionStyles: React.CSSProperties = {
     width,
     height: height !== "auto" ? height : undefined,
-    minHeight,
     maxHeight: maxHeight !== "none" ? maxHeight : undefined,
-    padding,
-    margin,
+    padding: getPaddingValue(padding),
+    margin: getMarginValue(margin),
+    minHeight: getMinHeightValue(minHeight),
     borderStyle,
     borderWidth,
     borderColor,
@@ -174,6 +228,30 @@ export function Section({
     }
   } else if (backgroundColor && backgroundColor !== "") {
     sectionStyles.backgroundColor = backgroundColor;
+  }
+  // Get max-width class for content wrapper
+  const getMaxWidthClass = (maxWidth: string) => {
+    const maxWidthMap: Record<string, string> = {
+      "none": "max-w-none",
+      "xs": "max-w-xs",
+      "sm": "max-w-sm",
+      "md": "max-w-md",
+      "lg": "max-w-lg",
+      "xl": "max-w-xl",
+      "2xl": "max-w-2xl",
+      "3xl": "max-w-3xl",
+      "4xl": "max-w-4xl",
+      "5xl": "max-w-5xl",
+      "6xl": "max-w-6xl",
+      "7xl": "max-w-7xl",
+      "full": "max-w-full",
+      "screen-sm": "max-w-screen-sm",
+      "screen-md": "max-w-screen-md",
+      "screen-lg": "max-w-screen-lg",
+      "screen-xl": "max-w-screen-xl",
+      "screen-2xl": "max-w-screen-2xl"
+    }
+    return maxWidthMap[maxWidth] || "max-w-7xl"
   }
 
   return (
@@ -201,13 +279,15 @@ export function Section({
 
       {/* Conditional content wrapper */}
       {hasContentWrapper ? (
-        <div
-          className={`relative max-w-${contentMaxWidth} mx-auto ${contentPadding}`}
-        >
-          {children}
+        <div className="relative z-20">
+          <div className={`${getMaxWidthClass(contentMaxWidth)} mx-auto ${contentPadding}`}>
+            {children}
+          </div>
         </div>
       ) : (
-        children
+        <div className="relative z-20">
+          {children}
+        </div>
       )}
 
       {/* Floating toolbar shown on hover/selection */}
@@ -252,12 +332,12 @@ Section.craft = {
     borderColor: "#e5e7eb",
     borderRadius: "0px",
     // Spacing properties
-    padding: "16px",
-    margin: "0px",
+    padding: "p-4",
+    margin: "m-0",
     // Size properties
     width: "100%",
     height: "auto",
-    minHeight: "200px",
+    minHeight: "min-h-[200px]",
     maxHeight: "none",
     // Shadow and effects
     boxShadow: "none",

@@ -1,84 +1,61 @@
 import React, { useEffect, useState, useMemo } from 'react';
+import { useParams } from 'next/navigation';
 import { useCollectionItems } from '@/hooks/useCollectionItems';
 import { useCollection } from '@/hooks/useCollections';
 import { cardComponents, getFieldValue, type CardDesignType } from './CollectionCards';
 import { getCardLayoutClasses, useResponsiveGrid, getLoadingSkeletonClasses } from './CardLayoutUtils';
+import { type CollectionWrapperBaseProps, mergeWithDefaults } from './CollectionWrapperConfig';
 
-interface CollectionWrapperRuntimeProps {
-  // Flex properties
-  flexDirection?: 'row' | 'column' | 'row-reverse' | 'column-reverse';
-  gap?: string;
-  justifyContent?: 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly' | 'space-between';
-  alignItems?: 'start' | 'center' | 'end' | 'stretch' | 'baseline';
-  wrap?: 'nowrap' | 'wrap' | 'wrap-reverse';
-  minHeight?: string;
-  padding?: string;
-  margin?: string;
-  flexGrow?: string;
-  flexShrink?: string;
-  flexBasis?: string;
-  order?: string;
-  overflowX?: 'visible' | 'hidden' | 'scroll' | 'auto';
-  width?: string;
-  height?: string;
-  // Collection properties
-  collectionId?: string;
-  projectId?: string;
-  collectionName?: string;
-  maxItems?: number;
-  cardDesign?: CardDesignType;
-  // Field mapping
-  titleField?: string;
-  descriptionField?: string;
-  imageField?: string;
-  dateField?: string;
-  linkField?: string;
-  categoryField?: string;
-  authorField?: string;
-  priceField?: string;
-  ratingField?: string;
-  tagsField?: string;
-}
+// Runtime component uses same props as base (excluding children and nonEditable)
+interface CollectionWrapperRuntimeProps extends Omit<CollectionWrapperBaseProps, 'children' | 'nonEditable'> {}
 
-export function CollectionWrapperRuntime({
-  flexDirection = 'row',
-  gap = 'gap-4',
-  justifyContent = 'start',
-  alignItems = 'start',
-  wrap = 'wrap',
-  minHeight = 'min-h-[200px]',
-  padding = 'p-4',
-  margin = 'my-4',
-  flexGrow = '',
-  flexShrink = '',
-  flexBasis = '',
-  order = '',
-  overflowX = 'visible',
-  width = 'auto',
-  height = 'auto',
-  collectionId = '',
-  projectId = '',
-  collectionName = 'Collection',
-  maxItems = 3,
-  cardDesign = 'default',
-  titleField = 'title',
-  descriptionField = 'description',
-  imageField = 'image',
-  dateField = 'date',
-  linkField = 'link',
-  categoryField = 'category',
-  authorField = 'author',
-  priceField = 'price',
-  ratingField = 'rating',
-  tagsField = 'tags',
-}: CollectionWrapperRuntimeProps) {
+export function CollectionWrapperRuntime(props: CollectionWrapperRuntimeProps) {
+  // Merge props with defaults using shared utility
+  const mergedProps = mergeWithDefaults(props);
+  const {
+    flexDirection,
+    gap,
+    justifyContent,
+    alignItems,
+    wrap,
+    minHeight,
+    padding,
+    margin,
+    flexGrow,
+    flexShrink,
+    flexBasis,
+    order,
+    overflowX,
+    width,
+    height,
+    collectionId,
+    projectId,
+    collectionName,
+    maxItems,
+    cardDesign,
+    titleField,
+    descriptionField,
+    imageField,
+    dateField,
+    linkField,
+    categoryField,
+    authorField,
+    priceField,
+    ratingField,
+    tagsField,
+  } = mergedProps;
+  
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   
+  // Get current route params for navigation
+  const params = useParams();
+  const currentProjectId = params?.projectId as string || projectId;
+  
   // Get collection details
   const { data: collectionData } = useCollection(collectionId);
-  const collection = collectionData?.data?.collection;
-  
+  const collection = collectionData?.collection;
+  console.log({collection})
   // Get collection items
   const { 
     data: itemsData, 
@@ -181,6 +158,17 @@ export function CollectionWrapperRuntime({
         }
       }
       
+      // Generate navigation link for item detail page
+      // Format: /site/{projectId}/{collectionSlug}/{itemSlug}
+      let navigationLink = '';
+      if (currentProjectId && collection?.slug && item.slug) {
+        navigationLink = `/site/${currentProjectId}/${collection.slug}/${item.slug}`;
+      }
+      
+      // Get external link from linkField or use navigation link
+      const externalLink = getFieldValue(itemData, linkField);
+      const finalLink = externalLink || navigationLink;
+      
       return {
         item,
         data: {
@@ -188,16 +176,19 @@ export function CollectionWrapperRuntime({
           description: getFieldValue(itemData, descriptionField),
           image: getFieldValue(itemData, imageField),
           date: getFieldValue(itemData, dateField),
-          link: getFieldValue(itemData, linkField),
+          link: finalLink,
           category: getFieldValue(itemData, categoryField),
           author: getFieldValue(itemData, authorField),
           price: getFieldValue(itemData, priceField),
           rating,
           tags,
-        }
+        },
+        // Store both links for different use cases
+        navigationLink,
+        externalLink,
       };
     });
-  }, [items, titleField, descriptionField, imageField, dateField, linkField, categoryField, authorField, priceField, ratingField, tagsField]);
+  }, [items, titleField, descriptionField, imageField, dateField, linkField, categoryField, authorField, priceField, ratingField, tagsField, currentProjectId, collection?.slug]);
 
   // Get the card component for the selected design
   const CardComponent = cardComponents[cardDesign] || cardComponents.default;
@@ -271,12 +262,17 @@ export function CollectionWrapperRuntime({
               `
         }
       >
-        {preparedItems.map(({ item, data }, index) => (
+        {console.log({preparedItems})}
+        {preparedItems.map(({ item, data, navigationLink, externalLink }, index) => (
           <CardComponent 
             key={item._id || index}
             item={item}
             index={index}
-            data={data}
+            data={{
+              ...data,
+              // Pass both link types for card to decide
+              isExternal: !!externalLink,
+            }}
             className={shouldUseResponsiveGrid ? '' : layoutClasses.cardClasses}
           />
         ))}

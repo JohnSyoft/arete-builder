@@ -33,6 +33,7 @@ import { CarouselRuntime as Carousel } from "@/components/blocks/Basic/CarouselR
 import { BlogGridRuntime as BlogGrid } from "@/components/blocks/Basic/BlogGridRuntime";
 import { ResizerRuntime as Resizer } from "@/components/blocks/Basic/ResizerRuntime";
 import { FormattedTextRuntime as FormattedText } from "@/components/blocks/Basic/FormattedTextRuntime";
+import { BoxRuntime as Box } from "@/components/blocks/Basic/BoxRuntime";
 import { CollectionWrapperRuntime as CollectionWrapper } from "@/components/blocks/CMS/CollectionWrapperRuntime";
 import { HeaderWrapperRuntime as HeaderWrapper } from "@/components/blocks/UI/HeaderWrapperRuntime";
 
@@ -48,6 +49,7 @@ const componentMap: Record<string, React.ComponentType<any>> = {
   Input,
   Section,
   Container,
+  Box,
   Divider,
   Image,
   Link,
@@ -245,9 +247,7 @@ function renderNode(nodeId: string, nodes: any, cmsItem?: any, cmsContext?: any)
   // Handle regular components
   const Component = componentMap[componentName];
   if (!Component) {
-    console.warn(
-      `Component ${componentName} not found in component map, wrapping in Section`
-    );
+ 
     // If component not found, wrap in SectionRuntime with the component's props
     const children = [
       ...(childNodes?.map((childId: string) => renderNode(childId, nodes, cmsItem, cmsContext)) ||
@@ -275,7 +275,10 @@ function renderNode(nodeId: string, nodes: any, cmsItem?: any, cmsContext?: any)
         )
       : []),
   ];
-
+  console.log({componentName})
+  if(componentName === "Section") {
+    console.log({enhancedProps})
+  }
   return (
     <Component key={nodeId} {...enhancedProps}>
       {children.length > 0 ? children : null}
@@ -304,5 +307,6 @@ export function RuntimeRenderer({ layout, cmsItem, cmsContext }: RendererProps) 
     // or by modifying the layout structure to include CMS data
     console.log("Rendering with CMS context:", { cmsItem, cmsContext });
   }
+  console.log({layout})
   return <div className="runtime-renderer">{renderNode("ROOT", layout, cmsItem, cmsContext)}</div>;
 }

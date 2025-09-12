@@ -10,7 +10,7 @@ interface GridPropertiesProps {
 
 export function GridProperties({ elementProps, onPropChange }: GridPropertiesProps) {
   return (
-    <Accordion type="multiple" defaultValue={["layout", "spacing"]} className="w-full">
+    <Accordion type="multiple" defaultValue={["layout", "spacing", "dimensions"]} className="w-full">
       {/* Layout Section */}
       <AccordionItem value="layout">
         <AccordionTrigger className="text-sm font-medium">Grid Layout</AccordionTrigger>
@@ -168,6 +168,34 @@ export function GridProperties({ elementProps, onPropChange }: GridPropertiesPro
                 <SelectItem value="end">End</SelectItem>
               </SelectContent>
             </Select>
+          </div>
+        </AccordionContent>
+      </AccordionItem>
+
+      {/* Dimensions Section */}
+      <AccordionItem value="dimensions">
+        <AccordionTrigger className="text-sm font-medium">Dimensions</AccordionTrigger>
+        <AccordionContent className="space-y-3">
+          <div>
+            <Label htmlFor="width">Width</Label>
+            <Input
+              id="width"
+              value={elementProps?.width || '100%'}
+              onChange={(e) => onPropChange('width', e.target.value)}
+              placeholder="100%, 500px, auto"
+              className="mt-1"
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="height">Height</Label>
+            <Input
+              id="height"
+              value={elementProps?.height || 'auto'}
+              onChange={(e) => onPropChange('height', e.target.value)}
+              placeholder="auto, 300px, 50vh"
+              className="mt-1"
+            />
           </div>
         </AccordionContent>
       </AccordionItem>
