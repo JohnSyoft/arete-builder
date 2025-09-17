@@ -1,6 +1,7 @@
 import { useNode, useEditor } from "@craftjs/core";
 import { FloatingToolbar } from "@/components/editor/floating-toolbar";
 import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store";
+import { Resizer } from "../Resizer";
 
 interface SelectOption {
   value: string;
@@ -25,6 +26,7 @@ interface SelectProps {
   width?: string;
   borderRadius?: string;
   fontSize?: string;
+  height?: string;
 }
 
 export function Select({
@@ -49,6 +51,7 @@ export function Select({
   width = "w-full",
   borderRadius = "rounded-md",
   fontSize = "",
+  height = "auto",
 }: SelectProps) {
   const {
     connectors: { connect, drag },
@@ -140,33 +143,37 @@ export function Select({
   `.trim();
 
   return (
-    <div
-      ref={(ref) => {
-        if (ref) {
-          connect(drag(ref));
-        }
-      }}
+    <Resizer
+      propKey={{ width: "width", height: "height" }}
       className={`relative group ${
         selected ? "ring-2 ring-blue-500 ring-opacity-50" : ""
       } ${hovered ? "ring-1 ring-blue-300" : ""}`}
     >
-      <select
-        name={name}
-        required={required}
-        disabled={disabled}
-        multiple={multiple}
-        className={selectClasses}
-        defaultValue=""
+      <div
+        ref={(ref) => {
+          if (ref) {
+            connect(drag(ref));
+          }
+        }}
       >
-        <option value="" disabled className={placeholderColor}>
-          {placeholder}
-        </option>
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
+        <select
+          name={name}
+          required={required}
+          disabled={disabled}
+          multiple={multiple}
+          className={selectClasses}
+          defaultValue=""
+        >
+          <option value="" disabled className={placeholderColor}>
+            {placeholder}
           </option>
-        ))}
-      </select>
+          {options.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+      </div>
 
       {(selected || hovered) && (
         <div className="absolute -top-12 left-0 z-50">
@@ -186,7 +193,7 @@ export function Select({
           Select {multiple ? "(Multiple)" : ""}
         </div>
       )}
-    </div>
+    </Resizer>
   );
 }
 
@@ -214,6 +221,7 @@ Select.craft = {
     width: "w-full",
     borderRadius: "rounded-md",
     fontSize: "",
+    height: "auto",
   },
   rules: {
     canDrag: () => true,

@@ -2,6 +2,7 @@ import React from "react";
 import { useNode, useEditor } from "@craftjs/core";
 import { FloatingToolbar } from "@/components/editor/floating-toolbar";
 import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store";
+import { Resizer } from "../Resizer";
 
 export interface SectionProps {
   children?: React.ReactNode;
@@ -255,40 +256,44 @@ export function Section({
   }
 
   return (
-    <section
-      ref={(ref) => {
-        if (ref) {
-          connect(drag(ref));
-        }
-      }}
+    <Resizer
+      propKey={{ width: "width", height: "height" }}
       className={`relative ${className} ${
         selected ? "ring-2 ring-blue-500" : ""
       } ${hovered ? "ring-1 ring-blue-300" : ""}`}
-      style={sectionStyles}
     >
-      {/* Conditional overlay */}
-      {hasOverlay && (
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundColor: overlayColor,
-            opacity: parseFloat(overlayOpacity),
-          }}
-        />
-      )}
+      <section
+        ref={(ref) => {
+          if (ref) {
+            connect(drag(ref));
+          }
+        }}
+        style={sectionStyles}
+      >
+        {/* Conditional overlay */}
+        {hasOverlay && (
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundColor: overlayColor,
+              opacity: parseFloat(overlayOpacity),
+            }}
+          />
+        )}
 
-      {/* Conditional content wrapper */}
-      {hasContentWrapper ? (
-        <div className="relative z-20">
-          <div className={`${getMaxWidthClass(contentMaxWidth)} mx-auto ${contentPadding}`}>
+        {/* Conditional content wrapper */}
+        {hasContentWrapper ? (
+          <div className="relative z-20">
+            <div className={`${getMaxWidthClass(contentMaxWidth)} mx-auto ${contentPadding}`}>
+              {children}
+            </div>
+          </div>
+        ) : (
+          <div className="relative z-20">
             {children}
           </div>
-        </div>
-      ) : (
-        <div className="relative z-20">
-          {children}
-        </div>
-      )}
+        )}
+      </section>
 
       {/* Floating toolbar shown on hover/selection */}
       {!nonEditable && (selected || hovered) && (
@@ -311,7 +316,7 @@ export function Section({
           Section
         </div>
       )}
-    </section>
+    </Resizer>
   );
 }
 

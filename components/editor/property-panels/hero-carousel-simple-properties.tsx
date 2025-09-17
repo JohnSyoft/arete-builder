@@ -1,6 +1,7 @@
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { ColorPickerComponent } from "@/components/ui/color-picker";
 
 interface HeroCarouselSimplePropertiesProps {
   elementProps: any;
@@ -85,40 +86,18 @@ export function HeroCarouselSimpleProperties({
         </h3>
 
         <div className="grid grid-cols-2 gap-3">
-          <div>
-            <Label htmlFor="gradientFrom">Gradient From</Label>
-            <div className="flex gap-2">
-              <Input
-                id="gradientFrom"
-                type="color"
-                value={gradientFrom}
-                onChange={(e) => onPropChange("gradientFrom", e.target.value)}
-                className="w-12 h-8 p-1 border rounded"
-              />
-              <Input
-                value={gradientFrom}
-                onChange={(e) => onPropChange("gradientFrom", e.target.value)}
-                placeholder="#ff6b6b"
-              />
-            </div>
-          </div>
-          <div>
-            <Label htmlFor="gradientTo">Gradient To</Label>
-            <div className="flex gap-2">
-              <Input
-                id="gradientTo"
-                type="color"
-                value={gradientTo}
-                onChange={(e) => onPropChange("gradientTo", e.target.value)}
-                className="w-12 h-8 p-1 border rounded"
-              />
-              <Input
-                value={gradientTo}
-                onChange={(e) => onPropChange("gradientTo", e.target.value)}
-                placeholder="#ee5a24"
-              />
-            </div>
-          </div>
+          <ColorPickerComponent
+            value={gradientFrom}
+            onChange={(value) => onPropChange("gradientFrom", value)}
+            label="Gradient From"
+            placeholder="Select gradient from color"
+          />
+          <ColorPickerComponent
+            value={gradientTo}
+            onChange={(value) => onPropChange("gradientTo", value)}
+            label="Gradient To"
+            placeholder="Select gradient to color"
+          />
         </div>
 
         {/* Gradient Presets */}
@@ -201,23 +180,12 @@ export function HeroCarouselSimpleProperties({
           Section Settings
         </h3>
 
-        <div>
-          <Label htmlFor="backgroundColor">Background Color</Label>
-          <div className="flex gap-2">
-            <Input
-              id="backgroundColor"
-              type="color"
-              value={backgroundColor}
-              onChange={(e) => onPropChange("backgroundColor", e.target.value)}
-              className="w-12 h-8 p-1 border rounded"
-            />
-            <Input
-              value={backgroundColor}
-              onChange={(e) => onPropChange("backgroundColor", e.target.value)}
-              placeholder="#ffffff"
-            />
-          </div>
-        </div>
+        <ColorPickerComponent
+          value={backgroundColor}
+          onChange={(value) => onPropChange("backgroundColor", value)}
+          label="Background Color"
+          placeholder="Select background color"
+        />
 
         <div className="grid grid-cols-2 gap-3">
           <div>

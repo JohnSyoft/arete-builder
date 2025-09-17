@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
+import { ColorPickerComponent } from "@/components/ui/color-picker";
 import { Plus, Trash2 } from "lucide-react";
 
 interface TabPropertiesProps {
@@ -115,77 +116,33 @@ export function TabProperties({
         />
       </div>
 
-      <div>
-        <Label htmlFor="backgroundColor">Background Color</Label>
-        <div className="flex gap-2">
-          <Input
-            id="backgroundColor"
-            type="color"
-            value={backgroundColor}
-            onChange={(e) => onPropChange("backgroundColor", e.target.value)}
-            className="w-12 h-8 p-1 border rounded"
-          />
-          <Input
-            value={backgroundColor}
-            onChange={(e) => onPropChange("backgroundColor", e.target.value)}
-            placeholder="#ffffff"
-          />
-        </div>
-      </div>
+      <ColorPickerComponent
+        value={backgroundColor}
+        onChange={(value) => onPropChange("backgroundColor", value)}
+        label="Background Color"
+        placeholder="Select background color"
+      />
 
-      <div>
-        <Label htmlFor="activeColor">Active Color</Label>
-        <div className="flex gap-2">
-          <Input
-            id="activeColor"
-            type="color"
-            value={activeColor}
-            onChange={(e) => onPropChange("activeColor", e.target.value)}
-            className="w-12 h-8 p-1 border rounded"
-          />
-          <Input
-            value={activeColor}
-            onChange={(e) => onPropChange("activeColor", e.target.value)}
-            placeholder="#3b82f6"
-          />
-        </div>
-      </div>
+      <ColorPickerComponent
+        value={activeColor}
+        onChange={(value) => onPropChange("activeColor", value)}
+        label="Active Color"
+        placeholder="Select active color"
+      />
 
-      <div>
-        <Label htmlFor="inactiveColor">Inactive Color</Label>
-        <div className="flex gap-2">
-          <Input
-            id="inactiveColor"
-            type="color"
-            value={inactiveColor}
-            onChange={(e) => onPropChange("inactiveColor", e.target.value)}
-            className="w-12 h-8 p-1 border rounded"
-          />
-          <Input
-            value={inactiveColor}
-            onChange={(e) => onPropChange("inactiveColor", e.target.value)}
-            placeholder="#6b7280"
-          />
-        </div>
-      </div>
+      <ColorPickerComponent
+        value={inactiveColor}
+        onChange={(value) => onPropChange("inactiveColor", value)}
+        label="Inactive Color"
+        placeholder="Select inactive color"
+      />
 
-      <div>
-        <Label htmlFor="borderColor">Border Color</Label>
-        <div className="flex gap-2">
-          <Input
-            id="borderColor"
-            type="color"
-            value={borderColor}
-            onChange={(e) => onPropChange("borderColor", e.target.value)}
-            className="w-12 h-8 p-1 border rounded"
-          />
-          <Input
-            value={borderColor}
-            onChange={(e) => onPropChange("borderColor", e.target.value)}
-            placeholder="#e5e7eb"
-          />
-        </div>
-      </div>
+      <ColorPickerComponent
+        value={borderColor}
+        onChange={(value) => onPropChange("borderColor", value)}
+        label="Border Color"
+        placeholder="Select border color"
+      />
 
       <div>
         <Label htmlFor="borderRadius">Border Radius</Label>

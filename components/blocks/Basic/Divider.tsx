@@ -1,6 +1,7 @@
 import { useNode, useEditor } from "@craftjs/core";
 import { FloatingToolbar } from "@/components/editor/floating-toolbar";
 import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store";
+import { Resizer } from "../Resizer";
 
 interface DividerProps {
   style?: "solid" | "dashed" | "dotted";
@@ -67,31 +68,34 @@ export function Divider({
   }[style];
 
   return (
-    <div
-      ref={(ref) => {
-        if (ref) {
-          connect(drag(ref));
-        }
-      }}
-      className={`
-        relative 
-        ${width} 
-        ${margin}
-        ${selected ? "ring-2 ring-blue-500" : ""} 
-        ${hovered ? "ring-1 ring-blue-300" : ""}
-      `}
+    <Resizer
+      propKey={{ width: "width", height: "height" }}
+      className={`relative ${margin}`}
     >
-      <hr
+      <div
+        ref={(ref) => {
+          if (ref) {
+            connect(drag(ref));
+          }
+        }}
         className={`
-          ${thickness} 
-          ${color} 
-          ${borderStyle}
-          cursor-pointer
-          hover:border-gray-400
-          transition-colors
+          ${width} 
+          ${selected ? "ring-2 ring-blue-500" : ""} 
+          ${hovered ? "ring-1 ring-blue-300" : ""}
         `}
-        onClick={handleStyleChange}
-      />
+      >
+        <hr
+          className={`
+            ${thickness} 
+            ${color} 
+            ${borderStyle}
+            cursor-pointer
+            hover:border-gray-400
+            transition-colors
+          `}
+          onClick={handleStyleChange}
+        />
+      </div>
 
       {/* Floating toolbar shown on hover/selection */}
       {(selected || hovered) && (
@@ -112,7 +116,7 @@ export function Divider({
           Divider
         </div>
       )}
-    </div>
+    </Resizer>
   );
 }
 

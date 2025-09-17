@@ -1,6 +1,7 @@
 import { useNode, useEditor, Element } from "@craftjs/core";
 import { FloatingToolbar } from "@/components/editor/floating-toolbar";
 import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store";
+import { Resizer } from "../Resizer";
 
 interface ColumnsProps {
   columnCount?: number;
@@ -9,6 +10,8 @@ interface ColumnsProps {
   minHeight?: string;
   padding?: string;
   margin?: string;
+  width?: string;
+  height?: string;
 }
 
 export function Columns({
@@ -18,6 +21,8 @@ export function Columns({
   minHeight = "min-h-[200px]",
   padding = "p-4",
   margin = "my-4",
+  width = "auto",
+  height = "auto",
 }: ColumnsProps) {
   const {
     connectors: { connect, drag },
@@ -102,36 +107,40 @@ export function Columns({
   };
 
   return (
-    <div
-      ref={(ref) => {
-        if (ref) {
-          connect(drag(ref));
-        }
-      }}
+    <Resizer
+      propKey={{ width: "width", height: "height" }}
       className={`relative group ${padding} ${margin} ${
         selected ? "ring-2 ring-blue-500" : ""
       } ${hovered ? "ring-1 ring-blue-300" : ""}`}
     >
       <div
-        className={`grid ${getGridColsClass(
-          columnCount
-        )} ${gap} ${getItemsClass(alignment)} ${minHeight}`}
+        ref={(ref) => {
+          if (ref) {
+            connect(drag(ref));
+          }
+        }}
       >
-        {Array.from({ length: columnCount }, (_, index) => (
-          <Element
-            key={index}
-            id={`column-${index}`}
-            is="div"
-            canvas
-            className="border-2 border-dashed border-gray-300 rounded-lg p-4 min-h-[150px] bg-gray-50/50"
-          >
-            <div className="text-center text-gray-500 text-sm">
-              Column {index + 1}
-              <br />
-              <span className="text-xs">Drop components here</span>
-            </div>
-          </Element>
-        ))}
+        <div
+          className={`grid ${getGridColsClass(
+            columnCount
+          )} ${gap} ${getItemsClass(alignment)} ${minHeight}`}
+        >
+          {Array.from({ length: columnCount }, (_, index) => (
+            <Element
+              key={index}
+              id={`column-${index}`}
+              is="div"
+              canvas
+              className="border-2 border-dashed border-gray-300 rounded-lg p-4 min-h-[150px] bg-gray-50/50"
+            >
+              <div className="text-center text-gray-500 text-sm">
+                Column {index + 1}
+                <br />
+                <span className="text-xs">Drop components here</span>
+              </div>
+            </Element>
+          ))}
+        </div>
       </div>
 
       {/* Floating toolbar shown on hover/selection */}
@@ -155,7 +164,7 @@ export function Columns({
           Columns ({columnCount})
         </div>
       )}
-    </div>
+    </Resizer>
   );
 }
 
@@ -168,6 +177,8 @@ Columns.craft = {
     minHeight: "min-h-[200px]",
     padding: "p-4",
     margin: "my-4",
+    width: "auto",
+    height: "auto",
   },
   rules: {
     canDrag: () => true,

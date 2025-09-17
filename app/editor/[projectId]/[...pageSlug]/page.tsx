@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useEffect, useState } from "react";
+import React, { useMemo, useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Editor, Frame, Element, useEditor } from "@craftjs/core";
 import { EditorSidebar } from "@/components/editor/sidebar";
@@ -59,21 +59,94 @@ function EditorContent({
   const { query } = useEditor();
   const { currentViewport } = useViewportStore();
   const { isOpen: sidebarOpen } = useSidebarStore();
+  const scrollContainerRef = React.useRef<HTMLDivElement>(null);
 
   const handleSave = () => {
     const layout = query.serialize();
     onSave(layout);
   };
 
+  // Auto-scroll functionality during drag operations
+  React.useEffect(() => {
+    const scrollContainer = scrollContainerRef.current;
+    if (!scrollContainer) return;
+
+    let isDragging = false;
+    let dragInterval: NodeJS.Timeout | null = null;
+
+    const handleDragStart = () => {
+      isDragging = true;
+    };
+
+    const handleDragEnd = () => {
+      isDragging = false;
+      if (dragInterval) {
+        clearInterval(dragInterval);
+        dragInterval = null;
+      }
+    };
+
+    const handleDragOver = (e: DragEvent) => {
+      if (!isDragging || !scrollContainer) return;
+
+      const rect = scrollContainer.getBoundingClientRect();
+      const scrollThreshold = 80;
+      const scrollSpeed = 8;
+
+      // Vertical scrolling
+      if (e.clientY < rect.top + scrollThreshold) {
+        scrollContainer.scrollTop -= scrollSpeed;
+      } else if (e.clientY > rect.bottom - scrollThreshold) {
+        scrollContainer.scrollTop += scrollSpeed;
+      }
+
+      // Horizontal scrolling
+      if (e.clientX < rect.left + scrollThreshold) {
+        scrollContainer.scrollLeft -= scrollSpeed;
+      } else if (e.clientX > rect.right - scrollThreshold) {
+        scrollContainer.scrollLeft += scrollSpeed;
+      }
+    };
+
+    // Add event listeners
+    document.addEventListener('dragstart', handleDragStart);
+    document.addEventListener('dragend', handleDragEnd);
+    scrollContainer.addEventListener('dragover', handleDragOver);
+
+    return () => {
+      document.removeEventListener('dragstart', handleDragStart);
+      document.removeEventListener('dragend', handleDragEnd);
+      scrollContainer.removeEventListener('dragover', handleDragOver);
+      if (dragInterval) {
+        clearInterval(dragInterval);
+      }
+    };
+  }, []);
+
   const viewportStyles = useMemo(() => {
     switch (currentViewport) {
       case "mobile":
-        return { width: "375px", margin: "0 auto" };
+        return { 
+          width: "375px", 
+          margin: "0 auto",
+          minHeight: "100vh",
+          position: "relative" as const
+        };
       case "tablet":
-        return { width: "768px", margin: "0 auto" };
+        return { 
+          width: "768px", 
+          margin: "0 auto",
+          minHeight: "100vh",
+          position: "relative" as const
+        };
       case "desktop":
       default:
-        return { width: "100%", maxWidth: "none" };
+        return { 
+          width: "100%", 
+          maxWidth: "none",
+          minHeight: "100vh",
+          position: "relative" as const
+        };
     }
   }, [currentViewport]);
 
@@ -98,20 +171,26 @@ function EditorContent({
         <EditorSidebar />
 
         <div
+          ref={scrollContainerRef}
           className={`flex-1 overflow-auto transition-all duration-300 ${
             sidebarOpen ? "ml-0" : "ml-0"
           }`}
+          style={{
+            scrollBehavior: "smooth",
+            // Ensure proper scrolling behavior
+            overscrollBehavior: "contain",
+          }}
         >
-          <div className="">
+          <div className="relative min-h-full">
             <div
-              className="mx-auto bg-white shadow-lg rounded-lg overflow-hidden pt-[28px] min-h-[100vh]"
+              className="mx-auto bg-white shadow-lg rounded-lg overflow-visible pt-[28px]"
               style={viewportStyles}
             >
               <Frame data={layoutData}>
                 <Element
                   is="Container"
                   canvas
-                  className="min-h-[600px] p-4"
+                  className="min-h-[800px] p-6 w-full relative"
                   data-testid="canvas-root"
                 >
                   {currentViewport !== "desktop" && (
@@ -121,6 +200,11 @@ function EditorContent({
                         : "Tablet View (768px)"}
                     </div>
                   )}
+                  
+                  {/* Drop zone indicator for better UX */}
+                  <div className="absolute inset-0 pointer-events-none">
+                    <div className="w-full h-full border-2 border-dashed border-transparent hover:border-blue-300 transition-colors duration-200 rounded-lg" />
+                  </div>
                 </Element>
               </Frame>
             </div>
@@ -427,6 +511,43 @@ export default function EditorPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <style jsx global>{`
+        /* Improve drag and drop experience */
+        [data-cy="craftjs-editor"] {
+          min-height: 100vh;
+          position: relative;
+        }
+        
+        /* Better scroll behavior for drag operations */
+        .craftjs-editor-scroll-container {
+          scroll-behavior: smooth;
+          overscroll-behavior: contain;
+        }
+        
+        /* Improve drop zone visibility */
+        .craftjs-drop-zone {
+          transition: all 0.2s ease;
+        }
+        
+        .craftjs-drop-zone:hover {
+          background-color: rgba(59, 130, 246, 0.05);
+        }
+        
+        /* Better component selection feedback */
+        .craftjs-selected {
+          outline: 2px solid #3b82f6 !important;
+          outline-offset: 2px;
+        }
+        
+        /* Improve resizing handles visibility */
+        .craftjs-resize-handle {
+          background-color: #3b82f6;
+          border: 2px solid white;
+          border-radius: 50%;
+          width: 8px;
+          height: 8px;
+        }
+      `}</style>
       <Editor resolver={currentResolver} enabled={true}>
         <EditorContent
           project={project}

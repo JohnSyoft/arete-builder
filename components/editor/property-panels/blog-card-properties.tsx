@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { ColorPickerComponent } from "@/components/ui/color-picker";
 import { Search, RefreshCw, ExternalLink } from "lucide-react";
 import {
   Select,
@@ -435,16 +436,12 @@ export function BlogCardProperties({
                 </div>
               </div>
 
-              <div>
-                <Label>Card Background Color</Label>
-                <Input
-                  type="color"
-                  value={cardBackgroundColor}
-                  onChange={(e) =>
-                    onPropChange("cardBackgroundColor", e.target.value)
-                  }
-                />
-              </div>
+              <ColorPickerComponent
+                value={cardBackgroundColor}
+                onChange={(value) => onPropChange("cardBackgroundColor", value)}
+                label="Card Background Color"
+                placeholder="Select card background color"
+              />
 
               <div>
                 <Label>Border Radius</Label>

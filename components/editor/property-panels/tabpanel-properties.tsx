@@ -1,5 +1,6 @@
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { ColorPickerComponent } from "@/components/ui/color-picker";
 
 interface TabPanelPropertiesProps {
   elementProps: any;
@@ -43,41 +44,19 @@ export function TabPanelProperties({
         />
       </div>
 
-      <div>
-        <Label htmlFor="backgroundColor">Background Color</Label>
-        <div className="flex gap-2">
-          <Input
-            id="backgroundColor"
-            type="color"
-            value={backgroundColor}
-            onChange={(e) => onPropChange("backgroundColor", e.target.value)}
-            className="w-12 h-8 p-1 border rounded"
-          />
-          <Input
-            value={backgroundColor}
-            onChange={(e) => onPropChange("backgroundColor", e.target.value)}
-            placeholder="#ffffff"
-          />
-        </div>
-      </div>
+      <ColorPickerComponent
+        value={backgroundColor}
+        onChange={(value) => onPropChange("backgroundColor", value)}
+        label="Background Color"
+        placeholder="Select background color"
+      />
 
-      <div>
-        <Label htmlFor="borderColor">Border Color</Label>
-        <div className="flex gap-2">
-          <Input
-            id="borderColor"
-            type="color"
-            value={borderColor}
-            onChange={(e) => onPropChange("borderColor", e.target.value)}
-            className="w-12 h-8 p-1 border rounded"
-          />
-          <Input
-            value={borderColor}
-            onChange={(e) => onPropChange("borderColor", e.target.value)}
-            placeholder="#e5e7eb"
-          />
-        </div>
-      </div>
+      <ColorPickerComponent
+        value={borderColor}
+        onChange={(value) => onPropChange("borderColor", value)}
+        label="Border Color"
+        placeholder="Select border color"
+      />
 
       <div>
         <Label htmlFor="borderRadius">Border Radius</Label>

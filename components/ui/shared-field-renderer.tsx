@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/select";
 import { DatePicker } from "@/components/ui/date-picker";
 import { RichTextEditor } from "@/components/ui/rich-text-editor";
+import { ColorPickerComponent } from "@/components/ui/color-picker";
 
 interface SharedFieldRendererProps {
   field: any;
@@ -118,19 +119,12 @@ export function SharedFieldRenderer({
 
     case "color":
       return (
-        <div className="flex gap-2">
-          <Input
-            type="color"
-            value={value || "#000000"}
-            onChange={(e) => onChange(e.target.value)}
-            className="w-16 h-10 p-1 border rounded"
-          />
-          <Input
-            value={value || ""}
-            onChange={(e) => onChange(e.target.value)}
-            placeholder="#000000"
-          />
-        </div>
+        <ColorPickerComponent
+          value={value || "#000000"}
+          onChange={onChange}
+          label=""
+          placeholder="Select color"
+        />
       );
 
     case "link":

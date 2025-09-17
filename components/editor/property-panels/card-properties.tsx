@@ -2,6 +2,7 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { ColorPickerComponent } from "@/components/ui/color-picker"
 
 interface CardPropertiesProps {
   elementProps: any
@@ -62,27 +63,19 @@ export function CardProperties({ elementProps, onPropChange }: CardPropertiesPro
             </Select>
           </div>
 
-          <div>
-            <Label htmlFor="backgroundColor">Background Color</Label>
-            <Input
-              id="backgroundColor"
-              type="color"
-              value={elementProps?.backgroundColor || '#ffffff'}
-              onChange={(e) => onPropChange('backgroundColor', e.target.value)}
-              className="mt-1 h-10"
-            />
-          </div>
+          <ColorPickerComponent
+            value={elementProps?.backgroundColor || '#ffffff'}
+            onChange={(value) => onPropChange('backgroundColor', value)}
+            label="Background Color"
+            placeholder="Select background color"
+          />
 
-          <div>
-            <Label htmlFor="borderColor">Border Color</Label>
-            <Input
-              id="borderColor"
-              type="color"
-              value={elementProps?.borderColor || '#e5e7eb'}
-              onChange={(e) => onPropChange('borderColor', e.target.value)}
-              className="mt-1 h-10"
-            />
-          </div>
+          <ColorPickerComponent
+            value={elementProps?.borderColor || '#e5e7eb'}
+            onChange={(value) => onPropChange('borderColor', value)}
+            label="Border Color"
+            placeholder="Select border color"
+          />
         </AccordionContent>
       </AccordionItem>
 

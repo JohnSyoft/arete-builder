@@ -13,6 +13,7 @@ import {
 import { DatePicker } from "@/components/ui/date-picker";
 import { RichTextEditor } from "@/components/ui/rich-text-editor";
 import { ImageUpload } from "@/components/ui/image-upload";
+import { ColorPickerComponent } from "@/components/ui/color-picker";
 import { useCollectionItems } from "@/hooks/useCollectionItems";
 
 interface DefaultValueFieldProps {
@@ -135,23 +136,14 @@ export function DefaultValueField({
 
     case "color":
       return (
-        <div className="flex gap-2">
-          <Input
-            type="color"
-            value={formData.defaultValue || "#000000"}
-            onChange={(e) =>
-              onFormDataChange({ ...formData, defaultValue: e.target.value })
-            }
-            className="w-16 h-10 p-1 border rounded"
-          />
-          <Input
-            placeholder="#000000"
-            value={formData.defaultValue}
-            onChange={(e) =>
-              onFormDataChange({ ...formData, defaultValue: e.target.value })
-            }
-          />
-        </div>
+        <ColorPickerComponent
+          value={formData.defaultValue || "#000000"}
+          onChange={(value) =>
+            onFormDataChange({ ...formData, defaultValue: value })
+          }
+          label=""
+          placeholder="Select color"
+        />
       );
 
     case "date":

@@ -1,6 +1,7 @@
 import { useNode, useEditor } from "@craftjs/core";
 import { FloatingToolbar } from "@/components/editor/floating-toolbar";
 import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store";
+import { Resizer } from "../Resizer";
 import {
   Star,
   Heart,
@@ -95,6 +96,8 @@ interface IconProps {
   border?: string;
   hoverEffect?: boolean;
   onClick?: () => void;
+  width?: string;
+  height?: string;
 }
 
 export function Icon({
@@ -108,6 +111,8 @@ export function Icon({
   borderRadius = "",
   border = "",
   hoverEffect = false,
+  width = "auto",
+  height = "auto",
 }: IconProps) {
   const {
     connectors: { connect, drag },
@@ -168,17 +173,20 @@ export function Icon({
   `.trim();
 
   return (
-    <div
-      ref={(ref) => {
-        if (ref) {
-          connect(drag(ref));
-        }
-      }}
+    <Resizer
+      propKey={{ width: "width", height: "height" }}
       className={`relative group ${
         selected ? "ring-2 ring-blue-500 ring-opacity-50" : ""
       } ${hovered ? "ring-1 ring-blue-300" : ""}`}
     >
-      <div className={containerClasses}>
+      <div
+        ref={(ref) => {
+          if (ref) {
+            connect(drag(ref));
+          }
+        }}
+        className={containerClasses}
+      >
         <IconComponent size={size} strokeWidth={strokeWidth} />
       </div>
 
@@ -200,7 +208,7 @@ export function Icon({
           Icon ({iconName})
         </div>
       )}
-    </div>
+    </Resizer>
   );
 }
 
@@ -217,6 +225,8 @@ Icon.craft = {
     borderRadius: "",
     border: "",
     hoverEffect: false,
+    width: "auto",
+    height: "auto",
   },
   rules: {
     canDrag: () => true,

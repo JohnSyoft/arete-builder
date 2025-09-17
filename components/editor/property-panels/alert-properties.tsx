@@ -13,6 +13,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { ColorPickerComponent } from "@/components/ui/color-picker";
 
 interface AlertPropertiesProps {
   elementProps: any;
@@ -181,38 +182,26 @@ export function AlertProperties({
           Custom Colors
         </AccordionTrigger>
         <AccordionContent className="space-y-3">
-          <div>
-            <Label htmlFor="backgroundColor">Background Color</Label>
-            <Input
-              id="backgroundColor"
-              type="color"
-              value={elementProps?.backgroundColor || "#f3f4f6"}
-              onChange={(e) => onPropChange("backgroundColor", e.target.value)}
-              className="mt-1 h-10"
-            />
-          </div>
+          <ColorPickerComponent
+            value={elementProps?.backgroundColor || "#f3f4f6"}
+            onChange={(value) => onPropChange("backgroundColor", value)}
+            label="Background Color"
+            placeholder="Select background color"
+          />
 
-          <div>
-            <Label htmlFor="textColor">Text Color</Label>
-            <Input
-              id="textColor"
-              type="color"
-              value={elementProps?.textColor || "#374151"}
-              onChange={(e) => onPropChange("textColor", e.target.value)}
-              className="mt-1 h-10"
-            />
-          </div>
+          <ColorPickerComponent
+            value={elementProps?.textColor || "#374151"}
+            onChange={(value) => onPropChange("textColor", value)}
+            label="Text Color"
+            placeholder="Select text color"
+          />
 
-          <div>
-            <Label htmlFor="borderColor">Border Color</Label>
-            <Input
-              id="borderColor"
-              type="color"
-              value={elementProps?.borderColor || "#d1d5db"}
-              onChange={(e) => onPropChange("borderColor", e.target.value)}
-              className="mt-1 h-10"
-            />
-          </div>
+          <ColorPickerComponent
+            value={elementProps?.borderColor || "#d1d5db"}
+            onChange={(value) => onPropChange("borderColor", value)}
+            label="Border Color"
+            placeholder="Select border color"
+          />
         </AccordionContent>
       </AccordionItem>
 

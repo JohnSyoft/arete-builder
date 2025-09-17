@@ -1,6 +1,7 @@
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { ColorPickerComponent } from "@/components/ui/color-picker"
 
 interface ContainerPropertiesProps {
   elementProps: any
@@ -14,16 +15,12 @@ export function ContainerProperties({ elementProps, onPropChange }: ContainerPro
       <div className="space-y-3">
         <h4 className="text-sm font-medium text-gray-700 border-b pb-1">Background</h4>
         
-        <div>
-          <Label htmlFor="backgroundColor">Background Color</Label>
-          <Input
-            id="backgroundColor"
-            type="color"
-            value={elementProps?.backgroundColor || '#ffffff'}
-            onChange={(e) => onPropChange('backgroundColor', e.target.value)}
-            className="mt-1 h-10"
-          />
-        </div>
+        <ColorPickerComponent
+          value={elementProps?.backgroundColor || '#ffffff'}
+          onChange={(value) => onPropChange('backgroundColor', value)}
+          label="Background Color"
+          placeholder="Select background color"
+        />
 
         <div>
           <Label htmlFor="backgroundImage">Background Image URL</Label>
@@ -112,16 +109,12 @@ export function ContainerProperties({ elementProps, onPropChange }: ContainerPro
           </Select>
         </div>
 
-        <div>
-          <Label htmlFor="borderColor">Border Color</Label>
-          <Input
-            id="borderColor"
-            type="color"
-            value={elementProps?.borderColor || '#e5e7eb'}
-            onChange={(e) => onPropChange('borderColor', e.target.value)}
-            className="mt-1 h-10"
-          />
-        </div>
+        <ColorPickerComponent
+          value={elementProps?.borderColor || '#e5e7eb'}
+          onChange={(value) => onPropChange('borderColor', value)}
+          label="Border Color"
+          placeholder="Select border color"
+        />
 
         <div>
           <Label htmlFor="borderRadius">Border Radius</Label>
@@ -194,16 +187,12 @@ export function ContainerProperties({ elementProps, onPropChange }: ContainerPro
 
         {elementProps?.hasOverlay && (
           <>
-            <div>
-              <Label htmlFor="overlayColor">Overlay Color</Label>
-              <Input
-                id="overlayColor"
-                type="color"
-                value={elementProps?.overlayColor || '#000000'}
-                onChange={(e) => onPropChange('overlayColor', e.target.value)}
-                className="mt-1 h-10"
-              />
-            </div>
+            <ColorPickerComponent
+              value={elementProps?.overlayColor || '#000000'}
+              onChange={(value) => onPropChange('overlayColor', value)}
+              label="Overlay Color"
+              placeholder="Select overlay color"
+            />
 
             <div>
               <Label htmlFor="overlayOpacity">Overlay Opacity</Label>

@@ -2,6 +2,7 @@ import { useNode, useEditor } from "@craftjs/core";
 import React from "react";
 import { FloatingToolbar } from "@/components/editor/floating-toolbar";
 import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store";
+import { Resizer } from "../Resizer";
 
 interface NavigationProps {
   orientation?: "horizontal" | "vertical";
@@ -20,6 +21,8 @@ interface NavigationProps {
   underline?: "none" | "hover" | "always";
   padding?: string;
   linkPadding?: string;
+  width?: string;
+  height?: string;
 }
 
 export function Navigation({
@@ -39,6 +42,8 @@ export function Navigation({
   underline = "hover",
   padding = "12px",
   linkPadding = "8px",
+  width = "auto",
+  height = "auto",
 }: NavigationProps) {
   const {
     connectors: { connect, drag },
@@ -164,55 +169,59 @@ export function Navigation({
   const navItems = ["Home", "About", "Services", "Contact"];
 
   return (
-    <div
-      ref={(ref) => {
-        if (ref) {
-          connect(drag(ref));
-        }
-      }}
+    <Resizer
+      propKey={{ width: "width", height: "height" }}
       className={`relative group ${selected ? "ring-2 ring-blue-500" : ""} ${
         hovered ? "ring-1 ring-blue-300" : ""
       }`}
-      onClick={handleShowProperties}
     >
-      <nav style={navStyles}>
-        {navItems.map((item, index) => (
-          <a
-            key={index}
-            href="#"
-            style={{
-              ...linkStyles,
-              ...(index === 0 && {
-                // First item is "active"
-                color: activeLinkColor,
-                backgroundColor:
-                  variant === "pills" ? "rgba(29, 78, 216, 0.2)" : undefined,
-                borderBottomColor:
-                  variant === "tabs" ? activeLinkColor : undefined,
-              }),
-            }}
-            onMouseEnter={(e) => {
-              if (index !== 0) {
-                // Don't change active item
-                e.currentTarget.style.color = hoverLinkColor;
-                if (underline === "hover") {
-                  e.currentTarget.style.textDecoration = "underline";
+      <div
+        ref={(ref) => {
+          if (ref) {
+            connect(drag(ref));
+          }
+        }}
+        onClick={handleShowProperties}
+      >
+        <nav style={navStyles}>
+          {navItems.map((item, index) => (
+            <a
+              key={index}
+              href="#"
+              style={{
+                ...linkStyles,
+                ...(index === 0 && {
+                  // First item is "active"
+                  color: activeLinkColor,
+                  backgroundColor:
+                    variant === "pills" ? "rgba(29, 78, 216, 0.2)" : undefined,
+                  borderBottomColor:
+                    variant === "tabs" ? activeLinkColor : undefined,
+                }),
+              }}
+              onMouseEnter={(e) => {
+                if (index !== 0) {
+                  // Don't change active item
+                  e.currentTarget.style.color = hoverLinkColor;
+                  if (underline === "hover") {
+                    e.currentTarget.style.textDecoration = "underline";
+                  }
                 }
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (index !== 0) {
-                e.currentTarget.style.color = linkColor;
-                if (underline === "hover") {
-                  e.currentTarget.style.textDecoration = "none";
+              }}
+              onMouseLeave={(e) => {
+                if (index !== 0) {
+                  e.currentTarget.style.color = linkColor;
+                  if (underline === "hover") {
+                    e.currentTarget.style.textDecoration = "none";
+                  }
                 }
-              }
-            }}
-          >
-            {item}
-          </a>
-        ))}
-      </nav>
+              }}
+            >
+              {item}
+            </a>
+          ))}
+        </nav>
+      </div>
 
       {/* Floating toolbar */}
       {(selected || hovered) && (
@@ -236,7 +245,7 @@ export function Navigation({
           Navigation ({variant})
         </div>
       )}
-    </div>
+    </Resizer>
   );
 }
 
@@ -259,6 +268,8 @@ Navigation.craft = {
     underline: "hover",
     padding: "12px",
     linkPadding: "8px",
+    width: "auto",
+    height: "auto",
   },
   rules: {
     canDrag: () => true,

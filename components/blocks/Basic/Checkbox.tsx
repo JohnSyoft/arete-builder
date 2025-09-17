@@ -1,6 +1,7 @@
 import { useNode, useEditor } from "@craftjs/core";
 import { FloatingToolbar } from "@/components/editor/floating-toolbar";
 import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store";
+import { Resizer } from "../Resizer";
 
 interface CheckboxProps {
   name?: string;
@@ -14,6 +15,8 @@ interface CheckboxProps {
   margin?: string;
   padding?: string;
   fontSize?: string;
+  width?: string;
+  height?: string;
 }
 
 export function Checkbox({
@@ -28,6 +31,8 @@ export function Checkbox({
   margin = "my-2",
   padding = "",
   fontSize = "text-base",
+  width = "auto",
+  height = "auto",
 }: CheckboxProps) {
   const {
     connectors: { connect, drag },
@@ -111,17 +116,20 @@ export function Checkbox({
   `.trim();
 
   return (
-    <div
-      ref={(ref) => {
-        if (ref) {
-          connect(drag(ref));
-        }
-      }}
+    <Resizer
+      propKey={{ width: "width", height: "height" }}
       className={`relative group ${
         selected ? "ring-2 ring-blue-500 ring-opacity-50" : ""
       } ${hovered ? "ring-1 ring-blue-300" : ""}`}
     >
-      <div className={containerClasses}>
+      <div
+        ref={(ref) => {
+          if (ref) {
+            connect(drag(ref));
+          }
+        }}
+        className={containerClasses}
+      >
         <input
           type="checkbox"
           name={name}
@@ -154,7 +162,7 @@ export function Checkbox({
           Checkbox
         </div>
       )}
-    </div>
+    </Resizer>
   );
 }
 
@@ -172,6 +180,8 @@ Checkbox.craft = {
     margin: "my-2",
     padding: "",
     fontSize: "text-base",
+    width: "auto",
+    height: "auto",
   },
   rules: {
     canDrag: () => true,

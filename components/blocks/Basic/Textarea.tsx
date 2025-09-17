@@ -2,6 +2,7 @@ import { useNode, useEditor } from "@craftjs/core";
 import React from "react";
 import { FloatingToolbar } from "@/components/editor/floating-toolbar";
 import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store";
+import { Resizer } from "../Resizer";
 
 export interface TextareaProps {
   placeholder?: string;
@@ -170,27 +171,31 @@ export function Textarea({
   `.trim();
 
   return (
-    <div
-      ref={(ref) => {
-        if (ref) {
-          connect(drag(ref));
-        }
-      }}
+    <Resizer
+      propKey={{ width: "width", height: "height" }}
       className={`relative inline-block ${
         selected ? "ring-2 ring-blue-500" : ""
       } ${isHovered ? "ring-1 ring-blue-300" : ""}`}
     >
-      <textarea
-        placeholder={placeholder}
-        value={value}
-        disabled={disabled || !enabled}
-        rows={rows}
-        cols={cols}
-        onChange={handleChange}
-        className={combinedClassName}
-        style={customStyles}
-        {...props}
-      />
+      <div
+        ref={(ref) => {
+          if (ref) {
+            connect(drag(ref));
+          }
+        }}
+      >
+        <textarea
+          placeholder={placeholder}
+          value={value}
+          disabled={disabled || !enabled}
+          rows={rows}
+          cols={cols}
+          onChange={handleChange}
+          className={combinedClassName}
+          style={customStyles}
+          {...props}
+        />
+      </div>
       {enabled && (selected || isHovered) && (
         <FloatingToolbar
           elementType="text"
@@ -201,7 +206,7 @@ export function Textarea({
           position={{ x: 0, y: 0 }}
         />
       )}
-    </div>
+    </Resizer>
   );
 }
 

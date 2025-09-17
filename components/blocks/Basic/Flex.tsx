@@ -33,6 +33,26 @@ interface FlexProps {
   height?: string;
   // Non-editable prop for card wrappers
   nonEditable?: boolean;
+  // Background styling
+  backgroundColor?: string;
+  backgroundImage?: string;
+  backgroundSize?: "cover" | "contain" | "auto" | "100%" | "100% 100%";
+  backgroundPosition?: "center" | "top" | "bottom" | "left" | "right" | "top left" | "top right" | "bottom left" | "bottom right";
+  backgroundRepeat?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  // Border styling
+  border?: string;
+  borderWidth?: string;
+  borderColor?: string;
+  borderStyle?: "solid" | "dashed" | "dotted" | "double" | "none";
+  borderRadius?: string;
+  // Shadow styling
+  boxShadow?: string;
+  // Gradient support
+  gradient?: string;
+  gradientDirection?: "to-r" | "to-l" | "to-t" | "to-b" | "to-tr" | "to-tl" | "to-br" | "to-bl";
+  gradientColors?: string;
+  // Opacity
+  opacity?: number;
 }
 
 export function Flex({
@@ -53,6 +73,26 @@ export function Flex({
   width = "auto",
   height = "auto",
   nonEditable = false,
+  // Background styling defaults
+  backgroundColor = "",
+  backgroundImage = "",
+  backgroundSize = "cover",
+  backgroundPosition = "center",
+  backgroundRepeat = "no-repeat",
+  // Border styling defaults
+  border = "",
+  borderWidth = "",
+  borderColor = "",
+  borderStyle = "solid",
+  borderRadius = "",
+  // Shadow styling defaults
+  boxShadow = "",
+  // Gradient defaults
+  gradient = "",
+  gradientDirection = "to-r",
+  gradientColors = "",
+  // Opacity default
+  opacity = 1,
 }: FlexProps) {
   console.log({flexDirection,nonEditable})
   const {
@@ -91,6 +131,21 @@ export function Flex({
         overflowX,
         width,
         height,
+        backgroundColor,
+        backgroundImage,
+        backgroundSize,
+        backgroundPosition,
+        backgroundRepeat,
+        border,
+        borderWidth,
+        borderColor,
+        borderStyle,
+        borderRadius,
+        boxShadow,
+        gradient,
+        gradientDirection,
+        gradientColors,
+        opacity,
       },
       id,
       (newProps) => {
@@ -190,13 +245,65 @@ export function Flex({
     }
   };
 
+  // Helper function to get background styles
+  const getBackgroundStyles = () => {
+    const styles: React.CSSProperties = {};
+    
+    // Handle gradient background
+    if (gradient && gradientColors) {
+      const gradientMap: Record<string, string> = {
+        "to-r": "to right",
+        "to-l": "to left", 
+        "to-t": "to top",
+        "to-b": "to bottom",
+        "to-tr": "to top right",
+        "to-tl": "to top left",
+        "to-br": "to bottom right",
+        "to-bl": "to bottom left",
+      };
+      const direction = gradientMap[gradientDirection] || "to right";
+      styles.background = `linear-gradient(${direction}, ${gradientColors})`;
+    } else if (backgroundColor) {
+      styles.backgroundColor = backgroundColor;
+    }
+    
+    // Handle background image
+    if (backgroundImage) {
+      styles.backgroundImage = `url(${backgroundImage})`;
+      styles.backgroundSize = backgroundSize;
+      styles.backgroundPosition = backgroundPosition;
+      styles.backgroundRepeat = backgroundRepeat;
+    }
+    
+    return styles;
+  };
+
+  // Helper function to get border styles
+  const getBorderStyles = () => {
+    const styles: React.CSSProperties = {};
+    
+    if (border) {
+      styles.border = border;
+    } else {
+      if (borderWidth) styles.borderWidth = borderWidth;
+      if (borderColor) styles.borderColor = borderColor;
+      if (borderStyle) styles.borderStyle = borderStyle;
+    }
+    
+    if (borderRadius) styles.borderRadius = borderRadius;
+    
+    return styles;
+  };
+
   return (
     <Resizer
       propKey={{ width: "width", height: "height" }}
-      // style={{
-      //   margin: margin,
-      //   padding: padding,
-      // }}
+      style={{
+        opacity,
+        boxShadow: boxShadow || undefined,
+        ...getBackgroundStyles(),
+        ...getBorderStyles(),
+      }}
       className={`
         relative group 
         ${minHeight}
@@ -260,6 +367,26 @@ Flex.craft = {
     width: "auto",
     height: "auto",
     nonEditable: false,
+    // Background styling defaults
+    backgroundColor: "",
+    backgroundImage: "",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+    // Border styling defaults
+    border: "",
+    borderWidth: "",
+    borderColor: "",
+    borderStyle: "solid",
+    borderRadius: "",
+    // Shadow styling defaults
+    boxShadow: "",
+    // Gradient defaults
+    gradient: "",
+    gradientDirection: "to-r",
+    gradientColors: "",
+    // Opacity default
+    opacity: 1,
   },
   rules: {
     canDrag: (node) => !node.data.props.nonEditable,

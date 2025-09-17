@@ -1,6 +1,7 @@
 import { useNode, useEditor } from "@craftjs/core";
 import { FloatingToolbar } from "@/components/editor/floating-toolbar";
 import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store";
+import { Resizer } from "../Resizer";
 
 interface ListItem {
   id: string;
@@ -28,6 +29,8 @@ interface ListProps {
   margin?: string;
   padding?: string;
   indent?: string;
+  width?: string;
+  height?: string;
 }
 
 export function List({
@@ -45,6 +48,8 @@ export function List({
   margin = "my-4",
   padding = "",
   indent = "ml-6",
+  width = "auto",
+  height = "auto",
 }: ListProps) {
   const {
     connectors: { connect, drag },
@@ -178,47 +183,51 @@ export function List({
   `.trim();
 
   return (
-    <div
-      ref={(ref) => {
-        if (ref) {
-          connect(drag(ref));
-        }
-      }}
+    <Resizer
+      propKey={{ width: "width", height: "height" }}
       className={`relative group ${
         selected ? "ring-2 ring-blue-500 ring-opacity-50" : ""
       } ${hovered ? "ring-1 ring-blue-300" : ""}`}
     >
-      <ListTag className={listClasses}>
-        {items.map((item) => (
-          <li key={item.id} className="relative group/item">
-            <span
-              contentEditable
-              suppressContentEditableWarning
-              onBlur={(e) => updateItem(item.id, e.target.textContent || "")}
-              className="outline-none"
-            >
-              {item.text}
-            </span>
-            {selected && (
-              <button
-                onClick={() => removeItem(item.id)}
-                className="absolute -right-6 top-0 opacity-0 group-hover/item:opacity-100 text-red-500 hover:text-red-700 text-xs"
+      <div
+        ref={(ref) => {
+          if (ref) {
+            connect(drag(ref));
+          }
+        }}
+      >
+        <ListTag className={listClasses}>
+          {items.map((item) => (
+            <li key={item.id} className="relative group/item">
+              <span
+                contentEditable
+                suppressContentEditableWarning
+                onBlur={(e) => updateItem(item.id, e.target.textContent || "")}
+                className="outline-none"
               >
-                ×
-              </button>
-            )}
-          </li>
-        ))}
-      </ListTag>
+                {item.text}
+              </span>
+              {selected && (
+                <button
+                  onClick={() => removeItem(item.id)}
+                  className="absolute -right-6 top-0 opacity-0 group-hover/item:opacity-100 text-red-500 hover:text-red-700 text-xs"
+                >
+                  ×
+                </button>
+              )}
+            </li>
+          ))}
+        </ListTag>
 
-      {selected && (
-        <button
-          onClick={addItem}
-          className="mt-2 text-blue-500 hover:text-blue-700 text-sm"
-        >
-          + Add Item
-        </button>
-      )}
+        {selected && (
+          <button
+            onClick={addItem}
+            className="mt-2 text-blue-500 hover:text-blue-700 text-sm"
+          >
+            + Add Item
+          </button>
+        )}
+      </div>
 
       {(selected || hovered) && (
         <div className="absolute -top-12 left-0 z-50">
@@ -238,7 +247,7 @@ export function List({
           {type.toUpperCase()} List ({items.length} items)
         </div>
       )}
-    </div>
+    </Resizer>
   );
 }
 
@@ -259,6 +268,8 @@ List.craft = {
     margin: "my-4",
     padding: "",
     indent: "ml-6",
+    width: "auto",
+    height: "auto",
   },
   rules: {
     canDrag: () => true,

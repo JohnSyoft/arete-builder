@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ColorPickerComponent } from "@/components/ui/color-picker";
 import { Plus, Trash2, GripVertical, Link, Loader2 } from "lucide-react";
 import { FlexProperties } from "./flex-properties";
 import { ImageUpload } from "@/components/ui/image-upload";
@@ -267,25 +268,19 @@ export function HeaderWrapperProperties({ elementProps, onPropChange }: HeaderWr
             </Select>
           </div>
 
-          <div>
-            <Label htmlFor="backgroundColor">Background Color</Label>
-            <Input
-              id="backgroundColor"
-              type="color"
-              value={localProps.backgroundColor || "#ffffff"}
-              onChange={(e) => handlePropChange("backgroundColor", e.target.value)}
-            />
-          </div>
+          <ColorPickerComponent
+            value={localProps.backgroundColor || "#ffffff"}
+            onChange={(value) => handlePropChange("backgroundColor", value)}
+            label="Background Color"
+            placeholder="Select background color"
+          />
 
-          <div>
-            <Label htmlFor="textColor">Text Color</Label>
-            <Input
-              id="textColor"
-              type="color"
-              value={localProps.textColor || "#000000"}
-              onChange={(e) => handlePropChange("textColor", e.target.value)}
-            />
-          </div>
+          <ColorPickerComponent
+            value={localProps.textColor || "#000000"}
+            onChange={(value) => handlePropChange("textColor", value)}
+            label="Text Color"
+            placeholder="Select text color"
+          />
         </CardContent>
       </Card>
 

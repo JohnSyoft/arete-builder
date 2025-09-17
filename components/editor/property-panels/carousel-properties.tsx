@@ -11,6 +11,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ImageUpload } from "@/components/ui/image-upload";
+import { ColorPickerComponent } from "@/components/ui/color-picker";
 import { useState } from "react";
 import { useUpload } from "@/hooks/useUpload";
 import { toast } from "sonner";
@@ -515,21 +516,18 @@ export function CarouselProperties({
 
           {/* Solid Color Background */}
           {getSlideBackground(selectedSlide).backgroundType === "color" && (
-            <div className="space-y-2">
-              <Label htmlFor="slideBackgroundColor">Background Color</Label>
-              <Input
-                id="slideBackgroundColor"
-                type="color"
-                value={getSlideBackground(selectedSlide).backgroundColor}
-                onChange={(e) =>
-                  updateSlideBackground(
-                    selectedSlide,
-                    "backgroundColor",
-                    e.target.value
-                  )
-                }
-              />
-            </div>
+            <ColorPickerComponent
+              value={getSlideBackground(selectedSlide).backgroundColor}
+              onChange={(value) =>
+                updateSlideBackground(
+                  selectedSlide,
+                  "backgroundColor",
+                  value
+                )
+              }
+              label="Background Color"
+              placeholder="Select background color"
+            />
           )}
 
           {/* Gradient Background */}
@@ -587,53 +585,44 @@ export function CarouselProperties({
                 </div>
               )}
 
-              <div className="space-y-2">
-                <Label htmlFor="slideGradientFrom">From Color</Label>
-                <Input
-                  id="slideGradientFrom"
-                  type="color"
-                  value={getSlideBackground(selectedSlide).gradientFrom}
-                  onChange={(e) =>
-                    updateSlideBackground(
-                      selectedSlide,
-                      "gradientFrom",
-                      e.target.value
-                    )
-                  }
-                />
-              </div>
+              <ColorPickerComponent
+                value={getSlideBackground(selectedSlide).gradientFrom}
+                onChange={(value) =>
+                  updateSlideBackground(
+                    selectedSlide,
+                    "gradientFrom",
+                    value
+                  )
+                }
+                label="From Color"
+                placeholder="Select from color"
+              />
 
-              <div className="space-y-2">
-                <Label htmlFor="slideGradientVia">Via Color (Optional)</Label>
-                <Input
-                  id="slideGradientVia"
-                  type="color"
-                  value={getSlideBackground(selectedSlide).gradientVia || ""}
-                  onChange={(e) =>
-                    updateSlideBackground(
-                      selectedSlide,
-                      "gradientVia",
-                      e.target.value
-                    )
-                  }
-                />
-              </div>
+              <ColorPickerComponent
+                value={getSlideBackground(selectedSlide).gradientVia || ""}
+                onChange={(value) =>
+                  updateSlideBackground(
+                    selectedSlide,
+                    "gradientVia",
+                    value
+                  )
+                }
+                label="Via Color (Optional)"
+                placeholder="Select via color"
+              />
 
-              <div className="space-y-2">
-                <Label htmlFor="slideGradientTo">To Color</Label>
-                <Input
-                  id="slideGradientTo"
-                  type="color"
-                  value={getSlideBackground(selectedSlide).gradientTo}
-                  onChange={(e) =>
-                    updateSlideBackground(
-                      selectedSlide,
-                      "gradientTo",
-                      e.target.value
-                    )
-                  }
-                />
-              </div>
+              <ColorPickerComponent
+                value={getSlideBackground(selectedSlide).gradientTo}
+                onChange={(value) =>
+                  updateSlideBackground(
+                    selectedSlide,
+                    "gradientTo",
+                    value
+                  )
+                }
+                label="To Color"
+                placeholder="Select to color"
+              />
             </>
           )}
 
@@ -777,47 +766,33 @@ export function CarouselProperties({
           <CardTitle className="text-sm">Navigation Colors</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="dotColor">Dot Color</Label>
-            <Input
-              id="dotColor"
-              type="color"
-              value={currentProperties.dotColor}
-              onChange={(e) => updateProperty("dotColor", e.target.value)}
-            />
-          </div>
+          <ColorPickerComponent
+            value={currentProperties.dotColor}
+            onChange={(value) => updateProperty("dotColor", value)}
+            label="Dot Color"
+            placeholder="Select dot color"
+          />
 
-          <div className="space-y-2">
-            <Label htmlFor="activeDotColor">Active Dot Color</Label>
-            <Input
-              id="activeDotColor"
-              type="color"
-              value={currentProperties.activeDotColor}
-              onChange={(e) => updateProperty("activeDotColor", e.target.value)}
-            />
-          </div>
+          <ColorPickerComponent
+            value={currentProperties.activeDotColor}
+            onChange={(value) => updateProperty("activeDotColor", value)}
+            label="Active Dot Color"
+            placeholder="Select active dot color"
+          />
 
-          <div className="space-y-2">
-            <Label htmlFor="arrowColor">Arrow Color</Label>
-            <Input
-              id="arrowColor"
-              type="color"
-              value={currentProperties.arrowColor}
-              onChange={(e) => updateProperty("arrowColor", e.target.value)}
-            />
-          </div>
+          <ColorPickerComponent
+            value={currentProperties.arrowColor}
+            onChange={(value) => updateProperty("arrowColor", value)}
+            label="Arrow Color"
+            placeholder="Select arrow color"
+          />
 
-          <div className="space-y-2">
-            <Label htmlFor="arrowBackgroundColor">Arrow Background</Label>
-            <Input
-              id="arrowBackgroundColor"
-              value={currentProperties.arrowBackgroundColor}
-              onChange={(e) =>
-                updateProperty("arrowBackgroundColor", e.target.value)
-              }
-              placeholder="rgba(0, 0, 0, 0.5)"
-            />
-          </div>
+          <ColorPickerComponent
+            value={currentProperties.arrowBackgroundColor}
+            onChange={(value) => updateProperty("arrowBackgroundColor", value)}
+            label="Arrow Background"
+            placeholder="Select arrow background color"
+          />
         </CardContent>
       </Card>
     </div>
