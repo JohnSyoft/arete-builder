@@ -27,7 +27,7 @@ import { AlertRuntime as Alert } from "@/components/blocks/Basic/AlertRuntime";
 import { TextareaRuntime as Textarea } from "@/components/blocks/Basic/TextareaRuntime";
 import { LineBreakRuntime as LineBreak } from "@/components/blocks/Basic/LineBreakRuntime";
 import { FlexRuntime as Flex } from "@/components/blocks/Basic/FlexRuntime";
-import { TabRuntime as Tab } from "@/components/blocks/Basic/TabRuntime";
+import { TabRuntime as Tab, TabContentContainerRuntime as TabContentContainer } from "@/components/blocks/Basic/TabRuntime";
 import { TabPanelRuntime as TabPanel } from "@/components/blocks/Basic/TabPanelRuntime";
 import { CarouselRuntime as Carousel } from "@/components/blocks/Basic/CarouselRuntime";
 import { BlogGridRuntime as BlogGrid } from "@/components/blocks/Basic/BlogGridRuntime";
@@ -69,6 +69,7 @@ const componentMap: Record<string, React.ComponentType<any>> = {
   LineBreak,
   Flex,
   Tab,
+  TabContentContainer,
   TabPanel,
   Carousel,
   BlogGrid,

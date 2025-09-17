@@ -62,10 +62,12 @@ export function CosmeticHero1({
     minHeight: "min-h-[600px]",
     hasContentWrapper: true,
     contentMaxWidth: "7xl",
-    borderRadius: "rounded-[20px]",
     contentPadding:
       "px-4 py-16 sm:px-6 sm:py-20 md:px-8 md:py-24 lg:px-8 lg:py-32",
+      width:"fit-content",
+      margin:"m-6",
     ...props,
+    borderRadius: "16px",
 
     backgroundImage:
       "https://demo.awaikenthemes.com/glowix/wp-content/uploads/2025/04/hero-bg-shape.svg",

@@ -82,7 +82,7 @@ export function MedicalHero1({
           columns={2}
           autoFit={false}
           minColumnWidth="320px"
-          gap="48px"
+          gap="gap-12"
           autoRows="auto"
         >
           {/* Left Column - Content */}
@@ -101,7 +101,7 @@ export function MedicalHero1({
               is={Box}
               backgroundColor="transparent"
               padding="0"
-              margin="0 0 24px 0"
+              margin="mb-6"
               display="block"
               canvas={false}
             >
@@ -122,7 +122,7 @@ export function MedicalHero1({
               is={Box}
               backgroundColor="transparent"
               padding="0"
-              margin="0 0 32px 0"
+              margin="mb-8"
               display="block"
               canvas={false}
             >
@@ -153,7 +153,7 @@ export function MedicalHero1({
                 is={Box}
                 backgroundColor="transparent"
                 padding="0"
-                margin="0"
+                margin=""
                 display="block"
                 canvas={false}
               >
@@ -162,7 +162,7 @@ export function MedicalHero1({
                   size="lg"
                   backgroundColor="#065f46"
                   textColor="#ffffff"
-                  borderRadius="25px"
+                  borderRadius="rounded-3xl"
                   padding="px-8 py-4"
                   width="w-auto"
                 />
@@ -172,7 +172,7 @@ export function MedicalHero1({
                 is={Box}
                 backgroundColor="transparent"
                 padding="0"
-                margin="0"
+                margin=""
                 display="block"
                 canvas={false}
               >
@@ -182,7 +182,7 @@ export function MedicalHero1({
                   size="lg"
                   backgroundColor="transparent"
                   textColor="#ffffff"
-                  borderRadius="25px"
+                  borderRadius="rounded-3xl"
                   padding="px-8 py-4"
                   width="w-auto"
                 />
@@ -208,7 +208,7 @@ export function MedicalHero1({
                 justifyContent="start"
                 alignItems="center"
                 gap="gap-2"
-                margin="0"
+                margin=""
                 wrap="nowrap"
               >
                 {patientAvatars.map((avatar, index) => (
@@ -217,7 +217,7 @@ export function MedicalHero1({
                     is={Box}
                     backgroundColor="transparent"
                     padding="0"
-                    margin="0"
+                    margin=""
                     display="block"
                     width="40px"
                     height="40px"
@@ -244,7 +244,7 @@ export function MedicalHero1({
                 is={Box}
                 backgroundColor="transparent"
                 padding="0"
-                margin="0"
+                margin=""
                 display="block"
                 canvas={false}
               >
@@ -275,7 +275,7 @@ export function MedicalHero1({
               is={Box}
               backgroundColor="transparent"
               padding="0"
-              margin="0"
+              margin=""
               display="block"
               width="100%"
               height="600px"
@@ -299,7 +299,7 @@ export function MedicalHero1({
         <Element
           is={Box}
           backgroundColor="transparent"
-          padding="48px 0 0 0"
+          padding="pt-12"
           margin="0"
           display="block"
           canvas
@@ -310,7 +310,7 @@ export function MedicalHero1({
             columns={4}
             autoFit={true}
             minColumnWidth="250px"
-            gap="24px"
+            gap="gap-6"
             autoRows="auto"
           >
             {/* Stat 1 - Years of Experience */}
@@ -318,21 +318,22 @@ export function MedicalHero1({
               is={Card}
               variant="flat"
               shadow="none"
-              borderRadius="16px"
-              backgroundColor="#d1fae5"
-              borderColor="transparent"
-              padding="24px"
-              margin="0"
+              borderRadius="rounded-2xl"
+              backgroundColor="bg-green-100"
+              borderColor=""
+              padding="p-6"
+              margin=""
               hoverable={false}
               clickable={false}
               overflow="visible"
+              border={false}
               canvas
             >
               <Element
                 is={Box}
                 backgroundColor="transparent"
                 padding="0"
-                margin="0 0 12px 0"
+                margin="mb-3"
                 display="block"
                 canvas={false}
               >
@@ -351,7 +352,7 @@ export function MedicalHero1({
                 is={Box}
                 backgroundColor="transparent"
                 padding="0"
-                margin="0 0 8px 0"
+                margin="mb-2"
                 display="block"
                 canvas={false}
               >
@@ -369,7 +370,7 @@ export function MedicalHero1({
                 is={Box}
                 backgroundColor="transparent"
                 padding="0"
-                margin="0"
+                margin=""
                 display="block"
                 canvas={false}
               >
@@ -390,21 +391,22 @@ export function MedicalHero1({
               is={Card}
               variant="flat"
               shadow="none"
-              borderRadius="16px"
-              backgroundColor="#ffffff"
-              borderColor="transparent"
-              padding="24px"
-              margin="0"
+              borderRadius="rounded-2xl"
+              backgroundColor="bg-white"
+              borderColor=""
+              padding="p-6"
+              margin=""
               hoverable={false}
               clickable={false}
               overflow="visible"
+              border={false}
               canvas
             >
               <Element
                 is={Box}
                 backgroundColor="transparent"
                 padding="0"
-                margin="0 0 12px 0"
+                margin="mb-3"
                 display="block"
                 canvas={false}
               >
@@ -423,7 +425,7 @@ export function MedicalHero1({
                 is={Box}
                 backgroundColor="transparent"
                 padding="0"
-                margin="0 0 16px 0"
+                margin="mb-4"
                 display="block"
                 canvas={false}
               >
@@ -446,7 +448,7 @@ export function MedicalHero1({
                 justifyContent="start"
                 alignItems="center"
                 gap="gap-2"
-                margin="0"
+                margin=""
                 wrap="nowrap"
               >
                 {patientAvatars.slice(0, 5).map((avatar, index) => (
@@ -455,7 +457,7 @@ export function MedicalHero1({
                     is={Box}
                     backgroundColor="transparent"
                     padding="0"
-                    margin="0"
+                    margin=""
                     display="block"
                     width="32px"
                     height="32px"
@@ -483,21 +485,22 @@ export function MedicalHero1({
               is={Card}
               variant="flat"
               shadow="none"
-              borderRadius="16px"
-              backgroundColor="#ffffff"
-              borderColor="transparent"
-              padding="24px"
-              margin="0"
+              borderRadius="rounded-2xl"
+              backgroundColor="bg-white"
+              borderColor=""
+              padding="p-6"
+              margin=""
               hoverable={false}
               clickable={false}
               overflow="visible"
+              border={false}
               canvas
             >
               <Element
                 is={Box}
                 backgroundColor="transparent"
                 padding="0"
-                margin="0 0 12px 0"
+                margin="mb-3"
                 display="block"
                 canvas={false}
               >
@@ -516,7 +519,7 @@ export function MedicalHero1({
                 is={Box}
                 backgroundColor="transparent"
                 padding="0"
-                margin="0"
+                margin=""
                 display="block"
                 canvas={false}
               >
@@ -536,21 +539,22 @@ export function MedicalHero1({
               is={Card}
               variant="flat"
               shadow="none"
-              borderRadius="16px"
-              backgroundColor="#ffffff"
-              borderColor="transparent"
-              padding="24px"
-              margin="0"
+              borderRadius="rounded-2xl"
+              backgroundColor="bg-white"
+              borderColor=""
+              padding="p-6"
+              margin=""
               hoverable={false}
               clickable={false}
               overflow="visible"
+              border={false}
               canvas
             >
               <Element
                 is={Box}
                 backgroundColor="transparent"
                 padding="0"
-                margin="0 0 12px 0"
+                margin="mb-3"
                 display="block"
                 canvas={false}
               >
@@ -569,7 +573,7 @@ export function MedicalHero1({
                 is={Box}
                 backgroundColor="transparent"
                 padding="0"
-                margin="0"
+                margin=""
                 display="block"
                 canvas={false}
               >
@@ -595,12 +599,12 @@ MedicalHero1.craft = {
   props: {
     // Section props
     backgroundColor: "#14b8a6", // teal background
-    padding: "0",
-    minHeight: "auto",
+    padding: "p-0",
+    minHeight: "min-h-[600px]",
     hasContentWrapper: true,
     contentMaxWidth: "7xl",
-    contentPadding:
-      "px-4 pt-16 pb-8 sm:px-6 sm:pt-20 sm:pb-12 md:px-8 md:pt-24 md:pb-16 lg:px-8 lg:pt-32 lg:pb-20",
+    borderRadius: "rounded-[20px]",
+    contentPadding: "px-4 pt-16 pb-8 sm:px-6 sm:pt-20 sm:pb-12 md:px-8 md:pt-24 md:pb-16 lg:px-8 lg:pt-32 lg:pb-20",
     // Medical Hero specific props
     mainTitle: "Professional Medical Care for Your Optimal Health",
     description:
@@ -633,5 +637,5 @@ MedicalHero1.craft = {
     canMoveIn: () => true,
     canMoveOut: () => true,
   },
-  isCanvas: false,
+  isCanvas: true, // Allow components to be dropped into this section
 };

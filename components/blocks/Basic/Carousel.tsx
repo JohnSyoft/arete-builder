@@ -37,17 +37,6 @@ interface CarouselProps {
   slidesToShow?: number;
   slidesToScroll?: number;
   height?: string;
-  backgroundColor?: string;
-  backgroundType?: "color" | "gradient" | "image";
-  backgroundImage?: string;
-  backgroundSize?: "cover" | "contain" | "auto";
-  backgroundPosition?: string;
-  backgroundRepeat?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
-  gradientType?: "linear" | "radial";
-  gradientDirection?: string;
-  gradientFrom?: string;
-  gradientTo?: string;
-  gradientVia?: string;
   borderRadius?: string;
   margin?: string;
   padding?: string;
@@ -57,6 +46,7 @@ interface CarouselProps {
   arrowBackgroundColor?: string;
   slideBackgrounds?: SlideBackground[];
   children?: React.ReactNode;
+  nonEditable?: boolean;
 }
 
 export function Carousel({
@@ -70,27 +60,17 @@ export function Carousel({
   transitionDuration = 300,
   slidesToShow = 1,
   slidesToScroll = 1,
-  height = "400px",
-  backgroundColor = "#ffffff",
-  backgroundType = "color",
-  backgroundImage = "",
-  backgroundSize = "cover",
-  backgroundPosition = "center center",
-  backgroundRepeat = "no-repeat",
-  gradientType = "linear",
-  gradientDirection = "to right",
-  gradientFrom = "#3b82f6",
-  gradientTo = "#8b5cf6",
-  gradientVia = "",
-  borderRadius = "8px",
-  margin = "8px",
-  padding = "0px",
+  height = "h-96",
+  borderRadius = "rounded-lg",
+  margin = "m-2",
+  padding = "p-0",
   dotColor = "#cbd5e1",
   activeDotColor = "#3b82f6",
   arrowColor = "#ffffff",
   arrowBackgroundColor = "rgba(0, 0, 0, 0.5)",
   slideBackgrounds = [],
   children,
+  nonEditable = false,
 }: CarouselProps) {
   const {
     connectors: { connect, drag },
@@ -107,61 +87,125 @@ export function Carousel({
   const { actions } = useEditor();
   const { openPanel } = usePropertiesPanelStore();
 
+  // Smart styling: handle Tailwind classes vs raw CSS values
+  const getHeightValue = (heightClass: string) => {
+    const heightMap: Record<string, string> = {
+      "h-16": "64px", "h-20": "80px", "h-24": "96px", "h-32": "128px",
+      "h-40": "160px", "h-48": "192px", "h-56": "224px", "h-64": "256px",
+      "h-72": "288px", "h-80": "320px", "h-96": "384px", "h-screen": "100vh",
+    };
+    return heightMap[heightClass] || heightClass;
+  };
+
+  const getBorderRadiusValue = (borderRadiusClass: string) => {
+    const borderRadiusMap: Record<string, string> = {
+      "rounded-none": "0px", "rounded-sm": "2px", "rounded": "4px", "rounded-md": "6px",
+      "rounded-lg": "8px", "rounded-xl": "12px", "rounded-2xl": "16px", "rounded-3xl": "24px",
+      "rounded-full": "9999px",
+    };
+    return borderRadiusMap[borderRadiusClass] || borderRadiusClass;
+  };
+
+  const getMarginValue = (marginClass: string) => {
+    const marginMap: Record<string, string> = {
+      "m-0": "0px", "m-1": "4px", "m-2": "8px", "m-3": "12px", "m-4": "16px",
+      "m-5": "20px", "m-6": "24px", "m-8": "32px", "m-10": "40px", "m-12": "48px",
+      "m-16": "64px", "m-20": "80px", "m-24": "96px",
+    };
+    return marginMap[marginClass] || marginClass;
+  };
+
+  const getPaddingValue = (paddingClass: string) => {
+    const paddingMap: Record<string, string> = {
+      "p-0": "0px", "p-1": "4px", "p-2": "8px", "p-3": "12px", "p-4": "16px",
+      "p-5": "20px", "p-6": "24px", "p-8": "32px", "p-10": "40px", "p-12": "48px",
+      "p-16": "64px", "p-20": "80px", "p-24": "96px",
+    };
+    return paddingMap[paddingClass] || paddingClass;
+  };
+
   // Convert children to array once at the top level
   const childrenArray = React.Children.toArray(children);
-  console.log({ childrenArray });
+  
+  // Initialize slideCount based on children or default to 3
+  const initialSlideCount = childrenArray.length > 0 ? childrenArray.length : 3;
+  const [slideCount, setSlideCount] = useState(initialSlideCount);
+  
+  console.log({ childrenArray, slideBackgrounds, slideCount });
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPlaying, setIsPlaying] = useState(autoplay);
   const [isPaused, setIsPaused] = useState(false);
 
-  // Initialize slideCount based on children or default to 3
-  const initialSlideCount = childrenArray.length > 0 ? childrenArray.length : 3;
-  const [slideCount, setSlideCount] = useState(initialSlideCount);
-
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
 
-  // Update slideCount when children change
+  // Initialize slideBackgrounds on mount if not present
   useEffect(() => {
-    if (childrenArray.length > 0 && childrenArray.length !== slideCount) {
-      setSlideCount(childrenArray.length);
-      // Also update slideBackgrounds to match the children count
+    if (!slideBackgrounds || slideBackgrounds.length === 0) {
       setProp((props: CarouselProps) => {
-        if (
-          props.slideBackgrounds &&
-          props.slideBackgrounds.length !== childrenArray.length
-        ) {
-          // Adjust slideBackgrounds array to match children count
-          if (props.slideBackgrounds.length < childrenArray.length) {
-            // Add more backgrounds if needed
-            for (
-              let i = props.slideBackgrounds.length;
-              i < childrenArray.length;
-              i++
-            ) {
-              props.slideBackgrounds.push({
-                backgroundType: "color",
-                backgroundColor: "#ffffff",
-                backgroundImage: "",
-                backgroundSize: "cover",
-                backgroundPosition: "center center",
-                backgroundRepeat: "no-repeat",
-                gradientType: "linear",
-                gradientDirection: "to right",
-                gradientFrom: "#3b82f6",
-                gradientTo: "#8b5cf6",
-                gradientVia: "",
-              });
-            }
-          } else {
-            // Remove excess backgrounds
-            props.slideBackgrounds = props.slideBackgrounds.slice(
-              0,
-              childrenArray.length
-            );
-          }
+        if (!props.slideBackgrounds) {
+          props.slideBackgrounds = [];
+        }
+        
+        // Initialize with default backgrounds for the initial slide count
+        for (let i = 0; i < slideCount; i++) {
+          props.slideBackgrounds.push({
+            backgroundType: "color",
+            backgroundColor: "#ffffff",
+            backgroundImage: "",
+            backgroundSize: "cover",
+            backgroundPosition: "center center",
+            backgroundRepeat: "no-repeat",
+            gradientType: "linear",
+            gradientDirection: "to right",
+            gradientFrom: "#3b82f6",
+            gradientTo: "#8b5cf6",
+            gradientVia: "",
+          });
         }
       });
+    }
+  }, []); // Run only on mount
+
+  // Update slideCount when children change AND ensure slideBackgrounds array matches
+  useEffect(() => {
+    const targetSlideCount = childrenArray.length > 0 ? childrenArray.length : slideCount;
+    
+    // Always ensure slideBackgrounds array has the right length
+    setProp((props: CarouselProps) => {
+      if (!props.slideBackgrounds) {
+        props.slideBackgrounds = [];
+      }
+      
+      // If slideBackgrounds array doesn't match the target slide count, fix it
+      if (props.slideBackgrounds.length !== targetSlideCount) {
+        if (props.slideBackgrounds.length < targetSlideCount) {
+          // Add more backgrounds if needed
+          for (let i = props.slideBackgrounds.length; i < targetSlideCount; i++) {
+            props.slideBackgrounds.push({
+              backgroundType: "color",
+              backgroundColor: "#ffffff",
+              backgroundImage: "",
+              backgroundSize: "cover",
+              backgroundPosition: "center center",
+              backgroundRepeat: "no-repeat",
+              gradientType: "linear",
+              gradientDirection: "to right",
+              gradientFrom: "#3b82f6",
+              gradientTo: "#8b5cf6",
+              gradientVia: "",
+            });
+          }
+        } else {
+          // Remove excess backgrounds
+          props.slideBackgrounds = props.slideBackgrounds.slice(0, targetSlideCount);
+        }
+      }
+    });
+    
+    // Update slideCount if children changed
+    if (childrenArray.length > 0 && childrenArray.length !== slideCount) {
+      setSlideCount(childrenArray.length);
     }
   }, [children, slideCount, childrenArray.length, setProp]);
 
@@ -180,17 +224,6 @@ export function Carousel({
         slidesToShow,
         slidesToScroll,
         height,
-        backgroundColor,
-        backgroundType,
-        backgroundImage,
-        backgroundSize,
-        backgroundPosition,
-        backgroundRepeat,
-        gradientType,
-        gradientDirection,
-        gradientFrom,
-        gradientTo,
-        gradientVia,
         borderRadius,
         margin,
         padding,
@@ -338,57 +371,25 @@ export function Carousel({
     }
   };
 
-  const getBackgroundStyle = () => {
-    const baseStyle = {
-      borderRadius,
-      padding,
-      height,
+  const getContainerStyle = () => {
+    return {
+      borderRadius: borderRadius.startsWith('rounded-') ? getBorderRadiusValue(borderRadius) : borderRadius,
+      padding: padding.startsWith('p-') ? getPaddingValue(padding) : padding,
+      height: height.startsWith('h-') ? getHeightValue(height) : height,
+      backgroundColor: "transparent", // No main background, only individual slide backgrounds
     };
-
-    switch (backgroundType) {
-      case "gradient":
-        const gradientColors = gradientVia
-          ? `${gradientFrom}, ${gradientVia}, ${gradientTo}`
-          : `${gradientFrom}, ${gradientTo}`;
-
-        if (gradientType === "radial") {
-          return {
-            ...baseStyle,
-            background: `radial-gradient(circle, ${gradientColors})`,
-          };
-        } else {
-          return {
-            ...baseStyle,
-            background: `linear-gradient(${gradientDirection}, ${gradientColors})`,
-          };
-        }
-
-      case "image":
-        return {
-          ...baseStyle,
-          backgroundColor: backgroundColor,
-          backgroundImage: backgroundImage
-            ? `url(${backgroundImage})`
-            : undefined,
-          backgroundSize,
-          backgroundPosition,
-          backgroundRepeat,
-        };
-
-      default: // color
-        return {
-          ...baseStyle,
-          backgroundColor,
-        };
-    }
   };
 
   const getSlideBackgroundStyle = (slideIndex: number) => {
-    const slideBackground = slideBackgrounds[slideIndex];
+    const slideBackground = slideBackgrounds?.[slideIndex];
+    
     if (!slideBackground) {
       return {
         backgroundColor: "#f9fafb",
         borderRadius: "8px",
+        width: "100%",
+        height: "100%",
+        minHeight: "200px", // Ensure slides have visible height
       };
     }
 
@@ -448,12 +449,14 @@ export function Carousel({
       }}
       className={`relative group ${selected ? "ring-2 ring-blue-500" : ""} ${
         hovered ? "ring-1 ring-blue-300" : ""
-      }`}
-      style={{ margin }}
+      } ${margin.startsWith('m-') ? margin : ''}`}
+      style={{ 
+        margin: margin.startsWith('m-') ? undefined : getMarginValue(margin)
+      }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <div className="relative overflow-hidden" style={getBackgroundStyle()}>
+      <div className="relative overflow-hidden" style={getContainerStyle()}>
         {/* Main carousel container */}
         <div className="relative h-full">
           <div
@@ -475,17 +478,29 @@ export function Carousel({
                   height: "100%",
                 }}
               >
-                {/* Slide content container with CraftJS canvas */}
-                <Element
-                  id={`carousel-slide-${slideIndex}-${id}`}
-                  is="div"
+                {/* Slide background wrapper */}
+                <div
                   className="w-full h-full relative"
-                  style={getSlideBackgroundStyle(slideIndex)}
-                  canvas
+                  style={{
+                    ...getSlideBackgroundStyle(slideIndex),
+                    minHeight: "200px",
+                  }}
                 >
-                  {/* Render child content for this slide if it exists */}
-                  {childrenArray[slideIndex]}
-                </Element>
+                  {/* CraftJS canvas for content */}
+                  <Element
+                    id={`carousel-slide-${slideIndex}-${id}`}
+                    is="div"
+                    className="w-full h-full relative"
+                    style={{
+                      backgroundColor: "transparent", // Don't override the background
+                      minHeight: "inherit",
+                    }}
+                    canvas
+                  >
+                    {/* Render child content for this slide if it exists */}
+                    {childrenArray[slideIndex]}
+                  </Element>
+                </div>
 
                 {/* Remove slide button */}
                 {slideCount > 1 && (selected || hovered) && (
@@ -619,21 +634,10 @@ Carousel.craft = {
     transitionDuration: 300,
     slidesToShow: 1,
     slidesToScroll: 1,
-    height: "400px",
-    backgroundColor: "#ffffff",
-    backgroundType: "color",
-    backgroundImage: "",
-    backgroundSize: "cover",
-    backgroundPosition: "center center",
-    backgroundRepeat: "no-repeat",
-    gradientType: "linear",
-    gradientDirection: "to right",
-    gradientFrom: "#3b82f6",
-    gradientTo: "#8b5cf6",
-    gradientVia: "",
-    borderRadius: "8px",
-    margin: "8px",
-    padding: "0px",
+    height: "h-96",
+    borderRadius: "rounded-lg",
+    margin: "m-2",
+    padding: "p-0",
     dotColor: "#cbd5e1",
     activeDotColor: "#3b82f6",
     arrowColor: "#ffffff",
@@ -645,5 +649,5 @@ Carousel.craft = {
     canMoveIn: () => true,
     canMoveOut: () => true,
   },
-  isCanvas: false,
+  isCanvas: true,
 };

@@ -86,12 +86,32 @@ export function Grid({
     return `repeat(${columns}, 1fr)`;
   };
 
+  // Convert Tailwind gap classes to CSS values
+  const getGapValue = (gapClass: string) => {
+    const gapMap: Record<string, string> = {
+      "gap-0": "0px",
+      "gap-1": "4px",
+      "gap-2": "8px",
+      "gap-3": "12px",
+      "gap-4": "16px",
+      "gap-5": "20px",
+      "gap-6": "24px",
+      "gap-8": "32px",
+      "gap-10": "40px",
+      "gap-12": "48px",
+      "gap-16": "64px",
+      "gap-20": "80px",
+      "gap-24": "96px",
+    };
+    return gapMap[gapClass] || gapClass;
+  };
+
   const getGridStyles = () => {
     return {
       display: "grid",
       gridTemplateColumns: getGridTemplateColumns(),
       gridAutoRows: autoRows,
-      gap: rowGap && columnGap ? `${rowGap} ${columnGap}` : gap,
+      gap: rowGap && columnGap ? `${rowGap} ${columnGap}` : getGapValue(gap),
       justifyItems,
       alignItems,
       padding,

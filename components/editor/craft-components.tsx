@@ -28,7 +28,7 @@ import { Checkbox } from "../blocks/Basic/Checkbox";
 import { List } from "../blocks/Basic/List";
 import { Alert } from "../blocks/Basic/Alert";
 import { Flex } from "../blocks/Basic/Flex";
-import { Tab } from "../blocks/Basic/Tab";
+import { Tab, TabContentContainer } from "../blocks/Basic/Tab";
 import { TabPanel } from "../blocks/Basic/TabPanel";
 import { Carousel } from "../blocks/Basic/Carousel";
 import { BlogGrid } from "../blocks/Basic/BlogGrid";
@@ -315,6 +315,7 @@ export const CraftBox = Box;
 // export const CraftFlexRow = FlexRow
 export const CraftFlex = Flex;
 export const CraftTab = Tab;
+export const CraftTabContentContainer = TabContentContainer;
 export const CraftTabPanel = TabPanel;
 export const CraftCarousel = Carousel;
 export const CraftBlogGrid = BlogGrid;
@@ -449,6 +450,7 @@ const baseComponentResolver = {
   // FlexRow: CraftFlexRow,
   Flex: CraftFlex,
   Tab: CraftTab,
+  TabContentContainer: CraftTabContentContainer,
   TabPanel: CraftTabPanel,
   Carousel: CraftCarousel,
   BlogGrid: CraftBlogGrid,

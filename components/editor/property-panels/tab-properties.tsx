@@ -12,12 +12,6 @@ import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { Plus, Trash2 } from "lucide-react";
 
-interface TabItem {
-  id: string;
-  label: string;
-  content: React.ReactNode;
-}
-
 interface TabPropertiesProps {
   elementProps: any;
   onPropChange: (key: string, value: any) => void;
@@ -30,7 +24,7 @@ export function TabProperties({
   const {
     variant = "default",
     orientation = "horizontal",
-    tabs = [],
+    tabLabels = ["Tab 1", "Tab 2", "Tab 3"],
     backgroundColor = "#ffffff",
     activeColor = "#3b82f6",
     inactiveColor = "#6b7280",
@@ -44,27 +38,19 @@ export function TabProperties({
   } = elementProps;
 
   const addTab = () => {
-    const newTab = {
-      id: `tab${tabs.length + 1}`,
-      label: `Tab ${tabs.length + 1}`,
-      content: `Content for Tab ${tabs.length + 1}`,
-    };
-    onPropChange("tabs", [...tabs, newTab]);
+    const newLabel = `Tab ${tabLabels.length + 1}`;
+    onPropChange("tabLabels", [...tabLabels, newLabel]);
   };
 
   const removeTab = (index: number) => {
-    const newTabs = tabs.filter((_: any, i: number) => i !== index);
-    onPropChange("tabs", newTabs);
+    const newLabels = tabLabels.filter((_: string, i: number) => i !== index);
+    onPropChange("tabLabels", newLabels);
   };
 
-  const updateTab = (
-    index: number,
-    field: "label" | "content",
-    value: string
-  ) => {
-    const newTabs = [...tabs];
-    newTabs[index] = { ...newTabs[index], [field]: value };
-    onPropChange("tabs", newTabs);
+  const updateTabLabel = (index: number, value: string) => {
+    const newLabels = [...tabLabels];
+    newLabels[index] = value;
+    onPropChange("tabLabels", newLabels);
   };
 
   return (
@@ -251,11 +237,11 @@ export function TabProperties({
         </div>
 
         <div className="space-y-3">
-          {tabs.map((tab: TabItem, index: number) => (
-            <div key={tab.id} className="border rounded p-3 space-y-2">
+          {tabLabels.map((label: string, index: number) => (
+            <div key={`tab-${index}`} className="border rounded p-3 space-y-2">
               <div className="flex items-center justify-between">
                 <Label className="text-sm font-medium">Tab {index + 1}</Label>
-                {tabs.length > 1 && (
+                {tabLabels.length > 1 && (
                   <Button
                     onClick={() => removeTab(index)}
                     size="sm"
@@ -270,21 +256,15 @@ export function TabProperties({
               <div>
                 <Label className="text-xs">Label</Label>
                 <Input
-                  value={tab.label}
-                  onChange={(e) => updateTab(index, "label", e.target.value)}
+                  value={label}
+                  onChange={(e) => updateTabLabel(index, e.target.value)}
                   placeholder="Tab label"
                   className="mt-1"
                 />
               </div>
 
-              <div>
-                <Label className="text-xs">Content</Label>
-                <Input
-                  value={typeof tab.content === "string" ? tab.content : ""}
-                  onChange={(e) => updateTab(index, "content", e.target.value)}
-                  placeholder="Tab content"
-                  className="mt-1"
-                />
+              <div className="text-xs text-gray-500 mt-2">
+                Drop components into this tab's content area in the editor to add content.
               </div>
             </div>
           ))}

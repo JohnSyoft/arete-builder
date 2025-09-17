@@ -1,17 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
-interface TabItem {
-  id: string;
-  label: string;
-  content: React.ReactNode;
-}
+// Tab Content Container Runtime Component
+export const TabContentContainerRuntime = ({ children, label }: { children?: React.ReactNode; label: string }) => {
+  return (
+    <div className="min-h-[200px] rounded-lg p-4 border border-gray-200 bg-transparent">
+      {children}
+    </div>
+  );
+};
 
 interface TabRuntimeProps {
   variant?: "default" | "pills" | "underline" | "card";
   orientation?: "horizontal" | "vertical";
   defaultValue?: string;
-  tabs?: TabItem[];
+  tabLabels?: string[];
   backgroundColor?: string;
   activeColor?: string;
   inactiveColor?: string;
@@ -22,6 +25,7 @@ interface TabRuntimeProps {
   spacing?: string;
   size?: "sm" | "md" | "lg";
   fullWidth?: boolean;
+  nonEditable?: boolean;
   children?: React.ReactNode;
 }
 
@@ -29,11 +33,7 @@ export function TabRuntime({
   variant = "default",
   orientation = "horizontal",
   defaultValue,
-  tabs = [
-    { id: "tab1", label: "Tab 1", content: "Content for Tab 1" },
-    { id: "tab2", label: "Tab 2", content: "Content for Tab 2" },
-    { id: "tab3", label: "Tab 3", content: "Content for Tab 3" },
-  ],
+  tabLabels = ["Tab 1", "Tab 2", "Tab 3"],
   backgroundColor = "#ffffff",
   activeColor = "#3b82f6",
   inactiveColor = "#6b7280",
@@ -44,6 +44,7 @@ export function TabRuntime({
   spacing = "4px",
   size = "md",
   fullWidth = false,
+  nonEditable = false,
   children,
 }: TabRuntimeProps) {
   const getVariantClasses = () => {
@@ -87,6 +88,9 @@ export function TabRuntime({
 
   const variantClasses = getVariantClasses();
   const sizeClasses = getSizeClasses();
+  
+  // Track active tab for styling
+  const [activeTab, setActiveTab] = useState(defaultValue || `tab-1`);
 
   return (
     <div
@@ -96,7 +100,8 @@ export function TabRuntime({
       }}
     >
       <Tabs
-        defaultValue={defaultValue || tabs[0]?.id}
+        value={activeTab}
+        onValueChange={setActiveTab}
         orientation={orientation}
         className="w-full"
       >
@@ -111,38 +116,50 @@ export function TabRuntime({
             gap: spacing,
           }}
         >
-          {tabs.map((tab) => (
-            <TabsTrigger
-              key={tab.id}
-              value={tab.id}
-              className={`${variantClasses.trigger} ${sizeClasses} transition-all`}
-              style={
-                {
+          {tabLabels.map((label, index) => {
+            const tabValue = `tab-${index + 1}`;
+            const isActive = activeTab === tabValue;
+            
+            return (
+              <TabsTrigger
+                key={tabValue}
+                value={tabValue}
+                className={`${variantClasses.trigger} ${sizeClasses} transition-all`}
+                style={{
                   borderRadius: variant === "underline" ? "0" : borderRadius,
-                  color: inactiveColor,
-                  "--active-color": activeColor,
-                } as React.CSSProperties
-              }
-            >
-              {tab.label}
-            </TabsTrigger>
-          ))}
+                  color: isActive ? activeColor : inactiveColor,
+                  borderColor: variant === "underline" 
+                    ? (isActive ? activeColor : "transparent")
+                    : borderColor,
+                  borderBottomColor: variant === "underline" && isActive ? activeColor : undefined,
+                  backgroundColor: isActive && variant === "pills" ? "#ffffff" : undefined,
+                  boxShadow: isActive && variant === "pills" ? "0 1px 3px 0 rgb(0 0 0 / 0.1)" : undefined,
+                }}
+              >
+                {label}
+              </TabsTrigger>
+            );
+          })}
         </TabsList>
 
-        {tabs.map((tab) => (
-          <TabsContent
-            key={tab.id}
-            value={tab.id}
-            className="mt-4"
-            style={{ padding }}
-          >
-            {typeof tab.content === "string" ? (
-              <div className="text-gray-700">{tab.content}</div>
-            ) : (
-              tab.content
-            )}
-          </TabsContent>
-        ))}
+        {tabLabels.map((label, index) => {
+          // Extract the content for this specific tab
+          // Children should be an array of TabContentContainer components
+          const tabContent = Array.isArray(children) ? children[index] : (index === 0 ? children : null);
+          
+          return (
+            <TabsContent
+              key={`tab-${index + 1}`}
+              value={`tab-${index + 1}`}
+              className="mt-4"
+              style={{ padding }}
+            >
+              <div className="min-h-[200px] rounded-lg p-4">
+                {tabContent}
+              </div>
+            </TabsContent>
+          );
+        })}
       </Tabs>
     </div>
   );

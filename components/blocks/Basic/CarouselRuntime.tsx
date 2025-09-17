@@ -1,35 +1,32 @@
 import React, { useState, useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight, Play, Pause } from "lucide-react";
 
-interface CarouselSlide {
-  id: string;
-  content: React.ReactNode;
-  image?: string;
-  title?: string;
-  description?: string;
+interface SlideBackground {
+  backgroundType: "color" | "gradient" | "image";
+  backgroundColor: string;
+  backgroundImage: string;
+  backgroundSize: "cover" | "contain" | "auto";
+  backgroundPosition: string;
+  backgroundRepeat: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  gradientType: "linear" | "radial";
+  gradientDirection: string;
+  gradientFrom: string;
+  gradientTo: string;
+  gradientVia?: string;
 }
 
 interface CarouselRuntimeProps {
-  variant?: "image" | "card" | "content" | "testimonial";
-  slides?: CarouselSlide[];
   autoplay?: boolean;
   autoplayDelay?: number;
   infinite?: boolean;
   showDots?: boolean;
   showArrows?: boolean;
-  showThumbnails?: boolean;
   pauseOnHover?: boolean;
   transition?: "slide" | "fade" | "scale";
   transitionDuration?: number;
   slidesToShow?: number;
   slidesToScroll?: number;
-  responsive?: {
-    mobile: { slidesToShow: number; slidesToScroll: number };
-    tablet: { slidesToShow: number; slidesToScroll: number };
-    desktop: { slidesToShow: number; slidesToScroll: number };
-  };
   height?: string;
-  backgroundColor?: string;
   borderRadius?: string;
   margin?: string;
   padding?: string;
@@ -37,96 +34,94 @@ interface CarouselRuntimeProps {
   activeDotColor?: string;
   arrowColor?: string;
   arrowBackgroundColor?: string;
-  thumbnailSize?: string;
-  gap?: string;
+  slideBackgrounds?: SlideBackground[];
   children?: React.ReactNode;
+  nonEditable?: boolean;
 }
 
 export function CarouselRuntime({
-  variant = "image",
-  slides = [
-    {
-      id: "slide1",
-      content: "Slide 1 Content",
-      image:
-        "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=800&h=400&fit=crop",
-      title: "Slide 1",
-      description: "This is the first slide",
-    },
-    {
-      id: "slide2",
-      content: "Slide 2 Content",
-      image:
-        "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=800&h=400&fit=crop",
-      title: "Slide 2",
-      description: "This is the second slide",
-    },
-    {
-      id: "slide3",
-      content: "Slide 3 Content",
-      image:
-        "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=800&h=400&fit=crop",
-      title: "Slide 3",
-      description: "This is the third slide",
-    },
-  ],
   autoplay = false,
   autoplayDelay = 3000,
   infinite = true,
   showDots = true,
   showArrows = true,
-  showThumbnails = false,
   pauseOnHover = true,
   transition = "slide",
   transitionDuration = 300,
   slidesToShow = 1,
   slidesToScroll = 1,
-  responsive = {
-    mobile: { slidesToShow: 1, slidesToScroll: 1 },
-    tablet: { slidesToShow: 2, slidesToScroll: 1 },
-    desktop: { slidesToShow: 3, slidesToScroll: 1 },
-  },
-  height = "400px",
-  backgroundColor = "#ffffff",
-  borderRadius = "8px",
-  margin = "8px",
-  padding = "0px",
+  height = "h-96",
+  borderRadius = "rounded-lg",
+  margin = "m-2",
+  padding = "p-0",
   dotColor = "#cbd5e1",
   activeDotColor = "#3b82f6",
   arrowColor = "#ffffff",
   arrowBackgroundColor = "rgba(0, 0, 0, 0.5)",
-  thumbnailSize = "60px",
-  gap = "16px",
+  slideBackgrounds = [],
   children,
+  nonEditable = false,
 }: CarouselRuntimeProps) {
+  // Smart styling: handle Tailwind classes vs raw CSS values
+  const getHeightValue = (heightClass: string) => {
+    const heightMap: Record<string, string> = {
+      "h-16": "64px", "h-20": "80px", "h-24": "96px", "h-32": "128px",
+      "h-40": "160px", "h-48": "192px", "h-56": "224px", "h-64": "256px",
+      "h-72": "288px", "h-80": "320px", "h-96": "384px", "h-screen": "100vh",
+    };
+    return heightMap[heightClass] || heightClass;
+  };
+
+  const getBorderRadiusValue = (borderRadiusClass: string) => {
+    const borderRadiusMap: Record<string, string> = {
+      "rounded-none": "0px", "rounded-sm": "2px", "rounded": "4px", "rounded-md": "6px",
+      "rounded-lg": "8px", "rounded-xl": "12px", "rounded-2xl": "16px", "rounded-3xl": "24px",
+      "rounded-full": "9999px",
+    };
+    return borderRadiusMap[borderRadiusClass] || borderRadiusClass;
+  };
+
+  const getMarginValue = (marginClass: string) => {
+    const marginMap: Record<string, string> = {
+      "m-0": "0px", "m-1": "4px", "m-2": "8px", "m-3": "12px", "m-4": "16px",
+      "m-5": "20px", "m-6": "24px", "m-8": "32px", "m-10": "40px", "m-12": "48px",
+      "m-16": "64px", "m-20": "80px", "m-24": "96px",
+    };
+    return marginMap[marginClass] || marginClass;
+  };
+
+  const getPaddingValue = (paddingClass: string) => {
+    const paddingMap: Record<string, string> = {
+      "p-0": "0px", "p-1": "4px", "p-2": "8px", "p-3": "12px", "p-4": "16px",
+      "p-5": "20px", "p-6": "24px", "p-8": "32px", "p-10": "40px", "p-12": "48px",
+      "p-16": "64px", "p-20": "80px", "p-24": "96px",
+    };
+    return paddingMap[paddingClass] || paddingClass;
+  };
+
+  // Convert children to array once at the top level
+  const childrenArray = React.Children.toArray(children);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPlaying, setIsPlaying] = useState(autoplay);
   const [isPaused, setIsPaused] = useState(false);
-  const [currentSlidesToShow, setCurrentSlidesToShow] = useState(slidesToShow);
+
+  // Initialize slideCount based on children or default to 3
+  const initialSlideCount = childrenArray.length > 0 ? childrenArray.length : 3;
+  const [slideCount, setSlideCount] = useState(initialSlideCount);
+
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
 
-  // Responsive handling
+  // Update slideCount when children change
   useEffect(() => {
-    const handleResize = () => {
-      const width = window.innerWidth;
-      if (width < 768) {
-        setCurrentSlidesToShow(responsive.mobile.slidesToShow);
-      } else if (width < 1024) {
-        setCurrentSlidesToShow(responsive.tablet.slidesToShow);
-      } else {
-        setCurrentSlidesToShow(responsive.desktop.slidesToShow);
-      }
-    };
-
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, [responsive]);
+    if (childrenArray.length > 0 && childrenArray.length !== slideCount) {
+      setSlideCount(childrenArray.length);
+    }
+  }, [children, slideCount, childrenArray.length]);
 
   // Autoplay functionality
   useEffect(() => {
-    if (isPlaying && !isPaused && slides.length > 1) {
+    if (isPlaying && !isPaused && slideCount > 1) {
       intervalRef.current = setInterval(() => {
         nextSlide();
       }, autoplayDelay);
@@ -142,14 +137,14 @@ export function CarouselRuntime({
         clearInterval(intervalRef.current);
       }
     };
-  }, [isPlaying, isPaused, autoplayDelay, currentSlide]);
+  }, [isPlaying, isPaused, autoplayDelay, currentSlide, slideCount]);
 
   const nextSlide = () => {
     if (infinite) {
-      setCurrentSlide((prev) => (prev + slidesToScroll) % slides.length);
+      setCurrentSlide((prev) => (prev + slidesToScroll) % slideCount);
     } else {
       setCurrentSlide((prev) =>
-        Math.min(prev + slidesToScroll, slides.length - currentSlidesToShow)
+        Math.min(prev + slidesToScroll, slideCount - slidesToShow)
       );
     }
   };
@@ -158,7 +153,7 @@ export function CarouselRuntime({
     if (infinite) {
       setCurrentSlide((prev) =>
         prev - slidesToScroll < 0
-          ? slides.length - currentSlidesToShow
+          ? slideCount - slidesToShow
           : prev - slidesToScroll
       );
     } else {
@@ -187,7 +182,7 @@ export function CarouselRuntime({
   };
 
   const getTransitionStyle = () => {
-    const translateX = -(currentSlide * (100 / currentSlidesToShow));
+    const translateX = -(currentSlide * (100 / slidesToShow));
 
     switch (transition) {
       case "fade":
@@ -211,107 +206,84 @@ export function CarouselRuntime({
     }
   };
 
-  const renderSlideContent = (slide: CarouselSlide) => {
-    switch (variant) {
+  const getContainerStyle = () => {
+    return {
+      borderRadius: borderRadius.startsWith('rounded-') ? getBorderRadiusValue(borderRadius) : borderRadius,
+      padding: padding.startsWith('p-') ? getPaddingValue(padding) : padding,
+      height: height.startsWith('h-') ? getHeightValue(height) : height,
+      backgroundColor: "transparent", // No main background, only individual slide backgrounds
+    };
+  };
+
+  const getSlideBackgroundStyle = (slideIndex: number) => {
+    const slideBackground = slideBackgrounds?.[slideIndex];
+    if (!slideBackground) {
+      return {
+        backgroundColor: "#f9fafb",
+        borderRadius: "8px",
+        width: "100%",
+        height: "100%",
+        minHeight: "200px", // Ensure slides have visible height
+      };
+    }
+
+    const baseStyle = {
+      borderRadius: "8px",
+      width: "100%",
+      height: "100%",
+    };
+
+    switch (slideBackground.backgroundType) {
+      case "gradient":
+        const gradientColors = slideBackground.gradientVia
+          ? `${slideBackground.gradientFrom}, ${slideBackground.gradientVia}, ${slideBackground.gradientTo}`
+          : `${slideBackground.gradientFrom}, ${slideBackground.gradientTo}`;
+
+        if (slideBackground.gradientType === "radial") {
+          return {
+            ...baseStyle,
+            background: `radial-gradient(circle, ${gradientColors})`,
+          };
+        } else {
+          return {
+            ...baseStyle,
+            background: `linear-gradient(${slideBackground.gradientDirection}, ${gradientColors})`,
+          };
+        }
+
       case "image":
-        return (
-          <div className="w-full h-full relative">
-            <img
-              src={
-                slide.image ||
-                "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=800&h=400&fit=crop"
-              }
-              alt={slide.title || "Slide"}
-              className="w-full h-full object-cover rounded"
-            />
-            {(slide.title || slide.description) && (
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-6 text-white rounded-b">
-                {slide.title && (
-                  <h3 className="text-xl font-bold mb-2">{slide.title}</h3>
-                )}
-                {slide.description && (
-                  <p className="text-sm opacity-90">{slide.description}</p>
-                )}
-              </div>
-            )}
-          </div>
-        );
-      case "card":
-        return (
-          <div className="bg-white rounded-lg shadow-md p-6 h-full">
-            {slide.image && (
-              <img
-                src={slide.image}
-                alt={slide.title || "Card"}
-                className="w-full h-32 object-cover rounded mb-4"
-              />
-            )}
-            {slide.title && (
-              <h3 className="text-lg font-semibold mb-2">{slide.title}</h3>
-            )}
-            {slide.description && (
-              <p className="text-gray-600 text-sm">{slide.description}</p>
-            )}
-            {slide.content && <div className="mt-4">{slide.content}</div>}
-          </div>
-        );
-      case "testimonial":
-        return (
-          <div className="bg-white rounded-lg shadow-md p-8 text-center h-full">
-            <div className="text-4xl text-gray-400 mb-4">"</div>
-            {slide.description && (
-              <p className="text-gray-700 mb-6 italic">{slide.description}</p>
-            )}
-            {slide.image && (
-              <img
-                src={slide.image}
-                alt={slide.title || "Testimonial"}
-                className="w-16 h-16 rounded-full mx-auto mb-4 object-cover"
-              />
-            )}
-            {slide.title && (
-              <h4 className="font-semibold text-gray-900">{slide.title}</h4>
-            )}
-          </div>
-        );
-      default: // content
-        return (
-          <div className="w-full h-full flex items-center justify-center bg-gray-100 rounded">
-            {typeof slide.content === "string" ? (
-              <div className="text-center p-8">
-                <div className="text-lg font-medium text-gray-800">
-                  {slide.content}
-                </div>
-                {slide.title && (
-                  <div className="text-sm text-gray-600 mt-2">
-                    {slide.title}
-                  </div>
-                )}
-              </div>
-            ) : (
-              slide.content
-            )}
-          </div>
-        );
+        return {
+          ...baseStyle,
+          backgroundColor: slideBackground.backgroundColor,
+          backgroundImage: slideBackground.backgroundImage
+            ? `url(${slideBackground.backgroundImage})`
+            : undefined,
+          backgroundSize: slideBackground.backgroundSize,
+          backgroundPosition: slideBackground.backgroundPosition,
+          backgroundRepeat: slideBackground.backgroundRepeat,
+        };
+
+      default: // color
+        return {
+          ...baseStyle,
+          backgroundColor: slideBackground.backgroundColor,
+        };
     }
   };
 
+  // Generate slides array for rendering
+  const slides = Array.from({ length: slideCount }, (_, index) => index);
+
   return (
     <div
-      style={{ margin }}
+      className={`relative group ${margin.startsWith('m-') ? margin : ''}`}
+      style={{ 
+        margin: margin.startsWith('m-') ? undefined : getMarginValue(margin)
+      }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className="group"
     >
-      <div
-        className="relative overflow-hidden"
-        style={{
-          backgroundColor,
-          borderRadius,
-          padding,
-          height,
-        }}
-      >
+      <div className="relative overflow-hidden" style={getContainerStyle()}>
         {/* Main carousel container */}
         <div className="relative h-full">
           <div
@@ -319,29 +291,47 @@ export function CarouselRuntime({
             className="flex h-full"
             style={{
               ...getTransitionStyle(),
-              gap,
+              gap: "16px",
             }}
           >
-            {slides.map((slide, index) => (
+            {slides.map((slideIndex) => (
               <div
-                key={slide.id}
+                key={`slide-${slideIndex}`}
                 className="flex-shrink-0 relative"
                 style={{
-                  width: `${100 / currentSlidesToShow}%`,
-                  display:
-                    transition === "fade" && index !== currentSlide
-                      ? "none"
-                      : "block",
+                  width: `calc(${100 / slidesToShow}% - ${
+                    (16 * (slidesToShow - 1)) / slidesToShow
+                  }px)`,
+                  height: "100%",
                 }}
               >
-                {renderSlideContent(slide)}
+                {/* Slide background wrapper */}
+                <div
+                  className="w-full h-full relative"
+                  style={{
+                    ...getSlideBackgroundStyle(slideIndex),
+                    minHeight: "200px",
+                  }}
+                >
+                  {/* Content container */}
+                  <div
+                    className="w-full h-full relative"
+                    style={{
+                      backgroundColor: "transparent", // Don't override the background
+                      minHeight: "inherit",
+                    }}
+                  >
+                    {/* Render child content for this slide if it exists */}
+                    {childrenArray[slideIndex]}
+                  </div>
+                </div>
               </div>
             ))}
           </div>
         </div>
 
         {/* Navigation Arrows */}
-        {showArrows && slides.length > 1 && (
+        {showArrows && slideCount > 1 && (
           <>
             <button
               onClick={prevSlide}
@@ -361,9 +351,7 @@ export function CarouselRuntime({
                 backgroundColor: arrowBackgroundColor,
                 color: arrowColor,
               }}
-              disabled={
-                !infinite && currentSlide >= slides.length - currentSlidesToShow
-              }
+              disabled={!infinite && currentSlide >= slideCount - slidesToShow}
             >
               <ChevronRight className="w-5 h-5" />
             </button>
@@ -386,7 +374,7 @@ export function CarouselRuntime({
       </div>
 
       {/* Dots Navigation */}
-      {showDots && slides.length > 1 && (
+      {showDots && slideCount > 1 && (
         <div className="flex justify-center space-x-2 mt-4">
           {slides.map((_, index) => (
             <button
@@ -402,32 +390,13 @@ export function CarouselRuntime({
         </div>
       )}
 
-      {/* Thumbnails Navigation */}
-      {showThumbnails && slides.length > 1 && (
-        <div className="flex justify-center space-x-2 mt-4 overflow-x-auto">
-          {slides.map((slide, index) => (
-            <button
-              key={index}
-              onClick={() => goToSlide(index)}
-              className={`flex-shrink-0 rounded border-2 overflow-hidden transition-opacity ${
-                index === currentSlide ? "border-blue-500" : "border-gray-300"
-              }`}
-              style={{
-                width: thumbnailSize,
-                height: thumbnailSize,
-                opacity: index === currentSlide ? 1 : 0.6,
-              }}
-            >
-              <img
-                src={
-                  slide.image ||
-                  "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=60&h=60&fit=crop"
-                }
-                alt={`Thumbnail ${index + 1}`}
-                className="w-full h-full object-cover"
-              />
-            </button>
-          ))}
+      {/* Empty state */}
+      {slideCount === 0 && (
+        <div className="flex items-center justify-center h-full bg-gray-100 border-2 border-dashed border-gray-300 rounded">
+          <div className="text-center text-gray-500">
+            <div className="text-lg font-medium">Carousel Component</div>
+            <div className="text-sm mt-1">Runtime rendering</div>
+          </div>
         </div>
       )}
     </div>

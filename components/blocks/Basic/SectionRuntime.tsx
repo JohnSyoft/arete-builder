@@ -1,47 +1,49 @@
 import React from "react"
 
 export interface SectionProps {
-  children?: React.ReactNode
+  children?: React.ReactNode;
+  nonEditable?: boolean;
   // Background properties
-  backgroundColor?: string
-  backgroundImage?: string
-  backgroundSize?: string
-  backgroundPosition?: string
-  backgroundRepeat?: string
-  backgroundAttachment?: string
-  gradient?: string
+  backgroundColor?: string;
+  backgroundImage?: string;
+  backgroundSize?: string;
+  backgroundPosition?: string;
+  backgroundRepeat?: string;
+  backgroundAttachment?: string;
+  gradient?: string;
   // Border properties
-  borderStyle?: string
-  borderWidth?: string
-  borderColor?: string
-  borderRadius?: string
+  borderStyle?: string;
+  borderWidth?: string;
+  borderColor?: string;
+  borderRadius?: string;
   // Spacing properties
-  padding?: string
-  margin?: string
+  padding?: string;
+  margin?: string;
   // Size properties
-  width?: string
-  height?: string
-  minHeight?: string
-  maxHeight?: string
+  width?: string;
+  height?: string;
+  minHeight?: string;
+  maxHeight?: string;
   // Shadow and effects
-  boxShadow?: string
-  opacity?: string
+  boxShadow?: string;
+  opacity?: string;
   // Overflow
-  overflow?: string
+  overflow?: string;
   // Custom classes
-  className?: string
+  className?: string;
   // Overlay properties
-  hasOverlay?: boolean
-  overlayColor?: string
-  overlayOpacity?: string
+  hasOverlay?: boolean;
+  overlayColor?: string;
+  overlayOpacity?: string;
   // Content wrapper properties
-  hasContentWrapper?: boolean
-  contentMaxWidth?: string
-  contentPadding?: string
+  hasContentWrapper?: boolean;
+  contentMaxWidth?: string;
+  contentPadding?: string;
 }
 
 export function SectionRuntime({
   children,
+  nonEditable = false,
   // Background properties
   backgroundColor = "",
   backgroundImage = "",
@@ -77,7 +79,7 @@ export function SectionRuntime({
   // Content wrapper properties
   hasContentWrapper = false,
   contentMaxWidth = "7xl",
-  contentPadding = "px-4 sm:px-6 lg:px-8 py-24 lg:py-32"
+  contentPadding = "px-4 sm:px-6 lg:px-8 py-24 lg:py-32",
 }: SectionProps) {
   // Convert Tailwind classes to CSS values for inline styles
   const getPaddingValue = (paddingClass: string) => {
@@ -133,6 +135,31 @@ export function SectionRuntime({
     return minHeightMap[minHeightClass] || minHeightClass;
   };
 
+  // Get max-width class for content wrapper
+  const getMaxWidthClass = (maxWidth: string) => {
+    const maxWidthMap: Record<string, string> = {
+      "none": "max-w-none",
+      "xs": "max-w-xs",
+      "sm": "max-w-sm",
+      "md": "max-w-md",
+      "lg": "max-w-lg",
+      "xl": "max-w-xl",
+      "2xl": "max-w-2xl",
+      "3xl": "max-w-3xl",
+      "4xl": "max-w-4xl",
+      "5xl": "max-w-5xl",
+      "6xl": "max-w-6xl",
+      "7xl": "max-w-7xl",
+      "full": "max-w-full",
+      "screen-sm": "max-w-screen-sm",
+      "screen-md": "max-w-screen-md",
+      "screen-lg": "max-w-screen-lg",
+      "screen-xl": "max-w-screen-xl",
+      "screen-2xl": "max-w-screen-2xl"
+    }
+    return maxWidthMap[maxWidth] || "max-w-7xl"
+  }
+
   // Build dynamic styles
   const sectionStyles: React.CSSProperties = {
     width,
@@ -152,15 +179,18 @@ export function SectionRuntime({
 
   // Handle background
   if (gradient && gradient !== "") {
-    sectionStyles.background = gradient
-  } if (backgroundImage && backgroundImage !== "") {
-    sectionStyles.backgroundImage = `url(${backgroundImage})`
-    sectionStyles.backgroundSize = backgroundSize
-    sectionStyles.backgroundPosition = backgroundPosition
-    sectionStyles.backgroundRepeat = backgroundRepeat
-    sectionStyles.backgroundAttachment = backgroundAttachment
-  } if (backgroundColor && backgroundColor !== "") {
-    sectionStyles.backgroundColor = backgroundColor
+    sectionStyles.background = gradient;
+  } else if (backgroundImage && backgroundImage !== "") {
+    sectionStyles.backgroundImage = `url(${backgroundImage})`;
+    sectionStyles.backgroundSize = backgroundSize;
+    sectionStyles.backgroundPosition = backgroundPosition;
+    sectionStyles.backgroundRepeat = backgroundRepeat;
+    sectionStyles.backgroundAttachment = backgroundAttachment;
+    if (backgroundColor && backgroundColor !== "") {
+      sectionStyles.backgroundColor = backgroundColor;
+    }
+  } else if (backgroundColor && backgroundColor !== "") {
+    sectionStyles.backgroundColor = backgroundColor;
   }
 
   return (
@@ -168,18 +198,21 @@ export function SectionRuntime({
       style={sectionStyles}
       className={`relative ${className}`}
     >
+      {/* Conditional overlay */}
       {hasOverlay && (
         <div
-          className="absolute inset-0 z-10"
+          className="absolute inset-0"
           style={{
             backgroundColor: overlayColor,
-            opacity: parseFloat(overlayOpacity)
+            opacity: parseFloat(overlayOpacity),
           }}
         />
       )}
+
+      {/* Conditional content wrapper */}
       {hasContentWrapper ? (
         <div className="relative z-20">
-          <div className={`max-w-${contentMaxWidth} mx-auto ${contentPadding}`}>
+          <div className={`${getMaxWidthClass(contentMaxWidth)} mx-auto ${contentPadding}`}>
             {children}
           </div>
         </div>

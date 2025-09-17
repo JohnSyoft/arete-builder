@@ -9,6 +9,7 @@ interface TabPanelRuntimeProps {
   padding?: string;
   margin?: string;
   minHeight?: string;
+  nonEditable?: boolean;
   children?: React.ReactNode;
 }
 
@@ -21,6 +22,7 @@ export function TabPanelRuntime({
   padding = "16px",
   margin = "0px",
   minHeight = "200px",
+  nonEditable = false,
   children,
 }: TabPanelRuntimeProps) {
   return (

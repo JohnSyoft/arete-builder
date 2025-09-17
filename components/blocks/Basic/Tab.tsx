@@ -1,20 +1,60 @@
-import { useNode, useEditor } from "@craftjs/core";
-import React from "react";
+import { useNode, useEditor, Element } from "@craftjs/core";
+import React, { useState } from "react";
 import { FloatingToolbar } from "@/components/editor/floating-toolbar";
 import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
+// Tab Content Container Component
+const TabContentContainer = ({ children, label }: { children?: React.ReactNode; label: string }) => {
+  const { connectors: { connect, drag } } = useNode();
+  
+  return (
+    <div
+      ref={(ref) => {
+        if (ref) {
+          connect(drag(ref));
+        }
+      }}
+      className={`min-h-[200px] rounded-lg p-4 ${
+        !children || (Array.isArray(children) && children.length === 0)
+          ? "border-2 border-dashed border-gray-300 bg-gray-50/30"
+          : "border border-gray-200 bg-transparent"
+      }`}
+    >
+      {!children || (Array.isArray(children) && children.length === 0) ? (
+        <div className="text-center text-gray-500 text-sm">
+          Drop components here for {label}
+        </div>
+      ) : (
+        children
+      )}
+    </div>
+  );
+};
+
+TabContentContainer.craft = {
+  displayName: "Tab Content",
+  rules: {
+    canDrag: () => false,
+    canDelete: () => false,
+    canMoveIn: () => true,
+    canMoveOut: () => false,
+  },
+};
+
+// Export the TabContentContainer for use in the component resolver
+export { TabContentContainer };
+
 interface TabItem {
   id: string;
   label: string;
-  content: React.ReactNode;
 }
 
 interface TabProps {
   variant?: "default" | "pills" | "underline" | "card";
   orientation?: "horizontal" | "vertical";
   defaultValue?: string;
-  tabs: TabItem[];
+  tabLabels?: string[];
   backgroundColor?: string;
   activeColor?: string;
   inactiveColor?: string;
@@ -25,6 +65,7 @@ interface TabProps {
   spacing?: string;
   size?: "sm" | "md" | "lg";
   fullWidth?: boolean;
+  nonEditable?: boolean;
   children?: React.ReactNode;
 }
 
@@ -32,11 +73,7 @@ export function Tab({
   variant = "default",
   orientation = "horizontal",
   defaultValue,
-  tabs = [
-    { id: "tab1", label: "Tab 1", content: "Content for Tab 1" },
-    { id: "tab2", label: "Tab 2", content: "Content for Tab 2" },
-    { id: "tab3", label: "Tab 3", content: "Content for Tab 3" },
-  ],
+  tabLabels = ["Tab 1", "Tab 2", "Tab 3"],
   backgroundColor = "#ffffff",
   activeColor = "#3b82f6",
   inactiveColor = "#6b7280",
@@ -47,6 +84,7 @@ export function Tab({
   spacing = "4px",
   size = "md",
   fullWidth = false,
+  nonEditable = false,
   children,
 }: TabProps) {
   const {
@@ -65,13 +103,15 @@ export function Tab({
   const { openPanel } = usePropertiesPanelStore();
 
   const handleShowProperties = () => {
+    if (nonEditable) return; // Don't show properties panel for non-editable components
+    
     openPanel(
       "tab",
       {
         variant,
         orientation,
         defaultValue,
-        tabs,
+        tabLabels,
         backgroundColor,
         activeColor,
         inactiveColor,
@@ -135,6 +175,9 @@ export function Tab({
 
   const variantClasses = getVariantClasses();
   const sizeClasses = getSizeClasses();
+  
+  // Track active tab for styling
+  const [activeTab, setActiveTab] = useState(defaultValue || `tab-1`);
 
   return (
     <div
@@ -152,7 +195,8 @@ export function Tab({
       }}
     >
       <Tabs
-        defaultValue={defaultValue || tabs[0]?.id}
+        value={activeTab}
+        onValueChange={setActiveTab}
         orientation={orientation}
         className="w-full"
       >
@@ -167,41 +211,50 @@ export function Tab({
             gap: spacing,
           }}
         >
-          {tabs.map((tab) => (
-            <TabsTrigger
-              key={tab.id}
-              value={tab.id}
-              className={`${variantClasses.trigger} ${sizeClasses} transition-all`}
-              style={
-                {
+          {tabLabels.map((label, index) => {
+            const tabValue = `tab-${index + 1}`;
+            const isActive = activeTab === tabValue;
+            
+            return (
+              <TabsTrigger
+                key={tabValue}
+                value={tabValue}
+                className={`${variantClasses.trigger} ${sizeClasses} transition-all`}
+                style={{
                   borderRadius: variant === "underline" ? "0" : borderRadius,
-                  color: inactiveColor,
-                  "--active-color": activeColor,
-                } as React.CSSProperties
-              }
-            >
-              {tab.label}
-            </TabsTrigger>
-          ))}
+                  color: isActive ? activeColor : inactiveColor,
+                  borderColor: variant === "underline" 
+                    ? (isActive ? activeColor : "transparent")
+                    : borderColor,
+                  borderBottomColor: variant === "underline" && isActive ? activeColor : undefined,
+                  backgroundColor: isActive && variant === "pills" ? "#ffffff" : undefined,
+                  boxShadow: isActive && variant === "pills" ? "0 1px 3px 0 rgb(0 0 0 / 0.1)" : undefined,
+                }}
+              >
+                {label}
+              </TabsTrigger>
+            );
+          })}
         </TabsList>
 
-        {tabs.map((tab) => (
+        {tabLabels.map((label, index) => (
           <TabsContent
-            key={tab.id}
-            value={tab.id}
+            key={`tab-${index + 1}`}
+            value={`tab-${index + 1}`}
             className="mt-4"
             style={{ padding }}
           >
-            {typeof tab.content === "string" ? (
-              <div className="text-gray-700">{tab.content}</div>
-            ) : (
-              tab.content
-            )}
+            <Element
+              id={`tab-content-${index + 1}`}
+              is={TabContentContainer}
+              label={label}
+              canvas
+            />
           </TabsContent>
         ))}
       </Tabs>
 
-      {(selected || hovered) && (
+      {!nonEditable && (selected || hovered) && (
         <div className="absolute -top-12 left-0 z-50">
           <FloatingToolbar
             elementType="container"
@@ -214,7 +267,7 @@ export function Tab({
         </div>
       )}
 
-      {(selected || hovered) && (
+      {!nonEditable && (selected || hovered) && (
         <div className="absolute -top-6 left-0 bg-blue-500 text-white text-xs px-2 py-1 rounded z-10">
           Tab
         </div>
@@ -228,11 +281,7 @@ Tab.craft = {
   props: {
     variant: "default",
     orientation: "horizontal",
-    tabs: [
-      { id: "tab1", label: "Tab 1", content: "Content for Tab 1" },
-      { id: "tab2", label: "Tab 2", content: "Content for Tab 2" },
-      { id: "tab3", label: "Tab 3", content: "Content for Tab 3" },
-    ],
+    tabLabels: ["Tab 1", "Tab 2", "Tab 3"],
     backgroundColor: "#ffffff",
     activeColor: "#3b82f6",
     inactiveColor: "#6b7280",
@@ -243,8 +292,12 @@ Tab.craft = {
     spacing: "4px",
     size: "md",
     fullWidth: false,
+    nonEditable: false,
   },
-  related: {
-    toolbar: () => <div></div>,
+  rules: {
+    canDrag: () => true,
+    canMoveIn: () => true,
+    canMoveOut: () => true,
   },
+  isCanvas: true, // Allow components to be dropped into tab content areas
 };

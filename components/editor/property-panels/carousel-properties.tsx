@@ -10,7 +10,11 @@ import {
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { ImageUpload } from "@/components/ui/image-upload";
 import { useState } from "react";
+import { useUpload } from "@/hooks/useUpload";
+import { toast } from "sonner";
+import { Link, Loader2 } from "lucide-react";
 
 interface SlideBackground {
   backgroundType: "color" | "gradient" | "image";
@@ -27,7 +31,7 @@ interface SlideBackground {
 }
 
 interface CarouselPropertiesProps {
-  elementProps: {
+elementProps: {
     autoplay: boolean;
     autoplayDelay: number;
     infinite: boolean;
@@ -39,17 +43,6 @@ interface CarouselPropertiesProps {
     slidesToShow: number;
     slidesToScroll: number;
     height: string;
-    backgroundColor: string;
-    backgroundType: "color" | "gradient" | "image";
-    backgroundImage: string;
-    backgroundSize: "cover" | "contain" | "auto";
-    backgroundPosition: string;
-    backgroundRepeat: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
-    gradientType: "linear" | "radial";
-    gradientDirection: string;
-    gradientFrom: string;
-    gradientTo: string;
-    gradientVia?: string;
     borderRadius: string;
     margin: string;
     padding: string;
@@ -78,21 +71,10 @@ export function CarouselProperties({
     transitionDuration: 300,
     slidesToShow: 1,
     slidesToScroll: 1,
-    height: "400px",
-    backgroundColor: "#ffffff",
-    backgroundType: "color" as const,
-    backgroundImage: "",
-    backgroundSize: "cover" as const,
-    backgroundPosition: "center center",
-    backgroundRepeat: "no-repeat" as const,
-    gradientType: "linear" as const,
-    gradientDirection: "to right",
-    gradientFrom: "#3b82f6",
-    gradientTo: "#8b5cf6",
-    gradientVia: "",
-    borderRadius: "8px",
-    margin: "8px",
-    padding: "0px",
+    height: "h-96",
+    borderRadius: "rounded-lg",
+    margin: "m-2",
+    padding: "p-0",
     dotColor: "#cbd5e1",
     activeDotColor: "#3b82f6",
     arrowColor: "#ffffff",
@@ -102,10 +84,30 @@ export function CarouselProperties({
 
   const currentProperties = { ...defaultProperties, ...elementProps };
   const [selectedSlide, setSelectedSlide] = useState(0);
+  const [showSlideManualInput, setShowSlideManualInput] = useState(false);
+  
+  const { uploadSingle, isUploading } = useUpload();
 
   const updateProperty = (key: string, value: any) => {
     if (onPropChange) {
       onPropChange(key, value);
+    }
+  };
+
+  const handleSlideImageUpload = async (files: FileList | File[]) => {
+    if (!files || files.length === 0) return;
+
+    try {
+      const file = Array.isArray(files) ? files[0] : files[0];
+      const uploadedFile = await uploadSingle(file);
+
+      if (uploadedFile?.url) {
+        updateSlideBackground(selectedSlide, "backgroundImage", uploadedFile.url);
+        toast.success("Slide background image uploaded successfully!");
+      }
+    } catch (error) {
+      console.error("Upload failed:", error);
+      toast.error("Failed to upload slide background image. Please try again.");
     }
   };
 
@@ -114,6 +116,7 @@ export function CarouselProperties({
     key: string,
     value: any
   ) => {
+
     const slideBackgrounds = [...(currentProperties.slideBackgrounds || [])];
 
     // Ensure we have enough slide backgrounds
@@ -138,7 +141,7 @@ export function CarouselProperties({
       ...slideBackgrounds[slideIndex],
       [key]: value,
     };
-
+// console.log(slideBackgrounds);
     updateProperty("slideBackgrounds", slideBackgrounds);
   };
 
@@ -171,12 +174,28 @@ export function CarouselProperties({
         <CardContent className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="height">Height</Label>
-            <Input
-              id="height"
+            <Select
               value={currentProperties.height}
-              onChange={(e) => updateProperty("height", e.target.value)}
-              placeholder="400px"
-            />
+              onValueChange={(value) => updateProperty("height", value)}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select height" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="h-16">Small (64px)</SelectItem>
+                <SelectItem value="h-20">Medium (80px)</SelectItem>
+                <SelectItem value="h-24">Large (96px)</SelectItem>
+                <SelectItem value="h-32">XL (128px)</SelectItem>
+                <SelectItem value="h-40">2XL (160px)</SelectItem>
+                <SelectItem value="h-48">3XL (192px)</SelectItem>
+                <SelectItem value="h-56">4XL (224px)</SelectItem>
+                <SelectItem value="h-64">5XL (256px)</SelectItem>
+                <SelectItem value="h-72">6XL (288px)</SelectItem>
+                <SelectItem value="h-80">7XL (320px)</SelectItem>
+                <SelectItem value="h-96">8XL (384px)</SelectItem>
+                <SelectItem value="h-screen">Full Screen</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
           <div className="space-y-2">
@@ -336,237 +355,85 @@ export function CarouselProperties({
       {/* Styling */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-sm">Background & Styling</CardTitle>
+          <CardTitle className="text-sm">Container Styling</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
+
           <div className="space-y-2">
-            <Label htmlFor="backgroundType">Background Type</Label>
+            <Label htmlFor="borderRadius">Border Radius</Label>
             <Select
-              value={currentProperties.backgroundType}
-              onValueChange={(value) => updateProperty("backgroundType", value)}
+              value={currentProperties.borderRadius}
+              onValueChange={(value) => updateProperty("borderRadius", value)}
             >
               <SelectTrigger>
-                <SelectValue />
+                <SelectValue placeholder="Select border radius" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="color">Solid Color</SelectItem>
-                <SelectItem value="gradient">Gradient</SelectItem>
-                <SelectItem value="image">Image</SelectItem>
+                <SelectItem value="rounded-none">None (0px)</SelectItem>
+                <SelectItem value="rounded-sm">Small (2px)</SelectItem>
+                <SelectItem value="rounded">Default (4px)</SelectItem>
+                <SelectItem value="rounded-md">Medium (6px)</SelectItem>
+                <SelectItem value="rounded-lg">Large (8px)</SelectItem>
+                <SelectItem value="rounded-xl">XL (12px)</SelectItem>
+                <SelectItem value="rounded-2xl">2XL (16px)</SelectItem>
+                <SelectItem value="rounded-3xl">3XL (24px)</SelectItem>
+                <SelectItem value="rounded-full">Full (9999px)</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
-          {/* Solid Color Background */}
-          {currentProperties.backgroundType === "color" && (
-            <div className="space-y-2">
-              <Label htmlFor="backgroundColor">Background Color</Label>
-              <Input
-                id="backgroundColor"
-                type="color"
-                value={currentProperties.backgroundColor}
-                onChange={(e) =>
-                  updateProperty("backgroundColor", e.target.value)
-                }
-              />
-            </div>
-          )}
-
-          {/* Gradient Background */}
-          {currentProperties.backgroundType === "gradient" && (
-            <>
-              <div className="space-y-2">
-                <Label htmlFor="gradientType">Gradient Type</Label>
-                <Select
-                  value={currentProperties.gradientType}
-                  onValueChange={(value) =>
-                    updateProperty("gradientType", value)
-                  }
-                >
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="linear">Linear</SelectItem>
-                    <SelectItem value="radial">Radial</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {currentProperties.gradientType === "linear" && (
-                <div className="space-y-2">
-                  <Label htmlFor="gradientDirection">Direction</Label>
-                  <Select
-                    value={currentProperties.gradientDirection}
-                    onValueChange={(value) =>
-                      updateProperty("gradientDirection", value)
-                    }
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="to right">To Right</SelectItem>
-                      <SelectItem value="to left">To Left</SelectItem>
-                      <SelectItem value="to bottom">To Bottom</SelectItem>
-                      <SelectItem value="to top">To Top</SelectItem>
-                      <SelectItem value="to bottom right">
-                        To Bottom Right
-                      </SelectItem>
-                      <SelectItem value="to bottom left">
-                        To Bottom Left
-                      </SelectItem>
-                      <SelectItem value="to top right">To Top Right</SelectItem>
-                      <SelectItem value="to top left">To Top Left</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              )}
-
-              <div className="space-y-2">
-                <Label htmlFor="gradientFrom">From Color</Label>
-                <Input
-                  id="gradientFrom"
-                  type="color"
-                  value={currentProperties.gradientFrom}
-                  onChange={(e) =>
-                    updateProperty("gradientFrom", e.target.value)
-                  }
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="gradientVia">Via Color (Optional)</Label>
-                <Input
-                  id="gradientVia"
-                  type="color"
-                  value={currentProperties.gradientVia || ""}
-                  onChange={(e) =>
-                    updateProperty("gradientVia", e.target.value)
-                  }
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="gradientTo">To Color</Label>
-                <Input
-                  id="gradientTo"
-                  type="color"
-                  value={currentProperties.gradientTo}
-                  onChange={(e) => updateProperty("gradientTo", e.target.value)}
-                />
-              </div>
-            </>
-          )}
-
-          {/* Image Background */}
-          {currentProperties.backgroundType === "image" && (
-            <>
-              <div className="space-y-2">
-                <Label htmlFor="backgroundImage">Background Image URL</Label>
-                <Input
-                  id="backgroundImage"
-                  value={currentProperties.backgroundImage}
-                  onChange={(e) =>
-                    updateProperty("backgroundImage", e.target.value)
-                  }
-                  placeholder="https://example.com/image.jpg"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="backgroundSize">Image Size</Label>
-                <Select
-                  value={currentProperties.backgroundSize}
-                  onValueChange={(value) =>
-                    updateProperty("backgroundSize", value)
-                  }
-                >
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="cover">Cover</SelectItem>
-                    <SelectItem value="contain">Contain</SelectItem>
-                    <SelectItem value="auto">Auto</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="backgroundPosition">Image Position</Label>
-                <Select
-                  value={currentProperties.backgroundPosition}
-                  onValueChange={(value) =>
-                    updateProperty("backgroundPosition", value)
-                  }
-                >
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="center center">Center Center</SelectItem>
-                    <SelectItem value="top center">Top Center</SelectItem>
-                    <SelectItem value="bottom center">Bottom Center</SelectItem>
-                    <SelectItem value="center left">Center Left</SelectItem>
-                    <SelectItem value="center right">Center Right</SelectItem>
-                    <SelectItem value="top left">Top Left</SelectItem>
-                    <SelectItem value="top right">Top Right</SelectItem>
-                    <SelectItem value="bottom left">Bottom Left</SelectItem>
-                    <SelectItem value="bottom right">Bottom Right</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="backgroundRepeat">Image Repeat</Label>
-                <Select
-                  value={currentProperties.backgroundRepeat}
-                  onValueChange={(value) =>
-                    updateProperty("backgroundRepeat", value)
-                  }
-                >
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="no-repeat">No Repeat</SelectItem>
-                    <SelectItem value="repeat">Repeat</SelectItem>
-                    <SelectItem value="repeat-x">Repeat X</SelectItem>
-                    <SelectItem value="repeat-y">Repeat Y</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </>
-          )}
-
-          <div className="space-y-2">
-            <Label htmlFor="borderRadius">Border Radius</Label>
-            <Input
-              id="borderRadius"
-              value={currentProperties.borderRadius}
-              onChange={(e) => updateProperty("borderRadius", e.target.value)}
-              placeholder="8px"
-            />
-          </div>
-
           <div className="space-y-2">
             <Label htmlFor="margin">Margin</Label>
-            <Input
-              id="margin"
+            <Select
               value={currentProperties.margin}
-              onChange={(e) => updateProperty("margin", e.target.value)}
-              placeholder="8px"
-            />
+              onValueChange={(value) => updateProperty("margin", value)}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select margin" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="m-0">None (0px)</SelectItem>
+                <SelectItem value="m-1">Small (4px)</SelectItem>
+                <SelectItem value="m-2">Medium (8px)</SelectItem>
+                <SelectItem value="m-3">Large (12px)</SelectItem>
+                <SelectItem value="m-4">XL (16px)</SelectItem>
+                <SelectItem value="m-5">2XL (20px)</SelectItem>
+                <SelectItem value="m-6">3XL (24px)</SelectItem>
+                <SelectItem value="m-8">4XL (32px)</SelectItem>
+                <SelectItem value="m-10">5XL (40px)</SelectItem>
+                <SelectItem value="m-12">6XL (48px)</SelectItem>
+                <SelectItem value="m-16">7XL (64px)</SelectItem>
+                <SelectItem value="m-20">8XL (80px)</SelectItem>
+                <SelectItem value="m-24">9XL (96px)</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="padding">Padding</Label>
-            <Input
-              id="padding"
+            <Select
               value={currentProperties.padding}
-              onChange={(e) => updateProperty("padding", e.target.value)}
-              placeholder="0px"
-            />
+              onValueChange={(value) => updateProperty("padding", value)}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select padding" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="p-0">None (0px)</SelectItem>
+                <SelectItem value="p-1">Small (4px)</SelectItem>
+                <SelectItem value="p-2">Medium (8px)</SelectItem>
+                <SelectItem value="p-3">Large (12px)</SelectItem>
+                <SelectItem value="p-4">XL (16px)</SelectItem>
+                <SelectItem value="p-5">2XL (20px)</SelectItem>
+                <SelectItem value="p-6">3XL (24px)</SelectItem>
+                <SelectItem value="p-8">4XL (32px)</SelectItem>
+                <SelectItem value="p-10">5XL (40px)</SelectItem>
+                <SelectItem value="p-12">6XL (48px)</SelectItem>
+                <SelectItem value="p-16">7XL (64px)</SelectItem>
+                <SelectItem value="p-20">8XL (80px)</SelectItem>
+                <SelectItem value="p-24">9XL (96px)</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
         </CardContent>
       </Card>
@@ -587,7 +454,7 @@ export function CarouselProperties({
                 {
                   length: Math.max(
                     3,
-                    currentProperties.slideBackgrounds?.length || 0
+                    currentProperties.slideBackgrounds?.length || 3
                   ),
                 },
                 (_, index) => (
@@ -595,7 +462,29 @@ export function CarouselProperties({
                     key={index}
                     variant={selectedSlide === index ? "default" : "outline"}
                     size="sm"
-                    onClick={() => setSelectedSlide(index)}
+                    onClick={() => {
+                      setSelectedSlide(index);
+                      // Ensure slideBackground exists for this index when selected
+                      if (!currentProperties.slideBackgrounds?.[index]) {
+                        const slideBackgrounds = [...(currentProperties.slideBackgrounds || [])];
+                        while (slideBackgrounds.length <= index) {
+                          slideBackgrounds.push({
+                            backgroundType: "color",
+                            backgroundColor: "#ffffff",
+                            backgroundImage: "",
+                            backgroundSize: "cover",
+                            backgroundPosition: "center center",
+                            backgroundRepeat: "no-repeat",
+                            gradientType: "linear",
+                            gradientDirection: "to right",
+                            gradientFrom: "#3b82f6",
+                            gradientTo: "#8b5cf6",
+                            gradientVia: "",
+                          });
+                        }
+                        updateProperty("slideBackgrounds", slideBackgrounds);
+                      }
+                    }}
                   >
                     Slide {index + 1}
                   </Button>
@@ -752,21 +641,54 @@ export function CarouselProperties({
           {getSlideBackground(selectedSlide).backgroundType === "image" && (
             <>
               <div className="space-y-2">
-                <Label htmlFor="slideBackgroundImage">
-                  Background Image URL
-                </Label>
-                <Input
-                  id="slideBackgroundImage"
-                  value={getSlideBackground(selectedSlide).backgroundImage}
-                  onChange={(e) =>
-                    updateSlideBackground(
-                      selectedSlide,
-                      "backgroundImage",
-                      e.target.value
-                    )
-                  }
-                  placeholder="https://example.com/image.jpg"
-                />
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="slideBackgroundImage">
+                    Slide Background Image
+                  </Label>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setShowSlideManualInput(!showSlideManualInput)}
+                    className="text-xs"
+                  >
+                    <Link className="w-3 h-3 mr-1" />
+                    {showSlideManualInput ? "Upload" : "URL"}
+                  </Button>
+                </div>
+
+                {showSlideManualInput ? (
+                  <Input
+                    id="slideBackgroundImage"
+                    value={getSlideBackground(selectedSlide).backgroundImage}
+                    onChange={(e) =>
+                      updateSlideBackground(
+                        selectedSlide,
+                        "backgroundImage",
+                        e.target.value
+                      )
+                    }
+                    placeholder="https://example.com/image.jpg"
+                    disabled={isUploading}
+                  />
+                ) : (
+                  <div className="relative">
+                    <ImageUpload
+                      value={getSlideBackground(selectedSlide).backgroundImage}
+                      onChange={(url) => updateSlideBackground(selectedSlide, "backgroundImage", url)}
+                      onFilesSelected={handleSlideImageUpload}
+                      multiple={false}
+                      maxFiles={1}
+                      placeholder={isUploading ? "Uploading..." : "Upload slide background"}
+                      variant="preview"
+                      disabled={isUploading}
+                    />
+                    {isUploading && (
+                      <div className="absolute inset-0 bg-white/50 flex items-center justify-center rounded-lg">
+                        <Loader2 className="h-6 w-6 animate-spin text-blue-500" />
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
 
               <div className="space-y-2">

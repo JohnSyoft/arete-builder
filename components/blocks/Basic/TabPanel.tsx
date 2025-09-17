@@ -12,6 +12,7 @@ interface TabPanelProps {
   padding?: string;
   margin?: string;
   minHeight?: string;
+  nonEditable?: boolean;
   children?: React.ReactNode;
 }
 
@@ -24,6 +25,7 @@ export function TabPanel({
   padding = "16px",
   margin = "0px",
   minHeight = "200px",
+  nonEditable = false,
   children,
 }: TabPanelProps) {
   const {
@@ -42,6 +44,8 @@ export function TabPanel({
   const { openPanel } = usePropertiesPanelStore();
 
   const handleShowProperties = () => {
+    if (nonEditable) return; // Don't show properties panel for non-editable components
+    
     openPanel(
       "tabpanel",
       {
@@ -104,7 +108,7 @@ export function TabPanel({
         )}
       </div>
 
-      {(selected || hovered) && (
+      {!nonEditable && (selected || hovered) && (
         <div className="absolute -top-12 left-0 z-50">
           <FloatingToolbar
             elementType="container"
@@ -117,7 +121,7 @@ export function TabPanel({
         </div>
       )}
 
-      {(selected || hovered) && (
+      {!nonEditable && (selected || hovered) && (
         <div className="absolute -top-6 left-0 bg-blue-500 text-white text-xs px-2 py-1 rounded z-10">
           Tab Panel
         </div>
@@ -137,10 +141,12 @@ TabPanel.craft = {
     padding: "16px",
     margin: "0px",
     minHeight: "200px",
+    nonEditable: false,
   },
   rules: {
     canDrag: () => true,
     canMoveIn: () => true,
     canMoveOut: () => true,
   },
+  isCanvas: true, // Allow components to be dropped into this tab panel
 };

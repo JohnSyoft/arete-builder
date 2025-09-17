@@ -22,6 +22,12 @@ interface ButtonProps {
   margin?: string;
   padding?: string;
   width?: string;
+  height?: string;
+  boxShadow?: string;
+  opacity?: string;
+  nonEditable?: boolean;
+  rel?: string;
+  projectId?: string;
 }
 
 export function ButtonRuntime({
@@ -38,6 +44,12 @@ export function ButtonRuntime({
   margin = "my-2",
   padding = "",
   width = "w-auto",
+  height = "h-auto",
+  boxShadow = "",
+  opacity = "",
+  rel = "",
+  projectId,
+  nonEditable = false,
 }: ButtonProps) {
   const router = useRouter();
 
@@ -45,6 +57,8 @@ export function ButtonRuntime({
     backgroundColor: backgroundColor || undefined,
     color: textColor || undefined,
     borderRadius: borderRadius || undefined,
+    boxShadow: boxShadow || undefined,
+    opacity: opacity || undefined,
   };
 
   // Determine the navigation URL
@@ -59,6 +73,18 @@ export function ButtonRuntime({
           const projectId = projectIdMatch[1];
           return `/site/${projectId}/${pageSlug}`;
         }
+        
+        // Alternative: try to get projectId from other URL patterns
+        const editorMatch = currentPath.match(/\/editor\/([^\/]+)/);
+        if (editorMatch) {
+          const projectId = editorMatch[1];
+          return `/site/${projectId}/${pageSlug}`;
+        }
+        
+        // If we have projectId prop, use it
+        if (projectId) {
+          return `/site/${projectId}/${pageSlug}`;
+        }
       }
       return `#`; // Fallback if no project context
     }
@@ -66,7 +92,6 @@ export function ButtonRuntime({
   };
 
   const navigationUrl = getNavigationUrl();
-  console.log({navigationUrl})
   const isExternalUrl = navigationType === "url" && href && (href.startsWith("http") || href.startsWith("//"));
 
   const handleClick = (e: React.MouseEvent) => {
@@ -77,17 +102,18 @@ export function ButtonRuntime({
   };
 
   return (
-    <div className={`${margin} ${padding} ${width}`}>
+    <div className={`${margin || ""}`}>
       <UIButton
         variant={variant}
         size={size}
         asChild
         style={customStyles}
-        className={`${width} ${borderRadius}`}
+        className={`w-full h-full ${padding || ""}`}
       >
         <Link 
           href={navigationUrl} 
           target={isExternalUrl ? target : "_self"}
+          rel={rel || undefined}
           onClick={handleClick}
         >
           {text}

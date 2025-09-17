@@ -30,6 +30,7 @@ interface ButtonProps {
   opacity?: string;
   nonEditable?: boolean;
   rel?: string;
+  projectId?: string;
 }
 
 export function Button({
@@ -50,6 +51,7 @@ export function Button({
   boxShadow = "",
   opacity = "",
   rel = "",
+  projectId,
   nonEditable = false,
 }: ButtonProps) {
   const {
@@ -200,6 +202,13 @@ Button.craft = {
     boxShadow: "",
     opacity: "",
     rel: "",
+    className: "",
+    onClick: undefined,
+    disabled: false,
+    loading: false,
+    hoverable: false,
+    clickable: false,
+    projectId: "",
     nonEditable: false,
   },
   rules: {

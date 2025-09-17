@@ -173,6 +173,28 @@ export function ButtonProperties({
                 </SelectContent>
               </Select>
             </div>
+
+            <div>
+              <Label htmlFor="height">Height</Label>
+              <Select
+                value={elementProps?.height || "auto"}
+                onValueChange={(value) =>
+                  onPropChange("height", value === "auto" ? "" : value)
+                }
+              >
+                <SelectTrigger className="mt-1">
+                  <SelectValue placeholder="Auto" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="auto">Auto</SelectItem>
+                  <SelectItem value="h-8">Small (32px)</SelectItem>
+                  <SelectItem value="h-10">Medium (40px)</SelectItem>
+                  <SelectItem value="h-12">Large (48px)</SelectItem>
+                  <SelectItem value="h-14">Extra Large (56px)</SelectItem>
+                  <SelectItem value="h-16">2X Large (64px)</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </AccordionContent>
         </AccordionItem>
 
@@ -417,9 +439,81 @@ export function ButtonProperties({
           </AccordionContent>
         </AccordionItem>
 
-        {/* Behavior Section - Only for external URLs */}
+        {/* Behavior Section */}
+        <AccordionItem value="behavior">
+          <AccordionTrigger className="text-sm font-medium">
+            Button Behavior
+          </AccordionTrigger>
+          <AccordionContent className="space-y-4">
+            <div>
+              <Label htmlFor="disabled">Disabled State</Label>
+              <Select
+                value={elementProps?.disabled ? "true" : "false"}
+                onValueChange={(value) => onPropChange("disabled", value === "true")}
+              >
+                <SelectTrigger className="mt-1">
+                  <SelectValue placeholder="Enabled" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="false">Enabled</SelectItem>
+                  <SelectItem value="true">Disabled</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div>
+              <Label htmlFor="loading">Loading State</Label>
+              <Select
+                value={elementProps?.loading ? "true" : "false"}
+                onValueChange={(value) => onPropChange("loading", value === "true")}
+              >
+                <SelectTrigger className="mt-1">
+                  <SelectValue placeholder="Not Loading" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="false">Not Loading</SelectItem>
+                  <SelectItem value="true">Loading</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div>
+              <Label htmlFor="hoverable">Hoverable</Label>
+              <Select
+                value={elementProps?.hoverable ? "true" : "false"}
+                onValueChange={(value) => onPropChange("hoverable", value === "true")}
+              >
+                <SelectTrigger className="mt-1">
+                  <SelectValue placeholder="Hoverable" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="true">Hoverable</SelectItem>
+                  <SelectItem value="false">Not Hoverable</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div>
+              <Label htmlFor="clickable">Clickable</Label>
+              <Select
+                value={elementProps?.clickable ? "true" : "false"}
+                onValueChange={(value) => onPropChange("clickable", value === "true")}
+              >
+                <SelectTrigger className="mt-1">
+                  <SelectValue placeholder="Clickable" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="true">Clickable</SelectItem>
+                  <SelectItem value="false">Not Clickable</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+
+        {/* Link Behavior Section - Only for external URLs */}
         {navigationType === "url" && (
-          <AccordionItem value="behavior">
+          <AccordionItem value="linkBehavior">
             <AccordionTrigger className="text-sm font-medium">
               Link Behavior
             </AccordionTrigger>

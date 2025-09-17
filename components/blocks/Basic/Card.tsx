@@ -19,6 +19,7 @@ interface CardProps {
   hoverable?: boolean;
   clickable?: boolean;
   overflow?: "visible" | "hidden" | "auto" | "scroll";
+  border?: boolean;
   children?: React.ReactNode;
   nonEditable?: boolean;
   // Navigation props
@@ -42,6 +43,7 @@ export function Card({
   hoverable = false,
   clickable = false,
   overflow = "hidden",
+  border = true,
   children,
   nonEditable = false,
   onDoubleClick,
@@ -324,12 +326,16 @@ console.log({componentSlug})
             ? "min-h-[200px] border-2 border-dashed border-gray-300 bg-gray-50/50"
             : ""
         }
+        ${backgroundColor.startsWith('bg-') ? backgroundColor : ''} 
+        ${border && borderColor.startsWith('border-') ? borderColor : ''} 
+        ${borderRadius.startsWith('rounded-') ? borderRadius : ''} 
+        ${padding.startsWith('p-') ? padding : ''}
       `}
       style={{
-        backgroundColor,
-        borderColor: variant !== "flat" ? borderColor : undefined,
-        borderRadius,
-        padding,
+        backgroundColor: backgroundColor.startsWith('bg-') ? undefined : backgroundColor,
+        borderColor: variant !== "flat" ? (borderColor.startsWith('border-') ? undefined : borderColor) : undefined,
+        borderRadius: borderRadius.startsWith('rounded-') ? undefined : borderRadius,
+        padding: padding.startsWith('p-') ? undefined : padding,
         width: "100%",
         height: "100%",
         // overflow,
