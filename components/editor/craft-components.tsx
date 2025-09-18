@@ -88,7 +88,7 @@ import { MegaMenuHeader } from "../blocks/Headers/MegaMenuHeader";
 import { ResearchCards } from "../blocks/Cards/ResearchCards";
 // Hospitality blocks
 import { HospitalityHero1 } from "../blocks/Hero/HospitalityHero1";
-import { HospitalityAmenities1 } from "../blocks/Services/HospitalityAmenities1";
+import { HospitalityAmenities1 as OriginalHospitalityAmenities1 } from "../blocks/Services/HospitalityAmenities1";
 import { HospitalityRooms1 } from "../blocks/Rooms/HospitalityRooms1";
 import { HospitalityTestimonials1 } from "../blocks/Testimonials/HospitalityTestimonials1";
 import { HospitalityFooter1 } from "../blocks/Footer/HospitalityFooter1";
@@ -102,6 +102,58 @@ import { FineDining } from "../blocks/Content/FineDining";
 import { WeddingEvents } from "../blocks/Content/WeddingEvents";
 import { HotelAmenities } from "../blocks/Content/HotelAmenities";
 import { PropertyGallery } from "../blocks/Content/PropertyGallery";
+// Additional Hospitality Components
+import { HotelHero1 } from "../blocks/Hero/HotelHero1";
+import { RoomShowcase1 } from "../blocks/Rooms/RoomShowcase1";
+import { HospitalityDining2 } from "../blocks/Dining/HospitalityDining2";
+import { HospitalityAmenities1 } from "../blocks/Content/HospitalityAmenities1";
+import { HospitalityLocation1 } from "../blocks/Content/HospitalityLocation1";
+import { HospitalityTestimonials2 } from "../blocks/Testimonials/HospitalityTestimonials2";
+import { HospitalityGallery1 } from "../blocks/Content/HospitalityGallery1";
+import { HospitalityBookingForm1 } from "../blocks/Forms/HospitalityBookingForm1";
+import { HospitalityEvents1 } from "../blocks/Events/HospitalityEvents1";
+import { HospitalityAbout1 } from "../blocks/Content/HospitalityAbout1";
+import { HospitalityContact1 } from "../blocks/Content/HospitalityContact1";
+import { HospitalityFooter1 as NewHospitalityFooter1 } from "../blocks/Content/HospitalityFooter1";
+import { HospitalitySpaWellness1 } from "../blocks/Services/HospitalitySpaWellness1";
+import { HospitalityConcierge1 } from "../blocks/Services/HospitalityConcierge1";
+import { HospitalityOffers1 } from "../blocks/Offers/HospitalityOffers1";
+import { HospitalityFAQ1 } from "../blocks/Content/HospitalityFAQ1";
+import { HospitalityFeatures1 } from "../blocks/Features/HospitalityFeatures1";
+import { HospitalityFacilities1 } from "../blocks/Facilities/HospitalityFacilities1";
+import { HospitalityInteractiveOffers1 } from "../blocks/Offers/HospitalityInteractiveOffers1";
+import { HospitalityRoomTabs1 } from "../blocks/Rooms/HospitalityRoomTabs1";
+import { HospitalityNewsletter1 } from "../blocks/Forms/HospitalityNewsletter1";
+import { HospitalityInstagram1 } from "../blocks/Social/HospitalityInstagram1";
+import { HospitalityTestimonials3 } from "../blocks/Testimonials/HospitalityTestimonials3";
+import { HospitalityFooter2 } from "../blocks/Footer/HospitalityFooter2";
+import { HospitalityMarquee1 } from "../blocks/Content/HospitalityMarquee1";
+import { HospitalityAbout2 } from "../blocks/Content/HospitalityAbout2";
+import { HospitalityHeader1 } from "../blocks/Navigation/HospitalityHeader1";
+import { HospitalityHero2 } from "../blocks/Hero/HospitalityHero2";
+import { HospitalityFeatures2 } from "../blocks/Features/HospitalityFeatures2";
+import { HospitalityFacilities2 } from "../blocks/Facilities/HospitalityFacilities2";
+import { HospitalityTestimonials4 } from "../blocks/Testimonials/HospitalityTestimonials4";
+import { HospitalityClients1 } from "../blocks/Content/HospitalityClients1";
+import { HospitalityRoomTabs2 } from "../blocks/Rooms/HospitalityRoomTabs2";
+import { HospitalityPricing1 } from "../blocks/Offers/HospitalityPricing1";
+import { HospitalityCTA1 } from "../blocks/Content/HospitalityCTA1";
+import { HospitalityStats1 } from "../blocks/Content/HospitalityStats1";
+// New multi-industry components
+import { HospitalityDropdown1 } from "../blocks/Navigation/HospitalityDropdown1";
+import { RestaurantHero1 } from "../blocks/Hero/RestaurantHero1";
+import { BusinessTopBar1 } from "../blocks/Navigation/BusinessTopBar1";
+import { RestaurantFeatures1 } from "../blocks/Features/RestaurantFeatures1";
+import { SearchModal1 } from "../blocks/Forms/SearchModal1";
+// Accounting components
+import { AccountingHero1 } from "../blocks/Hero/AccountingHero1";
+import { AccountingServices1 } from "../blocks/Services/AccountingServices1";
+import { AccountingCompany1 } from "../blocks/Content/AccountingCompany1";
+import { AccountingContact1 } from "../blocks/Content/AccountingContact1";
+import { AccountingNews1 } from "../blocks/Content/AccountingNews1";
+import { AccountingProcess1 } from "../blocks/Content/AccountingProcess1";
+import { AccountingServicesDetails1 } from "../blocks/Services/AccountingServicesDetails1";
+import { AccountingBlogSingle1 } from "../blocks/Content/AccountingBlogSingle1";
 // Modern Hero Components
 // CMS Cards
 import { CosmeticCard1 } from "../blocks/CMS/CosmeticCard1";
@@ -389,7 +441,7 @@ export const CraftElderCareTestimonials1 = ElderCareTestimonials1;
 
 // Hospitality blocks
 export const CraftHospitalityHero1 = HospitalityHero1;
-export const CraftHospitalityAmenities1 = HospitalityAmenities1;
+export const CraftHospitalityAmenities1 = OriginalHospitalityAmenities1;
 export const CraftHospitalityRooms1 = HospitalityRooms1;
 export const CraftHospitalityTestimonials1 = HospitalityTestimonials1;
 export const CraftHospitalityFooter1 = HospitalityFooter1;
@@ -414,6 +466,59 @@ export const CraftModernFooter1 = ModernFooter1;
 export const CraftModernContact1 = ModernContact1;
 export const CraftModernTeam1 = ModernTeam1;
 export const CraftModernBlog1 = ModernBlog1;
+
+// Additional Hospitality Components
+export { HotelHero1 };
+export { RoomShowcase1 };
+export { HospitalityDining2 };
+export { HospitalityAmenities1 };
+export { HospitalityLocation1 };
+export { HospitalityTestimonials2 };
+export { HospitalityGallery1 };
+export { HospitalityBookingForm1 };
+export { HospitalityEvents1 };
+export { HospitalityAbout1 };
+export { HospitalityContact1 };
+export { NewHospitalityFooter1 as HospitalityFooter1 };
+export { HospitalitySpaWellness1 };
+export { HospitalityConcierge1 };
+export { HospitalityOffers1 };
+export { HospitalityFAQ1 };
+export { HospitalityFeatures1 };
+export { HospitalityFacilities1 };
+export { HospitalityInteractiveOffers1 };
+export { HospitalityRoomTabs1 };
+export { HospitalityNewsletter1 };
+export { HospitalityInstagram1 };
+export { HospitalityTestimonials3 };
+export { HospitalityFooter2 };
+export { HospitalityMarquee1 };
+export { HospitalityAbout2 };
+export { HospitalityHeader1 };
+export { HospitalityHero2 };
+export { HospitalityFeatures2 };
+export { HospitalityFacilities2 };
+export { HospitalityTestimonials4 };
+export { HospitalityClients1 };
+export { HospitalityRoomTabs2 };
+export { HospitalityPricing1 };
+export { HospitalityCTA1 };
+export { HospitalityStats1 };
+// New multi-industry components
+export { HospitalityDropdown1 };
+export { RestaurantHero1 };
+export { BusinessTopBar1 };
+export { RestaurantFeatures1 };
+export { SearchModal1 };
+// Accounting components
+export { AccountingHero1 };
+export { AccountingServices1 };
+export { AccountingCompany1 };
+export { AccountingContact1 };
+export { AccountingNews1 };
+export { AccountingProcess1 };
+export { AccountingServicesDetails1 };
+export { AccountingBlogSingle1 };
 
 // Mutable resolver that can be extended with user-created components
 const baseComponentResolver = {
@@ -533,6 +638,58 @@ const baseComponentResolver = {
   WeddingEvents: CraftWeddingEvents,
   HotelAmenities: CraftHotelAmenities,
   PropertyGallery: CraftPropertyGallery,
+  // Additional Hospitality Components
+  HotelHero1: HotelHero1,
+  RoomShowcase1: RoomShowcase1,
+  HospitalityDining2: HospitalityDining2,
+  HospitalityAmenities1New: HospitalityAmenities1,
+  HospitalityLocation1: HospitalityLocation1,
+  HospitalityTestimonials2: HospitalityTestimonials2,
+  HospitalityGallery1: HospitalityGallery1,
+  HospitalityBookingForm1: HospitalityBookingForm1,
+  HospitalityEvents1: HospitalityEvents1,
+  HospitalityAbout1: HospitalityAbout1,
+  HospitalityContact1: HospitalityContact1,
+  HospitalityFooter1New: NewHospitalityFooter1,
+  HospitalitySpaWellness1: HospitalitySpaWellness1,
+  HospitalityConcierge1: HospitalityConcierge1,
+  HospitalityOffers1: HospitalityOffers1,
+  HospitalityFAQ1: HospitalityFAQ1,
+  HospitalityFeatures1: HospitalityFeatures1,
+  HospitalityFacilities1: HospitalityFacilities1,
+  HospitalityInteractiveOffers1: HospitalityInteractiveOffers1,
+  HospitalityRoomTabs1: HospitalityRoomTabs1,
+  HospitalityNewsletter1: HospitalityNewsletter1,
+  HospitalityInstagram1: HospitalityInstagram1,
+  HospitalityTestimonials3: HospitalityTestimonials3,
+  HospitalityFooter2: HospitalityFooter2,
+  HospitalityMarquee1: HospitalityMarquee1,
+  HospitalityAbout2: HospitalityAbout2,
+  HospitalityHeader1: HospitalityHeader1,
+  HospitalityHero2: HospitalityHero2,
+  HospitalityFeatures2: HospitalityFeatures2,
+  HospitalityFacilities2: HospitalityFacilities2,
+  HospitalityTestimonials4: HospitalityTestimonials4,
+  HospitalityClients1: HospitalityClients1,
+  HospitalityRoomTabs2: HospitalityRoomTabs2,
+  HospitalityPricing1: HospitalityPricing1,
+  HospitalityCTA1: HospitalityCTA1,
+  HospitalityStats1: HospitalityStats1,
+  // New multi-industry components
+  HospitalityDropdown1: HospitalityDropdown1,
+  RestaurantHero1: RestaurantHero1,
+  BusinessTopBar1: BusinessTopBar1,
+  RestaurantFeatures1: RestaurantFeatures1,
+  SearchModal1: SearchModal1,
+  // Accounting components
+  AccountingHero1: AccountingHero1,
+  AccountingServices1: AccountingServices1,
+  AccountingCompany1: AccountingCompany1,
+  AccountingContact1: AccountingContact1,
+  AccountingNews1: AccountingNews1,
+  AccountingProcess1: AccountingProcess1,
+  AccountingServicesDetails1: AccountingServicesDetails1,
+  AccountingBlogSingle1: AccountingBlogSingle1,
   // CMS Cards
   CosmeticCard1: CraftCosmeticCard1,
   HospitalityCard1: CraftHospitalityCard1,

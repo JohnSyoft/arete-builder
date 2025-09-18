@@ -1,9 +1,15 @@
-import React from "react"
+import React, { useState } from "react"
+import { useParams } from "next/navigation"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { ColorPickerComponent, GradientColorPicker } from "@/components/ui/color-picker"
+import { ImageUpload } from "@/components/ui/image-upload";
+import { Button } from "@/components/ui/button";
+import { Link, Loader2 } from "lucide-react";
+import { useUpload } from "@/hooks/useUpload";
+import { toast } from "sonner";
 
 interface GridPropertiesProps {
   elementProps: any
@@ -12,6 +18,29 @@ interface GridPropertiesProps {
 
 
 export function GridProperties({ elementProps, onPropChange }: GridPropertiesProps) {
+  const params = useParams();
+  const projectId = params.projectId as string;
+  const [showManualInput, setShowManualInput] = useState(false);
+
+  const { uploadSingle, isUploading } = useUpload();
+
+  const handleImageUpload = async (files: FileList | File[]) => {
+    if (!files || files.length === 0) return;
+
+    try {
+      const file = Array.isArray(files) ? files[0] : files[0];
+      const uploadedFile = await uploadSingle(file);
+
+      if (uploadedFile?.url) {
+        onPropChange("backgroundImage", uploadedFile.url);
+        toast.success("Background image uploaded successfully!");
+      }
+    } catch (error) {
+      console.error("Upload failed:", error);
+      toast.error("Failed to upload image. Please try again.");
+    }
+  };
+
   return (
     <Accordion type="multiple" defaultValue={["layout", "spacing", "dimensions"]} className="w-full">
       {/* Layout Section */}
@@ -215,14 +244,47 @@ export function GridProperties({ elementProps, onPropChange }: GridPropertiesPro
           />
 
           <div>
-            <Label htmlFor="backgroundImage">Background Image URL</Label>
-            <Input
-              id="backgroundImage"
-              value={elementProps?.backgroundImage || ''}
-              onChange={(e) => onPropChange('backgroundImage', e.target.value)}
-              placeholder="https://example.com/image.jpg"
-              className="mt-1"
-            />
+            <div className="flex items-center justify-between mb-2">
+              <Label htmlFor="backgroundImage">Background Image</Label>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowManualInput(!showManualInput)}
+                className="text-xs"
+              >
+                <Link className="w-3 h-3 mr-1" />
+                {showManualInput ? "Upload" : "URL"}
+              </Button>
+            </div>
+
+            {showManualInput ? (
+              <Input
+                id="backgroundImage"
+                value={elementProps?.backgroundImage || ''}
+                onChange={(e) => onPropChange('backgroundImage', e.target.value)}
+                placeholder="https://example.com/image.jpg"
+                className="mt-1"
+                disabled={isUploading}
+              />
+            ) : (
+              <div className="relative">
+                <ImageUpload
+                  value={elementProps?.backgroundImage || ""}
+                  onChange={(url) => onPropChange("backgroundImage", url)}
+                  onFilesSelected={handleImageUpload}
+                  multiple={false}
+                  maxFiles={1}
+                  placeholder={isUploading ? "Uploading..." : "Upload a background image"}
+                  variant="preview"
+                  disabled={isUploading}
+                />
+                {isUploading && (
+                  <div className="absolute inset-0 bg-white/50 flex items-center justify-center rounded-lg">
+                    <Loader2 className="h-6 w-6 animate-spin text-blue-500" />
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
           {elementProps?.backgroundImage && (

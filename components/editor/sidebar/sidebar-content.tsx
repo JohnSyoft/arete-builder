@@ -1,3 +1,4 @@
+import { useState, useMemo } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Accordion,
@@ -5,6 +6,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Input } from "@/components/ui/input";
+import { Search, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { useModalStore } from "@/lib/store/modalStore";
 import { BlockItem } from "./block-item";
 import {
@@ -86,6 +90,58 @@ import {
   CraftWeddingEvents,
   CraftHotelAmenities,
   CraftPropertyGallery,
+  // Additional Hospitality Components
+  HotelHero1,
+  RoomShowcase1,
+  HospitalityDining2,
+  HospitalityAmenities1,
+  HospitalityLocation1,
+  HospitalityTestimonials2,
+  HospitalityGallery1,
+  HospitalityBookingForm1,
+  HospitalityEvents1,
+  HospitalityAbout1,
+  HospitalityContact1,
+  HospitalityFooter1,
+  HospitalitySpaWellness1,
+  HospitalityConcierge1,
+  HospitalityOffers1,
+  HospitalityFAQ1,
+  HospitalityFeatures1,
+  HospitalityFacilities1,
+  HospitalityInteractiveOffers1,
+  HospitalityRoomTabs1,
+  HospitalityNewsletter1,
+  HospitalityInstagram1,
+  HospitalityTestimonials3,
+  HospitalityFooter2,
+  HospitalityMarquee1,
+  HospitalityAbout2,
+  HospitalityHeader1,
+  HospitalityHero2,
+  HospitalityFeatures2,
+  HospitalityFacilities2,
+  HospitalityTestimonials4,
+  HospitalityClients1,
+  HospitalityRoomTabs2,
+  HospitalityPricing1,
+  HospitalityCTA1,
+  HospitalityStats1,
+  // New multi-industry components
+  HospitalityDropdown1,
+  RestaurantHero1,
+  BusinessTopBar1,
+  RestaurantFeatures1,
+  SearchModal1,
+  // Accounting components
+  AccountingHero1,
+  AccountingServices1,
+  AccountingCompany1,
+  AccountingContact1,
+  AccountingNews1,
+  AccountingProcess1,
+  AccountingServicesDetails1,
+  AccountingBlogSingle1,
 
   // Blog components
   CraftModernBlog1,
@@ -97,6 +153,9 @@ import {
   CraftCosmeticCard1,
   CraftHospitalityCard1,
   CraftModernCard1,
+
+  // Additional Cosmetic Components (using Craft prefixed names)
+  // Note: These are already imported above as CraftCosmetic* components
 } from "@/components/editor/craft-components";
 
 interface SidebarContentProps {
@@ -169,6 +228,12 @@ const componentsByType = {
       image: "/HospitalityHero.png",
     },
     {
+      component: HotelHero1,
+      name: "Hotel Hero 1",
+      description: "Modern hotel hero with features showcase",
+      image: "/hotelHero1.png",
+    },
+    {
       component: CraftMiniMaxHero1,
       name: "AI Model Hero",
       description:
@@ -194,6 +259,12 @@ const componentsByType = {
       description: "Luxury resort hero with integrated booking widget",
       image: "/placeholder.svg",
     },
+    {
+      component: CraftCosmeticHero1,
+      name: "Cosmetic Hero 1",
+      description: "Modern cosmetic hero with elegant design and call-to-action",
+      image: "/cosmeticHero1.png",
+    },
   ],
   services: [
     {
@@ -213,6 +284,12 @@ const componentsByType = {
       name: "Amenities",
       description: "Hotel amenities and facilities grid",
       image: "/amenityService.png",
+    },
+    {
+      component: HospitalityAmenities1,
+      name: "Amenities Grid 1",
+      description: "Comprehensive amenities showcase with categories",
+      image: "/amenitiesGrid1.png",
     },
     {
       component: CraftElderCareServices1,
@@ -237,6 +314,12 @@ const componentsByType = {
       name: "Hotel Amenities",
       description: "Comprehensive hotel facilities and amenities",
       image: "/placeholder.svg",
+    },
+    {
+      component: CraftCosmeticServices1,
+      name: "Cosmetic Services 1",
+      description: "Comprehensive cosmetic services showcase with treatments",
+      image: "/cosmeticServices1.png",
     },
   ],
   about: [
@@ -275,6 +358,30 @@ const componentsByType = {
       name: "Trust Indicators",
       description: "Trust building elements and credentials",
       image: "/placeholder.svg",
+    },
+    {
+      component: CraftCosmeticAbout1,
+      name: "Cosmetic About 1",
+      description: "Professional cosmetic about section with expertise focus",
+      image: "/cosmeticAbout1.png",
+    },
+    {
+      component: CraftCosmeticWhyChooseUs1,
+      name: "Cosmetic Why Choose Us 1",
+      description: "Simple why choose us section with cosmetic features",
+      image: "/cosmeticWhyChooseUs1.png",
+    },
+    {
+      component: CraftCosmeticWhyChoose2,
+      name: "Cosmetic Why Choose Us 2",
+      description: "Advanced why choose us with competitive advantages",
+      image: "/cosmeticWhyChoose2.png",
+    },
+    {
+      component: CraftCosmeticWhatWeDo1,
+      name: "Cosmetic What We Do 1",
+      description: "Cosmetic service offerings and specializations",
+      image: "/cosmeticWhatWeDo1.png",
     },
   ],
   team: [
@@ -328,6 +435,12 @@ const componentsByType = {
       description: "Modern testimonials with avatars and ratings",
       image: "/placeholder.svg",
     },
+    {
+      component: CraftCosmeticTestimonials2,
+      name: "Cosmetic Testimonials 2",
+      description: "Beauty treatment client testimonials with ratings",
+      image: "/cosmeticTestimonials2.png",
+    },
   ],
   content: [
     {
@@ -337,16 +450,300 @@ const componentsByType = {
       image: "/placeholder.svg",
     },
     {
+      component: RoomShowcase1,
+      name: "Room Showcase 1",
+      description: "Modern room showcase with carousel and booking",
+      image: "/roomShowcase1.png",
+    },
+    {
       component: CraftHospitalityDining1,
       name: "Dining Options",
       description: "Restaurant and dining experiences",
       image: "/placeholder.svg",
     },
     {
+      component: HospitalityDining2,
+      name: "Dining Experience 2",
+      description: "Comprehensive dining showcase with multiple restaurants",
+      image: "/diningExperience2.png",
+    },
+    {
       component: CraftCosmeticCaseStudies1,
       name: "Case Studies",
       description: "Treatment case studies and results",
       image: "/placeholder.svg",
+    },
+    {
+      component: HospitalityLocation1,
+      name: "Location & Map",
+      description: "Hotel location with map and nearby attractions",
+      image: "/locationMap1.png",
+    },
+    {
+      component: HospitalityTestimonials2,
+      name: "Guest Reviews 2",
+      description: "Comprehensive guest testimonials with ratings and stats",
+      image: "/testimonials2.png",
+    },
+    {
+      component: HospitalityGallery1,
+      name: "Property Gallery",
+      description: "Interactive photo gallery with category filtering",
+      image: "/gallery1.png",
+    },
+    {
+      component: HospitalityBookingForm1,
+      name: "Booking Form",
+      description: "Complete hotel reservation form with room selection",
+      image: "/bookingForm1.png",
+    },
+    {
+      component: HospitalityEvents1,
+      name: "Events & Weddings",
+      description: "Event showcase with categories and pricing",
+      image: "/events1.png",
+    },
+    {
+      component: HospitalityAbout1,
+      name: "About Us",
+      description: "Hotel story, team, and company information",
+      image: "/about1.png",
+    },
+    {
+      component: HospitalityContact1,
+      name: "Contact Page",
+      description: "Complete contact form with departments and map",
+      image: "/contact1.png",
+    },
+    {
+      component: HospitalityFooter1,
+      name: "Footer",
+      description: "Comprehensive footer with links and contact info",
+      image: "/footer1.png",
+    },
+    {
+      component: HospitalitySpaWellness1,
+      name: "Spa & Wellness",
+      description: "Comprehensive spa services with treatments and packages",
+      image: "/spaWellness1.png",
+    },
+    {
+      component: HospitalityConcierge1,
+      name: "Concierge Services",
+      description: "Personal assistant services with quick requests",
+      image: "/concierge1.png",
+    },
+    {
+      component: HospitalityOffers1,
+      name: "Special Offers",
+      description: "Limited-time deals and packages with discounts",
+      image: "/offers1.png",
+    },
+    {
+      component: HospitalityFAQ1,
+      name: "FAQ Section",
+      description: "Frequently asked questions with search and categories",
+      image: "/faq1.png",
+    },
+    {
+      component: HospitalityFeatures1,
+      name: "Features Highlight",
+      description: "Key features showcase with icons and descriptions",
+      image: "/features1.png",
+    },
+    {
+      component: HospitalityFacilities1,
+      name: "Facilities Showcase",
+      description: "Interactive facilities with hover effects and categories",
+      image: "/facilities1.png",
+    },
+    {
+      component: HospitalityInteractiveOffers1,
+      name: "Interactive Offers",
+      description: "Hover-based offer banners with animations",
+      image: "/interactiveOffers1.png",
+    },
+    {
+      component: HospitalityRoomTabs1,
+      name: "Room Types Tabs",
+      description: "Tabbed room showcase with pricing and features",
+      image: "/roomTabs1.png",
+    },
+    {
+      component: HospitalityNewsletter1,
+      name: "Newsletter Signup",
+      description: "Email subscription form with privacy notice",
+      image: "/newsletter1.png",
+    },
+    {
+      component: HospitalityInstagram1,
+      name: "Instagram Feed",
+      description: "Social media gallery with follow button",
+      image: "/instagram1.png",
+    },
+    {
+      component: HospitalityTestimonials3,
+      name: "Testimonials with Ratings",
+      description: "Guest reviews with star ratings and platform integration",
+      image: "/testimonials3.png",
+    },
+    {
+      component: HospitalityFooter2,
+      name: "Complete Footer",
+      description: "Full footer with newsletter, Instagram, and navigation",
+      image: "/footer2.png",
+    },
+    {
+      component: HospitalityMarquee1,
+      name: "Marquee Text",
+      description: "Scrolling text banner with achievements",
+      image: "/marquee1.png",
+    },
+    {
+      component: HospitalityAbout2,
+      name: "About Story",
+      description: "Company story with timeline and achievements",
+      image: "/about2.png",
+    },
+    {
+      component: HospitalityHeader1,
+      name: "Header Navigation",
+      description: "Complete header with logo, navigation, and booking",
+      image: "/header1.png",
+    },
+    {
+      component: HospitalityHero2,
+      name: "Hero Banner",
+      description: "Full-screen hero with slider and call-to-action",
+      image: "/hero2.png",
+    },
+    {
+      component: HospitalityFeatures2,
+      name: "Features Grid",
+      description: "Icon-based features showcase with descriptions",
+      image: "/features2.png",
+    },
+    {
+      component: HospitalityFacilities2,
+      name: "Rotating Facilities",
+      description: "Interactive facilities with hover effects and rotation",
+      image: "/facilities2.png",
+    },
+    {
+      component: HospitalityTestimonials4,
+      name: "Testimonial Banner",
+      description: "Large testimonial with vertical label and company logo",
+      image: "/testimonials4.png",
+    },
+    {
+      component: HospitalityClients1,
+      name: "Client Logos",
+      description: "Partner logos with discount banner",
+      image: "/clients1.png",
+    },
+    {
+      component: HospitalityRoomTabs2,
+      name: "Room Tabs Detailed",
+      description: "Interactive room showcase with detailed content and pricing",
+      image: "/roomTabs2.png",
+    },
+    {
+      component: HospitalityPricing1,
+      name: "Pricing Cards",
+      description: "Package pricing with features and discounts",
+      image: "/pricing1.png",
+    },
+    {
+      component: HospitalityCTA1,
+      name: "Call to Action",
+      description: "Full-screen CTA banner with multiple actions",
+      image: "/cta1.png",
+    },
+    {
+      component: HospitalityStats1,
+      name: "Statistics Counter",
+      description: "Animated statistics with icons and descriptions",
+      image: "/stats1.png",
+    },
+    // New multi-industry components
+    {
+      component: HospitalityDropdown1,
+      name: "Dropdown Menu",
+      description: "Interactive dropdown with room options and pricing",
+      image: "/dropdown1.png",
+    },
+    {
+      component: RestaurantHero1,
+      name: "Restaurant Hero",
+      description: "Hero with pattern background and decorative elements",
+      image: "/restaurantHero1.png",
+    },
+    {
+      component: BusinessTopBar1,
+      name: "Business Top Bar",
+      description: "Top bar with announcement and contact information",
+      image: "/topBar1.png",
+    },
+    {
+      component: RestaurantFeatures1,
+      name: "Restaurant Features",
+      description: "Delivery and service features with circular icons",
+      image: "/restaurantFeatures1.png",
+    },
+    {
+      component: SearchModal1,
+      name: "Search Modal",
+      description: "Full-screen search modal with results",
+      image: "/searchModal1.png",
+    },
+    // Accounting components
+    {
+      component: AccountingHero1,
+      name: "Accounting Hero",
+      description: "Hero section with stats and contact form for accounting",
+      image: "/accountingHero1.png",
+    },
+    {
+      component: AccountingServices1,
+      name: "Accounting Services",
+      description: "Services carousel with interactive cards and navigation",
+      image: "/accountingServices1.png",
+    },
+    {
+      component: AccountingCompany1,
+      name: "Accounting Company",
+      description: "Company about page with features and page title",
+      image: "/accountingCompany1.png",
+    },
+    {
+      component: AccountingContact1,
+      name: "Accounting Contact",
+      description: "Contact page with info cards and contact form",
+      image: "/accountingContact1.png",
+    },
+    {
+      component: AccountingNews1,
+      name: "Accounting News",
+      description: "News/blog listing with featured articles and categories",
+      image: "/accountingNews1.png",
+    },
+    {
+      component: AccountingProcess1,
+      name: "Accounting Process",
+      description: "Process steps with numbered cards and CTA section",
+      image: "/accountingProcess1.png",
+    },
+    {
+      component: AccountingServicesDetails1,
+      name: "Accounting Services Details",
+      description: "Service details page with features and pricing",
+      image: "/accountingServicesDetails1.png",
+    },
+    {
+      component: AccountingBlogSingle1,
+      name: "Accounting Blog Single",
+      description: "Single blog post with sidebar and related articles",
+      image: "/accountingBlogSingle1.png",
     },
     {
       component: CraftCosmeticCaseStudy1,
@@ -407,6 +804,24 @@ const componentsByType = {
       name: "Property Gallery",
       description: "Interactive property photo gallery with virtual tour",
       image: "/placeholder.svg",
+    },
+    {
+      component: CraftCosmeticCaseStudies1,
+      name: "Cosmetic Case Studies 1",
+      description: "Treatment case studies and results showcase",
+      image: "/cosmeticCaseStudies1.png",
+    },
+    {
+      component: CraftCosmeticCaseStudy1,
+      name: "Cosmetic Case Study 1",
+      description: "Individual case study showcase with detailed results",
+      image: "/cosmeticCaseStudy1.png",
+    },
+    {
+      component: CraftCosmeticBeforeAfter1,
+      name: "Cosmetic Before & After 1",
+      description: "Transformation showcases with before and after images",
+      image: "/cosmeticBeforeAfter1.png",
     },
   ],
   pricing: [
@@ -472,6 +887,12 @@ const componentsByType = {
       description: "Modern footer with newsletter and social links",
       image: "/placeholder.svg",
     },
+    {
+      component: CraftCosmeticFooter1,
+      name: "Cosmetic Footer 1",
+      description: "Professional cosmetic clinic footer with contact info",
+      image: "/cosmeticFooter1.png",
+    },
   ],
   cards: [
     {
@@ -501,20 +922,50 @@ export const SidebarContent = ({
   isComponentEditor = false,
 }: SidebarContentProps) => {
   const { openModal } = useModalStore();
+  const [searchQuery, setSearchQuery] = useState("");
 
   const categoryItems =
     typeof currentCategory?.items === "function"
       ? currentCategory.items()
       : currentCategory?.items || [];
 
+  // Filter components based on search query
+  const filterComponents = (components: any[]) => {
+    if (!searchQuery.trim()) return components;
+    
+    const query = searchQuery.toLowerCase();
+    return components.filter((item) =>
+      item.name.toLowerCase().includes(query) ||
+      item.description.toLowerCase().includes(query)
+    );
+  };
+
+  // Filter components by type for search
+  const filteredComponentsByType = useMemo(() => {
+    if (!searchQuery.trim()) return componentsByType;
+    
+    const filtered: any = {};
+    Object.keys(componentsByType).forEach((key) => {
+      filtered[key] = filterComponents(componentsByType[key as keyof typeof componentsByType]);
+    });
+    return filtered;
+  }, [searchQuery]);
+
   // Calculate total components for the unified category
-  const totalComponents =
-    activeCategory === "components"
-      ? Object.values(componentsByType).reduce(
-          (total, items) => total + items.length,
-          0
-        )
-      : categoryItems.length;
+  const totalComponents = useMemo(() => {
+    if (activeCategory === "components") {
+      return searchQuery.trim()
+        ? Object.values(filteredComponentsByType).reduce(
+            (total, items: any) => total + items.length,
+            0
+          )
+        : Object.values(componentsByType).reduce(
+            (total, items: any) => total + items.length,
+            0
+          );
+    }
+    return searchQuery.trim() ? filterComponents(categoryItems).length : categoryItems.length;
+  }, [activeCategory, searchQuery, categoryItems, filteredComponentsByType]);
 
   return (
     <div className="w-80 bg-card flex flex-col h-full transition-all duration-300">
@@ -525,245 +976,307 @@ export const SidebarContent = ({
         <p className="text-sm text-muted-foreground">
           {totalComponents} components available
         </p>
+        
+        {/* Search Input */}
+        <div className="relative mt-3">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+          <Input
+            placeholder="Search components..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="pl-10 pr-10"
+          />
+          {searchQuery && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setSearchQuery("")}
+              className="absolute right-1 top-1/2 transform -translate-y-1/2 h-6 w-6 p-0 hover:bg-muted"
+            >
+              <X className="h-3 w-3" />
+            </Button>
+          )}
+        </div>
       </div>
 
       <ScrollArea className="flex-1">
         <div className="p-4 space-y-3">
           {/* New unified components category with accordions - hide in component editor */}
           {activeCategory === "components" && !isComponentEditor && (
-            <Accordion
-              type="multiple"
-              defaultValue={["hero", "services"]}
-              className="space-y-2"
-            >
-              <AccordionItem value="hero">
-                <AccordionTrigger className="text-sm font-medium">
-                  Hero Sections
-                </AccordionTrigger>
-                <AccordionContent>
-                  <div className="space-y-3 pt-2">
-                    {componentsByType.hero.map((item, index) => (
-                      <BlockItem
-                        key={index}
-                        component={item.component}
-                        name={item.name}
-                        description={item.description}
-                        image={item.image}
-                      />
-                    ))}
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
+            <>
+              {searchQuery.trim() && totalComponents === 0 ? (
+                <div className="text-center py-8 text-muted-foreground">
+                  <Search className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                  <p className="text-sm">No components found for "{searchQuery}"</p>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setSearchQuery("")}
+                    className="mt-2"
+                  >
+                    Clear search
+                  </Button>
+                </div>
+              ) : (
+                <Accordion
+                  type="multiple"
+                  defaultValue={searchQuery.trim() ? [] : ["hero", "services"]}
+                  className="space-y-2"
+                >
+              {filteredComponentsByType.hero.length > 0 && (
+                <AccordionItem value="hero">
+                  <AccordionTrigger className="text-sm font-medium">
+                    Hero Sections ({filteredComponentsByType.hero.length})
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <div className="space-y-3 pt-2">
+                      {filteredComponentsByType.hero.map((item, index) => (
+                        <BlockItem
+                          key={index}
+                          component={item.component}
+                          name={item.name}
+                          description={item.description}
+                          image={item.image}
+                        />
+                      ))}
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              )}
 
-              <AccordionItem value="services">
-                <AccordionTrigger className="text-sm font-medium">
-                  Services & Features
-                </AccordionTrigger>
-                <AccordionContent>
-                  <div className="space-y-3 pt-2">
-                    {componentsByType.services.map((item, index) => (
-                      <BlockItem
-                        key={index}
-                        component={item.component}
-                        name={item.name}
-                        description={item.description}
-                        image={item.image}
-                      />
-                    ))}
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
+              {filteredComponentsByType.services.length > 0 && (
+                <AccordionItem value="services">
+                  <AccordionTrigger className="text-sm font-medium">
+                    Services & Features ({filteredComponentsByType.services.length})
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <div className="space-y-3 pt-2">
+                      {filteredComponentsByType.services.map((item, index) => (
+                        <BlockItem
+                          key={index}
+                          component={item.component}
+                          name={item.name}
+                          description={item.description}
+                          image={item.image}
+                        />
+                      ))}
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              )}
 
-              <AccordionItem value="about">
-                <AccordionTrigger className="text-sm font-medium">
-                  About & Values
-                </AccordionTrigger>
-                <AccordionContent>
-                  <div className="space-y-3 pt-2">
-                    {componentsByType.about.map((item, index) => (
-                      <BlockItem
-                        key={index}
-                        component={item.component}
-                        name={item.name}
-                        description={item.description}
-                        image={item.image}
-                      />
-                    ))}
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
+              {filteredComponentsByType.about.length > 0 && (
+                <AccordionItem value="about">
+                  <AccordionTrigger className="text-sm font-medium">
+                    About & Values ({filteredComponentsByType.about.length})
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <div className="space-y-3 pt-2">
+                      {filteredComponentsByType.about.map((item, index) => (
+                        <BlockItem
+                          key={index}
+                          component={item.component}
+                          name={item.name}
+                          description={item.description}
+                          image={item.image}
+                        />
+                      ))}
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              )}
 
-              <AccordionItem value="team">
-                <AccordionTrigger className="text-sm font-medium">
-                  Team & Staff
-                </AccordionTrigger>
-                <AccordionContent>
-                  <div className="space-y-3 pt-2">
-                    {componentsByType.team.map((item, index) => (
-                      <BlockItem
-                        key={index}
-                        component={item.component}
-                        name={item.name}
-                        description={item.description}
-                        image={item.image}
-                      />
-                    ))}
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
+              {filteredComponentsByType.team.length > 0 && (
+                <AccordionItem value="team">
+                  <AccordionTrigger className="text-sm font-medium">
+                    Team & Staff ({filteredComponentsByType.team.length})
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <div className="space-y-3 pt-2">
+                      {filteredComponentsByType.team.map((item, index) => (
+                        <BlockItem
+                          key={index}
+                          component={item.component}
+                          name={item.name}
+                          description={item.description}
+                          image={item.image}
+                        />
+                      ))}
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              )}
 
-              <AccordionItem value="testimonials">
-                <AccordionTrigger className="text-sm font-medium">
-                  Testimonials & Reviews
-                </AccordionTrigger>
-                <AccordionContent>
-                  <div className="space-y-3 pt-2">
-                    {componentsByType.testimonials.map((item, index) => (
-                      <BlockItem
-                        key={index}
-                        component={item.component}
-                        name={item.name}
-                        description={item.description}
-                        image={item.image}
-                      />
-                    ))}
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
+              {filteredComponentsByType.testimonials.length > 0 && (
+                <AccordionItem value="testimonials">
+                  <AccordionTrigger className="text-sm font-medium">
+                    Testimonials & Reviews ({filteredComponentsByType.testimonials.length})
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <div className="space-y-3 pt-2">
+                      {filteredComponentsByType.testimonials.map((item, index) => (
+                        <BlockItem
+                          key={index}
+                          component={item.component}
+                          name={item.name}
+                          description={item.description}
+                          image={item.image}
+                        />
+                      ))}
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              )}
 
-              <AccordionItem value="content">
-                <AccordionTrigger className="text-sm font-medium">
-                  Content & Gallery
-                </AccordionTrigger>
-                <AccordionContent>
-                  <div className="space-y-3 pt-2">
-                    {componentsByType.content.map((item, index) => (
-                      <BlockItem
-                        key={index}
-                        component={item.component}
-                        name={item.name}
-                        description={item.description}
-                        image={item.image}
-                      />
-                    ))}
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
+              {filteredComponentsByType.content.length > 0 && (
+                <AccordionItem value="content">
+                  <AccordionTrigger className="text-sm font-medium">
+                    Content & Gallery ({filteredComponentsByType.content.length})
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <div className="space-y-3 pt-2">
+                      {filteredComponentsByType.content.map((item, index) => (
+                        <BlockItem
+                          key={index}
+                          component={item.component}
+                          name={item.name}
+                          description={item.description}
+                          image={item.image}
+                        />
+                      ))}
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              )}
 
-              <AccordionItem value="cta">
-                <AccordionTrigger className="text-sm font-medium">
-                  Call to Action
-                </AccordionTrigger>
-                <AccordionContent>
-                  <div className="space-y-3 pt-2">
-                    {componentsByType.cta.map((item, index) => (
-                      <BlockItem
-                        key={index}
-                        component={item.component}
-                        name={item.name}
-                        description={item.description}
-                        image={item.image}
-                      />
-                    ))}
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
+              {filteredComponentsByType.cta.length > 0 && (
+                <AccordionItem value="cta">
+                  <AccordionTrigger className="text-sm font-medium">
+                    Call to Action ({filteredComponentsByType.cta.length})
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <div className="space-y-3 pt-2">
+                      {filteredComponentsByType.cta.map((item, index) => (
+                        <BlockItem
+                          key={index}
+                          component={item.component}
+                          name={item.name}
+                          description={item.description}
+                          image={item.image}
+                        />
+                      ))}
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              )}
 
-              <AccordionItem value="pricing">
-                <AccordionTrigger className="text-sm font-medium">
-                  Pricing & Plans
-                </AccordionTrigger>
-                <AccordionContent>
-                  <div className="space-y-3 pt-2">
-                    {componentsByType.pricing.map((item, index) => (
-                      <BlockItem
-                        key={index}
-                        component={item.component}
-                        name={item.name}
-                        description={item.description}
-                        image={item.image}
-                      />
-                    ))}
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
+              {filteredComponentsByType.pricing.length > 0 && (
+                <AccordionItem value="pricing">
+                  <AccordionTrigger className="text-sm font-medium">
+                    Pricing & Plans ({filteredComponentsByType.pricing.length})
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <div className="space-y-3 pt-2">
+                      {filteredComponentsByType.pricing.map((item, index) => (
+                        <BlockItem
+                          key={index}
+                          component={item.component}
+                          name={item.name}
+                          description={item.description}
+                          image={item.image}
+                        />
+                      ))}
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              )}
 
-              <AccordionItem value="contact">
-                <AccordionTrigger className="text-sm font-medium">
-                  Contact & Forms
-                </AccordionTrigger>
-                <AccordionContent>
-                  <div className="space-y-3 pt-2">
-                    {componentsByType.contact.map((item, index) => (
-                      <BlockItem
-                        key={index}
-                        component={item.component}
-                        name={item.name}
-                        description={item.description}
-                        image={item.image}
-                      />
-                    ))}
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
+              {filteredComponentsByType.contact.length > 0 && (
+                <AccordionItem value="contact">
+                  <AccordionTrigger className="text-sm font-medium">
+                    Contact & Forms ({filteredComponentsByType.contact.length})
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <div className="space-y-3 pt-2">
+                      {filteredComponentsByType.contact.map((item, index) => (
+                        <BlockItem
+                          key={index}
+                          component={item.component}
+                          name={item.name}
+                          description={item.description}
+                          image={item.image}
+                        />
+                      ))}
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              )}
 
-              <AccordionItem value="headers">
-                <AccordionTrigger className="text-sm font-medium">
-                  Headers & Navigation
-                </AccordionTrigger>
-                <AccordionContent>
-                  <div className="space-y-3 pt-2">
-                    {componentsByType.headers.map((item, index) => (
-                      <BlockItem
-                        key={index}
-                        component={item.component}
-                        name={item.name}
-                        description={item.description}
-                        image={item.image}
-                      />
-                    ))}
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
+              {filteredComponentsByType.headers.length > 0 && (
+                <AccordionItem value="headers">
+                  <AccordionTrigger className="text-sm font-medium">
+                    Headers & Navigation ({filteredComponentsByType.headers.length})
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <div className="space-y-3 pt-2">
+                      {filteredComponentsByType.headers.map((item, index) => (
+                        <BlockItem
+                          key={index}
+                          component={item.component}
+                          name={item.name}
+                          description={item.description}
+                          image={item.image}
+                        />
+                      ))}
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              )}
 
-              <AccordionItem value="footers">
-                <AccordionTrigger className="text-sm font-medium">
-                  Footers
-                </AccordionTrigger>
-                <AccordionContent>
-                  <div className="space-y-3 pt-2">
-                    {componentsByType.footers.map((item, index) => (
-                      <BlockItem
-                        key={index}
-                        component={item.component}
-                        name={item.name}
-                        description={item.description}
-                        image={item.image}
-                      />
-                    ))}
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
+              {filteredComponentsByType.footers.length > 0 && (
+                <AccordionItem value="footers">
+                  <AccordionTrigger className="text-sm font-medium">
+                    Footers ({filteredComponentsByType.footers.length})
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <div className="space-y-3 pt-2">
+                      {filteredComponentsByType.footers.map((item, index) => (
+                        <BlockItem
+                          key={index}
+                          component={item.component}
+                          name={item.name}
+                          description={item.description}
+                          image={item.image}
+                        />
+                      ))}
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              )}
 
-              <AccordionItem value="cards">
-                <AccordionTrigger className="text-sm font-medium">
-                  Dynamic Cards
-                </AccordionTrigger>
-                <AccordionContent>
-                  <div className="space-y-3 pt-2">
-                    {componentsByType.cards.map((item, index) => (
-                      <BlockItem
-                        key={index}
-                        component={item.component}
-                        name={item.name}
-                        description={item.description}
-                        image={item.image}
-                      />
-                    ))}
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
+              {filteredComponentsByType.cards.length > 0 && (
+                <AccordionItem value="cards">
+                  <AccordionTrigger className="text-sm font-medium">
+                    Dynamic Cards ({filteredComponentsByType.cards.length})
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <div className="space-y-3 pt-2">
+                      {filteredComponentsByType.cards.map((item, index) => (
+                        <BlockItem
+                          key={index}
+                          component={item.component}
+                          name={item.name}
+                          description={item.description}
+                          image={item.image}
+                        />
+                      ))}
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              )}
+                </Accordion>
+              )}
+            </>
           )}
 
           {/* CMS Fields category with special handling */}
@@ -772,22 +1285,37 @@ export const SidebarContent = ({
               <div className="text-sm text-muted-foreground px-2 mb-4">
                 Drag these fields to display data from your collection
               </div>
-              {categoryItems.map((item: any, index: number) => (
-                <div key={index} className="space-y-1">
-                  {item.fieldType && (
-                    <div className="text-xs text-muted-foreground px-2 capitalize">
-                      {item.fieldType} Field
-                    </div>
-                  )}
-                  <BlockItem
-                    component={item.component}
-                    name={item.name}
-                    description={item.description}
-                    image={item.image}
-                    props={item.props}
-                  />
+              {searchQuery.trim() && filterComponents(categoryItems).length === 0 ? (
+                <div className="text-center py-8 text-muted-foreground">
+                  <Search className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                  <p className="text-sm">No fields found for "{searchQuery}"</p>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setSearchQuery("")}
+                    className="mt-2"
+                  >
+                    Clear search
+                  </Button>
                 </div>
-              ))}
+              ) : (
+                filterComponents(categoryItems).map((item: any, index: number) => (
+                  <div key={index} className="space-y-1">
+                    {item.fieldType && (
+                      <div className="text-xs text-muted-foreground px-2 capitalize">
+                        {item.fieldType} Field
+                      </div>
+                    )}
+                    <BlockItem
+                      component={item.component}
+                      name={item.name}
+                      description={item.description}
+                      image={item.image}
+                      props={item.props}
+                    />
+                  </div>
+                ))
+              )}
             </div>
           )}
 
@@ -795,17 +1323,35 @@ export const SidebarContent = ({
           {activeCategory !== "userBlocks" &&
             activeCategory !== "page" &&
             activeCategory !== "components" &&
-            activeCategory !== "fields" &&
-            categoryItems.map((item: any, index: number) => (
-              <BlockItem
-                key={index}
-                component={item.component}
-                name={item.name}
-                description={item.description}
-                image={item.image}
-                props={item.props}
-              />
-            ))}
+            activeCategory !== "fields" && (
+            <>
+              {searchQuery.trim() && filterComponents(categoryItems).length === 0 ? (
+                <div className="text-center py-8 text-muted-foreground">
+                  <Search className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                  <p className="text-sm">No items found for "{searchQuery}"</p>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setSearchQuery("")}
+                    className="mt-2"
+                  >
+                    Clear search
+                  </Button>
+                </div>
+              ) : (
+                filterComponents(categoryItems).map((item: any, index: number) => (
+                  <BlockItem
+                    key={index}
+                    component={item.component}
+                    name={item.name}
+                    description={item.description}
+                    image={item.image}
+                    props={item.props}
+                  />
+                ))
+              )}
+            </>
+          )}
 
           {/* Special accordion handling for page elements - hide in component editor */}
           {activeCategory === "page" && !isComponentEditor && (
@@ -816,7 +1362,7 @@ export const SidebarContent = ({
                 </AccordionTrigger>
                 <AccordionContent>
                   <div className="space-y-3 pt-2">
-                    {categoryItems
+                    {filterComponents(categoryItems)
                       .filter(
                         (item: any) =>
                           item.name.toLowerCase().includes("medical") ||
@@ -843,7 +1389,7 @@ export const SidebarContent = ({
                 </AccordionTrigger>
                 <AccordionContent>
                   <div className="space-y-3 pt-2">
-                    {categoryItems
+                    {filterComponents(categoryItems)
                       .filter(
                         (item: any) =>
                           !item.name.toLowerCase().includes("medical") &&
