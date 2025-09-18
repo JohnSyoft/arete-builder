@@ -18,6 +18,19 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const hostname = request.headers.get('host') || '';
   
+  // Handle CORS preflight requests
+  if (request.method === 'OPTIONS') {
+    return new NextResponse(null, {
+      status: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Requested-With, Accept, Origin',
+        'Access-Control-Allow-Credentials': 'true',
+      },
+    });
+  }
+  
   // Parse subdomain from hostname
   const hostParts = hostname.split('.');
   const subdomain = hostParts.length > 2 ? hostParts[0] : null;
@@ -46,7 +59,15 @@ export function middleware(request: NextRequest) {
     // This is a client subdomain (e.g., arete.hhola.app)
     // Rewrite to the subdomain route handler
     const subdomainUrl = new URL(`/subdomain/${subdomain}`, request.url);
-    return NextResponse.rewrite(subdomainUrl);
+    const response = NextResponse.rewrite(subdomainUrl);
+    
+    // Add CORS headers for subdomain requests
+    response.headers.set('Access-Control-Allow-Origin', '*');
+    response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+    response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin');
+    response.headers.set('Access-Control-Allow-Credentials', 'true');
+    
+    return response;
   }
 
   // For all other cases (localhost, main app, no subdomain), handle normal routing
@@ -76,8 +97,16 @@ export function middleware(request: NextRequest) {
   }
 
   console.log('Allowing request to continue');
-  // Allow the request to continue
-  return NextResponse.next();
+  // Allow the request to continue with CORS headers
+  const response = NextResponse.next();
+  
+  // Add CORS headers to all responses
+  response.headers.set('Access-Control-Allow-Origin', '*');
+  response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+  response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin');
+  response.headers.set('Access-Control-Allow-Credentials', 'true');
+  
+  return response;
 }
 
 export const config = {
