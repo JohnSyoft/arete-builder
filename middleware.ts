@@ -43,10 +43,11 @@ export function middleware(request: NextRequest) {
   const isMainAppSubdomain = subdomain === MAIN_APP_SUBDOMAIN;
   
   if (subdomain && hostParts.length > 2 && !isMainAppSubdomain && !isMainDomain && !isMainAppDomain) {
-    console.log('Handling subdomain:', subdomain);
+    console.log('Handling subdomain:', subdomain, 'pathname:', pathname);
     // This is a client subdomain (e.g., arete.hhola.app)
-    // Rewrite to the subdomain route handler
-    const subdomainUrl = new URL(`/subdomain/${subdomain}`, request.url);
+    // Rewrite to the subdomain route handler with the full path
+    const subdomainUrl = new URL(`/subdomain/${subdomain}${pathname}`, request.url);
+    console.log('Rewriting to:', subdomainUrl.pathname);
     return NextResponse.rewrite(subdomainUrl);
   }
 

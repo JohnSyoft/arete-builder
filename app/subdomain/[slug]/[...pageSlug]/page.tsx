@@ -24,8 +24,8 @@ export async function generateMetadata({ params }: SubdomainPageProps): Promise<
       }
     }
 
-    // Handle home page (no pageSlug)
-    if (params.pageSlug.length === 0) {
+    // Handle home page (no pageSlug or pageSlug is empty)
+    if (params.pageSlug.length === 0 || (params.pageSlug.length === 1 && params.pageSlug[0] === '')) {
       const pages = await getProjectPagesBySlug(params.slug)
       const homePage = pages.find((page: any) => page.isHomePage) || pages[0]
 
@@ -112,7 +112,10 @@ export default async function SubdomainPage({ params }: SubdomainPageProps) {
   }
 
   try {
+    console.log('=== SUBDOMAIN PAGE DEBUG ===')
     console.log('Fetching project data for slug:', params.slug, 'pageSlug:', params.pageSlug)
+    console.log('pageSlug.length:', params.pageSlug.length)
+    console.log('pageSlug[0]:', params.pageSlug[0])
     
     // Fetch project data
     const project = await getProjectBySlug(params.slug)
@@ -131,8 +134,8 @@ export default async function SubdomainPage({ params }: SubdomainPageProps) {
     let currentPage
     let layout
 
-    // Handle home page (no pageSlug)
-    if (params.pageSlug.length === 0) {
+    // Handle home page (no pageSlug or pageSlug is empty)
+    if (params.pageSlug.length === 0 || (params.pageSlug.length === 1 && params.pageSlug[0] === '')) {
       currentPage = pages.find((page: any) => page.isHomePage) || pages[0]
     } else {
       // Handle specific pages
