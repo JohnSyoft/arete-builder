@@ -29,7 +29,6 @@ export default async function SubdomainPage({ params }: SubdomainPageProps) {
   ]
 
   if (RESERVED_PATHS.includes(params.slug)) {
-    alert("HI")
     notFound()
   }
 
