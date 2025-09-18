@@ -21,7 +21,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     "_next",
     "static",
   ]
-
+console.log("Hi")
   if (RESERVED_PATHS.includes(params.projectId)) {
     notFound()
   }

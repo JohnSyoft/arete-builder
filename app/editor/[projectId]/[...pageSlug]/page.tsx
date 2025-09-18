@@ -337,24 +337,47 @@ export default function EditorPage() {
 
   const handlePreview = () => {
     if (project && currentPageData) {
-      // For CMS detail pages, we need to construct the preview URL properly
-      if (currentPageData.pageType === "cms" && currentPageData.cmsPageType === "detail") {
-        if (selectedItem && selectedItem.slug) {
-          // Use the selected item's slug for preview: /site/{projectId}/{collectionSlug}/{itemSlug}
-          const collectionSlug = pageSlugSegments[0];
-          const previewUrl = `/site/${project._id}/${collectionSlug}/${selectedItem.slug}`;
-          console.log("CMS Preview URL:", previewUrl, { selectedItem, collectionSlug });
-          window.open(previewUrl, "_blank");
-        } else {
-          // Fallback: if no selected item, show a warning or use the URL segment
-          console.warn("No selected item for CMS detail page preview");
-          if (pageSlugSegments.length === 2) {
-            window.open(`/site/${project._id}/${pageSlugSegments[0]}/${pageSlugSegments[1]}`, "_blank");
+      // Check if we're in production (has subdomain) or development
+      const isProduction = process.env.NODE_ENV === 'production' && project.slug;
+      
+      if (isProduction) {
+        // Production: Use subdomain URL
+        if (currentPageData.pageType === "cms" && currentPageData.cmsPageType === "detail") {
+          if (selectedItem && selectedItem.slug) {
+            const collectionSlug = pageSlugSegments[0];
+            const previewUrl = `https://${project.slug}.hhola.app/${collectionSlug}/${selectedItem.slug}`;
+            console.log("Production CMS Preview URL:", previewUrl);
+            window.open(previewUrl, "_blank");
+          } else {
+            console.warn("No selected item for CMS detail page preview");
+            if (pageSlugSegments.length === 2) {
+              window.open(`https://${project.slug}.hhola.app/${pageSlugSegments[0]}/${pageSlugSegments[1]}`, "_blank");
+            }
           }
+        } else {
+          const previewUrl = `https://${project.slug}.hhola.app/${currentPageData.slug}`;
+          console.log("Production Preview URL:", previewUrl);
+          window.open(previewUrl, "_blank");
         }
       } else {
-        // Regular page preview
-        window.open(`/site/${project._id}/${currentPageData.slug}`, "_blank");
+        // Development: Use /site URL
+        if (currentPageData.pageType === "cms" && currentPageData.cmsPageType === "detail") {
+          if (selectedItem && selectedItem.slug) {
+            const collectionSlug = pageSlugSegments[0];
+            const previewUrl = `/site/${project._id}/${collectionSlug}/${selectedItem.slug}`;
+            console.log("Development CMS Preview URL:", previewUrl);
+            window.open(previewUrl, "_blank");
+          } else {
+            console.warn("No selected item for CMS detail page preview");
+            if (pageSlugSegments.length === 2) {
+              window.open(`/site/${project._id}/${pageSlugSegments[0]}/${pageSlugSegments[1]}`, "_blank");
+            }
+          }
+        } else {
+          const previewUrl = `/site/${project._id}/${currentPageData.slug}`;
+          console.log("Development Preview URL:", previewUrl);
+          window.open(previewUrl, "_blank");
+        }
       }
     }
   };
