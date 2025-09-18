@@ -8,7 +8,11 @@ const publicRoutes = ['/', '/login', '/register'];
 const protectedRoutes = ['/dashboard', '/editor', '/cms'];
 
 // Main app subdomain (where the editor/dashboard lives)
-const MAIN_APP_SUBDOMAIN = 'webbuilder';
+const MAIN_APP_SUBDOMAIN = 'webuilder';
+
+// Production domain (your main domain)
+const PRODUCTION_DOMAIN = 'hhola.app';
+const MAIN_APP_DOMAIN = 'webuilder.hhola.app';
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -32,7 +36,12 @@ export function middleware(request: NextRequest) {
 
   // Only handle subdomain routing if we have a proper subdomain structure (e.g., subdomain.domain.com)
   // AND it's not the main app subdomain
-  if (subdomain && hostParts.length > 2 && subdomain !== MAIN_APP_SUBDOMAIN) {
+  // AND it's not the main domain without subdomain
+  const isMainDomain = hostname === PRODUCTION_DOMAIN || hostname === `www.${PRODUCTION_DOMAIN}`;
+  const isMainAppDomain = hostname === MAIN_APP_DOMAIN;
+  const isMainAppSubdomain = subdomain === MAIN_APP_SUBDOMAIN;
+  
+  if (subdomain && hostParts.length > 2 && !isMainAppSubdomain && !isMainDomain && !isMainAppDomain) {
     console.log('Handling subdomain:', subdomain);
     // This is a client subdomain (e.g., arete.hhola.app)
     // Rewrite to the subdomain route handler

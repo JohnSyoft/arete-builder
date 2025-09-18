@@ -1,0 +1,58 @@
+{
+  "functions": {
+    "app/subdomain/[slug]/page.tsx": {
+      "maxDuration": 30
+    },
+    "app/subdomain/[slug]/sitemap.xml/route.ts": {
+      "maxDuration": 10
+    },
+    "app/subdomain/[slug]/robots.txt/route.ts": {
+      "maxDuration": 10
+    }
+  },
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/subdomain/:slug",
+      "destination": "/subdomain/:slug"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "hhola.app"
+        }
+      ],
+      "destination": "https://webuilder.hhola.app",
+      "permanent": true
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.hhola.app"
+        }
+      ],
+      "destination": "https://webuilder.hhola.app",
+      "permanent": true
+    }
+  ]
+}

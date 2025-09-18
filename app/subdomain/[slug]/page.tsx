@@ -20,7 +20,11 @@ export default async function SubdomainPage({ params }: SubdomainPageProps) {
     "sitemap.xml",
     "_next",
     "static",
-    "webbuilder", // Main app subdomain
+    "webuilder", // Main app subdomain
+    "www",
+    "app",
+    "vercel",
+    "www2"
   ]
 
   if (RESERVED_PATHS.includes(params.slug)) {
