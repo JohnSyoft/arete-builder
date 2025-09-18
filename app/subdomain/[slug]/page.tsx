@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation"
+import { notFound, redirect } from "next/navigation"
 import { getProjectBySlug } from "@/lib/api/server/projects"
 import { getProjectPagesBySlug } from "@/lib/api/server/pages"
 import { RuntimeRenderer } from "@/components/runtime/renderer"
@@ -81,69 +81,6 @@ export default async function SubdomainPage({ params }: SubdomainPageProps) {
     notFound()
   }
 
-  try {
-    console.log('Fetching project data for slug:', params.slug)
-    
-    // Fetch data server-side using the slug to find project by slug
-    const [project, pages] = await Promise.all([
-      getProjectBySlug(params.slug),
-      getProjectPagesBySlug(params.slug)
-    ])
-    
-    console.log('Project data:', { 
-      project: project ? { id: project._id, name: project.name, slug: project.slug } : null,
-      pagesCount: pages?.length || 0,
-      pages: pages?.map((p: any) => ({ id: p._id, slug: p.slug, isHomePage: p.isHomePage })) || []
-    })
-    
-    if (!project) {
-      console.log('Project not found for slug:', params.slug)
-      console.log('Available projects with similar slugs should be checked in database')
-      notFound()
-    }
-
-    // Find the home page or first page
-    const homePage = pages.find((page: any) => page.isHomePage) || pages[0]
-    if (!homePage) {
-      console.log('No pages found for project:', project._id)
-      notFound()
-    }
-
-    console.log('Rendering subdomain page for project:', project.name, 'page:', homePage.name)
-    
-    // Parse the page layout
-    let layout
-    try {
-      layout = typeof homePage.layout === 'string' ? JSON.parse(homePage.layout) : homePage.layout
-    } catch (error) {
-      console.error('Error parsing page layout:', error)
-      layout = {}
-    }
-
-    // Render the page content directly instead of redirecting
-    return (
-      <div className="min-h-screen bg-white">
-        {/* Navigation */}
-      
-
-        {/* Page Content */}
-        <main>
-          <RuntimeRenderer layout={layout} />
-        </main>
-
-        {/* Analytics and tracking */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              // Analytics tracking
-              console.log('Subdomain Page view:', '${project.name}', '${homePage.name}');
-            `,
-          }}
-        />
-      </div>
-    )
-  } catch (error) {
-    console.error('Error fetching project data:', error)
-    notFound()
-  }
+  // Redirect to home page using the catch-all route
+  redirect(`/${params.slug}`)
 }
