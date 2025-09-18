@@ -338,7 +338,7 @@ export default function EditorPage() {
   const handlePreview = () => {
     if (project && currentPageData) {
       // Check if we're in production (has subdomain) or development
-      const isProduction = process.env.NODE_ENV === 'production' && project.slug;
+      const isProduction = process.env.NEXT_PUBLIC_NODE_ENV === 'prod' && project.slug;
       
       if (isProduction) {
         // Production: Use subdomain URL
