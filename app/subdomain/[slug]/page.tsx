@@ -1,5 +1,6 @@
 import { notFound, redirect } from "next/navigation"
-import { getProject, getProjectPages } from "@/lib/api/server"
+import { getProjectBySlug } from "@/lib/api/server/projects"
+import { getProjectPagesBySlug } from "@/lib/api/server/pages"
 
 interface SubdomainPageProps {
   params: {
@@ -32,10 +33,10 @@ export default async function SubdomainPage({ params }: SubdomainPageProps) {
   }
 
   try {
-    // Fetch data server-side using the slug as projectId
+    // Fetch data server-side using the slug to find project by slug
     const [project, pages] = await Promise.all([
-      getProject(params.slug),
-      getProjectPages(params.slug)
+      getProjectBySlug(params.slug),
+      getProjectPagesBySlug(params.slug)
     ])
     
     if (!project) {

@@ -35,6 +35,31 @@ export async function getProject(projectId: string) {
 }
 
 /**
+ * Fetch a project by slug from the server-side
+ * @param slug - The project slug to fetch
+ * @returns Project data or null if not found
+ */
+export async function getProjectBySlug(slug: string) {
+  const apiUrl = getApiUrl()
+  const endpoint = `${apiUrl}/projects/by-slug/${slug}`
+  
+  try {
+    const response = await fetch(endpoint, defaultFetchOptions)
+    
+    if (!response.ok) {
+      handleApiError(endpoint, response)
+      return null
+    }
+    
+    const data: ProjectApiResponse = await response.json()
+    return data.data?.project
+  } catch (error) {
+    handleNetworkError(endpoint, error)
+    return null
+  }
+}
+
+/**
  * Fetch projects with optional query parameters
  * @param query - Optional query parameters
  * @returns Array of projects or empty array if error

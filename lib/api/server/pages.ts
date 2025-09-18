@@ -69,6 +69,31 @@ export async function getProjectPages(projectId: string) {
 }
 
 /**
+ * Fetch all pages for a project by project slug from the server-side
+ * @param projectSlug - The project slug
+ * @returns Array of pages or empty array if error
+ */
+export async function getProjectPagesBySlug(projectSlug: string) {
+  const apiUrl = getApiUrl()
+  const endpoint = `${apiUrl}/pages/project-slug/${projectSlug}`
+  
+  try {
+    const response = await fetch(endpoint, defaultFetchOptions)
+    
+    if (!response.ok) {
+      handleApiError(endpoint, response)
+      return []
+    }
+    
+    const data: PagesApiResponse = await response.json()
+    return data.data?.pages || []
+  } catch (error) {
+    handleNetworkError(endpoint, error)
+    return []
+  }
+}
+
+/**
  * Fetch a single page by ID from the server-side
  * @param pageId - The page ID
  * @returns Page data or null if not found
