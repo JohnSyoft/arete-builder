@@ -33,25 +33,35 @@ export default async function SubdomainPage({ params }: SubdomainPageProps) {
   }
 
   try {
+    console.log('Fetching project data for slug:', params.slug)
+    
     // Fetch data server-side using the slug to find project by slug
     const [project, pages] = await Promise.all([
       getProjectBySlug(params.slug),
       getProjectPagesBySlug(params.slug)
     ])
-    console.log({project,pages})
+    
+    console.log('Project data:', { 
+      project: project ? { id: project._id, name: project.name, slug: project.slug } : null,
+      pagesCount: pages?.length || 0,
+      pages: pages?.map((p: any) => ({ id: p._id, slug: p.slug, isHomePage: p.isHomePage })) || []
+    })
     
     if (!project) {
+      console.log('Project not found for slug:', params.slug)
       notFound()
     }
 
     // Find the home page or first page
     const homePage = pages.find((page: any) => page.isHomePage) || pages[0]
     if (!homePage) {
+      console.log('No pages found for project:', project._id)
       notFound()
     }
 
-    // Redirect to the home page with /site prefix
-    redirect(`/site/${params.slug}/${homePage.slug}`)
+    console.log('Redirecting to:', `/site/${project._id}/${homePage.slug}`)
+    // Redirect to the home page with /site prefix using project ID
+    redirect(`/site/${project._id}/${homePage.slug}`)
   } catch (error) {
     console.error('Error fetching project data:', error)
     notFound()
