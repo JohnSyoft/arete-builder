@@ -45,6 +45,7 @@ export default async function SubdomainPage({ params }: SubdomainPageProps) {
 
     // Find the home page or first page
     const homePage = pages.find((page: any) => page.isHomePage) || pages[0]
+    console.log({project,pages,homePage})
     if (!homePage) {
       notFound()
     }
