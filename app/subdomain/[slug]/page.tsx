@@ -29,6 +29,7 @@ export default async function SubdomainPage({ params }: SubdomainPageProps) {
   ]
 
   if (RESERVED_PATHS.includes(params.slug)) {
+    alert("HI")
     notFound()
   }
 
@@ -38,6 +39,7 @@ export default async function SubdomainPage({ params }: SubdomainPageProps) {
       getProjectBySlug(params.slug),
       getProjectPagesBySlug(params.slug)
     ])
+    console.log({project,pages})
     
     if (!project) {
       notFound()
@@ -45,7 +47,6 @@ export default async function SubdomainPage({ params }: SubdomainPageProps) {
 
     // Find the home page or first page
     const homePage = pages.find((page: any) => page.isHomePage) || pages[0]
-    console.log({project,pages,homePage})
     if (!homePage) {
       notFound()
     }
