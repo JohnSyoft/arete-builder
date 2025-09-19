@@ -162,7 +162,7 @@ export function CollectionWrapperRuntime(props: CollectionWrapperRuntimeProps) {
       // Format: /site/{projectId}/{collectionSlug}/{itemSlug}
       let navigationLink = '';
       if (currentProjectId && collection?.slug && item.slug) {
-        navigationLink = `/site/${currentProjectId}/${collection.slug}/${item.slug}`;
+        navigationLink = `/${collection.slug}/${item.slug}`;
       }
       
       // Get external link from linkField or use navigation link

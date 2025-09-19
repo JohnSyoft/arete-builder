@@ -495,7 +495,6 @@ export function CollectionItemDrawer({
   };
 
   const handleFieldChange = (fieldName: string, value: any) => {
-    console.log(`Field ${fieldName} received value:`, value);
 
     // Handle file selection for media fields
     if (
@@ -544,7 +543,7 @@ export function CollectionItemDrawer({
     setValue(`data.${fieldName}`, value);
 
     // Auto-generate slug from title field
-    if (fieldName === "title" && value) {
+    if (fieldName === "Title" && value) {
       const slug = generateSlug(value);
       setValue("slug", slug);
     }

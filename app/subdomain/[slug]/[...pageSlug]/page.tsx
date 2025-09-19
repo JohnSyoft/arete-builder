@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation"
 import { getProjectBySlug } from "@/lib/api/server/projects"
 import { getProjectPagesBySlug, getPageBySlug } from "@/lib/api/server/pages"
+import { getCollectionItemBySlug } from "@/lib/api/server/collections"
 import { RuntimeRenderer } from "@/components/runtime/renderer"
 import Link from "next/link"
 import type { Metadata } from "next"
@@ -9,6 +10,41 @@ interface SubdomainPageProps {
   params: {
     slug: string
     pageSlug: string[]
+  }
+}
+
+// Helper function to determine if this is a CMS detail page
+async function getCMSItemData(projectSlug: string, slugSegments: string[]) {
+  if (slugSegments.length !== 2) return null
+  
+  const [collectionSlug, itemSlug] = slugSegments
+  
+  try {
+    // First get the project to get the project ID
+    const project = await getProjectBySlug(projectSlug)
+    if (!project) return null
+    
+    // Check if there's a CMS detail page for this collection
+    const pages = await getProjectPagesBySlug(projectSlug)
+    const detailPage = pages.find((page: any) => 
+      page.pageType === "cms" && 
+      page.cmsPageType === "detail" && 
+      page.slug === `${collectionSlug}/:id`
+    )
+    if (!detailPage) return null
+    
+    // Fetch the CMS item data using collection slug and item slug
+    const item = await getCollectionItemBySlug(project._id, collectionSlug, itemSlug)
+    console.log({item})
+    return {
+      page: detailPage,
+      item,
+      collectionSlug,
+      itemSlug
+    }
+  } catch (error) {
+    console.error("Error fetching CMS item data:", error)
+    return null
   }
 }
 
@@ -49,6 +85,29 @@ export async function generateMetadata({ params }: SubdomainPageProps): Promise<
           title: `${homePage.name} - ${project.name}`,
           description: homePage.settings?.description || `${homePage.name} page of ${project.name}`,
         },
+      }
+    }
+
+    // Handle CMS detail pages
+    if (params.pageSlug.length === 2) {
+      const cmsData = await getCMSItemData(params.slug, params.pageSlug)
+      if (cmsData && cmsData.item) {
+        const itemTitle = cmsData.item.title || cmsData.item.name || "Detail"
+        return {
+          title: `${itemTitle} - ${project.name}`,
+          description: cmsData.item.description || `${itemTitle} from ${project.name}`,
+          openGraph: {
+            title: `${itemTitle} - ${project.name}`,
+            description: cmsData.item.description || `${itemTitle} from ${project.name}`,
+            type: "article",
+            images: cmsData.item.image ? [cmsData.item.image] : undefined,
+          },
+          twitter: {
+            card: "summary_large_image",
+            title: `${itemTitle} - ${project.name}`,
+            description: cmsData.item.description || `${itemTitle} from ${project.name}`,
+          },
+        }
       }
     }
 
@@ -131,6 +190,84 @@ export default async function SubdomainPage({ params }: SubdomainPageProps) {
       notFound()
     }
 
+    // Handle CMS detail pages (format: collection-slug/item-id)
+    if (params.pageSlug.length === 2) {
+      const cmsData = await getCMSItemData(params.slug, params.pageSlug)
+      if (cmsData) {
+        const { page, item } = cmsData
+        
+        if (!item) {
+          console.log('CMS item not found:', params.pageSlug)
+          notFound()
+        }
+
+        let layout
+        try {
+          layout = typeof page.layout === 'string' ? JSON.parse(page.layout) : page.layout
+        } catch (error) {
+          console.error('Error parsing CMS page layout:', error)
+          layout = {}
+        }
+
+        console.log('Rendering CMS detail page for project:', project.name, 'page:', page.name, 'item:', item._id)
+
+        return (
+          <div className="min-h-screen bg-white">
+            {/* Navigation */}
+            <nav className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="flex justify-between items-center h-16">
+                  {/* Logo/Brand */}
+                  <div className="flex items-center">
+                    <a href={`/${params.slug}`} className="text-xl font-bold text-gray-900">
+                      {project.name}
+                    </a>
+                  </div>
+
+                  {/* Navigation Links */}
+                  <div className="hidden md:flex space-x-8">
+                    {pages.filter((p: any) => !p.isHomePage && p.pageType !== "cms").map((navPage: any) => (
+                      <Link
+                        key={navPage._id}
+                        href={`/${params.slug}/${navPage.slug}`}
+                        className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors"
+                      >
+                        {navPage.name}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </nav>
+
+            {/* Page Content with CMS context */}
+            <main>
+              <RuntimeRenderer 
+                layout={layout} 
+                cmsItem={item}
+                cmsContext={{
+                  collectionId: page.collection,
+                  itemId: item._id,
+                  itemSlug: cmsData.itemSlug,
+                  collectionSlug: cmsData.collectionSlug
+                }}
+              />
+            </main>
+
+            {/* Analytics and tracking */}
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
+                  // Analytics tracking for CMS detail page
+                  console.log('CMS Detail Page view:', '${project.name}', '${page.name}', '${item._id}');
+                `,
+              }}
+            />
+          </div>
+        )
+      }
+    }
+
     let currentPage
     let layout
 
@@ -162,7 +299,35 @@ export default async function SubdomainPage({ params }: SubdomainPageProps) {
     return (
       <div className="min-h-screen bg-white">
         {/* Navigation */}
-     
+        <nav className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between items-center h-16">
+              {/* Logo/Brand */}
+              <div className="flex items-center">
+                <a href={`/${params.slug}`} className="text-xl font-bold text-gray-900">
+                  {project.name}
+                </a>
+              </div>
+
+              {/* Navigation Links */}
+              <div className="hidden md:flex space-x-8">
+                {pages.filter((p: any) => !p.isHomePage && p.pageType !== "cms").map((navPage: any) => (
+                  <Link
+                    key={navPage._id}
+                    href={`/${params.slug}/${navPage.slug}`}
+                    className={`px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                      navPage.slug === (params.pageSlug.join("/") || "home")
+                        ? "bg-gray-100 text-gray-900"
+                        : "text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+                    }`}
+                  >
+                    {navPage.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        </nav>
 
         {/* Page Content */}
         <main>
