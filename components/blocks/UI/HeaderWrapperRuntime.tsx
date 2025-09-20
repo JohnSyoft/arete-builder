@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React, { useState } from 'react';
 
 interface HeaderWrapperRuntimeProps {
@@ -176,24 +177,24 @@ export function HeaderWrapperRuntime({
         <nav className="hidden md:flex items-center space-x-8">
           {navigationItems.map((item) => (
             <div key={item.id} className="relative group">
-              <a
+              <Link
                 href={item.href}
                 className="text-sm font-medium hover:text-blue-600 transition-colors"
                 style={{ color: textColor }}
               >
                 {item.label}
-              </a>
+              </Link>
               {item.children && item.children.length > 0 && (
                 <div className="absolute top-full left-0 mt-2 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                   <div className="py-2">
                     {item.children.map((child) => (
-                      <a
+                      <Link
                         key={child.id}
                         href={child.href}
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       >
                         {child.label}
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 </div>
