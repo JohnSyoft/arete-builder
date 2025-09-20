@@ -57,6 +57,18 @@ export function CollectionWrapperProperties({
     { value: "compact", label: "Compact", description: "Horizontal layout with small image and text" },
     { value: "grid", label: "Grid", description: "Square cards perfect for product grids" },
     { value: "timeline", label: "Timeline", description: "Timeline-style cards with date markers" },
+    { value: "modern-gradient", label: "Modern Gradient", description: "Vibrant gradient borders with modern styling and smooth animations" },
+    { value: "glassmorphism", label: "Glassmorphism", description: "Frosted glass effect with backdrop blur and transparency" },
+    { value: "floating", label: "Floating", description: "Elevated cards with hover lift effects and dynamic shadows" },
+    { value: "minimalist", label: "Minimalist", description: "Clean, minimal design with subtle borders and elegant typography" },
+    { value: "neon", label: "Neon", description: "Dark theme with glowing neon effects and cyberpunk aesthetics" },
+    { value: "3d-perspective", label: "3D Perspective", description: "Three-dimensional cards with perspective transforms and depth effects" },
+    { value: "magazine", label: "Magazine", description: "Editorial-style cards with bold typography and magazine layout aesthetics" },
+    { value: "social", label: "Social Media", description: "Social platform-inspired cards with engagement buttons and modern UI" },
+    { value: "elegant", label: "Elegant Luxury", description: "Premium dark theme with gold accents and sophisticated luxury styling" },
+    { value: "decor-store", label: "Decor Store", description: "Clean minimal blog style with category and date on same line, perfect for lifestyle content" },
+    { value: "feature-box", label: "Feature Box", description: "Icon-with-text style cards perfect for features, services, and benefits" },
+    { value: "blog-classic", label: "Blog Classic", description: "Classic blog card with more reading link and arrow icon, perfect for article previews" },
   ];
 
   return (

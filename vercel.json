@@ -30,29 +30,5 @@
       "source": "/subdomain/:slug",
       "destination": "/subdomain/:slug"
     }
-  ],
-  "redirects": [
-    {
-      "source": "/",
-      "has": [
-        {
-          "type": "host",
-          "value": "hhola.app"
-        }
-      ],
-      "destination": "https://webuilder.hhola.app",
-      "permanent": true
-    },
-    {
-      "source": "/",
-      "has": [
-        {
-          "type": "host",
-          "value": "www.hhola.app"
-        }
-      ],
-      "destination": "https://webuilder.hhola.app",
-      "permanent": true
-    }
   ]
 }

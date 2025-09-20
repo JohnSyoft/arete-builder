@@ -79,7 +79,7 @@ export const uploadFiles = async (
           : undefined,
       }
     );
-    return response?.data?.assets || [];
+    return response?.data?.files || [];
     // if (response.data.success && response.data.data.files) {
     //   return response.data.data.files;
     // } else {

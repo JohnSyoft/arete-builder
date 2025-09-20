@@ -28,14 +28,13 @@ export function useUpload(options: UseUploadOptions = {}) {
   const upload = useCallback(
     async (files: File[]) => {
       if (!files.length) return;
-
       setState((prev) => ({
         ...prev,
         isUploading: true,
         error: null,
         progress: null,
       }));
-
+      // console.log({files})
       try {
         const uploadedFiles = await uploadFiles(files, {
           folder: options.folder,
@@ -59,6 +58,7 @@ export function useUpload(options: UseUploadOptions = {}) {
         options.onSuccess?.(uploadedFiles);
         return uploadedFiles;
       } catch (error: any) {
+        console.log({error})
         const errorMessage = error.message || "Upload failed";
         setState((prev) => ({
           ...prev,
@@ -77,6 +77,7 @@ export function useUpload(options: UseUploadOptions = {}) {
   const uploadSingle = useCallback(
     async (file: File) => {
       const result = await upload([file]);
+      console.log({result})
       return result?.[0];
     },
     [upload]

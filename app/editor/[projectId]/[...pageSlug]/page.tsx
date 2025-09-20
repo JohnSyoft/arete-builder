@@ -62,8 +62,34 @@ function EditorContent({
   const scrollContainerRef = React.useRef<HTMLDivElement>(null);
 
   const handleSave = () => {
-    const layout = query.serialize();
-    onSave(layout);
+    try {
+      const layout = query.serialize();
+      onSave(layout);
+    } catch (error) {
+      console.error('Serialization error:', error);
+      // Fallback: use a safer serialization approach
+      try {
+        const layout = JSON.parse(JSON.stringify(query.serialize(), (key, value) => {
+          // Filter out circular references and React context
+          if (key === '_context' || key === 'Provider' || key === 'Consumer') {
+            return undefined;
+          }
+          if (typeof value === 'object' && value !== null) {
+            if (value.constructor && value.constructor.name === 'Object') {
+              return value;
+            }
+            // Skip non-serializable objects
+            return undefined;
+          }
+          return value;
+        }));
+        onSave(layout);
+      } catch (fallbackError) {
+        console.error('Fallback serialization also failed:', fallbackError);
+        // Last resort: save empty layout
+        onSave({});
+      }
+    }
   };
 
   // Auto-scroll functionality during drag operations

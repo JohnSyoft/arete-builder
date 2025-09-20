@@ -31,24 +31,20 @@ import {
   CraftMedicalServices1,
   CraftCosmeticServices1,
   CraftHospitalityAmenities1,
-  CraftElderCareServices1,
 
   // About/Values components
   CraftCosmeticAbout1,
   CraftCosmeticWhyChooseUs1,
-  CraftElderCareValues1,
   CraftCosmeticWhatWeDo1,
   CraftCosmeticWhyChoose2,
 
   // Team components
   CraftMedicalDoctors1,
-  CraftElderCareTeam1,
   CraftModernTeam1,
 
   // Testimonials components
   CraftMedicalTestimonials1,
   CraftHospitalityTestimonials1,
-  CraftElderCareTestimonials1,
   CraftCosmeticTestimonials2,
   CraftModernTestimonials1,
 
@@ -67,7 +63,6 @@ import {
   CraftModernPricing1,
 
   // CTA components
-  CraftElderCareCTA1,
   CraftWhyChooseUs1,
 
   // Footer components
@@ -129,7 +124,6 @@ import {
   HospitalityStats1,
   // New multi-industry components
   HospitalityDropdown1,
-  RestaurantHero1,
   BusinessTopBar1,
   RestaurantFeatures1,
   SearchModal1,
@@ -142,6 +136,59 @@ import {
   AccountingProcess1,
   AccountingServicesDetails1,
   AccountingBlogSingle1,
+
+  // Elder Care components
+  ElderCareHero1,
+  ElderCareCTA1,
+  ElderCareAbout1,
+  ElderCareTimeline1,
+  ElderCareServices1,
+  ElderCareVideo1,
+  ElderCareFAQ1,
+  ElderCareFeatures1,
+  ElderCareBlog1,
+  ElderCareFooter1,
+
+  // Marketing components
+  MarketingHero1,
+  MarketingClients1,
+  MarketingAbout1,
+  MarketingMarquee1,
+  MarketingPortfolio1,
+  MarketingStrategy1,
+  MarketingPricing1,
+  MarketingTestimonials1,
+  MarketingCTA1,
+  MarketingFooter1,
+
+  // Restaurant components
+  RestaurantHero1,
+  RestaurantAbout1,
+  RestaurantMenu1,
+  RestaurantDishes1,
+  RestaurantMarquee1,
+  RestaurantTestimonials1,
+  RestaurantStats1,
+  RestaurantBlog1,
+  RestaurantFooter1,
+  // Restaurant Contact components
+  RestaurantContactMap1,
+  RestaurantContactForm1,
+  RestaurantContactInfo1,
+  // Restaurant Gallery components
+  RestaurantGalleryFilter1,
+  // Restaurant Menu components
+  RestaurantMenuTabs1,
+  RestaurantSpecialOffers1,
+  // Restaurant Story components
+  RestaurantVideoHero1,
+  RestaurantAchievements1,
+  RestaurantImageCarousel1,
+  // Restaurant Blog components
+  RestaurantBlogListing1,
+  RestaurantBlogSingle1,
+  // Restaurant Team components
+  RestaurantChefs1,
 
   // Blog components
   CraftModernBlog1,
@@ -292,12 +339,6 @@ const componentsByType = {
       image: "/amenitiesGrid1.png",
     },
     {
-      component: CraftElderCareServices1,
-      name: "Care Services",
-      description: "Elder care services and support options",
-      image: "/placeholder.svg",
-    },
-    {
       component: CraftModernFeatures1,
       name: "Modern Features",
       description: "Feature showcase with icons and descriptions",
@@ -333,12 +374,6 @@ const componentsByType = {
       component: CraftCosmeticWhyChooseUs1,
       name: "Why Choose Us v1",
       description: "Simple why choose us section with features",
-      image: "/placeholder.svg",
-    },
-    {
-      component: CraftElderCareValues1,
-      name: "Values Section",
-      description: "Core values and mission statement",
       image: "/placeholder.svg",
     },
     {
@@ -392,12 +427,6 @@ const componentsByType = {
       image: "/placeholder.svg",
     },
     {
-      component: CraftElderCareTeam1,
-      name: "Care Team",
-      description: "Caregiving team member profiles",
-      image: "/placeholder.svg",
-    },
-    {
       component: CraftModernTeam1,
       name: "Modern Team",
       description: "Modern team section with social links",
@@ -415,12 +444,6 @@ const componentsByType = {
       component: CraftHospitalityTestimonials1,
       name: "Guest Reviews",
       description: "Hotel guest testimonials and ratings",
-      image: "/placeholder.svg",
-    },
-    {
-      component: CraftElderCareTestimonials1,
-      name: "Family Reviews",
-      description: "Elder care family testimonials",
       image: "/placeholder.svg",
     },
     {
@@ -673,12 +696,6 @@ const componentsByType = {
       image: "/dropdown1.png",
     },
     {
-      component: RestaurantHero1,
-      name: "Restaurant Hero",
-      description: "Hero with pattern background and decorative elements",
-      image: "/restaurantHero1.png",
-    },
-    {
       component: BusinessTopBar1,
       name: "Business Top Bar",
       description: "Top bar with announcement and contact information",
@@ -744,6 +761,261 @@ const componentsByType = {
       name: "Accounting Blog Single",
       description: "Single blog post with sidebar and related articles",
       image: "/accountingBlogSingle1.png",
+    },
+    // Elder Care components
+    {
+      component: ElderCareHero1,
+      name: "Elder Care Hero",
+      description: "Hero section with welcome message and call-to-action buttons",
+      image: "/elderCareHero1.png",
+    },
+    {
+      component: ElderCareCTA1,
+      name: "Elder Care CTA",
+      description: "Call-to-action section with help info and support button",
+      image: "/elderCareCTA1.png",
+    },
+    {
+      component: ElderCareAbout1,
+      name: "Elder Care About",
+      description: "About section with features and contact information",
+      image: "/elderCareAbout1.png",
+    },
+    {
+      component: ElderCareTimeline1,
+      name: "Elder Care Timeline",
+      description: "Donation timeline with progress indicators and statistics",
+      image: "/elderCareTimeline1.png",
+    },
+    {
+      component: ElderCareServices1,
+      name: "Elder Care Services",
+      description: "Services grid with cards and navigation controls",
+      image: "/elderCareServices1.png",
+    },
+    {
+      component: ElderCareVideo1,
+      name: "Elder Care Video",
+      description: "Video section with play button and background image",
+      image: "/elderCareVideo1.png",
+    },
+    {
+      component: ElderCareFAQ1,
+      name: "Elder Care FAQ",
+      description: "FAQ section with collapsible questions and answers",
+      image: "/elderCareFAQ1.png",
+    },
+    {
+      component: ElderCareFeatures1,
+      name: "Elder Care Features",
+      description: "Features section with benefits and appointment scheduling",
+      image: "/elderCareFeatures1.png",
+    },
+    {
+      component: ElderCareBlog1,
+      name: "Elder Care Blog",
+      description: "Blog grid with articles and social engagement",
+      image: "/elderCareBlog1.png",
+    },
+    {
+      component: ElderCareFooter1,
+      name: "Elder Care Footer",
+      description: "Footer with contact info, links, and newsletter signup",
+      image: "/elderCareFooter1.png",
+    },
+    // Marketing components
+    {
+      component: MarketingHero1,
+      name: "Marketing Hero",
+      description: "Hero section with animated text and call-to-action buttons",
+      image: "/marketingHero1.png",
+    },
+    {
+      component: MarketingClients1,
+      name: "Marketing Clients",
+      description: "Client logos showcase with scroll animation",
+      image: "/marketingClients1.png",
+    },
+    {
+      component: MarketingAbout1,
+      name: "Marketing About",
+      description: "About section with statistics and team info",
+      image: "/marketingAbout1.png",
+    },
+    {
+      component: MarketingMarquee1,
+      name: "Marketing Marquee",
+      description: "Scrolling text marquee with animation",
+      image: "/marketingMarquee1.png",
+    },
+    {
+      component: MarketingPortfolio1,
+      name: "Marketing Portfolio",
+      description: "Portfolio grid with filtering and hover effects",
+      image: "/marketingPortfolio1.png",
+    },
+    {
+      component: MarketingStrategy1,
+      name: "Marketing Strategy",
+      description: "Strategy section with accordion and process steps",
+      image: "/marketingStrategy1.png",
+    },
+    {
+      component: MarketingPricing1,
+      name: "Marketing Pricing",
+      description: "Pricing plans with features and CTA buttons",
+      image: "/marketingPricing1.png",
+    },
+    {
+      component: MarketingTestimonials1,
+      name: "Marketing Testimonials",
+      description: "Client testimonials with slider and ratings",
+      image: "/marketingTestimonials1.png",
+    },
+    {
+      component: MarketingCTA1,
+      name: "Marketing CTA",
+      description: "Call-to-action section with contact form",
+      image: "/marketingCTA1.png",
+    },
+    {
+      component: MarketingFooter1,
+      name: "Marketing Footer",
+      description: "Footer with contact info, social links, and newsletter",
+      image: "/marketingFooter1.png",
+    },
+    // Restaurant components
+    {
+      component: RestaurantHero1,
+      name: "Restaurant Hero",
+      description: "Hero section with circular background and floating food image",
+      image: "/restaurantHero1.png",
+    },
+    {
+      component: RestaurantAbout1,
+      name: "Restaurant About",
+      description: "About section with features and decorative elements",
+      image: "/restaurantAbout1.png",
+    },
+    {
+      component: RestaurantMenu1,
+      name: "Restaurant Menu",
+      description: "Menu section with tabbed categories and pricing",
+      image: "/restaurantMenu1.png",
+    },
+    {
+      component: RestaurantDishes1,
+      name: "Restaurant Dishes",
+      description: "Popular dishes grid with hover effects and pricing",
+      image: "/restaurantDishes1.png",
+    },
+    {
+      component: RestaurantMarquee1,
+      name: "Restaurant Marquee",
+      description: "Scrolling text marquee with decorative images",
+      image: "/restaurantMarquee1.png",
+    },
+    {
+      component: RestaurantTestimonials1,
+      name: "Restaurant Testimonials",
+      description: "Customer testimonials with slider navigation",
+      image: "/restaurantTestimonials1.png",
+    },
+    {
+      component: RestaurantStats1,
+      name: "Restaurant Stats",
+      description: "Statistics section with star rating and customer count",
+      image: "/restaurantStats1.png",
+    },
+    {
+      component: RestaurantBlog1,
+      name: "Restaurant Blog",
+      description: "Blog grid with featured articles and categories",
+      image: "/restaurantBlog1.png",
+    },
+    {
+      component: RestaurantFooter1,
+      name: "Restaurant Footer",
+      description: "Footer with contact info, features, and social links",
+      image: "/restaurantFooter1.png",
+    },
+    // Restaurant Contact components
+    {
+      component: RestaurantContactMap1,
+      name: "Restaurant Contact Map",
+      description: "Contact page with map integration and page title",
+      image: "/restaurantContactMap1.png",
+    },
+    {
+      component: RestaurantContactForm1,
+      name: "Restaurant Contact Form",
+      description: "Contact form with decorative background and icons",
+      image: "/restaurantContactForm1.png",
+    },
+    {
+      component: RestaurantContactInfo1,
+      name: "Restaurant Contact Info",
+      description: "Contact information with multiple contact methods",
+      image: "/restaurantContactInfo1.png",
+    },
+    // Restaurant Gallery components
+    {
+      component: RestaurantGalleryFilter1,
+      name: "Restaurant Gallery Filter",
+      description: "Filterable image gallery with categories and lightbox",
+      image: "/restaurantGalleryFilter1.png",
+    },
+    // Restaurant Menu components
+    {
+      component: RestaurantMenuTabs1,
+      name: "Restaurant Menu Tabs",
+      description: "Tabbed menu interface with categories and pricing",
+      image: "/restaurantMenuTabs1.png",
+    },
+    {
+      component: RestaurantSpecialOffers1,
+      name: "Restaurant Special Offers",
+      description: "Special menu items with ratings and pricing",
+      image: "/restaurantSpecialOffers1.png",
+    },
+    // Restaurant Story components
+    {
+      component: RestaurantVideoHero1,
+      name: "Restaurant Video Hero",
+      description: "Video hero section with play button and text overlay",
+      image: "/restaurantVideoHero1.png",
+    },
+    {
+      component: RestaurantAchievements1,
+      name: "Restaurant Achievements",
+      description: "Awards and achievements grid with statistics",
+      image: "/restaurantAchievements1.png",
+    },
+    {
+      component: RestaurantImageCarousel1,
+      name: "Restaurant Image Carousel",
+      description: "Image carousel with description and swiper navigation",
+      image: "/restaurantImageCarousel1.png",
+    },
+    // Restaurant Blog components
+    {
+      component: RestaurantBlogListing1,
+      name: "Restaurant Blog Listing",
+      description: "Blog listing page with metro grid layout and featured posts",
+      image: "/restaurantBlogListing1.png",
+    },
+    {
+      component: RestaurantBlogSingle1,
+      name: "Restaurant Blog Single",
+      description: "Single blog post page with content, tags, and related posts",
+      image: "/restaurantBlogSingle1.png",
+    },
+    // Restaurant Team components
+    {
+      component: RestaurantChefs1,
+      name: "Restaurant Chefs",
+      description: "Chefs and team page with main chef spotlight and team grid",
+      image: "/restaurantChefs1.png",
     },
     {
       component: CraftCosmeticCaseStudy1,
@@ -832,14 +1104,7 @@ const componentsByType = {
       image: "/placeholder.svg",
     },
   ],
-  cta: [
-    {
-      component: CraftElderCareCTA1,
-      name: "Call to Action",
-      description: "Compelling action section with contact",
-      image: "/placeholder.svg",
-    },
-  ],
+  cta: [],
   contact: [
     {
       component: CraftModernContact1,

@@ -1,342 +1,150 @@
-import { Element } from "@craftjs/core";
-import { Text as CraftText } from "@/components/blocks/Basic/Text";
-import { Button as CraftButton } from "@/components/blocks/Basic/Button";
-import { Image as CraftImage } from "@/components/blocks/Basic/Image";
-import { Flex } from "@/components/blocks/Basic/Flex";
-import { Grid } from "@/components/blocks/Basic/Grid";
-import { Card } from "@/components/blocks/Basic/Card";
-import { Box } from "@/components/blocks/Basic/Box";
-import { Section, SectionProps } from "@/components/blocks/Basic/Section";
+import React from "react";
+import { useNode } from "@craftjs/core";
+import { Resizer } from "../Resizer";
 
-interface RestaurantHero1Props extends SectionProps {
-  // Hero specific props
+interface RestaurantHero1Props {
+  backgroundImage?: string;
   subtitle?: string;
   title?: string;
   titleHighlight?: string;
   buttonText?: string;
   buttonLink?: string;
-  backgroundImage?: string;
+  floatingImage?: string;
   patternImage?: string;
-  decorativeImage?: string;
-  // Settings
-  showPattern?: boolean;
-  showDecorative?: boolean;
-  showOverlay?: boolean;
-  overlayOpacity?: number;
-  fullHeight?: boolean;
-  textAlign?: "left" | "center" | "right";
+  backgroundColor?: string;
+  textColor?: string;
+  nonEditable?: boolean;
 }
 
 export function RestaurantHero1({
+  backgroundImage = "https://placehold.co/1920x1303/1a1a1a/FFFFFF?text=Restaurant+Hero",
   subtitle = "Experience the taste of italy",
   title = "Great dining",
   titleHighlight = "experience",
   buttonText = "Authentic experience",
-  buttonLink = "/about",
-  backgroundImage = "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1920&h=1303&fit=crop",
-  patternImage = "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=700&h=700&fit=crop",
-  decorativeImage = "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=180&h=180&fit=crop",
-  showPattern = true,
-  showDecorative = true,
-  showOverlay = true,
-  overlayOpacity = 0.6,
-  fullHeight = true,
-  textAlign = "center",
-  ...props
+  buttonLink = "#",
+  floatingImage = "https://placehold.co/300x200/FFFFFF/333333?text=Food+Image",
+  patternImage = "https://placehold.co/700x700/FFFFFF/333333?text=Pattern",
+  backgroundColor = "#1a1a1a",
+  textColor = "#ffffff",
+  nonEditable = true,
 }: RestaurantHero1Props) {
-  // Set section defaults for hero
-  const heroProps = {
-    backgroundColor: "#1f2937",
-    padding: fullHeight ? "py-0" : "py-16 px-4 sm:py-20 sm:px-6 md:py-24 md:px-8",
-    hasContentWrapper: true,
-    contentMaxWidth: "7xl",
-    contentPadding: "px-0",
-    ...props,
-  };
+  const {
+    connectors: { connect, drag },
+    selected,
+    hovered,
+    actions: { setProp },
+  } = useNode((state) => ({
+    selected: state.events.selected,
+    hovered: state.events.hovered,
+  }));
 
   return (
-    <Section {...heroProps}>
-      <Element
-        id="restaurantHeroContent"
-        is={Box}
-        backgroundColor="transparent"
-        padding="0"
-        margin="0"
-        display="block"
-        canvas
+    <Resizer
+      propKey={{ width: "width", height: "height" }}
+      style={{
+        width: "100%",
+        height: "100vh",
+        minHeight: "600px",
+        backgroundColor: backgroundColor,
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        position: "relative",
+        overflow: "hidden",
+      }}
+      minWidth={300}
+      minHeight={600}
+    >
+      <section
+        ref={(ref) => connect(drag(ref))}
+        className="relative w-full h-full flex items-center justify-center"
+        style={{
+          backgroundImage: `url(${backgroundImage})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
       >
-        <Element
-          is={Box}
-          backgroundColor="transparent"
-          padding="0"
-          margin=""
-          display="block"
-          position="relative"
-          width="w-full"
-          height={fullHeight ? "h-screen" : "h-96"}
-          overflow="hidden"
-          canvas={false}
-        >
-          {/* Background Image */}
-          <Element
-            is={Box}
-            backgroundColor="transparent"
-            padding="0"
-            margin=""
-            display="block"
-            position="absolute"
-            top="top-0"
-            left="left-0"
-            right="right-0"
-            bottom="bottom-0"
-            canvas={false}
-          >
-            <CraftImage
-              src={backgroundImage}
-              alt="Restaurant Interior"
-              width="w-full"
-              height="h-full"
-              objectFit="object-cover"
-              margin=""
-              padding=""
-            />
-          </Element>
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+        
+        {/* Pattern Background */}
+        <div 
+          className="absolute inset-0 opacity-10"
+          style={{
+            backgroundImage: `url(${patternImage})`,
+            backgroundRepeat: "repeat",
+            backgroundSize: "200px 200px",
+          }}
+        ></div>
 
-          {/* Overlay */}
-          {showOverlay && (
-            <Element
-              is={Box}
-              backgroundColor="bg-black"
-              padding="0"
-              margin=""
-              display="block"
-              position="absolute"
-              top="top-0"
-              left="left-0"
-              right="right-0"
-              bottom="bottom-0"
-              className={`opacity-${Math.round(overlayOpacity * 100)}`}
-              canvas={false}
-            />
-          )}
-
-          {/* Content */}
-          <Element
-            is={Box}
-            backgroundColor="transparent"
-            padding="0"
-            margin=""
-            display="block"
-            position="relative"
-            width="w-full"
-            height="h-full"
-            canvas={false}
-          >
-            <Element
-              is={Flex}
-              canvas
-              flexDirection="column"
-              justifyContent="center"
-              alignItems={textAlign === "center" ? "center" : textAlign === "left" ? "start" : "end"}
-              gap="gap-8"
-              margin={`text-${textAlign} h-full px-8 py-16`}
-            >
-              {/* Pattern Background */}
-              {showPattern && (
-                <Element
-                  is={Box}
-                  backgroundColor="bg-amber-600"
-                  padding="0"
-                  margin=""
-                  display="block"
-                  position="absolute"
-                  top="top-1/2"
-                  left="left-1/2"
-                  width="w-96 lg:w-80 sm:w-64 xs:w-80"
-                  height="h-96 lg:h-80 sm:h-64 xs:h-80"
-                  borderRadius="rounded-full"
-                  className="transform -translate-x-1/2 -translate-y-1/2 opacity-20"
-                  canvas={false}
-                >
-                  <CraftImage
-                    src={patternImage}
-                    alt="Pattern"
-                    width="w-full"
-                    height="h-full"
-                    objectFit="object-cover"
-                    borderRadius="rounded-full"
-                    margin=""
-                    padding=""
-                  />
-                </Element>
-              )}
-
-              {/* Content Container */}
-              <Element
-                is={Box}
-                  backgroundColor="transparent"
-                  padding="0"
-                  margin=""
-                  display="block"
-                  position="relative"
-                  zIndex="z-10"
-                  canvas={false}
-                >
-                <Element
-                  is={Flex}
-                  canvas
-                  flexDirection="column"
-                  justifyContent="center"
-                  alignItems={textAlign === "center" ? "center" : textAlign === "left" ? "start" : "end"}
-                  gap="gap-6"
-                  margin=""
-                >
-                  {/* Subtitle */}
-                  <Element
-                    is={Box}
-                    backgroundColor="transparent"
-                    padding="0"
-                    margin=""
-                    display="block"
-                    canvas={false}
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="flex items-center justify-center h-full">
+            <div className="text-center relative">
+              {/* Circular Background */}
+              <div className="w-[700px] h-[700px] lg:w-[550px] lg:h-[550px] sm:w-[450px] sm:h-[450px] xs:w-[320px] xs:h-[320px] mx-auto relative flex justify-center items-center rounded-full bg-white bg-opacity-10 backdrop-blur-sm border-2 border-white border-opacity-20">
+                <div className="text-center">
+                  <p className="text-black text-2xl xs:text-lg xs:leading-6 font-semibold tracking-wider uppercase mb-6 sm:mb-4 mt-2">
+                    {subtitle}
+                  </p>
+                  
+                  <div className="text-8xl lg:text-7xl xs:text-6xl xs:leading-tight mb-8 xs:mb-4 font-bold">
+                    <span 
+                      className="text-white"
+                      style={{
+                        WebkitTextStroke: "1px white",
+                        WebkitTextFillColor: "transparent",
+                      }}
                     >
-                    <CraftText
-                      text={subtitle}
-                      tagName="p"
-                      fontSize="text-lg sm:text-xl md:text-2xl"
-                      fontWeight="font-normal"
-                      color="text-black"
-                      textAlign={textAlign}
-                      className="uppercase tracking-wider"
-                    />
-                  </Element>
-
-                  {/* Main Title */}
-                  <Element
-                    is={Box}
-                    backgroundColor="transparent"
-                    padding="0"
-                    margin=""
-                    display="block"
-                    canvas={false}
+                      {title}
+                    </span>
+                    <span className="text-white ml-4 tracking-tight">
+                      {titleHighlight}
+                    </span>
+                  </div>
+                  
+                  <a
+                    href={buttonLink}
+                    className="inline-block bg-black text-white px-8 py-4 text-lg font-semibold rounded-full hover:bg-gray-800 transition-colors duration-300 transform hover:scale-105"
                   >
-                    <Element
-                      is={Flex}
-                      canvas
-                      flexDirection="row"
-                      justifyContent={textAlign === "center" ? "center" : textAlign === "left" ? "start" : "end"}
-                      alignItems="center"
-                      gap="gap-4"
-                      margin=""
-                      wrap="wrap"
-                    >
-                      <CraftText
-                        text={title}
-                        tagName="span"
-                        fontSize="text-6xl sm:text-7xl md:text-8xl lg:text-9xl"
-                        fontWeight="font-bold"
-                        color="text-white"
-                        textAlign={textAlign}
-                        lineHeight="leading-none"
-                        className="text-outline text-outline-width-1px text-outline-color-white text-outline-base-color-background"
-                      />
-                      
-                      <CraftText
-                        text={titleHighlight}
-                        tagName="span"
-                        fontSize="text-6xl sm:text-7xl md:text-8xl lg:text-9xl"
-                        fontWeight="font-bold"
-                        color="text-white"
-                        textAlign={textAlign}
-                        lineHeight="leading-none"
-                        className="tracking-tight"
-                      />
-                    </Element>
-                  </Element>
-
-                  {/* CTA Button */}
-                  <Element
-                    is={Box}
-                    backgroundColor="transparent"
-                    padding="0"
-                    margin=""
-                    display="block"
-                    canvas={false}
-                  >
-                    <CraftButton
-                      text={buttonText}
-                      size="xl"
-                      backgroundColor="#000000"
-                      textColor="#ffffff"
-                      borderRadius="rounded-lg"
-                      padding="px-12 py-6"
-                      width="w-auto"
-                      className="hover:scale-105 transition-all duration-300 shadow-2xl"
-                    />
-                  </Element>
-                </Element>
-              </Element>
-
-              {/* Decorative Image */}
-              {showDecorative && (
-                <Element
-                  is={Box}
-                  backgroundColor="transparent"
-                  padding="0"
-                  margin=""
-                  display="block"
-                  position="absolute"
-                  bottom="bottom-12"
-                  right="right-12"
-                  className="hidden sm:block animation-float"
-                  canvas={false}
-                >
-                  <CraftImage
-                    src={decorativeImage}
-                    alt="Decorative"
-                    width="w-32 sm:w-40 lg:w-44"
-                    height="h-32 sm:h-40 lg:h-44"
-                    objectFit="object-cover"
-                    borderRadius="rounded-2xl"
-                    margin=""
-                    padding=""
+                    {buttonText}
+                    <i className="ml-2">→</i>
+                  </a>
+                  
+                  {/* Floating Image */}
+                  <img
+                    src={floatingImage}
+                    alt="Restaurant food"
+                    className="absolute -right-12 -bottom-12 lg:-bottom-4 lg:w-48 sm:w-36 hidden sm:block animate-bounce"
                   />
-                </Element>
-              )}
-            </Element>
-          </Element>
-        </Element>
-      </Element>
-    </Section>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </Resizer>
   );
 }
 
 RestaurantHero1.craft = {
   displayName: "Restaurant Hero 1",
   props: {
-    // Section props
-    backgroundColor: "#1f2937",
-    padding: "py-0",
-    hasContentWrapper: true,
-    contentMaxWidth: "7xl",
-    contentPadding: "px-0",
-    // Hero specific props
+    backgroundImage: "https://placehold.co/1920x1303/1a1a1a/FFFFFF?text=Restaurant+Hero",
     subtitle: "Experience the taste of italy",
     title: "Great dining",
     titleHighlight: "experience",
     buttonText: "Authentic experience",
-    buttonLink: "/about",
-    showPattern: true,
-    showDecorative: true,
-    showOverlay: true,
-    overlayOpacity: 0.6,
-    fullHeight: true,
-    textAlign: "center",
+    buttonLink: "#",
+    floatingImage: "https://placehold.co/300x200/FFFFFF/333333?text=Food+Image",
+    patternImage: "https://placehold.co/200x200/FFFFFF/333333?text=Pattern",
+    backgroundColor: "#1a1a1a",
+    textColor: "#ffffff",
   },
   rules: {
     canDrag: () => true,
     canMoveIn: () => true,
     canMoveOut: () => true,
   },
-  isCanvas: true, // Allow components to be dropped into this section
 };

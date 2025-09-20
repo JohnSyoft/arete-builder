@@ -57,12 +57,12 @@ import { MedicalDoctors1 } from "../blocks/Services/MedicalDoctors1";
 import { MedicalTestimonials1 } from "../blocks/Services/MedicalTestimonials1";
 import { MedicalHowItWorks1 } from "../blocks/HowItWorks/MedicalHowItWorks1";
 import { MedicalFooter1 } from "../blocks/Footer/MedicalFooter1";
-// Elder care blocks
-import { ElderCareServices1 } from "../blocks/Services/ElderCareServices1";
-import { ElderCareValues1 } from "../blocks/About/ElderCareValues1";
-import { ElderCareTeam1 } from "../blocks/Team/ElderCareTeam1";
-import { ElderCareCTA1 } from "../blocks/CTA/ElderCareCTA1";
-import { ElderCareTestimonials1 } from "../blocks/Testimonials/ElderCareTestimonials1";
+// Elder care blocks (old - to be removed)
+// import { ElderCareServices1 } from "../blocks/Services/ElderCareServices1";
+// import { ElderCareValues1 } from "../blocks/About/ElderCareValues1";
+// import { ElderCareTeam1 } from "../blocks/Team/ElderCareTeam1";
+// import { ElderCareCTA1 } from "../blocks/CTA/ElderCareCTA1";
+// import { ElderCareTestimonials1 } from "../blocks/Testimonials/ElderCareTestimonials1";
 import { MedicalHero1 } from "../blocks/Hero/MedicalHero1";
 import { CosmeticHero1 } from "../blocks/Hero/CosmeticHero1";
 import { HealthcareGridHero1 } from "../blocks/Hero/HealthcareGridHero1";
@@ -141,7 +141,6 @@ import { HospitalityCTA1 } from "../blocks/Content/HospitalityCTA1";
 import { HospitalityStats1 } from "../blocks/Content/HospitalityStats1";
 // New multi-industry components
 import { HospitalityDropdown1 } from "../blocks/Navigation/HospitalityDropdown1";
-import { RestaurantHero1 } from "../blocks/Hero/RestaurantHero1";
 import { BusinessTopBar1 } from "../blocks/Navigation/BusinessTopBar1";
 import { RestaurantFeatures1 } from "../blocks/Features/RestaurantFeatures1";
 import { SearchModal1 } from "../blocks/Forms/SearchModal1";
@@ -154,6 +153,57 @@ import { AccountingNews1 } from "../blocks/Content/AccountingNews1";
 import { AccountingProcess1 } from "../blocks/Content/AccountingProcess1";
 import { AccountingServicesDetails1 } from "../blocks/Services/AccountingServicesDetails1";
 import { AccountingBlogSingle1 } from "../blocks/Content/AccountingBlogSingle1";
+
+// Elder Care components
+import { ElderCareHero1 } from "../blocks/Hero/ElderCareHero1";
+import { ElderCareCTA1 } from "../blocks/Content/ElderCareCTA1";
+import { ElderCareAbout1 } from "../blocks/About/ElderCareAbout1";
+import { ElderCareTimeline1 } from "../blocks/Content/ElderCareTimeline1";
+import { ElderCareServices1 } from "../blocks/Services/ElderCareServices1";
+import { ElderCareVideo1 } from "../blocks/Content/ElderCareVideo1";
+import { ElderCareFAQ1 } from "../blocks/Content/ElderCareFAQ1";
+import { ElderCareFeatures1 } from "../blocks/Features/ElderCareFeatures1";
+import { ElderCareBlog1 } from "../blocks/Content/ElderCareBlog1";
+import { ElderCareFooter1 } from "../blocks/Footers/ElderCareFooter1";
+// Marketing components
+import { MarketingHero1 } from "../blocks/Hero/MarketingHero1";
+import { MarketingClients1 } from "../blocks/Content/MarketingClients1";
+import { MarketingAbout1 } from "../blocks/About/MarketingAbout1";
+import { MarketingMarquee1 } from "../blocks/Content/MarketingMarquee1";
+import { MarketingPortfolio1 } from "../blocks/Content/MarketingPortfolio1";
+import { MarketingStrategy1 } from "../blocks/Content/MarketingStrategy1";
+import { MarketingPricing1 } from "../blocks/Pricing/MarketingPricing1";
+import { MarketingTestimonials1 } from "../blocks/Testimonials/MarketingTestimonials1";
+import { MarketingCTA1 } from "../blocks/Content/MarketingCTA1";
+import { MarketingFooter1 } from "../blocks/Footers/MarketingFooter1";
+// Restaurant components
+import { RestaurantHero1 } from "../blocks/Hero/RestaurantHero1";
+import { RestaurantAbout1 } from "../blocks/About/RestaurantAbout1";
+import { RestaurantMenu1 } from "../blocks/Content/RestaurantMenu1";
+import { RestaurantDishes1 } from "../blocks/Content/RestaurantDishes1";
+import { RestaurantMarquee1 } from "../blocks/Content/RestaurantMarquee1";
+import { RestaurantTestimonials1 } from "../blocks/Testimonials/RestaurantTestimonials1";
+import { RestaurantStats1 } from "../blocks/Content/RestaurantStats1";
+import { RestaurantBlog1 } from "../blocks/Content/RestaurantBlog1";
+import { RestaurantFooter1 } from "../blocks/Footers/RestaurantFooter1";
+// Restaurant Contact components
+import { RestaurantContactMap1 } from "../blocks/Contact/RestaurantContactMap1";
+import { RestaurantContactForm1 } from "../blocks/Contact/RestaurantContactForm1";
+import { RestaurantContactInfo1 } from "../blocks/Contact/RestaurantContactInfo1";
+// Restaurant Gallery components
+import { RestaurantGalleryFilter1 } from "../blocks/Gallery/RestaurantGalleryFilter1";
+// Restaurant Menu components
+import { RestaurantMenuTabs1 } from "../blocks/Menu/RestaurantMenuTabs1";
+import { RestaurantSpecialOffers1 } from "../blocks/Menu/RestaurantSpecialOffers1";
+// Restaurant Story components
+import { RestaurantVideoHero1 } from "../blocks/Story/RestaurantVideoHero1";
+import { RestaurantAchievements1 } from "../blocks/Story/RestaurantAchievements1";
+import { RestaurantImageCarousel1 } from "../blocks/Story/RestaurantImageCarousel1";
+// Restaurant Blog components
+import { RestaurantBlogListing1 } from "../blocks/Blog/RestaurantBlogListing1";
+import { RestaurantBlogSingle1 } from "../blocks/Blog/RestaurantBlogSingle1";
+// Restaurant Team components
+import { RestaurantChefs1 } from "../blocks/Team/RestaurantChefs1";
 // Modern Hero Components
 // CMS Cards
 import { CosmeticCard1 } from "../blocks/CMS/CosmeticCard1";
@@ -432,12 +482,12 @@ export const CraftMedicalTestimonials1 = MedicalTestimonials1;
 export const CraftMedicalHowItWorks1 = MedicalHowItWorks1;
 export const CraftMedicalFooter1 = MedicalFooter1;
 
-// Elder care blocks
-export const CraftElderCareServices1 = ElderCareServices1;
-export const CraftElderCareValues1 = ElderCareValues1;
-export const CraftElderCareTeam1 = ElderCareTeam1;
-export const CraftElderCareCTA1 = ElderCareCTA1;
-export const CraftElderCareTestimonials1 = ElderCareTestimonials1;
+// Elder care blocks (old - removed)
+// export const CraftElderCareServices1 = ElderCareServices1;
+// export const CraftElderCareValues1 = ElderCareValues1;
+// export const CraftElderCareTeam1 = ElderCareTeam1;
+// export const CraftElderCareCTA1 = ElderCareCTA1;
+// export const CraftElderCareTestimonials1 = ElderCareTestimonials1;
 
 // Hospitality blocks
 export const CraftHospitalityHero1 = HospitalityHero1;
@@ -506,7 +556,6 @@ export { HospitalityCTA1 };
 export { HospitalityStats1 };
 // New multi-industry components
 export { HospitalityDropdown1 };
-export { RestaurantHero1 };
 export { BusinessTopBar1 };
 export { RestaurantFeatures1 };
 export { SearchModal1 };
@@ -519,6 +568,59 @@ export { AccountingNews1 };
 export { AccountingProcess1 };
 export { AccountingServicesDetails1 };
 export { AccountingBlogSingle1 };
+
+// Elder Care components
+export { ElderCareHero1 };
+export { ElderCareCTA1 };
+export { ElderCareAbout1 };
+export { ElderCareTimeline1 };
+export { ElderCareServices1 };
+export { ElderCareVideo1 };
+export { ElderCareFAQ1 };
+export { ElderCareFeatures1 };
+export { ElderCareBlog1 };
+export { ElderCareFooter1 };
+
+// Marketing components
+export { MarketingHero1 };
+export { MarketingClients1 };
+export { MarketingAbout1 };
+export { MarketingMarquee1 };
+export { MarketingPortfolio1 };
+export { MarketingStrategy1 };
+export { MarketingPricing1 };
+export { MarketingTestimonials1 };
+export { MarketingCTA1 };
+export { MarketingFooter1 };
+
+// Restaurant components
+export { RestaurantHero1 };
+export { RestaurantAbout1 };
+export { RestaurantMenu1 };
+export { RestaurantDishes1 };
+export { RestaurantMarquee1 };
+export { RestaurantTestimonials1 };
+export { RestaurantStats1 };
+export { RestaurantBlog1 };
+export { RestaurantFooter1 };
+// Restaurant Contact components
+export { RestaurantContactMap1 };
+export { RestaurantContactForm1 };
+export { RestaurantContactInfo1 };
+// Restaurant Gallery components
+export { RestaurantGalleryFilter1 };
+// Restaurant Menu components
+export { RestaurantMenuTabs1 };
+export { RestaurantSpecialOffers1 };
+// Restaurant Story components
+export { RestaurantVideoHero1 };
+export { RestaurantAchievements1 };
+export { RestaurantImageCarousel1 };
+// Restaurant Blog components
+export { RestaurantBlogListing1 };
+export { RestaurantBlogSingle1 };
+// Restaurant Team components
+export { RestaurantChefs1 };
 
 // Mutable resolver that can be extended with user-created components
 const baseComponentResolver = {
@@ -617,12 +719,12 @@ const baseComponentResolver = {
   WhyChooseUs1: CraftWhyChooseUs1,
   MedicalDoctors1: CraftMedicalDoctors1,
   MedicalTestimonials1: CraftMedicalTestimonials1,
-  // Elder care blocks
-  ElderCareServices1: CraftElderCareServices1,
-  ElderCareValues1: CraftElderCareValues1,
-  ElderCareTeam1: CraftElderCareTeam1,
-  ElderCareCTA1: CraftElderCareCTA1,
-  ElderCareTestimonials1: CraftElderCareTestimonials1,
+  // Elder care blocks (old - removed)
+  // ElderCareServices1: CraftElderCareServices1,
+  // ElderCareValues1: CraftElderCareValues1,
+  // ElderCareTeam1: CraftElderCareTeam1,
+  // ElderCareCTA1: CraftElderCareCTA1,
+  // ElderCareTestimonials1: CraftElderCareTestimonials1,
   // Hospitality blocks
   HospitalityHero1: CraftHospitalityHero1,
   HospitalityAmenities1: CraftHospitalityAmenities1,
@@ -690,6 +792,56 @@ const baseComponentResolver = {
   AccountingProcess1: AccountingProcess1,
   AccountingServicesDetails1: AccountingServicesDetails1,
   AccountingBlogSingle1: AccountingBlogSingle1,
+  // Elder Care components
+  ElderCareHero1: ElderCareHero1,
+  ElderCareCTA1: ElderCareCTA1,
+  ElderCareAbout1: ElderCareAbout1,
+  ElderCareTimeline1: ElderCareTimeline1,
+  ElderCareServices1: ElderCareServices1,
+  ElderCareVideo1: ElderCareVideo1,
+  ElderCareFAQ1: ElderCareFAQ1,
+  ElderCareFeatures1: ElderCareFeatures1,
+  ElderCareBlog1: ElderCareBlog1,
+  ElderCareFooter1: ElderCareFooter1,
+  // Marketing components
+  MarketingHero1: MarketingHero1,
+  MarketingClients1: MarketingClients1,
+  MarketingAbout1: MarketingAbout1,
+  MarketingMarquee1: MarketingMarquee1,
+  MarketingPortfolio1: MarketingPortfolio1,
+  MarketingStrategy1: MarketingStrategy1,
+  MarketingPricing1: MarketingPricing1,
+  MarketingTestimonials1: MarketingTestimonials1,
+  MarketingCTA1: MarketingCTA1,
+  MarketingFooter1: MarketingFooter1,
+  // Restaurant components
+  // RestaurantHero1: RestaurantHero1,
+  RestaurantAbout1: RestaurantAbout1,
+  RestaurantMenu1: RestaurantMenu1,
+  RestaurantDishes1: RestaurantDishes1,
+  RestaurantMarquee1: RestaurantMarquee1,
+  RestaurantTestimonials1: RestaurantTestimonials1,
+  RestaurantStats1: RestaurantStats1,
+  RestaurantBlog1: RestaurantBlog1,
+  RestaurantFooter1: RestaurantFooter1,
+  // Restaurant Contact components
+  RestaurantContactMap1: RestaurantContactMap1,
+  RestaurantContactForm1: RestaurantContactForm1,
+  RestaurantContactInfo1: RestaurantContactInfo1,
+  // Restaurant Gallery components
+  RestaurantGalleryFilter1: RestaurantGalleryFilter1,
+  // Restaurant Menu components
+  RestaurantMenuTabs1: RestaurantMenuTabs1,
+  RestaurantSpecialOffers1: RestaurantSpecialOffers1,
+  // Restaurant Story components
+  RestaurantVideoHero1: RestaurantVideoHero1,
+  RestaurantAchievements1: RestaurantAchievements1,
+  RestaurantImageCarousel1: RestaurantImageCarousel1,
+  // Restaurant Blog components
+  RestaurantBlogListing1: RestaurantBlogListing1,
+  RestaurantBlogSingle1: RestaurantBlogSingle1,
+  // Restaurant Team components
+  RestaurantChefs1: RestaurantChefs1,
   // CMS Cards
   CosmeticCard1: CraftCosmeticCard1,
   HospitalityCard1: CraftHospitalityCard1,

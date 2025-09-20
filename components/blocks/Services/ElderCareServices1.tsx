@@ -1,404 +1,217 @@
-import { Element } from "@craftjs/core";
-import { Text as CraftText } from "@/components/blocks/Basic/Text";
-import { Button as CraftButton } from "@/components/blocks/Basic/Button";
-import { Image as CraftImage } from "@/components/blocks/Basic/Image";
-import { Grid } from "@/components/blocks/Basic/Grid";
-import { Card } from "@/components/blocks/Basic/Card";
-import { Box } from "@/components/blocks/Basic/Box";
-import { Section, SectionProps } from "@/components/blocks/Basic/Section";
+import React from "react";
+import { useNode } from "@craftjs/core";
+import { Resizer } from "../Resizer";
 
-interface ElderCareServices1Props extends SectionProps {
-  // Services specific props
-  sectionTag?: string;
-  mainTitle?: string;
+interface ServiceItem {
+  title: string;
+  description: string;
+  image: string;
+  link: string;
+}
+
+interface ElderCareServices1Props {
+  badge?: string;
+  title?: string;
   description?: string;
-  services?: {
-    title: string;
-    description: string;
-    icon: string;
-    features: string[];
-    buttonText: string;
-  }[];
+  services?: ServiceItem[];
+  backgroundColor?: string;
+  textColor?: string;
+  nonEditable?: boolean;
 }
 
 export function ElderCareServices1({
-  sectionTag = "Services",
-  mainTitle = "Services tailored to meet the unique needs of each senior.",
-  description = "Our experienced team is dedicated to providing compassionate care that promotes comfort, dignity, and independence.",
+  badge = "# Rise your hand",
+  title = "Our hospitality",
+  description = "Lorem ipsum is simply dummy text of the printing and typesetting industry lorem ipsum has been the industry's standard dummy text.",
   services = [
     {
-      title: "Hospice Care",
-      description:
-        "Compassionate end-of-life care that focuses on providing comfort and dignity, supporting both the senior and their family during this difficult time.",
-      icon: "https://cdn.prod.website-files.com/682477be57026b85bf30914c/68259f75932f43f3c22ee94c_Frame%20(62).svg",
-      features: [
-        "Compassionate and Personalized Care",
-        "Pain and Symptom Management",
-        "Emotional and Psychological Support",
-      ],
-      buttonText: "Learn more",
+      title: "Health facilities",
+      description: "If you are going to use a passage lorem ipsum you need anything consectetur eiusm is tempor.",
+      image: "https://placehold.co/600x400/87CEEB/FFFFFF?text=Health+Facilities",
+      link: "#",
     },
     {
-      title: "Assisted Living",
-      description:
-        "A safe and supportive environment for seniors who require assistance with daily living but still wish to maintain their independence.",
-      icon: "https://cdn.prod.website-files.com/682477be57026b85bf30914c/68259f75932f43f3c22ee94c_Frame%20(62).svg",
-      features: [
-        "Safe and Secure Environment",
-        "Social Engagement and Community",
-        "Housekeeping and Maintenance Services",
-      ],
-      buttonText: "Learn more",
+      title: "Personal care",
+      description: "If you are going to use a passage lorem ipsum you need anything consectetur eiusm is tempor.",
+      image: "https://placehold.co/600x400/98FB98/FFFFFF?text=Personal+Care",
+      link: "#",
     },
     {
-      title: "Palliative Care",
-      description:
-        "Focused on providing relief from the symptoms and stress of serious illness, palliative care enhances quality of life by addressing physical, emotional, and spiritual needs.",
-      icon: "https://cdn.prod.website-files.com/682477be57026b85bf30914c/68259f75932f43f3c22ee94c_Frame%20(62).svg",
-      features: [
-        "Comprehensive Symptom Management",
-        "Emotional and Psychological Support",
-        "Support for Families and Caregivers",
-      ],
-      buttonText: "Learn more",
+      title: "Medical checkup",
+      description: "If you are going to use a passage lorem ipsum you need anything consectetur eiusm is tempor.",
+      image: "https://placehold.co/600x400/FFB6C1/FFFFFF?text=Medical+Checkup",
+      link: "#",
+    },
+    {
+      title: "Health consultation",
+      description: "If you are going to use a passage lorem ipsum you need anything consectetur eiusm is tempor.",
+      image: "https://placehold.co/600x400/DDA0DD/FFFFFF?text=Health+Consultation",
+      link: "#",
+    },
+    {
+      title: "Skilled nursing",
+      description: "If you are going to use a passage lorem ipsum you need anything consectetur eiusm is tempor.",
+      image: "https://placehold.co/600x400/F0E68C/FFFFFF?text=Skilled+Nursing",
+      link: "#",
+    },
+    {
+      title: "Eldery nutrition",
+      description: "If you are going to use a passage lorem ipsum you need anything consectetur eiusm is tempor.",
+      image: "https://placehold.co/600x400/FFA07A/FFFFFF?text=Elder+Nutrition",
+      link: "#",
     },
   ],
-  ...props
+  backgroundColor = "#ffffff",
+  textColor = "#333333",
+  nonEditable = true,
 }: ElderCareServices1Props) {
-  // Set section defaults for services
-  const servicesProps = {
-    backgroundColor: "#ffffff",
-    padding: "0",
-    minHeight: "auto",
-    hasContentWrapper: true,
-    contentMaxWidth: "7xl",
-    contentPadding:
-      "px-4 py-16 sm:px-6 sm:py-20 md:px-8 md:py-24 lg:px-8 lg:py-32",
-    ...props,
-  };
+  const {
+    connectors: { connect, drag },
+    selected,
+    hovered,
+    actions: { setProp },
+  } = useNode((state) => ({
+    selected: state.events.selected,
+    hovered: state.events.hovered,
+  }));
 
   return (
-    <Section {...servicesProps}>
-      <Element
-        id="elderCareServicesContent"
-        is={Box}
-        backgroundColor="transparent"
-        padding="0"
-        margin="0"
-        display="block"
-        canvas
+    <Resizer
+      propKey={{ width: "width", height: "height" }}
+      style={{
+        width: "100%",
+        height: "auto",
+        backgroundColor: backgroundColor,
+        color: textColor,
+      }}
+      minWidth={300}
+      minHeight={400}
+    >
+      <div
+        ref={(ref) => connect(drag(ref))}
+        className="py-16"
       >
-        {/* Section Header */}
-        <Element
-          is={Box}
-          backgroundColor="transparent"
-          padding="0"
-          margin="0 0 64px 0"
-          display="block"
-          canvas
-        >
-          {/* Section Tag */}
-          <Element
-            is={Box}
-            backgroundColor="transparent"
-            padding="0"
-            margin="0 0 16px 0"
-            display="block"
-            canvas={false}
-          >
-            <CraftText
-              text={sectionTag}
-              tagName="p"
-              fontSize="text-sm sm:text-base"
-              fontWeight="font-semibold"
-              color="text-teal-600"
-              textAlign="text-center"
-              letterSpacing="tracking-wider"
-              textTransform="uppercase"
-            />
-          </Element>
-
-          {/* Main Title */}
-          <Element
-            is={Box}
-            backgroundColor="transparent"
-            padding="0"
-            margin="0 0 24px 0"
-            display="block"
-            canvas={false}
-          >
-            <CraftText
-              text={mainTitle}
-              tagName="h2"
-              fontSize="text-3xl sm:text-4xl md:text-5xl"
-              fontWeight="font-bold"
-              color="text-gray-900"
-              textAlign="text-center"
-              lineHeight="leading-tight"
-            />
-          </Element>
-
-          {/* Description */}
-          <Element
-            is={Box}
-            backgroundColor="transparent"
-            padding="0"
-            margin="0"
-            display="block"
-            canvas={false}
-          >
-            <CraftText
-              text={description}
-              tagName="p"
-              fontSize="text-lg sm:text-xl"
-              fontWeight="font-normal"
-              color="text-gray-600"
-              textAlign="text-center"
-              lineHeight="leading-relaxed"
-            />
-          </Element>
-        </Element>
+        <div className="container mx-auto px-4">
+          {/* Header */}
+          <div className="flex flex-col lg:flex-row items-center justify-between mb-12">
+            <div className="lg:w-1/2 mb-6 lg:mb-0">
+              <span className="inline-block text-blue-600 font-semibold text-sm uppercase tracking-wide mb-2">
+                {badge}
+              </span>
+              <h2 className="text-4xl font-bold text-gray-800 mb-4">{title}</h2>
+            </div>
+            
+            <div className="lg:w-1/3 text-center lg:text-left">
+              <p className="text-gray-600 mb-6">{description}</p>
+            </div>
+            
+            <div className="flex gap-2">
+              <button className="w-10 h-10 bg-white border border-gray-300 rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors">
+                <i className="fa-solid fa-arrow-left text-gray-600"></i>
+              </button>
+              <button className="w-10 h-10 bg-white border border-gray-300 rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors">
+                <i className="fa-solid fa-arrow-right text-gray-600"></i>
+              </button>
+            </div>
+          </div>
 
         {/* Services Grid */}
-        <Element
-          is={Grid}
-          canvas
-          columns={3}
-          autoFit={true}
-          minColumnWidth="300px"
-          gap="32px"
-          autoRows="auto"
-        >
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {services.map((service, index) => (
-            <Element
-              key={index}
-              is={Card}
-              variant="flat"
-              shadow="lg"
-              borderRadius="16px"
-              backgroundColor="#ffffff"
-              borderColor="#e5e7eb"
-              padding="32px"
-              margin="0"
-              hoverable={true}
-              clickable={false}
-              overflow="visible"
-              canvas
-            >
-              {/* Service Icon */}
-              <Element
-                is={Box}
-                backgroundColor="transparent"
-                padding="0"
-                margin="0 0 24px 0"
-                display="block"
-                width="64px"
-                height="64px"
-                canvas
-              >
-                <CraftImage
-                  src={service.icon}
-                  alt="Service Icon"
-                  width="w-full"
-                  height="h-full"
-                  objectFit="object-contain"
-                  borderRadius="rounded-none"
-                  margin=""
-                  padding=""
-                />
-              </Element>
+              <div key={index} className="bg-gray-50 rounded-lg overflow-hidden hover:shadow-lg transition-shadow group">
+                {/* Service Image */}
+                <div className="relative overflow-hidden">
+                  <a href={service.link}>
+                    <img
+                      src={service.image}
+                      alt={service.title}
+                      className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </a>
+                </div>
 
-              {/* Service Title */}
-              <Element
-                is={Box}
-                backgroundColor="transparent"
-                padding="0"
-                margin="0 0 16px 0"
-                display="block"
-                canvas={false}
-              >
-                <CraftText
-                  text={service.title}
-                  tagName="h3"
-                  fontSize="text-2xl"
-                  fontWeight="font-bold"
-                  color="text-gray-900"
-                  textAlign="text-left"
-                  lineHeight="leading-tight"
-                />
-              </Element>
-
-              {/* Service Description */}
-              <Element
-                is={Box}
-                backgroundColor="transparent"
-                padding="0"
-                margin="0 0 24px 0"
-                display="block"
-                canvas={false}
-              >
-                <CraftText
-                  text={service.description}
-                  tagName="p"
-                  fontSize="text-base"
-                  fontWeight="font-normal"
-                  color="text-gray-600"
-                  textAlign="text-left"
-                  lineHeight="leading-relaxed"
-                />
-              </Element>
-
-              {/* Service Features */}
-              <Element
-                is={Box}
-                backgroundColor="transparent"
-                padding="0"
-                margin="0 0 32px 0"
-                display="block"
-                canvas
-              >
-                {service.features.map((feature, featureIndex) => (
-                  <Element
-                    key={featureIndex}
-                    is={Box}
-                    backgroundColor="transparent"
-                    padding="8px 0"
-                    margin="0"
-                    display="flex"
-                    alignItems="center"
-                    canvas
+                {/* Service Content */}
+                <div className="p-6 text-center">
+                  <a
+                    href={service.link}
+                    className="text-xl font-bold text-gray-800 hover:text-blue-600 transition-colors block mb-3"
                   >
-                    {/* Check Icon */}
-                    <Element
-                      is={Box}
-                      backgroundColor="transparent"
-                      padding="0"
-                      margin="0 12px 0 0"
-                      display="block"
-                      width="20px"
-                      height="20px"
-                      canvas
-                    >
-                      <CraftImage
-                        src={service.icon}
-                        alt="Check Icon"
-                        width="w-full"
-                        height="h-full"
-                        objectFit="object-contain"
-                        borderRadius="rounded-none"
-                        margin=""
-                        padding=""
-                      />
-                    </Element>
+                    {service.title}
+                  </a>
+                  <p className="text-gray-600 mb-6 text-sm leading-relaxed">
+                    {service.description}
+                  </p>
 
-                    {/* Feature Text */}
-                    <Element
-                      is={Box}
-                      backgroundColor="transparent"
-                      padding="0"
-                      margin="0"
-                      display="block"
-                      canvas={false}
+                  {/* Explore Button */}
+                  <div className="border-t border-gray-200 pt-4">
+                    <a
+                      href={service.link}
+                      className="inline-flex items-center text-gray-800 hover:text-blue-600 font-medium group-hover:translate-x-1 transition-all"
                     >
-                      <CraftText
-                        text={feature}
-                        tagName="p"
-                        fontSize="text-sm"
-                        fontWeight="font-medium"
-                        color="text-gray-700"
-                        textAlign="text-left"
-                      />
-                    </Element>
-                  </Element>
-                ))}
-              </Element>
-
-              {/* Service Button */}
-              <Element
-                is={Box}
-                backgroundColor="transparent"
-                padding="0"
-                margin="0"
-                display="block"
-                canvas={false}
-              >
-                <CraftButton
-                  text={service.buttonText}
-                  size="default"
-                  backgroundColor="#14b8a6"
-                  textColor="#ffffff"
-                  borderRadius="8px"
-                  padding="px-6 py-3"
-                  width="w-full"
-                />
-              </Element>
-            </Element>
-          ))}
-        </Element>
-      </Element>
-    </Section>
+                      <span className="mr-2">Explore service</span>
+                      <i className="fa-solid fa-arrow-right"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </Resizer>
   );
 }
 
 ElderCareServices1.craft = {
   displayName: "Elder Care Services 1",
   props: {
-    // Section props
-    backgroundColor: "#ffffff",
-    padding: "0",
-    minHeight: "auto",
-    hasContentWrapper: true,
-    contentMaxWidth: "7xl",
-    contentPadding:
-      "px-4 py-16 sm:px-6 sm:py-20 md:px-8 md:py-24 lg:px-8 lg:py-32",
-    // Services specific props
-    sectionTag: "Services",
-    mainTitle: "Services tailored to meet the unique needs of each senior.",
-    description:
-      "Our experienced team is dedicated to providing compassionate care that promotes comfort, dignity, and independence.",
+    badge: "# Rise your hand",
+    title: "Our hospitality",
+    description: "Lorem ipsum is simply dummy text of the printing and typesetting industry lorem ipsum has been the industry's standard dummy text.",
     services: [
       {
-        title: "Hospice Care",
-        description:
-          "Compassionate end-of-life care that focuses on providing comfort and dignity, supporting both the senior and their family during this difficult time.",
-        icon: "https://cdn.prod.website-files.com/682477be57026b85bf30914c/68259f75932f43f3c22ee94c_Frame%20(62).svg",
-        features: [
-          "Compassionate and Personalized Care",
-          "Pain and Symptom Management",
-          "Emotional and Psychological Support",
-        ],
-        buttonText: "Learn more",
+        title: "Health facilities",
+        description: "If you are going to use a passage lorem ipsum you need anything consectetur eiusm is tempor.",
+        image: "https://placehold.co/600x400/87CEEB/FFFFFF?text=Health+Facilities",
+        link: "#",
       },
       {
-        title: "Assisted Living",
-        description:
-          "A safe and supportive environment for seniors who require assistance with daily living but still wish to maintain their independence.",
-        icon: "https://cdn.prod.website-files.com/682477be57026b85bf30914c/68259f75932f43f3c22ee94c_Frame%20(62).svg",
-        features: [
-          "Safe and Secure Environment",
-          "Social Engagement and Community",
-          "Housekeeping and Maintenance Services",
-        ],
-        buttonText: "Learn more",
+        title: "Personal care",
+        description: "If you are going to use a passage lorem ipsum you need anything consectetur eiusm is tempor.",
+        image: "https://placehold.co/600x400/98FB98/FFFFFF?text=Personal+Care",
+        link: "#",
       },
       {
-        title: "Palliative Care",
-        description:
-          "Focused on providing relief from the symptoms and stress of serious illness, palliative care enhances quality of life by addressing physical, emotional, and spiritual needs.",
-        icon: "https://cdn.prod.website-files.com/682477be57026b85bf30914c/68259f75932f43f3c22ee94c_Frame%20(62).svg",
-        features: [
-          "Comprehensive Symptom Management",
-          "Emotional and Psychological Support",
-          "Support for Families and Caregivers",
-        ],
-        buttonText: "Learn more",
+        title: "Medical checkup",
+        description: "If you are going to use a passage lorem ipsum you need anything consectetur eiusm is tempor.",
+        image: "https://placehold.co/600x400/FFB6C1/FFFFFF?text=Medical+Checkup",
+        link: "#",
+      },
+      {
+        title: "Health consultation",
+        description: "If you are going to use a passage lorem ipsum you need anything consectetur eiusm is tempor.",
+        image: "https://placehold.co/600x400/DDA0DD/FFFFFF?text=Health+Consultation",
+        link: "#",
+      },
+      {
+        title: "Skilled nursing",
+        description: "If you are going to use a passage lorem ipsum you need anything consectetur eiusm is tempor.",
+        image: "https://placehold.co/600x400/F0E68C/FFFFFF?text=Skilled+Nursing",
+        link: "#",
+      },
+      {
+        title: "Eldery nutrition",
+        description: "If you are going to use a passage lorem ipsum you need anything consectetur eiusm is tempor.",
+        image: "https://placehold.co/600x400/FFA07A/FFFFFF?text=Elder+Nutrition",
+        link: "#",
       },
     ],
+    backgroundColor: "#ffffff",
+    textColor: "#333333",
   },
   rules: {
     canDrag: () => true,
     canMoveIn: () => true,
     canMoveOut: () => true,
   },
-  isCanvas: false,
 };

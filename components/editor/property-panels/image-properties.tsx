@@ -34,12 +34,11 @@ export function ImageProperties({
   // Check if this is a CMS field (read-only content)
   const isCMSField = !!(elementProps?.cmsField && elementProps?.cmsFieldId && elementProps?.cmsCollectionId);
 
-  const handleImageUpload = async (files: FileList | File[]) => {
-    alert("Uploading image...");
+  const handleImageUpload = async (files: File[]) => {
     if (!files || files.length === 0) return;
 
     try {
-      const file = Array.isArray(files) ? files[0] : files[0];
+      const file = files[0];
       const uploadedFile = await uploadSingle(file);
 
       if (uploadedFile?.url) {

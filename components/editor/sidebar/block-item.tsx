@@ -24,12 +24,7 @@ export const BlockItem = ({
     <div
       ref={(ref) => {
         if (ref) {
-          console.log(
-            "BlockItem creating element for:",
-            name,
-            "Component:",
-            Component
-          );
+         
           try {
             create(ref, React.createElement(Component, additionalProps));
           } catch (error) {
@@ -81,7 +76,6 @@ export const SimpleBlockItem = ({
     <div
       ref={(ref) => {
         if (ref) {
-          console.log("Creating element for:", name, "Component:", Component);
           try {
             create(ref, React.createElement(Component));
           } catch (error) {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNode, useEditor } from "@craftjs/core";
 import { FloatingToolbar } from "@/components/editor/floating-toolbar";
 import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store";
@@ -100,8 +100,10 @@ export function Section({
   const { actions } = useEditor();
   const { openPanel } = usePropertiesPanelStore();
 
+
   const handleShowProperties = () => {
     if (nonEditable) return; // Don't show properties panel for non-editable components
+    
     
     openPanel(
       "container",

@@ -98,10 +98,17 @@ export function FileUpload({
         return;
       }
 
-      const currentFileCount = currentFiles.length + files.length;
-      if (currentFileCount + newFiles.length > maxFiles) {
-        onUploadError?.(`Maximum ${maxFiles} files allowed`);
-        return;
+      // For single file uploads, allow replacing existing files
+      if (!multiple) {
+        // For single file mode, we can always replace the existing file
+        // No need to check file count limits
+      } else {
+        // For multiple file mode, check the total count
+        const currentFileCount = currentFiles.length + files.length;
+        if (currentFileCount + newFiles.length > maxFiles) {
+          onUploadError?.(`Maximum ${maxFiles} files allowed`);
+          return;
+        }
       }
 
       const validatedFiles: FileWithPreview[] = [];
@@ -123,7 +130,7 @@ export function FileUpload({
 
       const updatedFiles = multiple
         ? [...files, ...validatedFiles]
-        : validatedFiles;
+        : validatedFiles; // For single file mode, replace all files
       setFiles(updatedFiles);
 
       // Pass the files to parent component for upload handling
@@ -287,7 +294,13 @@ export function FileUpload({
           type="file"
           accept={accept}
           multiple={multiple}
-          onChange={(e) => e.target.files && handleFiles(e.target.files)}
+          onChange={(e) => {
+            if (e.target.files) {
+              handleFiles(e.target.files);
+              // Reset the input value to allow selecting the same file again
+              e.target.value = '';
+            }
+          }}
           className="hidden"
           disabled={disabled}
         />
@@ -440,7 +453,9 @@ export function FileUpload({
           type="file"
           accept={accept}
           multiple={multiple}
-          onChange={(e) => e.target.files && handleFiles(e.target.files)}
+          onChange={(e) => {
+            e.target.files && handleFiles(e.target.files)
+          }}
           className="hidden"
           disabled={disabled}
         />
@@ -705,7 +720,13 @@ export function FileUpload({
           type="file"
           accept={accept}
           multiple={multiple}
-          onChange={(e) => e.target.files && handleFiles(e.target.files)}
+          onChange={(e) => {
+            if (e.target.files) {
+              handleFiles(e.target.files);
+              // Reset the input value to allow selecting the same file again
+              e.target.value = '';
+            }
+          }}
           className="hidden"
           disabled={disabled}
         />

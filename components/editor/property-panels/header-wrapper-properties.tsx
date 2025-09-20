@@ -43,13 +43,12 @@ export function HeaderWrapperProperties({ elementProps, onPropChange }: HeaderWr
     onPropChange(key, value);
   };
 
-  const handleImageUpload = async (files: FileList | File[]) => {
+  const handleImageUpload = async (files: File[]) => {
     if (!files || files.length === 0) return;
 
     try {
-      const file = Array.isArray(files) ? files[0] : files[0];
+      const file = files[0];
       const uploadedFile = await uploadSingle(file);
-
       if (uploadedFile?.url) {
         onPropChange("logoUrl", uploadedFile.url);
         toast.success("Logo uploaded successfully!");

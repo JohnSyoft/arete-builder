@@ -66,11 +66,10 @@ export function CosmeticHero1({
       "px-4 py-16 sm:px-6 sm:py-20 md:px-8 md:py-24 lg:px-8 lg:py-32",
       width:"fit-content",
       margin:"m-6",
+      backgroundImage:
+      "https://demo.awaikenthemes.com/glowix/wp-content/uploads/2025/04/hero-bg-shape.svg",
     ...props,
     borderRadius: "16px",
-
-    backgroundImage:
-      "https://demo.awaikenthemes.com/glowix/wp-content/uploads/2025/04/hero-bg-shape.svg",
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center",
     backgroundSize: "cover",

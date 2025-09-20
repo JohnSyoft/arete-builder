@@ -209,7 +209,7 @@ export default async function SubdomainPage({ params }: SubdomainPageProps) {
           layout = {}
         }
 
-        console.log('Rendering CMS detail page for project:', project.name, 'page:', page.name, 'item:', item._id)
+        // console.log('Rendering CMS detail page for project:', project.name, 'page:', page.name, 'item:', item._id)
 
         return (
           <div className="min-h-screen bg-white">
@@ -219,7 +219,7 @@ export default async function SubdomainPage({ params }: SubdomainPageProps) {
                 <div className="flex justify-between items-center h-16">
                   {/* Logo/Brand */}
                   <div className="flex items-center">
-                    <a href={`/${params.slug}`} className="text-xl font-bold text-gray-900">
+                    <a href={`/`} className="text-xl font-bold text-gray-900">
                       {project.name}
                     </a>
                   </div>
