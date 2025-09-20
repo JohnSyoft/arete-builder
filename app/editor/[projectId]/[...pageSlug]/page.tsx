@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useEffect, useState } from "react";
+import React, { useMemo, useEffect, useState, useCallback, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Editor, Frame, Element, useEditor } from "@craftjs/core";
 import { EditorSidebar } from "@/components/editor/sidebar";
@@ -20,8 +20,10 @@ import {
   usePageBySlug,
   useUpdatePage,
 } from "@/hooks/usePages";
+import { useHeaderSync } from "@/hooks/useHeaderSync";
 import { type Project } from "@/lib/api/projects";
 import { type Page as ApiPage } from "@/lib/api/pages";
+import { extractHeaderWrapper, updateHeaderWrapper, hasHeaderWrapper } from "@/lib/utils/headerSync";
 
 // Local type for toolbar compatibility
 interface ToolbarPage {
@@ -43,6 +45,7 @@ function EditorContent({
   onModeChange,
   selectedItem,
   onItemChange,
+  debouncedHeaderSync,
 }: {
   project: Project;
   currentPage: ApiPage;
@@ -55,15 +58,24 @@ function EditorContent({
   onModeChange?: (mode: "design" | "cms") => void;
   selectedItem?: any;
   onItemChange?: (item: any) => void;
+  debouncedHeaderSync?: (layout: any) => void;
 }) {
   const { query } = useEditor();
   const { currentViewport } = useViewportStore();
   const { isOpen: sidebarOpen } = useSidebarStore();
   const scrollContainerRef = React.useRef<HTMLDivElement>(null);
 
+
   const handleSave = () => {
     try {
       const layout = query.serialize();
+      
+      // Check for HeaderWrapper and trigger sync
+      const headerData = extractHeaderWrapper(layout);
+      if (headerData && debouncedHeaderSync) {
+        debouncedHeaderSync(layout);
+      }
+      
       onSave(layout);
     } catch (error) {
       console.error('Serialization error:', error);
@@ -83,6 +95,13 @@ function EditorContent({
           }
           return value;
         }));
+        
+        // Check for HeaderWrapper in fallback layout too
+        const headerData = extractHeaderWrapper(layout);
+        if (headerData && debouncedHeaderSync) {
+          debouncedHeaderSync(layout);
+        }
+        
         onSave(layout);
       } catch (fallbackError) {
         console.error('Fallback serialization also failed:', fallbackError);
@@ -254,6 +273,35 @@ export default function EditorPage() {
 
   const projectId = params.projectId as string;
   const pageSlugSegments = params.pageSlug as string[];
+  
+  // HeaderWrapper synchronization
+  const { syncHeaderWrapper, getCurrentHeaderWrapper, hasAnyHeaderWrapper } = useHeaderSync(projectId);
+  
+  // Debounced HeaderWrapper synchronization
+  const syncTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  
+  const handleHeaderSync = useCallback(async (headerData: any) => {
+    try {
+      await syncHeaderWrapper(headerData);
+      console.log('HeaderWrapper synchronized across all pages');
+    } catch (error) {
+      console.error('Failed to sync HeaderWrapper:', error);
+    }
+  }, [syncHeaderWrapper]);
+  
+  const debouncedHeaderSync = useCallback((layout: any) => {
+    if (syncTimeoutRef.current) {
+      clearTimeout(syncTimeoutRef.current);
+    }
+    
+    syncTimeoutRef.current = setTimeout(() => {
+      const headerData = extractHeaderWrapper(layout);
+      if (headerData) {
+        console.log('HeaderWrapper detected, syncing across all pages...');
+        handleHeaderSync(headerData);
+      }
+    }, 2000); // 2 second debounce
+  }, [handleHeaderSync]);
   
   // Handle both single slug and CMS detail page patterns
   const pageSlug = useMemo(() => {
@@ -528,6 +576,37 @@ export default function EditorPage() {
     return () => clearContext();
   }, [currentPageData, selectedItem, setCollectionContext, clearContext]);
 
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (syncTimeoutRef.current) {
+        clearTimeout(syncTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  // Ensure HeaderWrapper is added to current page if it exists on other pages
+  useEffect(() => {
+    if (currentPageData && hasAnyHeaderWrapper()) {
+      const currentPageHasHeader = hasHeaderWrapper(currentPageData.layout);
+      if (!currentPageHasHeader) {
+        const headerData = getCurrentHeaderWrapper();
+        if (headerData) {
+          console.log('Adding HeaderWrapper to current page from other pages');
+          const updatedLayout = updateHeaderWrapper(currentPageData.layout, headerData);
+          
+          // Update the current page directly
+          updatePageMutation.mutateAsync({
+            id: currentPageData._id,
+            pageData: { layout: updatedLayout }
+          }).catch(error => {
+            console.error('Failed to add HeaderWrapper to current page:', error);
+          });
+        }
+      }
+    }
+  }, [currentPageData?._id]); // Only depend on page ID to prevent infinite loops
+
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -617,6 +696,7 @@ export default function EditorPage() {
           onModeChange={handleModeChange}
           selectedItem={selectedItem}
           onItemChange={handleItemChange}
+          debouncedHeaderSync={debouncedHeaderSync}
         />
       </Editor>
       <Modals />
