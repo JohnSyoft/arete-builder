@@ -1,0 +1,10 @@
+export { BrandingAgencyHero1 } from "./BrandingAgencyHero1";
+export { BrandingAgencyClients1 } from "./BrandingAgencyClients1";
+export { BrandingAgencyAbout1 } from "./BrandingAgencyAbout1";
+export { BrandingAgencyStats1 } from "./BrandingAgencyStats1";
+export { BrandingAgencyMarquee1 } from "./BrandingAgencyMarquee1";
+export { BrandingAgencyProjects1 } from "./BrandingAgencyProjects1";
+export { BrandingAgencyServices1 } from "./BrandingAgencyServices1";
+export { BrandingAgencyTeam1 } from "./BrandingAgencyTeam1";
+export { BrandingAgencyTestimonials1 } from "./BrandingAgencyTestimonials1";
+export { BrandingAgencyFooter1 } from "./BrandingAgencyFooter1";

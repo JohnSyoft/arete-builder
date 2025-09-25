@@ -1,0 +1,9 @@
+export { BusinessHero1 } from "./BusinessHero1";
+export { BusinessAbout1 } from "./BusinessAbout1";
+export { BusinessServices1 } from "./BusinessServices1";
+export { BusinessPricing1 } from "./BusinessPricing1";
+export { BusinessVideo1 } from "./BusinessVideo1";
+export { BusinessTestimonials1 } from "./BusinessTestimonials1";
+export { BusinessBlog1 } from "./BusinessBlog1";
+export { BusinessCTA1 } from "./BusinessCTA1";
+export { BusinessFooter1 } from "./BusinessFooter1";

@@ -1,0 +1,9 @@
+export { EbookHero1 } from "./EbookHero1";
+export { EbookAbout1 } from "./EbookAbout1";
+export { EbookChapters1 } from "./EbookChapters1";
+export { EbookAuthor1 } from "./EbookAuthor1";
+export { EbookReviews1 } from "./EbookReviews1";
+export { EbookSubscribe1 } from "./EbookSubscribe1";
+export { EbookPricing1 } from "./EbookPricing1";
+export { EbookContact1 } from "./EbookContact1";
+export { EbookFooter1 } from "./EbookFooter1";

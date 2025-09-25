@@ -1,0 +1,10 @@
+export { ELearningHero1 } from "./ELearningHero1";
+export { ELearningFeatures1 } from "./ELearningFeatures1";
+export { ELearningCourses1 } from "./ELearningCourses1";
+export { ELearningAbout1 } from "./ELearningAbout1";
+export { ELearningMarquee1 } from "./ELearningMarquee1";
+export { ELearningTestimonials1 } from "./ELearningTestimonials1";
+export { ELearningClients1 } from "./ELearningClients1";
+export { ELearningBlog1 } from "./ELearningBlog1";
+export { ELearningCTA1 } from "./ELearningCTA1";
+export { ELearningFooter1 } from "./ELearningFooter1";

@@ -1,0 +1,1781 @@
+import {
+  // Hero components
+  CraftMedicalHero1,
+  CraftCosmeticHero1,
+  CraftHealthcareGridHero1,
+  CraftCollaborationHero1,
+  CraftLearningPlatformHero,
+  CraftProductivityHero,
+  CraftExpenseTrackingHero,
+  CraftCommunityResourcesHero,
+  CraftHospitalityHero1,
+  CraftMiniMaxHero1,
+  CraftModernSaaSHero1,
+  CraftEnvironmentalHero1,
+
+  // Services components
+  CraftMedicalServices1,
+  CraftCosmeticServices1,
+  CraftHospitalityAmenities1,
+
+  // About/Values components
+  CraftCosmeticAbout1,
+  CraftCosmeticWhyChooseUs1,
+  CraftCosmeticWhatWeDo1,
+  CraftCosmeticWhyChoose2,
+
+  // Team components
+  CraftMedicalDoctors1,
+  CraftModernTeam1,
+
+  // Testimonials components
+  CraftMedicalTestimonials1,
+  CraftHospitalityTestimonials1,
+  CraftCosmeticTestimonials2,
+  CraftModernTestimonials1,
+
+  // Content components
+  CraftHospitalityRooms1,
+  CraftHospitalityDining1,
+  CraftCosmeticCaseStudies1,
+  CraftCosmeticCaseStudy1,
+  CraftCosmeticBeforeAfter1,
+  CraftMedicalHowItWorks1,
+
+  // Features components
+  CraftModernFeatures1,
+
+  // Pricing components
+  CraftModernPricing1,
+
+  // CTA components
+  CraftWhyChooseUs1,
+
+  // Footer components
+  CraftMedicalFooter1,
+  CraftCosmeticFooter1,
+  CraftHospitalityFooter1,
+  CraftModernFooter1,
+
+  // Header components
+  CraftSimpleHeader,
+  // Content blocks
+  CraftResearchCards,
+  CraftPhotoGallery,
+
+  // New Hospitality Components
+  CraftResortBookingHero,
+  
+  CraftLuxurySuites,
+  CraftSpaWellness,
+  CraftFineDining,
+  CraftWeddingEvents,
+  CraftHotelAmenities,
+  CraftPropertyGallery,
+  // Additional Hospitality Components
+  // HotelHero1,
+  RoomShowcase1,
+  HospitalityDining2,
+  HospitalityAmenities1,
+  
+  SearchModal1,
+  
+  ElderCareHero1,
+  ElderCareCTA1,
+  ElderCareAbout1,
+  ElderCareTimeline1,
+  ElderCareServices1,
+  ElderCareVideo1,
+  ElderCareFAQ1,
+  ElderCareFeatures1,
+  ElderCareBlog1,
+  ElderCareFooter1,
+
+  // Marketing components
+  MarketingHero1,
+  MarketingClients1,
+  MarketingAbout1,
+  MarketingMarquee1,
+  MarketingPortfolio1,
+  MarketingStrategy1,
+  MarketingPricing1,
+  MarketingTestimonials1,
+  MarketingCTA1,
+  MarketingFooter1,
+
+  // Restaurant components
+  RestaurantHero1,
+  RestaurantAbout1,
+  RestaurantMenu1,
+  RestaurantDishes1,
+  RestaurantMarquee1,
+  RestaurantTestimonials1,
+  RestaurantStats1,
+  RestaurantFooter1,
+
+  // Restaurant Team components
+  RestaurantChefs1,
+
+  // Blog components
+  CraftModernBlog1,
+
+  // Contact components
+  CraftModernContact1,
+
+  // CMS Cards
+  CraftCosmeticCard1,
+  CraftHospitalityCard1,
+  CraftModernCard1,
+} from "@/components/editor/craft-components";
+
+// Beauty Salon Components
+import {
+  BeautySalonHero1,
+  BeautySalonAbout1,
+  BeautySalonProcess1,
+  BeautySalonServices1,
+  BeautySalonOffers1,
+  BeautySalonTeam1,
+  BeautySalonTestimonials1,
+  BeautySalonContact1,
+  BeautySalonFooter1,
+} from "@/components/blocks/Beauty";
+
+// Architecture Components
+import {
+  ArchitectureHero1,
+  ArchitectureAbout1,
+  ArchitectureServices1,
+  ArchitectureAwards1,
+  ArchitectureProjects1,
+  ArchitectureTestimonials1,
+  ArchitectureBlog1,
+  ArchitectureFooter1,
+  ArchitectureAboutPage1,
+  ArchitectureServicesPage1,
+  ArchitectureProjectsPage1,
+  ArchitectureBlogPage1,
+  ArchitectureContactPage1,
+} from "@/components/blocks/Architecture";
+
+// Ebook Components
+import {
+  EbookHero1,
+  EbookAbout1,
+  EbookChapters1,
+  EbookAuthor1,
+  EbookReviews1,
+  EbookSubscribe1,
+  EbookPricing1,
+  EbookContact1,
+  EbookFooter1,
+} from "@/components/blocks/Ebook";
+
+// SEO Components
+import {
+  SEOHero1,
+  SEOServices1,
+  SEOStats1,
+  SEOProcess1,
+  SEOAnalysis1,
+  SEOTabs1,
+  SEOTestimonials1,
+  SEOClients1,
+  SEOContact1,
+  SEOFooter1,
+} from "@/components/blocks/SEO";
+
+// Business Components
+import {
+  BusinessHero1,
+  BusinessAbout1,
+  BusinessServices1,
+  BusinessPricing1,
+  BusinessVideo1,
+  BusinessTestimonials1,
+  BusinessBlog1,
+  BusinessCTA1,
+  BusinessFooter1,
+} from "@/components/blocks/Business";
+
+// Design Agency Components
+import {
+  DesignAgencyHero1,
+  DesignAgencyCreative1,
+  DesignAgencyProcess1,
+  DesignAgencyProjects1,
+  DesignAgencyExpertise1,
+  DesignAgencyStats1,
+  DesignAgencyTestimonials1,
+  DesignAgencyFooter1,
+} from "@/components/blocks/DesignAgency";
+
+// BrandingAgency Components
+import {
+  BrandingAgencyHero1,
+  BrandingAgencyClients1,
+  BrandingAgencyAbout1,
+  BrandingAgencyStats1,
+  BrandingAgencyMarquee1,
+  BrandingAgencyProjects1,
+  BrandingAgencyServices1,
+  BrandingAgencyTeam1,
+  BrandingAgencyTestimonials1,
+  BrandingAgencyFooter1,
+} from "@/components/blocks/BrandingAgency";
+
+// BrandingStudio Components
+import {
+  BrandingStudioHero1,
+  BrandingStudioStats1,
+  BrandingStudioAbout1,
+  BrandingStudioMarquee1,
+  BrandingStudioServices1,
+  BrandingStudioProjects1,
+  BrandingStudioFeatures1,
+  BrandingStudioAwards1,
+  BrandingStudioTestimonials1,
+  BrandingStudioSocial1,
+  BrandingStudioFooter1,
+} from "@/components/blocks/BrandingStudio";
+
+// ELearning Components
+import {
+  ELearningHero1,
+  ELearningFeatures1,
+  ELearningCourses1,
+  ELearningAbout1,
+  ELearningMarquee1,
+  ELearningTestimonials1,
+  ELearningClients1,
+  ELearningBlog1,
+  ELearningCTA1,
+  ELearningFooter1,
+} from "@/components/blocks/ELearning";
+
+// ITBusiness Components
+import {
+  ITBusinessHero1,
+  ITBusinessFeatures1,
+  ITBusinessAbout1,
+  ITBusinessClients1,
+  ITBusinessServices1,
+  ITBusinessIndustries1,
+  ITBusinessCTA1,
+  ITBusinessPortfolio1,
+  ITBusinessTestimonials1,
+  ITBusinessFinalCTA1,
+  ITBusinessFooter1,
+} from "@/components/blocks/ITBusiness";
+
+// Barber Components
+import {
+  BarberHero1,
+  BarberAbout1,
+  BarberServices1,
+  BarberGallery1,
+  BarberPricing1,
+  BarberVideo1,
+  BarberTeam1,
+  BarberTestimonials1,
+  BarberContact1,
+  BarberAppointment1,
+  BarberFooter1,
+} from "@/components/blocks/Barber";
+
+// Hotel Components
+import {
+  HotelHero1,
+  HotelFeatures1,
+  HotelAbout1,
+  HotelMarquee1,
+  HotelFacilities1,
+  HotelTestimonials1,
+  HotelOffers1,
+  HotelRooms1,
+  HotelRatings1,
+  HotelNewsletter1,
+  HotelInstagram1,
+  HotelFooter1,
+} from "@/components/blocks/Hotel";
+
+// RealEstate Components
+import {
+  RealEstateHero1,
+  RealEstateFeatures1,
+  RealEstateAbout1,
+  RealEstateServices1,
+  RealEstateProperties1,
+  RealEstateWhyChooseUs1,
+  RealEstateFindDreamHouse1,
+  RealEstateAwards1,
+  RealEstateTestimonials1,
+  RealEstateBlog1,
+  RealEstateFooter1,
+} from "@/components/blocks/RealEstate";
+
+// Spa Salon Components
+import {
+  SpaSalonHero1,
+  SpaSalonFeatures1,
+  SpaSalonAbout1,
+  SpaSalonServices1,
+  SpaSalonPricing1,
+  SpaSalonBenefits1,
+  SpaSalonTestimonials1,
+  SpaSalonFooter1,
+} from "@/components/blocks/SpaSalon";
+
+// Component categories organized by type
+export const componentsByType = {
+  hero: [
+    {
+      component: CraftMedicalHero1,
+      name: "Medical Hero",
+      description: "Professional medical hero section with trust indicators",
+      image: "/MedicalHero.png",
+    },
+    {
+      component: CraftCosmeticHero1,
+      name: "Beauty Hero",
+      description: "Cosmetic treatment hero with brand imagery",
+      image: "/cosmeticHero.png",
+    },
+    {
+      component: CraftHealthcareGridHero1,
+      name: "Healthcare Grid Hero",
+      description: "Healthcare grid layout hero with multiple images",
+      image: "/healthCareGridHero.png",
+    },
+    {
+      component: CraftCollaborationHero1,
+      name: "Collaboration Hero",
+      description: "Remote work productivity hero with green gradient",
+      image: "/collaborationHero.png",
+    },
+    {
+      component: CraftLearningPlatformHero,
+      name: "Learning Platform Hero",
+      description: "Social learning platform with blue accent tagline",
+      image: "/learningHero.png",
+    },
+    {
+      component: CraftProductivityHero,
+      name: "Productivity Hero",
+      description: "Split-screen productivity app with form and stats",
+      image: "/productivityHero.png",
+    },
+    {
+      component: CraftExpenseTrackingHero,
+      name: "Expense Tracking Hero",
+      description: "Financial app hero with phone mockup and app store buttons",
+      image: "/expenseTrackingHero.png",
+    },
+    {
+      component: CraftCommunityResourcesHero,
+      name: "Community Resources Hero",
+      description: "Developer community platform with gradient button",
+      image: "/communityResourcesHero.png",
+    },
+    {
+      component: CraftHospitalityHero1,
+      name: "Hospitality Hero",
+      description: "Luxury hotel hero section with elegant design",
+      image: "/HospitalityHero.png",
+    },
+    {
+      component: HotelHero1,
+      name: "Hotel Hero 1",
+      description: "Modern hotel hero with features showcase",
+      image: "/hotelHero1.png",
+    },
+    {
+      component: CraftMiniMaxHero1,
+      name: "AI Model Hero",
+      description:
+        "Multi-slide carousel hero for AI models with automatic transitions",
+      image: "/AIHero.png",
+    },
+    {
+      component: CraftModernSaaSHero1,
+      name: "SaaS Hero",
+      description: "Modern SaaS hero with features and trust indicators",
+      image: "/sassHero.png",
+    },
+    {
+      component: CraftEnvironmentalHero1,
+      name: "Environmental Hero",
+      description:
+        "Environmental conservation hero with grid layout and wavy background",
+      image: "/enviornmentHero.png",
+    },
+    {
+      component: BeautySalonHero1,
+      name: "Beauty Salon Hero",
+      description: "Professional beauty salon hero with dark theme and CTA",
+      image: "/beautySalonHero1.png",
+    },
+    {
+      component: ArchitectureHero1,
+      name: "Architecture Hero",
+      description: "Modern architecture hero with slider and project showcase",
+      image: "/architectureHero1.png",
+    },
+    {
+      component: EbookHero1,
+      name: "Ebook Hero",
+      description: "Ebook hero with book cover and newsletter signup",
+      image: "/ebookHero1.png",
+    },
+    {
+      component: SEOHero1,
+      name: "SEO Hero",
+      description: "SEO agency hero with animated text and analytics",
+      image: "/seoHero1.png",
+    },
+    {
+      component: BusinessHero1,
+      name: "Business Hero",
+      description: "Business agency hero with slider and features",
+      image: "/businessHero1.png",
+    },
+    {
+      component: DesignAgencyHero1,
+      name: "Design Agency Hero",
+      description: "Design agency hero with particles background and CTA",
+      image: "/designAgencyHero1.png",
+    },
+    {
+      component: SpaSalonHero1,
+      name: "Spa Salon Hero",
+      description: "Spa salon hero with slider and CTA",
+      image: "/spaSalonHero1.png",
+    },
+    {
+      component: BrandingAgencyHero1,
+      name: "Branding Agency Hero",
+      description: "Branding agency hero with animated elements and CTA",
+      image: "/brandingAgencyHero1.png",
+    },
+    {
+      component: BrandingStudioHero1,
+      name: "Branding Studio Hero",
+      description: "Branding studio hero with animated elements and CTA",
+      image: "/brandingStudioHero1.png",
+    },
+    {
+      component: ELearningHero1,
+      name: "eLearning Hero",
+      description: "eLearning hero with animated elements and counters",
+      image: "/eLearningHero1.png",
+    },
+    {
+      component: ITBusinessHero1,
+      name: "IT Business Hero",
+      description: "IT business hero with animated background",
+      image: "/itBusinessHero1.png",
+    },
+    {
+      component: BarberHero1,
+      name: "Barber Hero",
+      description: "Barber hero with dark background and CTA",
+      image: "/barberHero1.png",
+    },
+    {
+      component: HotelHero1,
+      name: "Hotel Hero",
+      description: "Hotel hero with parallax and booking CTA",
+      image: "/hotelHero1.png",
+    },
+    {
+      component: RealEstateHero1,
+      name: "Real Estate Hero",
+      description: "Real estate hero with search form",
+      image: "/realEstateHero1.png",
+    },
+  ],
+  services: [
+    {
+      component: CraftMedicalServices1,
+      name: "Medical Services",
+      description: "Comprehensive medical services grid",
+      image: "/medicalService.png",
+    },
+    {
+      component: CraftCosmeticServices1,
+      name: "Beauty Services",
+      description: "Cosmetic treatment services showcase",
+      image: "/beautyService.png",
+    },
+    {
+      component: CraftHospitalityAmenities1,
+      name: "Amenities",
+      description: "Hotel amenities and facilities grid",
+      image: "/amenityService.png",
+    },
+    {
+      component: HospitalityAmenities1,
+      name: "Amenities Grid 1",
+      description: "Comprehensive amenities showcase with categories",
+      image: "/amenitiesGrid1.png",
+    },
+    {
+      component: CraftModernFeatures1,
+      name: "Modern Features",
+      description: "Feature showcase with icons and descriptions",
+      image: "/placeholder.svg",
+    },
+    {
+      component: CraftSpaWellness,
+      name: "Spa & Wellness",
+      description: "Spa services and wellness treatments showcase",
+      image: "/placeholder.svg",
+    },
+    {
+      component: CraftHotelAmenities,
+      name: "Hotel Amenities",
+      description: "Comprehensive hotel facilities and amenities",
+      image: "/placeholder.svg",
+    },
+    {
+      component: CraftCosmeticServices1,
+      name: "Cosmetic Services 1",
+      description: "Comprehensive cosmetic services showcase with treatments",
+      image: "/cosmeticServices1.png",
+    },
+    {
+      component: BeautySalonServices1,
+      name: "Beauty Salon Services",
+      description: "Comprehensive beauty salon services with pricing",
+      image: "/beautySalonServices1.png",
+    },
+    {
+      component: ArchitectureServices1,
+      name: "Architecture Services",
+      description: "Architecture services carousel with interactive banners",
+      image: "/architectureServices1.png",
+    },
+    {
+      component: SEOServices1,
+      name: "SEO Services",
+      description: "SEO services grid with analytics and optimization",
+      image: "/seoServices1.png",
+    },
+    {
+      component: BusinessServices1,
+      name: "Business Services",
+      description: "Business services with interactive tabs",
+      image: "/businessServices1.png",
+    },
+    {
+      component: DesignAgencyProcess1,
+      name: "Design Agency Process",
+      description: "Design agency process steps with numbered items",
+      image: "/designAgencyProcess1.png",
+    },
+    {
+      component: SpaSalonFeatures1,
+      name: "Spa Salon Features",
+      description: "Spa salon features section with icons and text",
+      image: "/spaSalonFeatures1.png",
+    },
+    {
+      component: SpaSalonServices1,
+      name: "Spa Salon Services",
+      description: "Spa salon services carousel with hover effects",
+      image: "/spaSalonServices1.png",
+    },
+    {
+      component: BrandingAgencyServices1,
+      name: "Branding Agency Services",
+      description: "Branding agency services with accordion",
+      image: "/brandingAgencyServices1.png",
+    },
+    {
+      component: BrandingStudioServices1,
+      name: "Branding Studio Services",
+      description: "Branding studio services section",
+      image: "/brandingStudioServices1.png",
+    },
+    {
+      component: ITBusinessServices1,
+      name: "IT Business Services",
+      description: "IT business services slider section",
+      image: "/itBusinessServices1.png",
+    },
+    {
+      component: BarberServices1,
+      name: "Barber Services",
+      description: "Barber services section with pricing",
+      image: "/barberServices1.png",
+    },
+    {
+      component: RealEstateServices1,
+      name: "Real Estate Services",
+      description: "Real estate services section with feature boxes",
+      image: "/realEstateServices1.png",
+    },
+  ],
+  about: [
+    {
+      component: CraftCosmeticAbout1,
+      name: "About Section",
+      description: "Professional about section with expertise focus",
+      image: "/placeholder.svg",
+    },
+    {
+      component: CraftCosmeticWhyChooseUs1,
+      name: "Why Choose Us v1",
+      description: "Simple why choose us section with features",
+      image: "/placeholder.svg",
+    },
+    {
+      component: CraftCosmeticWhatWeDo1,
+      name: "What We Do",
+      description: "Service offerings and specializations",
+      image: "/placeholder.svg",
+    },
+    {
+      component: CraftCosmeticWhyChoose2,
+      name: "Why Choose Us v2",
+      description: "Competitive advantages and benefits",
+      image: "/placeholder.svg",
+    },
+    {
+      component: CraftWhyChooseUs1,
+      name: "Trust Indicators",
+      description: "Trust building elements and credentials",
+      image: "/placeholder.svg",
+    },
+    {
+      component: CraftCosmeticAbout1,
+      name: "Cosmetic About 1",
+      description: "Professional cosmetic about section with expertise focus",
+      image: "/cosmeticAbout1.png",
+    },
+    {
+      component: CraftCosmeticWhyChooseUs1,
+      name: "Cosmetic Why Choose Us 1",
+      description: "Simple why choose us section with cosmetic features",
+      image: "/cosmeticWhyChooseUs1.png",
+    },
+    {
+      component: CraftCosmeticWhyChoose2,
+      name: "Cosmetic Why Choose Us 2",
+      description: "Advanced why choose us with competitive advantages",
+      image: "/cosmeticWhyChoose2.png",
+    },
+    {
+      component: CraftCosmeticWhatWeDo1,
+      name: "Cosmetic What We Do 1",
+      description: "Cosmetic service offerings and specializations",
+      image: "/cosmeticWhatWeDo1.png",
+    },
+    {
+      component: BeautySalonAbout1,
+      name: "Beauty Salon About",
+      description: "Professional beauty salon about section with image",
+      image: "/beautySalonAbout1.png",
+    },
+    {
+      component: BeautySalonProcess1,
+      name: "Beauty Salon Process",
+      description: "3-step process showcase for beauty salon",
+      image: "/beautySalonProcess1.png",
+    },
+    {
+      component: ArchitectureAbout1,
+      name: "Architecture About",
+      description: "Architecture about section with stats and features",
+      image: "/architectureAbout1.png",
+    },
+    {
+      component: ArchitectureAboutPage1,
+      name: "Architecture About Page",
+      description: "Complete architecture about page with gallery and awards",
+      image: "/architectureAboutPage1.png",
+    },
+    {
+      component: ArchitectureServicesPage1,
+      name: "Architecture Services Page",
+      description: "Complete architecture services page with process and carousel",
+      image: "/architectureServicesPage1.png",
+    },
+    {
+      component: ArchitectureProjectsPage1,
+      name: "Architecture Projects Page",
+      description: "Architecture projects grid page with portfolio showcase",
+      image: "/architectureProjectsPage1.png",
+    },
+    {
+      component: ArchitectureBlogPage1,
+      name: "Architecture Blog Page",
+      description: "Architecture blog listing page with grid and pagination",
+      image: "/architectureBlogPage1.png",
+    },
+    {
+      component: ArchitectureContactPage1,
+      name: "Architecture Contact Page",
+      description: "Architecture contact page with form and map",
+      image: "/architectureContactPage1.png",
+    },
+    {
+      component: EbookAbout1,
+      name: "Ebook About",
+      description: "Ebook about section with features and stats",
+      image: "/ebookAbout1.png",
+    },
+    {
+      component: BusinessAbout1,
+      name: "Business About",
+      description: "Business about section with stats and features",
+      image: "/businessAbout1.png",
+    },
+    {
+      component: DesignAgencyCreative1,
+      name: "Design Agency Creative",
+      description: "Design agency creative section with large text",
+      image: "/designAgencyCreative1.png",
+    },
+    {
+      component: DesignAgencyExpertise1,
+      name: "Design Agency Expertise",
+      description: "Design agency expertise section with features",
+      image: "/designAgencyExpertise1.png",
+    },
+    {
+      component: SpaSalonAbout1,
+      name: "Spa Salon About",
+      description: "Spa salon about section with images and stats",
+      image: "/spaSalonAbout1.png",
+    },
+    {
+      component: SpaSalonBenefits1,
+      name: "Spa Salon Benefits",
+      description: "Spa salon benefits section with image and list",
+      image: "/spaSalonBenefits1.png",
+    },
+    {
+      component: BrandingAgencyAbout1,
+      name: "Branding Agency About",
+      description: "Branding agency about section with images",
+      image: "/brandingAgencyAbout1.png",
+    },
+    {
+      component: BrandingStudioAbout1,
+      name: "Branding Studio About",
+      description: "Branding studio about section",
+      image: "/brandingStudioAbout1.png",
+    },
+    {
+      component: ELearningAbout1,
+      name: "eLearning About",
+      description: "eLearning about section with accordion",
+      image: "/eLearningAbout1.png",
+    },
+    {
+      component: ITBusinessAbout1,
+      name: "IT Business About",
+      description: "IT business about section with progress bars",
+      image: "/itBusinessAbout1.png",
+    },
+    {
+      component: BarberAbout1,
+      name: "Barber About",
+      description: "Barber about section with award winning content",
+      image: "/barberAbout1.png",
+    },
+    {
+      component: HotelAbout1,
+      name: "Hotel About",
+      description: "Hotel about section with images and stats",
+      image: "/hotelAbout1.png",
+    },
+    {
+      component: RealEstateAbout1,
+      name: "Real Estate About",
+      description: "Real estate about section with images and text",
+      image: "/realEstateAbout1.png",
+    },
+    {
+      component: RealEstateWhyChooseUs1,
+      name: "Real Estate Why Choose Us",
+      description: "Real estate why choose us section with image and text",
+      image: "/realEstateWhyChooseUs1.png",
+    },
+  ],
+  team: [
+    {
+      component: CraftMedicalDoctors1,
+      name: "Medical Team",
+      description: "Doctor profiles and medical staff",
+      image: "/placeholder.svg",
+    },
+    {
+      component: CraftModernTeam1,
+      name: "Modern Team",
+      description: "Modern team section with social links",
+      image: "/placeholder.svg",
+    },
+    {
+      component: BeautySalonTeam1,
+      name: "Beauty Salon Team",
+      description: "Beauty experts team with social links and stats",
+      image: "/beautySalonTeam1.png",
+    },
+    {
+      component: BrandingAgencyTeam1,
+      name: "Branding Agency Team",
+      description: "Branding agency team section",
+      image: "/brandingAgencyTeam1.png",
+    },
+    {
+      component: BarberTeam1,
+      name: "Barber Team",
+      description: "Barber team section",
+      image: "/barberTeam1.png",
+    },
+  ],
+  testimonials: [
+    {
+      component: CraftMedicalTestimonials1,
+      name: "Patient Reviews",
+      description: "Medical patient testimonials and reviews",
+      image: "/placeholder.svg",
+    },
+    {
+      component: CraftHospitalityTestimonials1,
+      name: "Guest Reviews",
+      description: "Hotel guest testimonials and ratings",
+      image: "/placeholder.svg",
+    },
+    {
+      component: CraftCosmeticTestimonials2,
+      name: "Client Reviews",
+      description: "Beauty treatment client testimonials",
+      image: "/placeholder.svg",
+    },
+    {
+      component: CraftModernTestimonials1,
+      name: "Modern Reviews",
+      description: "Modern testimonials with avatars and ratings",
+      image: "/placeholder.svg",
+    },
+    {
+      component: CraftCosmeticTestimonials2,
+      name: "Cosmetic Testimonials 2",
+      description: "Beauty treatment client testimonials with ratings",
+      image: "/cosmeticTestimonials2.png",
+    },
+    {
+      component: BeautySalonTestimonials1,
+      name: "Beauty Salon Testimonials",
+      description: "Customer testimonials with ratings and navigation",
+      image: "/beautySalonTestimonials1.png",
+    },
+    {
+      component: ArchitectureTestimonials1,
+      name: "Architecture Testimonials",
+      description: "Architecture client testimonials with slider",
+      image: "/architectureTestimonials1.png",
+    },
+    {
+      component: EbookReviews1,
+      name: "Ebook Reviews",
+      description: "Ebook reviews carousel component",
+      image: "/ebookReviews1.png",
+    },
+    {
+      component: SEOTestimonials1,
+      name: "SEO Testimonials",
+      description: "SEO client testimonials with navigation",
+      image: "/seoTestimonials1.png",
+    },
+    {
+      component: BusinessTestimonials1,
+      name: "Business Testimonials",
+      description: "Business client testimonials with stats",
+      image: "/businessTestimonials1.png",
+    },
+    {
+      component: DesignAgencyTestimonials1,
+      name: "Design Agency Testimonials",
+      description: "Design agency client testimonials with navigation",
+      image: "/designAgencyTestimonials1.png",
+    },
+    {
+      component: SpaSalonTestimonials1,
+      name: "Spa Salon Testimonials",
+      description: "Spa salon testimonials carousel",
+      image: "/spaSalonTestimonials1.png",
+    },
+    {
+      component: BrandingAgencyTestimonials1,
+      name: "Branding Agency Testimonials",
+      description: "Branding agency testimonials section",
+      image: "/brandingAgencyTestimonials1.png",
+    },
+    {
+      component: BrandingStudioTestimonials1,
+      name: "Branding Studio Testimonials",
+      description: "Branding studio testimonials section",
+      image: "/brandingStudioTestimonials1.png",
+    },
+    {
+      component: ELearningTestimonials1,
+      name: "eLearning Testimonials",
+      description: "eLearning testimonials section",
+      image: "/eLearningTestimonials1.png",
+    },
+    {
+      component: ITBusinessTestimonials1,
+      name: "IT Business Testimonials",
+      description: "IT business testimonials section",
+      image: "/itBusinessTestimonials1.png",
+    },
+    {
+      component: BarberTestimonials1,
+      name: "Barber Testimonials",
+      description: "Barber testimonials section with counters",
+      image: "/barberTestimonials1.png",
+    },
+    {
+      component: HotelTestimonials1,
+      name: "Hotel Testimonials",
+      description: "Hotel testimonials section with image and text",
+      image: "/hotelTestimonials1.png",
+    },
+    {
+      component: RealEstateTestimonials1,
+      name: "Real Estate Testimonials",
+      description: "Real estate testimonials section with slider",
+      image: "/realEstateTestimonials1.png",
+    },
+  ],
+  content: [
+    {
+      component: CraftHospitalityRooms1,
+      name: "Rooms Showcase",
+      description: "Hotel rooms and suites display",
+      image: "/placeholder.svg",
+    },
+    {
+      component: RoomShowcase1,
+      name: "Room Showcase 1",
+      description: "Modern room showcase with carousel and booking",
+      image: "/roomShowcase1.png",
+    },
+    {
+      component: CraftHospitalityDining1,
+      name: "Dining Options",
+      description: "Restaurant and dining experiences",
+      image: "/placeholder.svg",
+    },
+    {
+      component: HospitalityDining2,
+      name: "Dining Experience 2",
+      description: "Comprehensive dining showcase with multiple restaurants",
+      image: "/diningExperience2.png",
+    },
+   
+    {
+      component: SearchModal1,
+      name: "Search Modal",
+      description: "Full-screen search modal with results",
+      image: "/searchModal1.png",
+    },
+    {
+      component: ElderCareHero1,
+      name: "Elder Care Hero",
+      description: "Hero section with welcome message and call-to-action buttons",
+      image: "/elderCareHero1.png",
+    },
+    {
+      component: ElderCareCTA1,
+      name: "Elder Care CTA",
+      description: "Call-to-action section with help info and support button",
+      image: "/elderCareCTA1.png",
+    },
+    {
+      component: ElderCareAbout1,
+      name: "Elder Care About",
+      description: "About section with features and contact information",
+      image: "/elderCareAbout1.png",
+    },
+    {
+      component: ElderCareTimeline1,
+      name: "Elder Care Timeline",
+      description: "Donation timeline with progress indicators and statistics",
+      image: "/elderCareTimeline1.png",
+    },
+    {
+      component: ElderCareServices1,
+      name: "Elder Care Services",
+      description: "Services grid with cards and navigation controls",
+      image: "/elderCareServices1.png",
+    },
+    {
+      component: ElderCareVideo1,
+      name: "Elder Care Video",
+      description: "Video section with play button and background image",
+      image: "/elderCareVideo1.png",
+    },
+    {
+      component: ElderCareFAQ1,
+      name: "Elder Care FAQ",
+      description: "FAQ section with collapsible questions and answers",
+      image: "/elderCareFAQ1.png",
+    },
+    {
+      component: ElderCareFeatures1,
+      name: "Elder Care Features",
+      description: "Features section with benefits and appointment scheduling",
+      image: "/elderCareFeatures1.png",
+    },
+    {
+      component: ElderCareBlog1,
+      name: "Elder Care Blog",
+      description: "Blog grid with articles and social engagement",
+      image: "/elderCareBlog1.png",
+    },
+    {
+      component: ElderCareFooter1,
+      name: "Elder Care Footer",
+      description: "Footer with contact info, links, and newsletter signup",
+      image: "/elderCareFooter1.png",
+    },
+    // Marketing components
+    {
+      component: MarketingHero1,
+      name: "Marketing Hero",
+      description: "Hero section with animated text and call-to-action buttons",
+      image: "/marketingHero1.png",
+    },
+    {
+      component: MarketingClients1,
+      name: "Marketing Clients",
+      description: "Client logos showcase with scroll animation",
+      image: "/marketingClients1.png",
+    },
+    {
+      component: MarketingAbout1,
+      name: "Marketing About",
+      description: "About section with statistics and team info",
+      image: "/marketingAbout1.png",
+    },
+    {
+      component: MarketingMarquee1,
+      name: "Marketing Marquee",
+      description: "Scrolling text marquee with animation",
+      image: "/marketingMarquee1.png",
+    },
+    {
+      component: MarketingPortfolio1,
+      name: "Marketing Portfolio",
+      description: "Portfolio grid with filtering and hover effects",
+      image: "/marketingPortfolio1.png",
+    },
+    {
+      component: MarketingStrategy1,
+      name: "Marketing Strategy",
+      description: "Strategy section with accordion and process steps",
+      image: "/marketingStrategy1.png",
+    },
+    {
+      component: MarketingPricing1,
+      name: "Marketing Pricing",
+      description: "Pricing plans with features and CTA buttons",
+      image: "/marketingPricing1.png",
+    },
+    {
+      component: MarketingTestimonials1,
+      name: "Marketing Testimonials",
+      description: "Client testimonials with slider and ratings",
+      image: "/marketingTestimonials1.png",
+    },
+    {
+      component: MarketingCTA1,
+      name: "Marketing CTA",
+      description: "Call-to-action section with contact form",
+      image: "/marketingCTA1.png",
+    },
+    {
+      component: MarketingFooter1,
+      name: "Marketing Footer",
+      description: "Footer with contact info, social links, and newsletter",
+      image: "/marketingFooter1.png",
+    },
+    // Restaurant components
+    {
+      component: RestaurantHero1,
+      name: "Restaurant Hero",
+      description: "Hero section with circular background and floating food image",
+      image: "/restaurantHero1.png",
+    },
+    {
+      component: RestaurantAbout1,
+      name: "Restaurant About",
+      description: "About section with features and decorative elements",
+      image: "/restaurantAbout1.png",
+    },
+    {
+      component: RestaurantMenu1,
+      name: "Restaurant Menu",
+      description: "Menu section with tabbed categories and pricing",
+      image: "/restaurantMenu1.png",
+    },
+    {
+      component: RestaurantDishes1,
+      name: "Restaurant Dishes",
+      description: "Popular dishes grid with hover effects and pricing",
+      image: "/restaurantDishes1.png",
+    },
+    {
+      component: RestaurantMarquee1,
+      name: "Restaurant Marquee",
+      description: "Scrolling text marquee with decorative images",
+      image: "/restaurantMarquee1.png",
+    },
+    {
+      component: RestaurantTestimonials1,
+      name: "Restaurant Testimonials",
+      description: "Customer testimonials with slider navigation",
+      image: "/restaurantTestimonials1.png",
+    },
+    {
+      component: RestaurantStats1,
+      name: "Restaurant Stats",
+      description: "Statistics section with star rating and customer count",
+      image: "/restaurantStats1.png",
+    },
+    {
+      component: RestaurantFooter1,
+      name: "Restaurant Footer",
+      description: "Footer with contact info, features, and social links",
+      image: "/restaurantFooter1.png",
+    },
+    {
+      component: RestaurantChefs1,
+      name: "Restaurant Chefs",
+      description: "Chefs and team page with main chef spotlight and team grid",
+      image: "/restaurantChefs1.png",
+    },
+    {
+      component: CraftCosmeticCaseStudy1,
+      name: "Single Case Study",
+      description: "Individual case study showcase",
+      image: "/placeholder.svg",
+    },
+    {
+      component: CraftCosmeticBeforeAfter1,
+      name: "Before & After",
+      description: "Transformation showcases",
+      image: "/placeholder.svg",
+    },
+    {
+      component: CraftMedicalHowItWorks1,
+      name: "Process Steps",
+      description: "Step-by-step process explanation",
+      image: "/placeholder.svg",
+    },
+    {
+      component: CraftResearchCards,
+      name: "Research Cards",
+      description: "Research and study showcase cards",
+      image: "/placeholder.svg",
+    },
+    {
+      component: CraftPhotoGallery,
+      name: "Photo Gallery",
+      description: "Image gallery with lightbox",
+      image: "/placeholder.svg",
+    },
+    {
+      component: CraftModernBlog1,
+      name: "Blog Section",
+      description: "Modern blog showcase with grid layout",
+      image: "/placeholder.svg",
+    },
+    {
+      component: CraftLuxurySuites,
+      name: "Luxury Suites",
+      description: "Premium accommodations showcase with pricing",
+      image: "/placeholder.svg",
+    },
+    {
+      component: CraftFineDining,
+      name: "Fine Dining",
+      description: "Restaurant showcase with chef spotlight",
+      image: "/placeholder.svg",
+    },
+    {
+      component: CraftWeddingEvents,
+      name: "Wedding & Events",
+      description: "Wedding venue showcase with packages",
+      image: "/placeholder.svg",
+    },
+    {
+      component: CraftPropertyGallery,
+      name: "Property Gallery",
+      description: "Interactive property photo gallery with virtual tour",
+      image: "/placeholder.svg",
+    },
+    {
+      component: CraftCosmeticCaseStudies1,
+      name: "Cosmetic Case Studies 1",
+      description: "Treatment case studies and results showcase",
+      image: "/cosmeticCaseStudies1.png",
+    },
+    {
+      component: CraftCosmeticCaseStudy1,
+      name: "Cosmetic Case Study 1",
+      description: "Individual case study showcase with detailed results",
+      image: "/cosmeticCaseStudy1.png",
+    },
+    {
+      component: CraftCosmeticBeforeAfter1,
+      name: "Cosmetic Before & After 1",
+      description: "Transformation showcases with before and after images",
+      image: "/cosmeticBeforeAfter1.png",
+    },
+    {
+      component: BeautySalonOffers1,
+      name: "Beauty Salon Offers",
+      description: "Special offers and brand showcase",
+      image: "/beautySalonOffers1.png",
+    },
+    {
+      component: ArchitectureProjects1,
+      name: "Architecture Projects",
+      description: "Architecture projects showcase with slider and stats",
+      image: "/architectureProjects1.png",
+    },
+    {
+      component: ArchitectureAwards1,
+      name: "Architecture Awards",
+      description: "Architecture awards timeline and achievements",
+      image: "/architectureAwards1.png",
+    },
+    {
+      component: ArchitectureBlog1,
+      name: "Architecture Blog",
+      description: "Architecture blog grid with categories",
+      image: "/architectureBlog1.png",
+    },
+    {
+      component: EbookChapters1,
+      name: "Ebook Chapters",
+      description: "Ebook chapters section with accordion",
+      image: "/ebookChapters1.png",
+    },
+    {
+      component: EbookAuthor1,
+      name: "Ebook Author",
+      description: "Ebook author section with profile and signature",
+      image: "/ebookAuthor1.png",
+    },
+    {
+      component: EbookSubscribe1,
+      name: "Ebook Subscribe",
+      description: "Ebook subscribe section with newsletter form",
+      image: "/ebookSubscribe1.png",
+    },
+    {
+      component: SEOStats1,
+      name: "SEO Stats",
+      description: "SEO statistics with metrics and ratings",
+      image: "/seoStats1.png",
+    },
+    {
+      component: SEOProcess1,
+      name: "SEO Process",
+      description: "SEO process section with working methodology",
+      image: "/seoProcess1.png",
+    },
+    {
+      component: SEOAnalysis1,
+      name: "SEO Analysis",
+      description: "SEO analysis CTA with form",
+      image: "/seoAnalysis1.png",
+    },
+    {
+      component: SEOTabs1,
+      name: "SEO Tabs",
+      description: "SEO services tabs with pricing",
+      image: "/seoTabs1.png",
+    },
+    {
+      component: SEOClients1,
+      name: "SEO Clients",
+      description: "SEO client logos and trust indicators",
+      image: "/seoClients1.png",
+    },
+    {
+      component: BusinessPricing1,
+      name: "Business Pricing",
+      description: "Business pricing accordion with plans",
+      image: "/businessPricing1.png",
+    },
+    {
+      component: BusinessVideo1,
+      name: "Business Video CTA",
+      description: "Business video call-to-action section",
+      image: "/businessVideo1.png",
+    },
+    {
+      component: BusinessBlog1,
+      name: "Business Blog",
+      description: "Business blog grid with latest articles",
+      image: "/businessBlog1.png",
+    },
+    {
+      component: BusinessCTA1,
+      name: "Business CTA",
+      description: "Business call-to-action section",
+      image: "/businessCTA1.png",
+    },
+    {
+      component: DesignAgencyProjects1,
+      name: "Design Agency Projects",
+      description: "Design agency projects menu with hover effects",
+      image: "/designAgencyProjects1.png",
+    },
+    {
+      component: DesignAgencyStats1,
+      name: "Design Agency Stats",
+      description: "Design agency statistics with counters and yellow background",
+      image: "/designAgencyStats1.png",
+    },
+    {
+      component: SpaSalonPricing1,
+      name: "Spa Salon Pricing",
+      description: "Spa salon pricing section with services and costs",
+      image: "/spaSalonPricing1.png",
+    },
+    {
+      component: BrandingAgencyClients1,
+      name: "Branding Agency Clients",
+      description: "Branding agency clients section",
+      image: "/brandingAgencyClients1.png",
+    },
+    {
+      component: BrandingAgencyStats1,
+      name: "Branding Agency Stats",
+      description: "Branding agency stats section",
+      image: "/brandingAgencyStats1.png",
+    },
+    {
+      component: BrandingAgencyMarquee1,
+      name: "Branding Agency Marquee",
+      description: "Branding agency marquee section",
+      image: "/brandingAgencyMarquee1.png",
+    },
+    {
+      component: BrandingAgencyProjects1,
+      name: "Branding Agency Projects",
+      description: "Branding agency projects stack section",
+      image: "/brandingAgencyProjects1.png",
+    },
+    {
+      component: BrandingStudioStats1,
+      name: "Branding Studio Stats",
+      description: "Branding studio stats section",
+      image: "/brandingStudioStats1.png",
+    },
+    {
+      component: BrandingStudioMarquee1,
+      name: "Branding Studio Marquee",
+      description: "Branding studio marquee section",
+      image: "/brandingStudioMarquee1.png",
+    },
+    {
+      component: BrandingStudioProjects1,
+      name: "Branding Studio Projects",
+      description: "Branding studio projects tabs section",
+      image: "/brandingStudioProjects1.png",
+    },
+    {
+      component: BrandingStudioFeatures1,
+      name: "Branding Studio Features",
+      description: "Branding studio features section",
+      image: "/brandingStudioFeatures1.png",
+    },
+    {
+      component: BrandingStudioAwards1,
+      name: "Branding Studio Awards",
+      description: "Branding studio awards section",
+      image: "/brandingStudioAwards1.png",
+    },
+    {
+      component: BrandingStudioSocial1,
+      name: "Branding Studio Social",
+      description: "Branding studio social section",
+      image: "/brandingStudioSocial1.png",
+    },
+    {
+      component: ELearningFeatures1,
+      name: "eLearning Features",
+      description: "eLearning features section",
+      image: "/eLearningFeatures1.png",
+    },
+    {
+      component: ELearningCourses1,
+      name: "eLearning Courses",
+      description: "eLearning courses section with filters",
+      image: "/eLearningCourses1.png",
+    },
+    {
+      component: ELearningMarquee1,
+      name: "eLearning Marquee",
+      description: "eLearning marquee section",
+      image: "/eLearningMarquee1.png",
+    },
+    {
+      component: ELearningClients1,
+      name: "eLearning Clients",
+      description: "eLearning clients section",
+      image: "/eLearningClients1.png",
+    },
+    {
+      component: ELearningBlog1,
+      name: "eLearning Blog",
+      description: "eLearning blog section",
+      image: "/eLearningBlog1.png",
+    },
+    {
+      component: ELearningCTA1,
+      name: "eLearning CTA",
+      description: "eLearning CTA section",
+      image: "/eLearningCTA1.png",
+    },
+    {
+      component: ITBusinessFeatures1,
+      name: "IT Business Features",
+      description: "IT business features section",
+      image: "/itBusinessFeatures1.png",
+    },
+    {
+      component: ITBusinessClients1,
+      name: "IT Business Clients",
+      description: "IT business clients section",
+      image: "/itBusinessClients1.png",
+    },
+    {
+      component: ITBusinessIndustries1,
+      name: "IT Business Industries",
+      description: "IT business industries grid section",
+      image: "/itBusinessIndustries1.png",
+    },
+    {
+      component: ITBusinessCTA1,
+      name: "IT Business CTA",
+      description: "IT business CTA section",
+      image: "/itBusinessCTA1.png",
+    },
+    {
+      component: ITBusinessPortfolio1,
+      name: "IT Business Portfolio",
+      description: "IT business portfolio section with filters",
+      image: "/itBusinessPortfolio1.png",
+    },
+    {
+      component: ITBusinessFinalCTA1,
+      name: "IT Business Final CTA",
+      description: "IT business final CTA section",
+      image: "/itBusinessFinalCTA1.png",
+    },
+    {
+      component: BarberGallery1,
+      name: "Barber Gallery",
+      description: "Barber gallery slider section",
+      image: "/barberGallery1.png",
+    },
+    {
+      component: BarberPricing1,
+      name: "Barber Pricing",
+      description: "Barber pricing section",
+      image: "/barberPricing1.png",
+    },
+    {
+      component: BarberVideo1,
+      name: "Barber Video",
+      description: "Barber video section with clients",
+      image: "/barberVideo1.png",
+    },
+    {
+      component: HotelFeatures1,
+      name: "Hotel Features",
+      description: "Hotel features section with icons and text",
+      image: "/hotelFeatures1.png",
+    },
+    {
+      component: HotelMarquee1,
+      name: "Hotel Marquee",
+      description: "Hotel marquee section with scrolling text",
+      image: "/hotelMarquee1.png",
+    },
+    {
+      component: HotelFacilities1,
+      name: "Hotel Facilities",
+      description: "Hotel facilities section with flip boxes",
+      image: "/hotelFacilities1.png",
+    },
+    {
+      component: HotelOffers1,
+      name: "Hotel Offers",
+      description: "Hotel offers section with interactive banners",
+      image: "/hotelOffers1.png",
+    },
+    {
+      component: HotelRooms1,
+      name: "Hotel Rooms",
+      description: "Hotel rooms section with tabs and details",
+      image: "/hotelRooms1.png",
+    },
+    {
+      component: HotelRatings1,
+      name: "Hotel Ratings",
+      description: "Hotel ratings section with client reviews",
+      image: "/hotelRatings1.png",
+    },
+    {
+      component: HotelNewsletter1,
+      name: "Hotel Newsletter",
+      description: "Hotel newsletter subscription section",
+      image: "/hotelNewsletter1.png",
+    },
+    {
+      component: HotelInstagram1,
+      name: "Hotel Instagram",
+      description: "Hotel Instagram feed section",
+      image: "/hotelInstagram1.png",
+    },
+    {
+      component: RealEstateFeatures1,
+      name: "Real Estate Features",
+      description: "Real estate features section with icons and text",
+      image: "/realEstateFeatures1.png",
+    },
+    {
+      component: RealEstateProperties1,
+      name: "Real Estate Properties",
+      description: "Real estate properties section with filterable grid",
+      image: "/realEstateProperties1.png",
+    },
+    {
+      component: RealEstateFindDreamHouse1,
+      name: "Real Estate Find Dream House",
+      description: "Real estate find your dream house section with form",
+      image: "/realEstateFindDreamHouse1.png",
+    },
+    {
+      component: RealEstateAwards1,
+      name: "Real Estate Awards",
+      description: "Real estate awards section with client logos",
+      image: "/realEstateAwards1.png",
+    },
+    {
+      component: RealEstateBlog1,
+      name: "Real Estate Blog",
+      description: "Real estate blog section with articles",
+      image: "/realEstateBlog1.png",
+    },
+  ],
+  pricing: [
+    {
+      component: CraftModernPricing1,
+      name: "Pricing Plans",
+      description: "Modern pricing table with feature comparison",
+      image: "/placeholder.svg",
+    },
+    {
+      component: EbookPricing1,
+      name: "Ebook Pricing",
+      description: "Ebook pricing section with book versions",
+      image: "/ebookPricing1.png",
+    },
+  ],
+  cta: [],
+  contact: [
+    {
+      component: CraftModernContact1,
+      name: "Contact Section",
+      description: "Modern contact form with information",
+      image: "/placeholder.svg",
+    },
+    {
+      component: BeautySalonContact1,
+      name: "Beauty Salon Contact",
+      description: "Contact section with map and information card",
+      image: "/beautySalonContact1.png",
+    },
+    {
+      component: EbookContact1,
+      name: "Ebook Contact",
+      description: "Ebook contact section with form and info",
+      image: "/ebookContact1.png",
+    },
+    {
+      component: SEOContact1,
+      name: "SEO Contact",
+      description: "SEO contact section with form and contact info",
+      image: "/seoContact1.png",
+    },
+    {
+      component: BarberContact1,
+      name: "Barber Contact",
+      description: "Barber contact section with map",
+      image: "/barberContact1.png",
+    },
+    {
+      component: BarberAppointment1,
+      name: "Barber Appointment",
+      description: "Barber appointment form section",
+      image: "/barberAppointment1.png",
+    },
+  ],
+  headers: [
+    {
+      component: CraftSimpleHeader,
+      name: "Simple Header",
+      description: "Clean navigation header",
+      image: "/placeholder.svg",
+    },
+  ],
+  footers: [
+    {
+      component: CraftMedicalFooter1,
+      name: "Medical Footer",
+      description: "Professional medical practice footer",
+      image: "/placeholder.svg",
+    },
+    {
+      component: CraftCosmeticFooter1,
+      name: "Beauty Footer",
+      description: "Cosmetic clinic footer with contact",
+      image: "/placeholder.svg",
+    },
+    {
+      component: CraftHospitalityFooter1,
+      name: "Hospitality Footer",
+      description: "Luxury hotel footer with amenities",
+      image: "/placeholder.svg",
+    },
+    {
+      component: CraftModernFooter1,
+      name: "Modern Footer",
+      description: "Modern footer with newsletter and social links",
+      image: "/placeholder.svg",
+    },
+    {
+      component: CraftCosmeticFooter1,
+      name: "Cosmetic Footer 1",
+      description: "Professional cosmetic clinic footer with contact info",
+      image: "/cosmeticFooter1.png",
+    },
+    {
+      component: BeautySalonFooter1,
+      name: "Beauty Salon Footer",
+      description: "Complete beauty salon footer with CTA and social links",
+      image: "/beautySalonFooter1.png",
+    },
+    {
+      component: ArchitectureFooter1,
+      name: "Architecture Footer",
+      description: "Architecture footer with multiple locations and contact info",
+      image: "/architectureFooter1.png",
+    },
+    {
+      component: EbookFooter1,
+      name: "Ebook Footer",
+      description: "Ebook footer with navigation and social links",
+      image: "/ebookFooter1.png",
+    },
+    {
+      component: SEOFooter1,
+      name: "SEO Footer",
+      description: "SEO footer with navigation and social links",
+      image: "/seoFooter1.png",
+    },
+    {
+      component: BusinessFooter1,
+      name: "Business Footer",
+      description: "Business footer with company info and links",
+      image: "/businessFooter1.png",
+    },
+    {
+      component: DesignAgencyFooter1,
+      name: "Design Agency Footer",
+      description: "Design agency footer with links and company information",
+      image: "/designAgencyFooter1.png",
+    },
+    {
+      component: SpaSalonFooter1,
+      name: "Spa Salon Footer",
+      description: "Spa salon footer with contact info and social links",
+      image: "/spaSalonFooter1.png",
+    },
+    {
+      component: BrandingAgencyFooter1,
+      name: "Branding Agency Footer",
+      description: "Branding agency footer component",
+      image: "/brandingAgencyFooter1.png",
+    },
+    {
+      component: BrandingStudioFooter1,
+      name: "Branding Studio Footer",
+      description: "Branding studio footer component",
+      image: "/brandingStudioFooter1.png",
+    },
+    {
+      component: ELearningFooter1,
+      name: "eLearning Footer",
+      description: "eLearning footer component",
+      image: "/eLearningFooter1.png",
+    },
+    {
+      component: ITBusinessFooter1,
+      name: "IT Business Footer",
+      description: "IT business footer component",
+      image: "/itBusinessFooter1.png",
+    },
+    {
+      component: BarberFooter1,
+      name: "Barber Footer",
+      description: "Barber footer component",
+      image: "/barberFooter1.png",
+    },
+    {
+      component: HotelFooter1,
+      name: "Hotel Footer",
+      description: "Hotel footer component",
+      image: "/hotelFooter1.png",
+    },
+    {
+      component: RealEstateFooter1,
+      name: "Real Estate Footer",
+      description: "Real estate footer component",
+      image: "/realEstateFooter1.png",
+    },
+  ],
+  cards: [
+    {
+      component: CraftCosmeticCard1,
+      name: "Beauty Cards",
+      description: "Elegant cards for beauty and wellness content",
+      image: "/placeholder.svg",
+    },
+    {
+      component: CraftHospitalityCard1,
+      name: "Hospitality Cards",
+      description: "Clean cards for hotels and luxury services",
+      image: "/placeholder.svg",
+    },
+    {
+      component: CraftModernCard1,
+      name: "Modern Cards",
+      description: "Horizontal layout cards for articles and blogs",
+      image: "/placeholder.svg",
+    },
+  ],
+};

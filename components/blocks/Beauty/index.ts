@@ -1,0 +1,9 @@
+export { BeautySalonHero1 } from "./BeautySalonHero1";
+export { BeautySalonAbout1 } from "./BeautySalonAbout1";
+export { BeautySalonProcess1 } from "./BeautySalonProcess1";
+export { BeautySalonServices1 } from "./BeautySalonServices1";
+export { BeautySalonOffers1 } from "./BeautySalonOffers1";
+export { BeautySalonTeam1 } from "./BeautySalonTeam1";
+export { BeautySalonTestimonials1 } from "./BeautySalonTestimonials1";
+export { BeautySalonContact1 } from "./BeautySalonContact1";
+export { BeautySalonFooter1 } from "./BeautySalonFooter1";

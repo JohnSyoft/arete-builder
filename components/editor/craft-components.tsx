@@ -103,7 +103,7 @@ import { WeddingEvents } from "../blocks/Content/WeddingEvents";
 import { HotelAmenities } from "../blocks/Content/HotelAmenities";
 import { PropertyGallery } from "../blocks/Content/PropertyGallery";
 // Additional Hospitality Components
-import { HotelHero1 } from "../blocks/Hero/HotelHero1";
+// import { HotelHero1 } from "../blocks/Hero/HotelHero1";
 import { RoomShowcase1 } from "../blocks/Rooms/RoomShowcase1";
 import { HospitalityDining2 } from "../blocks/Dining/HospitalityDining2";
 import { HospitalityAmenities1 } from "../blocks/Content/HospitalityAmenities1";
@@ -204,6 +204,203 @@ import { RestaurantBlogListing1 } from "../blocks/Blog/RestaurantBlogListing1";
 import { RestaurantBlogSingle1 } from "../blocks/Blog/RestaurantBlogSingle1";
 // Restaurant Team components
 import { RestaurantChefs1 } from "../blocks/Team/RestaurantChefs1";
+// Beauty Salon Components
+import {
+  BeautySalonHero1,
+  BeautySalonAbout1,
+  BeautySalonProcess1,
+  BeautySalonServices1,
+  BeautySalonOffers1,
+  BeautySalonTeam1,
+  BeautySalonTestimonials1,
+  BeautySalonContact1,
+  BeautySalonFooter1,
+} from "../blocks/Beauty";
+// Architecture Components
+import {
+  ArchitectureHero1,
+  ArchitectureAbout1,
+  ArchitectureServices1,
+  ArchitectureAwards1,
+  ArchitectureProjects1,
+  ArchitectureTestimonials1,
+  ArchitectureBlog1,
+  ArchitectureFooter1,
+  ArchitectureAboutPage1,
+  ArchitectureServicesPage1,
+  ArchitectureProjectsPage1,
+  ArchitectureBlogPage1,
+  ArchitectureContactPage1,
+} from "../blocks/Architecture";
+
+// Ebook Components
+import {
+  EbookHero1,
+  EbookAbout1,
+  EbookChapters1,
+  EbookAuthor1,
+  EbookReviews1,
+  EbookSubscribe1,
+  EbookPricing1,
+  EbookContact1,
+  EbookFooter1,
+} from "../blocks/Ebook";
+
+// SEO Components
+import {
+  SEOHero1,
+  SEOServices1,
+  SEOStats1,
+  SEOProcess1,
+  SEOAnalysis1,
+  SEOTabs1,
+  SEOTestimonials1,
+  SEOClients1,
+  SEOContact1,
+  SEOFooter1,
+} from "../blocks/SEO";
+
+// Business Components
+import {
+  BusinessHero1,
+  BusinessAbout1,
+  BusinessServices1,
+  BusinessPricing1,
+  BusinessVideo1,
+  BusinessTestimonials1,
+  BusinessBlog1,
+  BusinessCTA1,
+  BusinessFooter1,
+} from "../blocks/Business";
+
+// Design Agency Components
+import {
+  DesignAgencyHero1,
+  DesignAgencyCreative1,
+  DesignAgencyProcess1,
+  DesignAgencyProjects1,
+  DesignAgencyExpertise1,
+  DesignAgencyStats1,
+  DesignAgencyTestimonials1,
+  DesignAgencyFooter1,
+} from "../blocks/DesignAgency";
+
+// BrandingAgency Components
+import {
+  BrandingAgencyHero1,
+  BrandingAgencyClients1,
+  BrandingAgencyAbout1,
+  BrandingAgencyStats1,
+  BrandingAgencyMarquee1,
+  BrandingAgencyProjects1,
+  BrandingAgencyServices1,
+  BrandingAgencyTeam1,
+  BrandingAgencyTestimonials1,
+  BrandingAgencyFooter1,
+} from "../blocks/BrandingAgency";
+
+// BrandingStudio Components
+import {
+  BrandingStudioHero1,
+  BrandingStudioStats1,
+  BrandingStudioAbout1,
+  BrandingStudioMarquee1,
+  BrandingStudioServices1,
+  BrandingStudioProjects1,
+  BrandingStudioFeatures1,
+  BrandingStudioAwards1,
+  BrandingStudioTestimonials1,
+  BrandingStudioSocial1,
+  BrandingStudioFooter1,
+} from "../blocks/BrandingStudio";
+
+// ELearning Components
+import {
+  ELearningHero1,
+  ELearningFeatures1,
+  ELearningCourses1,
+  ELearningAbout1,
+  ELearningMarquee1,
+  ELearningTestimonials1,
+  ELearningClients1,
+  ELearningBlog1,
+  ELearningCTA1,
+  ELearningFooter1,
+} from "../blocks/ELearning";
+
+// ITBusiness Components
+import {
+  ITBusinessHero1,
+  ITBusinessFeatures1,
+  ITBusinessAbout1,
+  ITBusinessClients1,
+  ITBusinessServices1,
+  ITBusinessIndustries1,
+  ITBusinessCTA1,
+  ITBusinessPortfolio1,
+  ITBusinessTestimonials1,
+  ITBusinessFinalCTA1,
+  ITBusinessFooter1,
+} from "../blocks/ITBusiness";
+
+// Barber Components
+import {
+  BarberHero1,
+  BarberAbout1,
+  BarberServices1,
+  BarberGallery1,
+  BarberPricing1,
+  BarberVideo1,
+  BarberTeam1,
+  BarberTestimonials1,
+  BarberContact1,
+  BarberAppointment1,
+  BarberFooter1,
+} from "../blocks/Barber";
+
+// Hotel Components
+import {
+  HotelHero1,
+  HotelFeatures1,
+  HotelAbout1,
+  HotelMarquee1,
+  HotelFacilities1,
+  HotelTestimonials1,
+  HotelOffers1,
+  HotelRooms1,
+  HotelRatings1,
+  HotelNewsletter1,
+  HotelInstagram1,
+  HotelFooter1,
+} from "../blocks/Hotel";
+
+// RealEstate Components
+import {
+  RealEstateHero1,
+  RealEstateFeatures1,
+  RealEstateAbout1,
+  RealEstateServices1,
+  RealEstateProperties1,
+  RealEstateWhyChooseUs1,
+  RealEstateFindDreamHouse1,
+  RealEstateAwards1,
+  RealEstateTestimonials1,
+  RealEstateBlog1,
+  RealEstateFooter1,
+} from "../blocks/RealEstate";
+
+// Spa Salon Components
+import {
+  SpaSalonHero1,
+  SpaSalonFeatures1,
+  SpaSalonAbout1,
+  SpaSalonServices1,
+  SpaSalonPricing1,
+  SpaSalonBenefits1,
+  SpaSalonTestimonials1,
+  SpaSalonFooter1,
+} from "../blocks/SpaSalon";
+
 // Modern Hero Components
 // CMS Cards
 import { CosmeticCard1 } from "../blocks/CMS/CosmeticCard1";
@@ -518,7 +715,7 @@ export const CraftModernTeam1 = ModernTeam1;
 export const CraftModernBlog1 = ModernBlog1;
 
 // Additional Hospitality Components
-export { HotelHero1 };
+// export { HotelHero1 };
 export { RoomShowcase1 };
 export { HospitalityDining2 };
 export { HospitalityAmenities1 };
@@ -622,7 +819,178 @@ export { RestaurantBlogSingle1 };
 // Restaurant Team components
 export { RestaurantChefs1 };
 
-// Mutable resolver that can be extended with user-created components
+// Beauty Salon components
+export { BeautySalonHero1 };
+export { BeautySalonAbout1 };
+export { BeautySalonProcess1 };
+export { BeautySalonServices1 };
+export { BeautySalonOffers1 };
+export { BeautySalonTeam1 };
+export { BeautySalonTestimonials1 };
+export { BeautySalonContact1 };
+export { BeautySalonFooter1 };
+
+// Architecture components
+export { ArchitectureHero1 };
+export { ArchitectureAbout1 };
+export { ArchitectureServices1 };
+export { ArchitectureAwards1 };
+export { ArchitectureProjects1 };
+export { ArchitectureTestimonials1 };
+export { ArchitectureBlog1 };
+export { ArchitectureFooter1 };
+export { ArchitectureAboutPage1 };
+export { ArchitectureServicesPage1 };
+export { ArchitectureProjectsPage1 };
+export { ArchitectureBlogPage1 };
+export { ArchitectureContactPage1 };
+
+// Ebook components
+export { EbookHero1 };
+export { EbookAbout1 };
+export { EbookChapters1 };
+export { EbookAuthor1 };
+export { EbookReviews1 };
+export { EbookSubscribe1 };
+export { EbookPricing1 };
+export { EbookContact1 };
+export { EbookFooter1 };
+
+// SEO components
+export { SEOHero1 };
+export { SEOServices1 };
+export { SEOStats1 };
+export { SEOProcess1 };
+export { SEOAnalysis1 };
+export { SEOTabs1 };
+export { SEOTestimonials1 };
+export { SEOClients1 };
+export { SEOContact1 };
+export { SEOFooter1 };
+
+// Business components
+export { BusinessHero1 };
+export { BusinessAbout1 };
+export { BusinessServices1 };
+export { BusinessPricing1 };
+export { BusinessVideo1 };
+export { BusinessTestimonials1 };
+export { BusinessBlog1 };
+export { BusinessCTA1 };
+export { BusinessFooter1 };
+
+// Design Agency components
+export { DesignAgencyHero1 };
+export { DesignAgencyCreative1 };
+export { DesignAgencyProcess1 };
+export { DesignAgencyProjects1 };
+export { DesignAgencyExpertise1 };
+export { DesignAgencyStats1 };
+export { DesignAgencyTestimonials1 };
+export { DesignAgencyFooter1 };
+
+// Spa Salon components
+export { SpaSalonHero1 };
+export { SpaSalonFeatures1 };
+export { SpaSalonAbout1 };
+export { SpaSalonServices1 };
+export { SpaSalonPricing1 };
+export { SpaSalonBenefits1 };
+export { SpaSalonTestimonials1 };
+export { SpaSalonFooter1 };
+
+
+// BrandingAgency components
+export { BrandingAgencyHero1 };
+export { BrandingAgencyClients1 };
+export { BrandingAgencyAbout1 };
+export { BrandingAgencyStats1 };
+export { BrandingAgencyMarquee1 };
+export { BrandingAgencyProjects1 };
+export { BrandingAgencyServices1 };
+export { BrandingAgencyTeam1 };
+export { BrandingAgencyTestimonials1 };
+export { BrandingAgencyFooter1 };
+
+// BrandingStudio components
+export { BrandingStudioHero1 };
+export { BrandingStudioStats1 };
+export { BrandingStudioAbout1 };
+export { BrandingStudioMarquee1 };
+export { BrandingStudioServices1 };
+export { BrandingStudioProjects1 };
+export { BrandingStudioFeatures1 };
+export { BrandingStudioAwards1 };
+export { BrandingStudioTestimonials1 };
+export { BrandingStudioSocial1 };
+export { BrandingStudioFooter1 };
+
+// ELearning components
+export { ELearningHero1 };
+export { ELearningFeatures1 };
+export { ELearningCourses1 };
+export { ELearningAbout1 };
+export { ELearningMarquee1 };
+export { ELearningTestimonials1 };
+export { ELearningClients1 };
+export { ELearningBlog1 };
+export { ELearningCTA1 };
+export { ELearningFooter1 };
+
+// ITBusiness components
+export { ITBusinessHero1 };
+export { ITBusinessFeatures1 };
+export { ITBusinessAbout1 };
+export { ITBusinessClients1 };
+export { ITBusinessServices1 };
+export { ITBusinessIndustries1 };
+export { ITBusinessCTA1 };
+export { ITBusinessPortfolio1 };
+export { ITBusinessTestimonials1 };
+export { ITBusinessFinalCTA1 };
+export { ITBusinessFooter1 };
+
+// Barber components
+export { BarberHero1 };
+export { BarberAbout1 };
+export { BarberServices1 };
+export { BarberGallery1 };
+export { BarberPricing1 };
+export { BarberVideo1 };
+export { BarberTeam1 };
+export { BarberTestimonials1 };
+export { BarberContact1 };
+export { BarberAppointment1 };
+export { BarberFooter1 };
+
+// Hotel components
+export { HotelHero1 };
+export { HotelFeatures1 };
+export { HotelAbout1 };
+export { HotelMarquee1 };
+export { HotelFacilities1 };
+export { HotelTestimonials1 };
+export { HotelOffers1 };
+export { HotelRooms1 };
+export { HotelRatings1 };
+export { HotelNewsletter1 };
+export { HotelInstagram1 };
+export { HotelFooter1 };
+
+// RealEstate components
+export { RealEstateHero1 };
+export { RealEstateFeatures1 };
+export { RealEstateAbout1 };
+export { RealEstateServices1 };
+export { RealEstateProperties1 };
+export { RealEstateWhyChooseUs1 };
+export { RealEstateFindDreamHouse1 };
+export { RealEstateAwards1 };
+export { RealEstateTestimonials1 };
+export { RealEstateBlog1 };
+export { RealEstateFooter1 };
+
+// / Mutable resolver that can be extended with user-created components
 const baseComponentResolver = {
   Container,
   Canvas,
@@ -741,7 +1109,7 @@ const baseComponentResolver = {
   HotelAmenities: CraftHotelAmenities,
   PropertyGallery: CraftPropertyGallery,
   // Additional Hospitality Components
-  HotelHero1: HotelHero1,
+  // HotelHero1: HotelHero1,
   RoomShowcase1: RoomShowcase1,
   HospitalityDining2: HospitalityDining2,
   HospitalityAmenities1New: HospitalityAmenities1,
@@ -842,7 +1210,171 @@ const baseComponentResolver = {
   RestaurantBlogSingle1: RestaurantBlogSingle1,
   // Restaurant Team components
   RestaurantChefs1: RestaurantChefs1,
-  // CMS Cards
+  // Beauty Salon components
+  BeautySalonHero1: BeautySalonHero1,
+  BeautySalonAbout1: BeautySalonAbout1,
+  BeautySalonProcess1: BeautySalonProcess1,
+  BeautySalonServices1: BeautySalonServices1,
+  BeautySalonOffers1: BeautySalonOffers1,
+  BeautySalonTeam1: BeautySalonTeam1,
+  BeautySalonTestimonials1: BeautySalonTestimonials1,
+  BeautySalonContact1: BeautySalonContact1,
+  BeautySalonFooter1: BeautySalonFooter1,
+  // Architecture components
+  ArchitectureHero1: ArchitectureHero1,
+  ArchitectureAbout1: ArchitectureAbout1,
+  ArchitectureServices1: ArchitectureServices1,
+  ArchitectureAwards1: ArchitectureAwards1,
+  ArchitectureProjects1: ArchitectureProjects1,
+  ArchitectureTestimonials1: ArchitectureTestimonials1,
+  ArchitectureBlog1: ArchitectureBlog1,
+  ArchitectureFooter1: ArchitectureFooter1,
+  ArchitectureAboutPage1: ArchitectureAboutPage1,
+  ArchitectureServicesPage1: ArchitectureServicesPage1,
+  ArchitectureProjectsPage1: ArchitectureProjectsPage1,
+  ArchitectureBlogPage1: ArchitectureBlogPage1,
+  ArchitectureContactPage1: ArchitectureContactPage1,
+  // Ebook components
+  EbookHero1: EbookHero1,
+  EbookAbout1: EbookAbout1,
+  EbookChapters1: EbookChapters1,
+  EbookAuthor1: EbookAuthor1,
+  EbookReviews1: EbookReviews1,
+  EbookSubscribe1: EbookSubscribe1,
+  EbookPricing1: EbookPricing1,
+  EbookContact1: EbookContact1,
+  EbookFooter1: EbookFooter1,
+  // SEO components
+  SEOHero1: SEOHero1,
+  SEOServices1: SEOServices1,
+  SEOStats1: SEOStats1,
+  SEOProcess1: SEOProcess1,
+  SEOAnalysis1: SEOAnalysis1,
+  SEOTabs1: SEOTabs1,
+  SEOTestimonials1: SEOTestimonials1,
+  SEOClients1: SEOClients1,
+  SEOContact1: SEOContact1,
+  SEOFooter1: SEOFooter1,
+  // Business components
+  BusinessHero1: BusinessHero1,
+  BusinessAbout1: BusinessAbout1,
+  BusinessServices1: BusinessServices1,
+  BusinessPricing1: BusinessPricing1,
+  BusinessVideo1: BusinessVideo1,
+  BusinessTestimonials1: BusinessTestimonials1,
+  BusinessBlog1: BusinessBlog1,
+  BusinessCTA1: BusinessCTA1,
+  BusinessFooter1: BusinessFooter1,
+  // Design Agency components
+  DesignAgencyHero1: DesignAgencyHero1,
+  DesignAgencyCreative1: DesignAgencyCreative1,
+  DesignAgencyProcess1: DesignAgencyProcess1,
+  DesignAgencyProjects1: DesignAgencyProjects1,
+  DesignAgencyExpertise1: DesignAgencyExpertise1,
+  DesignAgencyStats1: DesignAgencyStats1,
+  DesignAgencyTestimonials1: DesignAgencyTestimonials1,
+  DesignAgencyFooter1: DesignAgencyFooter1,
+  // Spa Salon components
+  SpaSalonHero1: SpaSalonHero1,
+  SpaSalonFeatures1: SpaSalonFeatures1,
+  SpaSalonAbout1: SpaSalonAbout1,
+  SpaSalonServices1: SpaSalonServices1,
+  SpaSalonPricing1: SpaSalonPricing1,
+  SpaSalonBenefits1: SpaSalonBenefits1,
+  SpaSalonTestimonials1: SpaSalonTestimonials1,
+  SpaSalonFooter1: SpaSalonFooter1,
+ 
+  // BrandingAgency components
+  BrandingAgencyHero1: BrandingAgencyHero1,
+  BrandingAgencyClients1: BrandingAgencyClients1,
+  BrandingAgencyAbout1: BrandingAgencyAbout1,
+  BrandingAgencyStats1: BrandingAgencyStats1,
+  BrandingAgencyMarquee1: BrandingAgencyMarquee1,
+  BrandingAgencyProjects1: BrandingAgencyProjects1,
+  BrandingAgencyServices1: BrandingAgencyServices1,
+  BrandingAgencyTeam1: BrandingAgencyTeam1,
+  BrandingAgencyTestimonials1: BrandingAgencyTestimonials1,
+  BrandingAgencyFooter1: BrandingAgencyFooter1,
+
+  // BrandingStudio components
+  BrandingStudioHero1: BrandingStudioHero1,
+  BrandingStudioStats1: BrandingStudioStats1,
+  BrandingStudioAbout1: BrandingStudioAbout1,
+  BrandingStudioMarquee1: BrandingStudioMarquee1,
+  BrandingStudioServices1: BrandingStudioServices1,
+  BrandingStudioProjects1: BrandingStudioProjects1,
+  BrandingStudioFeatures1: BrandingStudioFeatures1,
+  BrandingStudioAwards1: BrandingStudioAwards1,
+  BrandingStudioTestimonials1: BrandingStudioTestimonials1,
+  BrandingStudioSocial1: BrandingStudioSocial1,
+  BrandingStudioFooter1: BrandingStudioFooter1,
+
+  // ELearning components
+  ELearningHero1: ELearningHero1,
+  ELearningFeatures1: ELearningFeatures1,
+  ELearningCourses1: ELearningCourses1,
+  ELearningAbout1: ELearningAbout1,
+  ELearningMarquee1: ELearningMarquee1,
+  ELearningTestimonials1: ELearningTestimonials1,
+  ELearningClients1: ELearningClients1,
+  ELearningBlog1: ELearningBlog1,
+  ELearningCTA1: ELearningCTA1,
+  ELearningFooter1: ELearningFooter1,
+
+  // ITBusiness components
+  ITBusinessHero1: ITBusinessHero1,
+  ITBusinessFeatures1: ITBusinessFeatures1,
+  ITBusinessAbout1: ITBusinessAbout1,
+  ITBusinessClients1: ITBusinessClients1,
+  ITBusinessServices1: ITBusinessServices1,
+  ITBusinessIndustries1: ITBusinessIndustries1,
+  ITBusinessCTA1: ITBusinessCTA1,
+  ITBusinessPortfolio1: ITBusinessPortfolio1,
+  ITBusinessTestimonials1: ITBusinessTestimonials1,
+  ITBusinessFinalCTA1: ITBusinessFinalCTA1,
+  ITBusinessFooter1: ITBusinessFooter1,
+
+  // Barber components
+  BarberHero1: BarberHero1,
+  BarberAbout1: BarberAbout1,
+  BarberServices1: BarberServices1,
+  BarberGallery1: BarberGallery1,
+  BarberPricing1: BarberPricing1,
+  BarberVideo1: BarberVideo1,
+  BarberTeam1: BarberTeam1,
+  BarberTestimonials1: BarberTestimonials1,
+  BarberContact1: BarberContact1,
+  BarberAppointment1: BarberAppointment1,
+  BarberFooter1: BarberFooter1,
+
+  // Hotel components
+  HotelHero1: HotelHero1,
+  HotelFeatures1: HotelFeatures1,
+  HotelAbout1: HotelAbout1,
+  HotelMarquee1: HotelMarquee1,
+  HotelFacilities1: HotelFacilities1,
+  HotelTestimonials1: HotelTestimonials1,
+  HotelOffers1: HotelOffers1,
+  HotelRooms1: HotelRooms1,
+  HotelRatings1: HotelRatings1,
+  HotelNewsletter1: HotelNewsletter1,
+  HotelInstagram1: HotelInstagram1,
+  HotelFooter1: HotelFooter1,
+
+  // RealEstate components
+  RealEstateHero1: RealEstateHero1,
+  RealEstateFeatures1: RealEstateFeatures1,
+  RealEstateAbout1: RealEstateAbout1,
+  RealEstateServices1: RealEstateServices1,
+  RealEstateProperties1: RealEstateProperties1,
+  RealEstateWhyChooseUs1: RealEstateWhyChooseUs1,
+  RealEstateFindDreamHouse1: RealEstateFindDreamHouse1,
+  RealEstateAwards1: RealEstateAwards1,
+  RealEstateTestimonials1: RealEstateTestimonials1,
+  RealEstateBlog1: RealEstateBlog1,
+  RealEstateFooter1: RealEstateFooter1,
+
+ // CMS Cards
   CosmeticCard1: CraftCosmeticCard1,
   HospitalityCard1: CraftHospitalityCard1,
   ModernCard1: CraftModernCard1,

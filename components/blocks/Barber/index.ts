@@ -1,0 +1,11 @@
+export { BarberHero1 } from "./BarberHero1";
+export { BarberAbout1 } from "./BarberAbout1";
+export { BarberServices1 } from "./BarberServices1";
+export { BarberGallery1 } from "./BarberGallery1";
+export { BarberPricing1 } from "./BarberPricing1";
+export { BarberVideo1 } from "./BarberVideo1";
+export { BarberTeam1 } from "./BarberTeam1";
+export { BarberTestimonials1 } from "./BarberTestimonials1";
+export { BarberContact1 } from "./BarberContact1";
+export { BarberAppointment1 } from "./BarberAppointment1";
+export { BarberFooter1 } from "./BarberFooter1";

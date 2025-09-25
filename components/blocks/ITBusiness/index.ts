@@ -1,0 +1,11 @@
+export { ITBusinessHero1 } from "./ITBusinessHero1";
+export { ITBusinessFeatures1 } from "./ITBusinessFeatures1";
+export { ITBusinessAbout1 } from "./ITBusinessAbout1";
+export { ITBusinessClients1 } from "./ITBusinessClients1";
+export { ITBusinessServices1 } from "./ITBusinessServices1";
+export { ITBusinessIndustries1 } from "./ITBusinessIndustries1";
+export { ITBusinessCTA1 } from "./ITBusinessCTA1";
+export { ITBusinessPortfolio1 } from "./ITBusinessPortfolio1";
+export { ITBusinessTestimonials1 } from "./ITBusinessTestimonials1";
+export { ITBusinessFinalCTA1 } from "./ITBusinessFinalCTA1";
+export { ITBusinessFooter1 } from "./ITBusinessFooter1";

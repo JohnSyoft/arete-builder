@@ -1,0 +1,11 @@
+export { BrandingStudioHero1 } from "./BrandingStudioHero1";
+export { BrandingStudioStats1 } from "./BrandingStudioStats1";
+export { BrandingStudioAbout1 } from "./BrandingStudioAbout1";
+export { BrandingStudioMarquee1 } from "./BrandingStudioMarquee1";
+export { BrandingStudioServices1 } from "./BrandingStudioServices1";
+export { BrandingStudioProjects1 } from "./BrandingStudioProjects1";
+export { BrandingStudioFeatures1 } from "./BrandingStudioFeatures1";
+export { BrandingStudioAwards1 } from "./BrandingStudioAwards1";
+export { BrandingStudioTestimonials1 } from "./BrandingStudioTestimonials1";
+export { BrandingStudioSocial1 } from "./BrandingStudioSocial1";
+export { BrandingStudioFooter1 } from "./BrandingStudioFooter1";

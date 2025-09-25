@@ -1,0 +1,13 @@
+export { ArchitectureHero1 } from "./ArchitectureHero1";
+export { ArchitectureAbout1 } from "./ArchitectureAbout1";
+export { ArchitectureServices1 } from "./ArchitectureServices1";
+export { ArchitectureAwards1 } from "./ArchitectureAwards1";
+export { ArchitectureProjects1 } from "./ArchitectureProjects1";
+export { ArchitectureTestimonials1 } from "./ArchitectureTestimonials1";
+export { ArchitectureBlog1 } from "./ArchitectureBlog1";
+export { ArchitectureFooter1 } from "./ArchitectureFooter1";
+export { ArchitectureAboutPage1 } from "./ArchitectureAboutPage1";
+export { ArchitectureServicesPage1 } from "./ArchitectureServicesPage1";
+export { ArchitectureProjectsPage1 } from "./ArchitectureProjectsPage1";
+export { ArchitectureBlogPage1 } from "./ArchitectureBlogPage1";
+export { ArchitectureContactPage1 } from "./ArchitectureContactPage1";

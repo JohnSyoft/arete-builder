@@ -1,0 +1,10 @@
+export { SEOHero1 } from "./SEOHero1";
+export { SEOServices1 } from "./SEOServices1";
+export { SEOStats1 } from "./SEOStats1";
+export { SEOProcess1 } from "./SEOProcess1";
+export { SEOAnalysis1 } from "./SEOAnalysis1";
+export { SEOTabs1 } from "./SEOTabs1";
+export { SEOTestimonials1 } from "./SEOTestimonials1";
+export { SEOClients1 } from "./SEOClients1";
+export { SEOContact1 } from "./SEOContact1";
+export { SEOFooter1 } from "./SEOFooter1";

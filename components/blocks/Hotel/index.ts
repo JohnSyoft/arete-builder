@@ -1,0 +1,12 @@
+export { HotelHero1 } from "./HotelHero1";
+export { HotelFeatures1 } from "./HotelFeatures1";
+export { HotelAbout1 } from "./HotelAbout1";
+export { HotelMarquee1 } from "./HotelMarquee1";
+export { HotelFacilities1 } from "./HotelFacilities1";
+export { HotelTestimonials1 } from "./HotelTestimonials1";
+export { HotelOffers1 } from "./HotelOffers1";
+export { HotelRooms1 } from "./HotelRooms1";
+export { HotelRatings1 } from "./HotelRatings1";
+export { HotelNewsletter1 } from "./HotelNewsletter1";
+export { HotelInstagram1 } from "./HotelInstagram1";
+export { HotelFooter1 } from "./HotelFooter1";
