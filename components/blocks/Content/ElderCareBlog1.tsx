@@ -1,6 +1,11 @@
 import React from "react";
-import { useNode } from "@craftjs/core";
-import { Resizer } from "../Resizer";
+import { Element } from "@craftjs/core";
+import { Section } from "../Basic/Section";
+import { Box } from "../Basic/Box";
+import { Text } from "../Basic/Text";
+import { Image } from "../Basic/Image";
+import { Button } from "../Basic/Button";
+import { Icon } from "../Basic/Icon";
 
 interface BlogItem {
   title: string;
@@ -65,49 +70,48 @@ export function ElderCareBlog1({
   textColor = "#333333",
   nonEditable = true,
 }: ElderCareBlog1Props) {
-  const {
-    connectors: { connect, drag },
-    selected,
-    hovered,
-    actions: { setProp },
-  } = useNode((state) => ({
-    selected: state.events.selected,
-    hovered: state.events.hovered,
-  }));
-
   return (
-    <Resizer
-      propKey={{ width: "width", height: "height" }}
-      style={{
-        width: "100%",
-        height: "auto",
-        backgroundColor: backgroundColor,
-        color: textColor,
-      }}
-      minWidth={300}
-      minHeight={400}
-    >
-      <div
-        ref={(ref) => connect(drag(ref))}
+    <Element id="eldercare-blog-container" is={Section} canvas>
+      <Element
+        id="eldercare-blog-background"
+        is={Box}
+        backgroundColor={backgroundColor}
+        width="100%"
+        minHeight="400px"
         className="py-16"
       >
         <div className="container mx-auto px-4">
           {/* Header */}
           <div className="flex flex-col sm:flex-row items-center justify-between mb-12">
             <div className="mb-6 sm:mb-0">
-              <span className="inline-block text-blue-600 font-semibold text-sm uppercase tracking-wide mb-2">
-                {badge}
-              </span>
-              <h2 className="text-4xl font-bold text-gray-800">{title}</h2>
+              <Element
+                id="eldercare-blog-badge"
+                is={Text}
+                text={badge}
+                tagName="span"
+                fontSize="text-sm"
+                fontWeight="font-semibold"
+                color="text-blue-600"
+                className="inline-block uppercase tracking-wide mb-2"
+              />
+              <Element
+                id="eldercare-blog-title"
+                is={Text}
+                text={title}
+                tagName="h2"
+                fontSize="text-4xl"
+                fontWeight="font-bold"
+                color="text-gray-800"
+              />
             </div>
             
-            <a
+            <Element
+              id="eldercare-blog-button"
+              is={Button}
+              text={buttonText}
               href={buttonLink}
               className="inline-flex items-center px-6 py-3 bg-transparent border-2 border-blue-600 text-blue-600 font-semibold rounded-full hover:bg-blue-600 hover:text-white transition-colors group"
-            >
-              <span className="mr-2">{buttonText}</span>
-              <i className="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
-            </a>
+            />
           </div>
 
           {/* Blog Grid */}
@@ -117,51 +121,100 @@ export function ElderCareBlog1({
                 {/* Blog Image */}
                 <div className="relative overflow-hidden">
                   <a href={item.link}>
-                    <img
+                    <Element
+                      id={`eldercare-blog-image-${index}`}
+                      is={Image}
                       src={item.image}
                       alt={item.title}
-                      className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                      width="100%"
+                      height="192px"
+                      objectFit="object-cover"
+                      className="group-hover:scale-105 transition-transform duration-300"
                     />
                   </a>
                   {/* Category Badge */}
                   <div className="absolute top-4 left-4">
-                    <span className="inline-block px-3 py-1 bg-white text-gray-800 text-xs font-bold uppercase rounded-full">
-                      {item.category}
-                    </span>
+                    <Element
+                      id={`eldercare-blog-category-${index}`}
+                      is={Text}
+                      text={item.category}
+                      tagName="span"
+                      fontSize="text-xs"
+                      fontWeight="font-bold"
+                      color="text-gray-800"
+                      className="inline-block px-3 py-1 bg-white uppercase rounded-full"
+                    />
                   </div>
                 </div>
 
                 {/* Blog Content */}
                 <div className="p-6">
-                  <a
-                    href={item.link}
-                    className="text-xl font-bold text-gray-800 hover:text-blue-600 transition-colors block mb-3"
-                  >
-                    {item.title}
-                  </a>
-                  <p className="text-gray-600 mb-6 text-sm leading-relaxed">
-                    {item.description}
-                  </p>
+                  <Element
+                    id={`eldercare-blog-item-title-${index}`}
+                    is={Text}
+                    text={item.title}
+                    tagName="h3"
+                    fontSize="text-xl"
+                    fontWeight="font-bold"
+                    color="text-gray-800"
+                    className="hover:text-blue-600 transition-colors block mb-3"
+                  />
+                  <Element
+                    id={`eldercare-blog-item-description-${index}`}
+                    is={Text}
+                    text={item.description}
+                    tagName="p"
+                    fontSize="text-sm"
+                    color="text-gray-600"
+                    margin="mb-6"
+                    className="leading-relaxed"
+                  />
 
                   {/* Author and Meta */}
                   <div className="flex items-center justify-between text-sm">
                     <div className="flex-1">
-                      <span className="text-gray-600 font-bold">{item.date}</span>
+                      <Element
+                        id={`eldercare-blog-date-${index}`}
+                        is={Text}
+                        text={item.date}
+                        tagName="span"
+                        fontSize="text-sm"
+                        fontWeight="font-bold"
+                        color="text-gray-600"
+                      />
                       <div className="text-gray-600">
                         By{" "}
-                        <a
+                        <Element
+                          id={`eldercare-blog-author-${index}`}
+                          is={Text}
+                          text={item.author}
+                          tagName="a"
                           href="#"
-                          className="text-gray-800 hover:text-blue-600 underline"
-                        >
-                          {item.author}
-                        </a>
+                          fontSize="text-sm"
+                          color="text-gray-800"
+                          className="hover:text-blue-600 underline"
+                        />
                       </div>
                     </div>
                     <div className="flex items-center gap-1">
-                      <a href={item.link} className="text-red-500 hover:text-red-600">
-                        <i className="fa-regular fa-heart"></i>
-                      </a>
-                      <span className="text-gray-600 font-bold ml-1">{item.likes}</span>
+                      <Element
+                        id={`eldercare-blog-like-${index}`}
+                        is={Icon}
+                        iconName="heart"
+                        size={16}
+                        color="text-red-500"
+                        className="hover:text-red-600"
+                      />
+                      <Element
+                        id={`eldercare-blog-likes-${index}`}
+                        is={Text}
+                        text={item.likes.toString()}
+                        tagName="span"
+                        fontSize="text-sm"
+                        fontWeight="font-bold"
+                        color="text-gray-600"
+                        className="ml-1"
+                      />
                     </div>
                   </div>
                 </div>
@@ -169,8 +222,8 @@ export function ElderCareBlog1({
             ))}
           </div>
         </div>
-      </div>
-    </Resizer>
+      </Element>
+    </Element>
   );
 }
 
@@ -221,4 +274,5 @@ ElderCareBlog1.craft = {
     canMoveIn: () => true,
     canMoveOut: () => true,
   },
+  isCanvas: true,
 };

@@ -114,5 +114,12 @@ export const templatesApi = {
 
   rateTemplate: async (id: string, rating: number, review?: string): Promise<{ success: boolean; message: string }> => {
     return await apiClient.post(`/templates/${id}/rate`, { rating, review });
+  },
+
+  useTemplate: async (id: string, projectName?: string, description?: string): Promise<{ success: boolean; message: string; data: { project: any; template: any } }> => {
+    return await apiClient.post(`/templates/${id}/use`, { 
+      projectName, 
+      description 
+    });
   }
 };

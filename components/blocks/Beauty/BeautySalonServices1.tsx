@@ -1,17 +1,13 @@
 import React from "react";
-import { Node, useNode } from "@craftjs/core";
+import { Element } from "@craftjs/core";
 import { ArrowRight } from "lucide-react";
+import { Section } from "../Basic/Section";
+import { Box } from "../Basic/Box";
+import { Text } from "../Basic/Text";
+import { Image } from "../Basic/Image";
+import { Icon } from "../Basic/Icon";
 
 export const BeautySalonServices1 = () => {
-  const {
-    connectors: { connect, drag },
-    selected,
-    hovered,
-  } = useNode((state) => ({
-    selected: state.events.selected,
-    hovered: state.events.hovered,
-  }));
-
   const services = [
     {
       title: "Hair treatment",
@@ -85,131 +81,174 @@ export const BeautySalonServices1 = () => {
   ];
 
   return (
-    <section
-      ref={(ref) => connect(drag(ref))}
-      className={`py-20 bg-white ${
-        selected ? "ring-2 ring-blue-500" : ""
-      } ${hovered ? "ring-2 ring-blue-300" : ""}`}
-    >
-      <div className="container mx-auto px-4">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-4 mb-4">
-            <span className="text-sm font-bold text-pink-600 uppercase tracking-wider">
-              Beauty salon services
-            </span>
-            <div className="w-8 h-0.5 bg-gray-300"></div>
+    <Element id="beauty-salon-services-container" is={Section} canvas>
+      <div className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          {/* Header */}
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-4 mb-4">
+              <Element id="beauty-salon-services-badge" is={Text} text="Beauty salon services" />
+              <div className="w-8 h-0.5 bg-gray-300"></div>
+            </div>
+            <Element id="beauty-salon-services-title" is={Text} text="Makeup and hairstyles" />
           </div>
-          <h2 className="text-4xl font-light text-gray-900">
-            Makeup and hairstyles
-          </h2>
-        </div>
 
-        {/* Services Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-20">
-          {services.map((service, index) => (
-            <div
-              key={index}
-              className="group cursor-pointer overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
-            >
-              <div className="relative overflow-hidden">
-                <img
-                  src={service.image}
-                  alt={service.title}
-                  className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-pink-500/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-                    <ArrowRight className="w-6 h-6 text-white" />
+          {/* Services Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-20">
+            {services.map((service, index) => (
+              <Element
+                key={index}
+                id={`beauty-salon-service-${index}`}
+                is={Box}
+                className="group cursor-pointer overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
+              >
+                <div className="relative overflow-hidden">
+                  <Element
+                    id={`beauty-salon-service-image-${index}`}
+                    is={Image}
+                    src={service.image}
+                    alt={service.title}
+                    className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-pink-500/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
+                      <Element
+                        id={`beauty-salon-service-icon-${index}`}
+                        is={Icon}
+                        icon="arrow-right"
+                        className="w-6 h-6 text-white"
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="p-6 text-center">
-                <h3 className="text-xl font-medium text-gray-900 mb-2">
-                  {service.title}
-                </h3>
-                <p className="text-gray-600">{service.description}</p>
-              </div>
+                <div className="p-6 text-center">
+                  <Element
+                    id={`beauty-salon-service-title-${index}`}
+                    is={Text}
+                    text={service.title}
+                    className="text-xl font-medium text-gray-900 mb-2"
+                  />
+                  <Element
+                    id={`beauty-salon-service-description-${index}`}
+                    is={Text}
+                    text={service.description}
+                    className="text-gray-600"
+                  />
+                </div>
+              </Element>
+            ))}
+          </div>
+
+          {/* Pricing Section */}
+          <div className="grid lg:grid-cols-2 gap-12">
+            {/* Left Column */}
+            <div className="space-y-0">
+              {pricing.slice(0, 3).map((item, index) => (
+                <Element
+                  key={index}
+                  id={`beauty-salon-pricing-left-${index}`}
+                  is={Box}
+                  className="flex items-center gap-6 py-6 border-t border-gray-200 first:border-t-0"
+                >
+                  <Element
+                    id={`beauty-salon-pricing-image-left-${index}`}
+                    is={Image}
+                    src={item.image}
+                    alt={item.service}
+                    className="w-14 h-14 object-cover rounded"
+                  />
+                  <div className="flex-1">
+                    <Element
+                      id={`beauty-salon-pricing-title-left-${index}`}
+                      is={Text}
+                      text={item.service}
+                      className="text-lg font-medium text-gray-900"
+                    />
+                    <Element
+                      id={`beauty-salon-pricing-description-left-${index}`}
+                      is={Text}
+                      text={item.description}
+                      className="text-gray-600"
+                    />
+                  </div>
+                  <div className="text-right">
+                    <Element
+                      id={`beauty-salon-pricing-price-left-${index}`}
+                      is={Text}
+                      text={item.price}
+                      className="text-xl font-medium text-gray-900"
+                    />
+                  </div>
+                </Element>
+              ))}
             </div>
-          ))}
-        </div>
 
-        {/* Pricing Section */}
-        <div className="grid lg:grid-cols-2 gap-12">
-          {/* Left Column */}
-          <div className="space-y-0">
-            {pricing.slice(0, 3).map((item, index) => (
-              <div
-                key={index}
-                className="flex items-center gap-6 py-6 border-t border-gray-200 first:border-t-0"
-              >
-                <img
-                  src={item.image}
-                  alt={item.service}
-                  className="w-14 h-14 object-cover rounded"
-                />
-                <div className="flex-1">
-                  <h4 className="text-lg font-medium text-gray-900">
-                    {item.service}
-                  </h4>
-                  <p className="text-gray-600">{item.description}</p>
-                </div>
-                <div className="text-right">
-                  <span className="text-xl font-medium text-gray-900">
-                    {item.price}
-                  </span>
-                </div>
-              </div>
-            ))}
+            {/* Right Column */}
+            <div className="space-y-0">
+              {pricing.slice(3, 6).map((item, index) => (
+                <Element
+                  key={index}
+                  id={`beauty-salon-pricing-right-${index}`}
+                  is={Box}
+                  className="flex items-center gap-6 py-6 border-t border-gray-200 first:border-t-0"
+                >
+                  <Element
+                    id={`beauty-salon-pricing-image-right-${index}`}
+                    is={Image}
+                    src={item.image}
+                    alt={item.service}
+                    className="w-14 h-14 object-cover rounded"
+                  />
+                  <div className="flex-1">
+                    <Element
+                      id={`beauty-salon-pricing-title-right-${index}`}
+                      is={Text}
+                      text={item.service}
+                      className="text-lg font-medium text-gray-900"
+                    />
+                    <Element
+                      id={`beauty-salon-pricing-description-right-${index}`}
+                      is={Text}
+                      text={item.description}
+                      className="text-gray-600"
+                    />
+                  </div>
+                  <div className="text-right">
+                    <Element
+                      id={`beauty-salon-pricing-price-right-${index}`}
+                      is={Text}
+                      text={item.price}
+                      className="text-xl font-medium text-gray-900"
+                    />
+                  </div>
+                </Element>
+              ))}
+            </div>
           </div>
 
-          {/* Right Column */}
-          <div className="space-y-0">
-            {pricing.slice(3, 6).map((item, index) => (
-              <div
-                key={index}
-                className="flex items-center gap-6 py-6 border-t border-gray-200 first:border-t-0"
-              >
-                <img
-                  src={item.image}
-                  alt={item.service}
-                  className="w-14 h-14 object-cover rounded"
-                />
-                <div className="flex-1">
-                  <h4 className="text-lg font-medium text-gray-900">
-                    {item.service}
-                  </h4>
-                  <p className="text-gray-600">{item.description}</p>
-                </div>
-                <div className="text-right">
-                  <span className="text-xl font-medium text-gray-900">
-                    {item.price}
-                  </span>
-                </div>
-              </div>
-            ))}
+          {/* Footer Text */}
+          <div className="text-center mt-12">
+            <Element
+              id="beauty-salon-services-footer"
+              is={Text}
+              text="Our flexible beauty salon pricing plans. Explore package"
+              className="text-gray-600"
+            />
           </div>
-        </div>
-
-        {/* Footer Text */}
-        <div className="text-center mt-12">
-          <p className="text-gray-600">
-            Our flexible beauty salon pricing plans.{" "}
-            <a href="#" className="text-gray-900 hover:text-pink-600 underline">
-              Explore package
-            </a>
-          </p>
         </div>
       </div>
-    </section>
+    </Element>
   );
 };
 
 BeautySalonServices1.craft = {
   displayName: "Beauty Salon Services 1",
   props: {},
-  related: {
-    settings: () => null,
+  rules: {
+    canDrag: () => true,
+    canMoveIn: () => true,
+    canMoveOut: () => true,
   },
+  isCanvas: true,
 };

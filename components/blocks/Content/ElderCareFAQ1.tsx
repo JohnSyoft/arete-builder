@@ -1,6 +1,11 @@
 import React, { useState } from "react";
-import { useNode } from "@craftjs/core";
-import { Resizer } from "../Resizer";
+import { Element } from "@craftjs/core";
+import { Section } from "../Basic/Section";
+import { Box } from "../Basic/Box";
+import { Text } from "../Basic/Text";
+import { Image } from "../Basic/Image";
+import { Button } from "../Basic/Button";
+import { Icon } from "../Basic/Icon";
 
 interface FAQItem {
   question: string;
@@ -47,16 +52,6 @@ export function ElderCareFAQ1({
   textColor = "#333333",
   nonEditable = true,
 }: ElderCareFAQ1Props) {
-  const {
-    connectors: { connect, drag },
-    selected,
-    hovered,
-    actions: { setProp },
-  } = useNode((state) => ({
-    selected: state.events.selected,
-    hovered: state.events.hovered,
-  }));
-
   const [openItems, setOpenItems] = useState<number[]>(
     faqItems.map((item, index) => (item.isOpen ? index : -1)).filter(i => i !== -1)
   );
@@ -70,40 +65,58 @@ export function ElderCareFAQ1({
   };
 
   return (
-    <Resizer
-      propKey={{ width: "width", height: "height" }}
-      style={{
-        width: "100%",
-        height: "auto",
-        backgroundColor: backgroundColor,
-        color: textColor,
-      }}
-      minWidth={300}
-      minHeight={400}
-    >
-      <div
-        ref={(ref) => connect(drag(ref))}
+    <Element id="eldercare-faq-container" is={Section} canvas>
+      <Element
+        id="eldercare-faq-background"
+        is={Box}
+        backgroundColor={backgroundColor}
+        width="100%"
+        minHeight="400px"
         className="py-16"
       >
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-start">
             {/* Left - Header */}
             <div className="space-y-6">
-              <span className="inline-block text-blue-600 font-semibold text-sm uppercase tracking-wide">
-                {badge}
-              </span>
-              <h2 className="text-4xl font-bold text-gray-800 leading-tight">
-                {title}
-              </h2>
+              <Element
+                id="eldercare-faq-badge"
+                is={Text}
+                text={badge}
+                tagName="span"
+                fontSize="text-sm"
+                fontWeight="font-semibold"
+                color="text-blue-600"
+                className="inline-block uppercase tracking-wide"
+              />
+              <Element
+                id="eldercare-faq-title"
+                is={Text}
+                text={title}
+                tagName="h2"
+                fontSize="text-4xl"
+                fontWeight="font-bold"
+                color="text-gray-800"
+                className="leading-tight"
+              />
               <div className="flex items-center gap-4">
-                <img
+                <Element
+                  id="eldercare-faq-support-image"
+                  is={Image}
                   src={supportImage}
                   alt="Support"
-                  className="w-16 h-12 object-contain"
+                  width="64px"
+                  height="48px"
+                  objectFit="object-contain"
                 />
-                <span className="text-lg font-medium text-gray-800">
-                  {supportText}
-                </span>
+                <Element
+                  id="eldercare-faq-support-text"
+                  is={Text}
+                  text={supportText}
+                  tagName="span"
+                  fontSize="text-lg"
+                  fontWeight="font-medium"
+                  color="text-gray-800"
+                />
               </div>
             </div>
 
@@ -115,21 +128,36 @@ export function ElderCareFAQ1({
                     onClick={() => toggleItem(index)}
                     className="w-full text-left py-4 flex items-center justify-between hover:bg-gray-50 transition-colors"
                   >
-                    <span className="text-lg font-bold text-gray-800 pr-4">
-                      {item.question}
-                    </span>
-                    <i
-                      className={`fa-solid ${
-                        openItems.includes(index) ? "fa-angle-up" : "fa-angle-down"
-                      } text-gray-600 transition-transform`}
-                    ></i>
+                    <Element
+                      id={`eldercare-faq-question-${index}`}
+                      is={Text}
+                      text={item.question}
+                      tagName="span"
+                      fontSize="text-lg"
+                      fontWeight="font-bold"
+                      color="text-gray-800"
+                      className="pr-4"
+                    />
+                    <Element
+                      id={`eldercare-faq-arrow-${index}`}
+                      is={Icon}
+                      iconName={openItems.includes(index) ? "chevronUp" : "chevronDown"}
+                      size={16}
+                      color="text-gray-600"
+                      className="transition-transform"
+                    />
                   </button>
                   
                   {openItems.includes(index) && (
                     <div className="pb-4">
-                      <p className="text-gray-600 leading-relaxed">
-                        {item.answer}
-                      </p>
+                      <Element
+                        id={`eldercare-faq-answer-${index}`}
+                        is={Text}
+                        text={item.answer}
+                        tagName="p"
+                        color="text-gray-600"
+                        className="leading-relaxed"
+                      />
                     </div>
                   )}
                 </div>
@@ -137,8 +165,8 @@ export function ElderCareFAQ1({
             </div>
           </div>
         </div>
-      </div>
-    </Resizer>
+      </Element>
+    </Element>
   );
 }
 
@@ -175,4 +203,5 @@ ElderCareFAQ1.craft = {
     canMoveIn: () => true,
     canMoveOut: () => true,
   },
+  isCanvas: true,
 };

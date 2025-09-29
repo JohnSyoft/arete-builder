@@ -7,6 +7,8 @@ import { Resizer } from "../Resizer";
 
 interface FormattedTextProps {
   text?: string;
+  content?: string;
+  tag?: "p" | "div" | "span" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "article" | "section" | "aside" | "blockquote";
   fontSize?: string;
   fontWeight?: string;
   color?: string;
@@ -16,12 +18,54 @@ interface FormattedTextProps {
   fontFamily?: string;
   lineHeight?: string;
   letterSpacing?: string;
+  wordSpacing?: string;
+  textDecoration?: string;
+  textTransform?: string;
+  textShadow?: string;
   backgroundColor?: string;
   borderRadius?: string;
   border?: string;
+  borderWidth?: string;
+  borderColor?: string;
+  borderStyle?: string;
+  boxShadow?: string;
   width?: string;
   height?: string;
   maxWidth?: string;
+  minWidth?: string;
+  maxHeight?: string;
+  minHeight?: string;
+  opacity?: number;
+  visibility?: "visible" | "hidden" | "collapse";
+  display?: string;
+  position?: "static" | "relative" | "absolute" | "fixed" | "sticky";
+  zIndex?: number;
+  overflow?: "visible" | "hidden" | "scroll" | "auto";
+  whiteSpace?: "normal" | "nowrap" | "pre" | "pre-line" | "pre-wrap";
+  wordBreak?: "normal" | "break-all" | "break-word" | "keep-all";
+  textOverflow?: "clip" | "ellipsis" | "string";
+  animation?: string;
+  animationDuration?: string;
+  animationDelay?: string;
+  animationIteration?: string;
+  transition?: string;
+  transitionDuration?: string;
+  transitionTiming?: string;
+  transitionDelay?: string;
+  hoverColor?: string;
+  hoverBackgroundColor?: string;
+  hoverTransform?: string;
+  hoverScale?: number;
+  hoverRotate?: number;
+  hoverTranslateX?: string;
+  hoverTranslateY?: string;
+  hoverOpacity?: number;
+  hoverShadow?: string;
+  className?: string;
+  style?: string;
+  ariaLabel?: string;
+  role?: string;
+  tabIndex?: number;
   // CMS props
   cmsField?: string;
   cmsFieldType?: string;
@@ -32,6 +76,8 @@ interface FormattedTextProps {
 
 export function FormattedText({
   text = "<p>Click to edit formatted text</p>",
+  content = "<p>Click to edit formatted text</p>",
+  tag = "p",
   fontSize = "text-base",
   fontWeight = "font-normal",
   color = "text-gray-900",
@@ -41,12 +87,54 @@ export function FormattedText({
   fontFamily = "",
   lineHeight = "leading-relaxed",
   letterSpacing = "",
+  wordSpacing = "",
+  textDecoration = "",
+  textTransform = "",
+  textShadow = "",
   backgroundColor = "",
   borderRadius = "",
   border = "",
+  borderWidth = "",
+  borderColor = "",
+  borderStyle = "",
+  boxShadow = "",
   width = "auto",
   height = "auto",
   maxWidth = "none",
+  minWidth = "",
+  maxHeight = "",
+  minHeight = "",
+  opacity = 1,
+  visibility = "visible",
+  display = "",
+  position = "static",
+  zIndex = 0,
+  overflow = "visible",
+  whiteSpace = "normal",
+  wordBreak = "normal",
+  textOverflow = "clip",
+  animation = "",
+  animationDuration = "1s",
+  animationDelay = "0s",
+  animationIteration = "1",
+  transition = "",
+  transitionDuration = "150ms",
+  transitionTiming = "ease",
+  transitionDelay = "0s",
+  hoverColor = "",
+  hoverBackgroundColor = "",
+  hoverTransform = "",
+  hoverScale = 1,
+  hoverRotate = 0,
+  hoverTranslateX = "",
+  hoverTranslateY = "",
+  hoverOpacity = 1,
+  hoverShadow = "",
+  className = "",
+  style = "",
+  ariaLabel = "",
+  role = "",
+  tabIndex = 0,
   cmsField,
   cmsFieldType,
   cmsFieldId,
@@ -175,6 +263,16 @@ export function FormattedText({
           ${border}
           ${padding}
           ${maxWidth !== "none" ? maxWidth : ""}
+          ${minWidth}
+          ${maxHeight}
+          ${minHeight}
+          ${display}
+          ${position}
+          ${overflow}
+          ${whiteSpace}
+          ${wordBreak}
+          ${textOverflow}
+          ${className}
           min-h-[2rem]
           focus:outline-none
           [&_p]:my-2
@@ -199,6 +297,24 @@ export function FormattedText({
           cursor: "text",
           width: width !== "auto" ? width : undefined,
           height: height !== "auto" ? height : undefined,
+          wordSpacing: wordSpacing || undefined,
+          textDecoration: textDecoration || undefined,
+          textTransform: textTransform || undefined,
+          textShadow: textShadow || undefined,
+          borderWidth: borderWidth || undefined,
+          borderColor: borderColor || undefined,
+          borderStyle: borderStyle || undefined,
+          boxShadow: boxShadow || undefined,
+          opacity: opacity !== 1 ? opacity : undefined,
+          visibility: visibility !== "visible" ? visibility : undefined,
+          zIndex: zIndex !== 0 ? zIndex : undefined,
+          ...(animation && {
+            animation: `${animation} ${animationDuration} ${animationDelay} ${animationIteration}`,
+          }),
+          ...(transition && {
+            transition: transition || `all ${transitionDuration} ${transitionTiming} ${transitionDelay}`,
+          }),
+          ...(style && JSON.parse(style)),
         }}
         dangerouslySetInnerHTML={{ __html: displayText }}
       />
@@ -234,6 +350,8 @@ FormattedText.craft = {
   displayName: "Formatted Text",
   props: {
     text: "<p>Click to edit formatted text</p>",
+    content: "<p>Click to edit formatted text</p>",
+    tag: "p",
     fontSize: "text-base",
     fontWeight: "font-normal",
     color: "text-gray-900",
@@ -243,12 +361,54 @@ FormattedText.craft = {
     fontFamily: "",
     lineHeight: "leading-relaxed",
     letterSpacing: "",
+    wordSpacing: "",
+    textDecoration: "",
+    textTransform: "",
+    textShadow: "",
     backgroundColor: "",
     borderRadius: "",
     border: "",
+    borderWidth: "",
+    borderColor: "",
+    borderStyle: "",
+    boxShadow: "",
     width: "auto",
     height: "auto",
     maxWidth: "none",
+    minWidth: "",
+    maxHeight: "",
+    minHeight: "",
+    opacity: 1,
+    visibility: "visible",
+    display: "",
+    position: "static",
+    zIndex: 0,
+    overflow: "visible",
+    whiteSpace: "normal",
+    wordBreak: "normal",
+    textOverflow: "clip",
+    animation: "",
+    animationDuration: "1s",
+    animationDelay: "0s",
+    animationIteration: "1",
+    transition: "",
+    transitionDuration: "150ms",
+    transitionTiming: "ease",
+    transitionDelay: "0s",
+    hoverColor: "",
+    hoverBackgroundColor: "",
+    hoverTransform: "",
+    hoverScale: 1,
+    hoverRotate: 0,
+    hoverTranslateX: "",
+    hoverTranslateY: "",
+    hoverOpacity: 1,
+    hoverShadow: "",
+    className: "",
+    style: "",
+    ariaLabel: "",
+    role: "",
+    tabIndex: 0,
   },
   rules: {
     canDrag: () => true,

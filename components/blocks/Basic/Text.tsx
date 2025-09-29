@@ -26,6 +26,43 @@ interface TextProps {
   border?: string;
   width?: string;
   height?: string;
+  // Advanced typography
+  wordSpacing?: string;
+  textIndent?: string;
+  whiteSpace?: string;
+  wordBreak?: string;
+  textOverflow?: string;
+  // Visual effects
+  backgroundGradient?: string;
+  textGradient?: string;
+  boxShadow?: string;
+  transform?: string;
+  transition?: string;
+  // Hover effects
+  hoverColor?: string;
+  hoverBackgroundColor?: string;
+  hoverScale?: number;
+  hoverShadow?: string;
+  hoverTransform?: string;
+  // Animation
+  animation?: string;
+  animationDuration?: string;
+  animationDelay?: string;
+  animationIteration?: string;
+  animationDirection?: string;
+  // Layout
+  position?: string;
+  zIndex?: string;
+  overflow?: string;
+  display?: string;
+  // Interaction
+  cursor?: string;
+  userSelect?: string;
+  pointerEvents?: string;
+  // Accessibility
+  ariaLabel?: string;
+  role?: string;
+  tabIndex?: number;
   // CMS props
   cmsField?: string; // Field name to map to
   cmsFieldType?: string; // Type of field (for rendering logic)
@@ -34,6 +71,7 @@ interface TextProps {
   cmsFieldLabel?: string; // Human readable label
   // Non-editable prop
   nonEditable?: boolean;
+  className?: string;
 }
 
 export function Text({
@@ -57,12 +95,52 @@ export function Text({
   border = "",
   width = "auto",
   height = "auto",
+  // Advanced typography
+  wordSpacing = "",
+  textIndent = "",
+  whiteSpace = "",
+  wordBreak = "",
+  textOverflow = "",
+  // Visual effects
+  backgroundGradient = "",
+  textGradient = "",
+  boxShadow = "",
+  transform = "",
+  transition = "",
+  // Hover effects
+  hoverColor = "",
+  hoverBackgroundColor = "",
+  hoverScale = 1,
+  hoverShadow = "",
+  hoverTransform = "",
+  // Animation
+  animation = "",
+  animationDuration = "1s",
+  animationDelay = "0s",
+  animationIteration = "1",
+  animationDirection = "normal",
+  // Layout
+  position = "",
+  zIndex = "",
+  overflow = "",
+  display = "",
+  // Interaction
+  cursor = "",
+  userSelect = "",
+  pointerEvents = "",
+  // Accessibility
+  ariaLabel = "",
+  role = "",
+  tabIndex,
+  // CMS props
   cmsField,
   cmsFieldType,
   cmsFieldId,
   cmsCollectionId,
   cmsFieldLabel,
+  // Non-editable prop
   nonEditable = false,
+  className = "",
 }: TextProps) {
   const {
     connectors: { connect, drag },
@@ -223,16 +301,44 @@ export function Text({
           ${borderRadius}
           ${border}
           ${padding}
+          ${wordSpacing}
+          ${textIndent}
+          ${whiteSpace}
+          ${wordBreak}
+          ${textOverflow}
+          ${boxShadow}
+          ${transform}
+          ${transition}
+          ${position}
+          ${zIndex}
+          ${overflow}
+          ${display}
+          ${cursor}
+          ${userSelect}
+          ${pointerEvents}
+          ${className}
           rounded 
           min-h-[1.5rem]
           block
+          ${hoverColor ? `hover:${hoverColor}` : ''}
+          ${hoverBackgroundColor ? `hover:${hoverBackgroundColor}` : ''}
+          ${hoverScale !== 1 ? `hover:scale-${Math.round(hoverScale * 100)}` : ''}
+          ${hoverShadow ? `hover:${hoverShadow}` : ''}
+          ${hoverTransform ? `hover:${hoverTransform}` : ''}
+          ${animation ? `animate-${animation}` : ''}
         `
           .trim()
           .replace(/\s+/g, " ")}
         style={{ 
           outline: "none", 
           cursor: isReadOnly ? "default" : "text",
-          userSelect: isReadOnly ? "none" : "auto"
+          userSelect: isReadOnly ? "none" : "auto",
+          backgroundGradient: backgroundGradient || undefined,
+          textGradient: textGradient || undefined,
+          animation: animation ? `${animation} ${animationDuration} ${animationDelay} ${animationIteration} ${animationDirection}` : undefined,
+          ...(ariaLabel && { 'aria-label': ariaLabel }),
+          ...(role && { role }),
+          ...(tabIndex !== undefined && { tabIndex }),
         }}
         dangerouslySetInnerHTML={{ __html: displayText }}
       />
@@ -288,6 +394,43 @@ Text.craft = {
     border: "",
     width: "auto",
     height: "auto",
+    // Advanced typography
+    wordSpacing: "",
+    textIndent: "",
+    whiteSpace: "",
+    wordBreak: "",
+    textOverflow: "",
+    // Visual effects
+    backgroundGradient: "",
+    textGradient: "",
+    boxShadow: "",
+    transform: "",
+    transition: "",
+    // Hover effects
+    hoverColor: "",
+    hoverBackgroundColor: "",
+    hoverScale: 1,
+    hoverShadow: "",
+    hoverTransform: "",
+    // Animation
+    animation: "",
+    animationDuration: "1s",
+    animationDelay: "0s",
+    animationIteration: "1",
+    animationDirection: "normal",
+    // Layout
+    position: "",
+    zIndex: "",
+    overflow: "",
+    display: "",
+    // Interaction
+    cursor: "",
+    userSelect: "",
+    pointerEvents: "",
+    // Accessibility
+    ariaLabel: "",
+    role: "",
+    tabIndex: undefined,
     // CMS props
     cmsField: "",
     cmsFieldType: "",
@@ -296,6 +439,7 @@ Text.craft = {
     cmsFieldLabel: "",
     // Non-editable prop
     nonEditable: false,
+    className: "",
   },
 
   rules: {

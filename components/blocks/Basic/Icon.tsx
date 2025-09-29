@@ -94,10 +94,20 @@ interface IconProps {
   backgroundColor?: string;
   borderRadius?: string;
   border?: string;
-  hoverEffect?: boolean;
+  hoverEffect?: boolean | string;
   onClick?: () => void;
   width?: string;
   height?: string;
+  className?: string;
+  hoverColor?: string;
+  hoverBackgroundColor?: string;
+  hoverScale?: number;
+  transitionDuration?: string;
+  animation?: string;
+  animationDuration?: string;
+  animationDelay?: string;
+  animationIteration?: string;
+  nonEditable?: boolean;
 }
 
 export function Icon({
@@ -113,6 +123,16 @@ export function Icon({
   hoverEffect = false,
   width = "auto",
   height = "auto",
+  className = "",
+  hoverColor = "",
+  hoverBackgroundColor = "",
+  hoverScale = 1.1,
+  transitionDuration = "200ms",
+  animation = "",
+  animationDuration = "1s",
+  animationDelay = "0s",
+  animationIteration = "1",
+  nonEditable = false,
 }: IconProps) {
   const {
     connectors: { connect, drag },
@@ -157,6 +177,35 @@ export function Icon({
 
   const IconComponent = iconMap[iconName] || Star;
 
+  const getHoverClasses = () => {
+    if (!hoverEffect) return "";
+    
+    const baseClasses = `transition-all ${transitionDuration}`;
+    
+    switch (hoverEffect) {
+      case "scale":
+        return `${baseClasses} hover:scale-${Math.round(hoverScale * 100)} cursor-pointer`;
+      case "rotate":
+        return `${baseClasses} hover:rotate-12 cursor-pointer`;
+      case "bounce":
+        return `${baseClasses} hover:animate-bounce cursor-pointer`;
+      case "pulse":
+        return `${baseClasses} hover:animate-pulse cursor-pointer`;
+      case "glow":
+        return `${baseClasses} hover:shadow-lg cursor-pointer`;
+      default:
+        return `${baseClasses} hover:scale-110 cursor-pointer`;
+    }
+  };
+
+  const getAnimationStyle = () => {
+    if (!animation) return {};
+    
+    return {
+      animation: `${animation} ${animationDuration} ${animationDelay} ${animationIteration}`,
+    };
+  };
+
   const containerClasses = `
     inline-flex items-center justify-center
     ${margin}
@@ -165,11 +214,10 @@ export function Icon({
     ${borderRadius}
     ${border}
     ${color}
-    ${
-      hoverEffect
-        ? "transition-all duration-200 hover:scale-110 cursor-pointer"
-        : ""
-    }
+    ${getHoverClasses()}
+    ${width !== "auto" ? width : ""}
+    ${height !== "auto" ? height : ""}
+    ${className}
   `.trim();
 
   return (
@@ -227,6 +275,16 @@ Icon.craft = {
     hoverEffect: false,
     width: "auto",
     height: "auto",
+    className: "",
+    hoverColor: "",
+    hoverBackgroundColor: "",
+    hoverScale: 1.1,
+    transitionDuration: "200ms",
+    animation: "",
+    animationDuration: "1s",
+    animationDelay: "0s",
+    animationIteration: "1",
+    nonEditable: false,
   },
   rules: {
     canDrag: () => true,

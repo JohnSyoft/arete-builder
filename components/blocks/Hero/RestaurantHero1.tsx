@@ -1,6 +1,10 @@
 import React from "react";
-import { useNode } from "@craftjs/core";
-import { Resizer } from "../Resizer";
+import { Element } from "@craftjs/core";
+import { Section } from "../Basic/Section";
+import { Box } from "../Basic/Box";
+import { Text } from "../Basic/Text";
+import { Image } from "../Basic/Image";
+import { Button } from "../Basic/Button";
 
 interface RestaurantHero1Props {
   backgroundImage?: string;
@@ -29,43 +33,20 @@ export function RestaurantHero1({
   textColor = "#ffffff",
   nonEditable = true,
 }: RestaurantHero1Props) {
-  const {
-    connectors: { connect, drag },
-    selected,
-    hovered,
-    actions: { setProp },
-  } = useNode((state) => ({
-    selected: state.events.selected,
-    hovered: state.events.hovered,
-  }));
-
   return (
-    <Resizer
-      propKey={{ width: "width", height: "height" }}
-      style={{
-        width: "100%",
-        height: "100vh",
-        minHeight: "600px",
-        backgroundColor: backgroundColor,
-        backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-        position: "relative",
-        overflow: "hidden",
-      }}
-      minWidth={300}
-      minHeight={600}
-    >
-      <section
-        ref={(ref) => connect(drag(ref))}
-        className="relative w-full h-full flex items-center justify-center"
-        style={{
-          backgroundImage: `url(${backgroundImage})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
+    <Element id="restaurant-hero-container" is={Section} canvas>
+      <div className="relative overflow-hidden">
+        <Element
+          id="restaurant-hero-background"
+          is={Box}
+          backgroundImage={backgroundImage}
+          backgroundSize="cover"
+          backgroundPosition="center"
+          backgroundColor={backgroundColor}
+          width="100%"
+          height="100vh"
+          minHeight="600px"
+        >
         {/* Overlay */}
         <div className="absolute inset-0 bg-black bg-opacity-50"></div>
         
@@ -86,7 +67,15 @@ export function RestaurantHero1({
               <div className="w-[700px] h-[700px] lg:w-[550px] lg:h-[550px] sm:w-[450px] sm:h-[450px] xs:w-[320px] xs:h-[320px] mx-auto relative flex justify-center items-center rounded-full bg-white bg-opacity-10 backdrop-blur-sm border-2 border-white border-opacity-20">
                 <div className="text-center">
                   <p className="text-black text-2xl xs:text-lg xs:leading-6 font-semibold tracking-wider uppercase mb-6 sm:mb-4 mt-2">
-                    {subtitle}
+                    <Element
+                      id="restaurant-hero-subtitle"
+                      is={Text}
+                      text={subtitle}
+                      tagName="span"
+                      fontSize="text-2xl xs:text-lg"
+                      fontWeight="font-semibold"
+                      color="text-black"
+                    />
                   </p>
                   
                   <div className="text-8xl lg:text-7xl xs:text-6xl xs:leading-tight mb-8 xs:mb-4 font-bold">
@@ -97,10 +86,26 @@ export function RestaurantHero1({
                         WebkitTextFillColor: "transparent",
                       }}
                     >
-                      {title}
+                      <Element
+                        id="restaurant-hero-title"
+                        is={Text}
+                        text={title}
+                        tagName="span"
+                        fontSize="text-8xl lg:text-7xl xs:text-6xl"
+                        fontWeight="font-bold"
+                        color="text-white"
+                      />
                     </span>
                     <span className="text-white ml-4 tracking-tight">
-                      {titleHighlight}
+                      <Element
+                        id="restaurant-hero-title-highlight"
+                        is={Text}
+                        text={titleHighlight}
+                        tagName="span"
+                        fontSize="text-8xl lg:text-7xl xs:text-6xl"
+                        fontWeight="font-bold"
+                        color="text-white"
+                      />
                     </span>
                   </div>
                   
@@ -108,7 +113,15 @@ export function RestaurantHero1({
                     href={buttonLink}
                     className="inline-block bg-black text-white px-8 py-4 text-lg font-semibold rounded-full hover:bg-gray-800 transition-colors duration-300 transform hover:scale-105"
                   >
-                    {buttonText}
+                    <Element
+                      id="restaurant-hero-button"
+                      is={Text}
+                      text={buttonText}
+                      tagName="span"
+                      fontSize="text-lg"
+                      fontWeight="font-semibold"
+                      color="text-white"
+                    />
                     <i className="ml-2">→</i>
                   </a>
                   
@@ -123,8 +136,9 @@ export function RestaurantHero1({
             </div>
           </div>
         </div>
-      </section>
-    </Resizer>
+        </Element>
+      </div>
+    </Element>
   );
 }
 
@@ -147,4 +161,5 @@ RestaurantHero1.craft = {
     canMoveIn: () => true,
     canMoveOut: () => true,
   },
+  isCanvas: true,
 };

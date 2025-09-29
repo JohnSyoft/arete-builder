@@ -1,7 +1,10 @@
 import React from "react";
-import { Node, useNode } from "@craftjs/core";
-import { Button } from "@/components/ui/button";
-import { ArrowRight, Phone } from "lucide-react";
+import { Element } from "@craftjs/core";
+import { Section } from "../Basic/Section";
+import { Box } from "../Basic/Box";
+import { Text } from "../Basic/Text";
+import { Image } from "../Basic/Image";
+import { Button } from "../Basic/Button";
 
 export const BeautySalonHero1 = () => {
   const {
@@ -14,12 +17,14 @@ export const BeautySalonHero1 = () => {
   }));
 
   return (
-    <div
-      ref={(ref) => connect(drag(ref))}
-      className={`relative min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 overflow-hidden ${
-        selected ? "ring-2 ring-blue-500" : ""
-      } ${hovered ? "ring-2 ring-blue-300" : ""}`}
-    >
+    <Element id="beauty-salon-hero-container" is={Section} canvas>
+      <Element
+        id="beauty-salon-hero-background"
+        is={Box}
+        width="100%"
+        minHeight="min-h-screen"
+        className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 overflow-hidden"
+      >
       {/* Background Image */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -34,42 +39,68 @@ export const BeautySalonHero1 = () => {
       
       {/* Decorative Elements */}
       <div className="absolute left-0 top-0 hidden lg:block">
-        <img
+        <Element
+          id="beauty-salon-hero-decorative-left"
+          is={Image}
           src="/images/demo-beauty-salon-home-banner-bg.png"
           alt=""
-          className="w-auto h-auto"
+          width="w-auto"
+          height="h-auto"
         />
       </div>
       
       <div className="absolute right-8 top-8 hidden lg:block">
-        <img
+        <Element
+          id="beauty-salon-hero-decorative-right"
+          is={Image}
           src="/images/demo-beauty-salon-banner-img.png"
           alt=""
-          className="w-auto h-auto animate-spin"
-          style={{ animationDuration: "20s" }}
+          width="w-auto"
+          height="h-auto"
+          animation="spin"
+          animationDuration="20s"
         />
       </div>
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 h-screen flex items-center">
         <div className="max-w-2xl">
-          <h1 className="text-6xl lg:text-8xl xl:text-9xl font-bold text-white leading-tight mb-6 tracking-tight">
-            Beauty studio
-          </h1>
+          <Element
+            id="beauty-salon-hero-title"
+            is={Text}
+            text="Beauty studio"
+            tagName="h1"
+            fontSize="text-6xl lg:text-8xl xl:text-9xl"
+            fontWeight="font-bold"
+            color="text-white"
+            className="leading-tight mb-6 tracking-tight"
+          />
           
-          <p className="text-xl text-gray-300 mb-8 max-w-lg">
-            A salon is an establishment dealing with natural cosmetic treatments.
-          </p>
+          <Element
+            id="beauty-salon-hero-description"
+            is={Text}
+            text="A salon is an establishment dealing with natural cosmetic treatments."
+            tagName="p"
+            fontSize="text-xl"
+            color="text-gray-300"
+            className="mb-8 max-w-lg"
+          />
           
-          <Button
-            size="lg"
-            className="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white px-8 py-4 text-lg font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-          >
-            <span className="flex items-center gap-2">
-              Book appointment
-              <ArrowRight className="w-5 h-5" />
-            </span>
-          </Button>
+          <Element
+            id="beauty-salon-hero-button"
+            is={Button}
+            text="Book appointment"
+            showIcon={true}
+            iconType="arrow-right"
+            iconPosition="right"
+            backgroundColor="bg-gradient-to-r from-pink-500 to-rose-500"
+            textColor="text-white"
+            padding="px-8 py-4"
+            fontSize="text-lg"
+            fontWeight="font-semibold"
+            borderRadius="rounded-lg"
+            className="shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+          />
         </div>
       </div>
 
@@ -78,34 +109,58 @@ export const BeautySalonHero1 = () => {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <div className="bg-yellow-400 text-gray-900 px-4 py-2 rounded text-sm font-semibold">
-                wow awesome!
-              </div>
+              <Element
+                id="beauty-salon-hero-badge"
+                is={Text}
+                text="wow awesome!"
+                tagName="div"
+                fontSize="text-sm"
+                fontWeight="font-semibold"
+                backgroundColor="bg-yellow-400"
+                textColor="text-gray-900"
+                padding="px-4 py-2"
+                borderRadius="rounded"
+              />
             </div>
             
             <div className="hidden sm:flex items-center gap-6">
               <div className="flex items-center gap-2 text-white">
                 <Phone className="w-4 h-4" />
-                <span className="text-sm">1 800 222 000</span>
+                <Element
+                  id="beauty-salon-hero-phone"
+                  is={Text}
+                  text="1 800 222 000"
+                  tagName="span"
+                  fontSize="text-sm"
+                  color="text-white"
+                />
               </div>
-              <Button
+              <Element
+                id="beauty-salon-hero-talk-button"
+                is={Button}
+                text="Let's talk"
                 variant="outline"
-                className="border-white text-white hover:bg-white hover:text-gray-900"
-              >
-                Let's talk
-              </Button>
+                borderColor="border-white"
+                textColor="text-white"
+                hoverBackgroundColor="hover:bg-white"
+                hoverTextColor="hover:text-gray-900"
+              />
             </div>
           </div>
         </div>
       </div>
-    </div>
+      </Element>
+    </Element>
   );
 };
 
 BeautySalonHero1.craft = {
   displayName: "Beauty Salon Hero 1",
   props: {},
-  related: {
-    settings: () => null,
+  rules: {
+    canDrag: () => true,
+    canMoveIn: () => true,
+    canMoveOut: () => true,
   },
+  isCanvas: true,
 };

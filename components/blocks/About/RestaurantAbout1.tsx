@@ -1,6 +1,11 @@
 import React from "react";
-import { useNode } from "@craftjs/core";
-import { Resizer } from "../Resizer";
+import { Element } from "@craftjs/core";
+import { Section } from "../Basic/Section";
+import { Box } from "../Basic/Box";
+import { Text } from "../Basic/Text";
+import { Image } from "../Basic/Image";
+import { Button } from "../Basic/Button";
+import { Icon } from "../Basic/Icon";
 
 interface Feature {
   icon: string;
@@ -59,116 +64,162 @@ export function RestaurantAbout1({
   textColor = "#333333",
   nonEditable = true,
 }: RestaurantAbout1Props) {
-  const {
-    connectors: { connect, drag },
-    selected,
-    hovered,
-    actions: { setProp },
-  } = useNode((state) => ({
-    selected: state.events.selected,
-    hovered: state.events.hovered,
-  }));
-
   return (
-    <Resizer
-      propKey={{ width: "width", height: "height" }}
-      style={{
-        width: "100%",
-        height: "auto",
-        backgroundColor: backgroundColor,
-        color: textColor,
-        position: "relative",
-        overflow: "hidden",
-      }}
-      minWidth={300}
-      minHeight={400}
-    >
-      <section
-        ref={(ref) => connect(drag(ref))}
-        className="relative py-16 lg:py-12"
+    <Element id="restaurant-about-container" is={Section} canvas>
+      <div
+        style={{
+          width: "100%",
+          height: "auto",
+          backgroundColor: backgroundColor,
+          color: textColor,
+          position: "relative",
+          overflow: "hidden",
+        }}
       >
-        {/* Background Text */}
-        <div className="absolute left-0 w-full text-center -top-20 lg:-top-16 xs:-top-5 opacity-5 text-8xl lg:text-6xl xs:text-5xl font-bold tracking-wider uppercase whitespace-nowrap">
-          {backgroundText}
-        </div>
+        <section className="relative py-16 lg:py-12">
+          {/* Background Text */}
+          <div className="absolute left-0 w-full text-center -top-20 lg:-top-16 xs:-top-5 opacity-5 text-8xl lg:text-6xl xs:text-5xl font-bold tracking-wider uppercase whitespace-nowrap">
+            <Element
+              id="restaurant-about-background-text"
+              is={Text}
+              text={backgroundText}
+              tagName="span"
+              fontSize="text-8xl lg:text-6xl xs:text-5xl"
+              fontWeight="font-bold"
+              color="text-gray-800"
+            />
+          </div>
 
-        {/* Decorative Images */}
-        <div className="absolute -left-12 mt-4 hidden xl:block">
-          <img 
-            src={decorativeImage1} 
-            alt="Decorative" 
-            className="animate-pulse"
-          />
-        </div>
-        <div className="absolute -right-12 xl:-right-12 xxl:-right-24 xl:w-56 hidden xl:block">
-          <img 
-            src={decorativeImage2} 
-            alt="Decorative" 
-            className="animate-pulse"
-          />
-        </div>
+          {/* Decorative Images with animations */}
+          <div className="absolute -left-12 mt-4 hidden xl:block">
+            <img 
+              src={decorativeImage1} 
+              alt="Decorative" 
+              className="animate-pulse"
+            />
+          </div>
+          <div className="absolute -right-12 xl:-right-12 xxl:-right-24 xl:w-56 hidden xl:block">
+            <img 
+              src={decorativeImage2} 
+              alt="Decorative" 
+              className="animate-pulse"
+            />
+          </div>
 
-        <div className="container mx-auto px-4">
-          <div className="flex items-center mb-16 lg:mb-12 lg:mt-8">
-            <div className="w-full xl:w-7/12 lg:w-6/12 text-center relative md:mb-12 xs:mb-8">
-              <img 
-                src={mainImage} 
-                alt="Restaurant" 
-                className="w-full h-auto rounded-lg shadow-lg"
-              />
-            </div>
-            <div className="w-full xl:w-5/12 lg:w-6/12 xl:pl-8">
-              <span className="text-sm font-semibold text-red-600 uppercase mb-6 block">
-                <span className="w-16 h-0.5 bg-red-600 inline-block align-middle mr-4"></span>
-                {sinceYear}
-              </span>
-              
-              <h1 className="text-4xl font-bold text-gray-800 mb-4">
-                {title}
-              </h1>
-              
-              <p className="text-gray-600 mb-6 w-11/12">
-                {description}
-              </p>
-              
-              <div className="flex flex-wrap items-center mt-4">
-                <a
-                  href={buttonLink}
-                  className="bg-gray-800 text-white px-8 py-4 text-lg font-semibold rounded-lg hover:bg-gray-700 transition-colors duration-300 mr-8 xs:mr-4 xs:mb-4"
-                >
-                  {buttonText}
-                </a>
-                <div className="text-2xl font-bold text-gray-800 xs:mb-4">
-                  <i className="mr-2 text-red-600">📞</i>
-                  <a href={phoneLink} className="hover:text-red-600 transition-colors">
-                    {phoneNumber}
+          <div className="container mx-auto px-4">
+            <div className="flex items-center mb-16 lg:mb-12 lg:mt-8">
+              <div className="w-full xl:w-7/12 lg:w-6/12 text-center relative md:mb-12 xs:mb-8">
+                <img 
+                  src={mainImage} 
+                  alt="Restaurant" 
+                  className="w-full h-auto rounded-lg shadow-lg"
+                />
+              </div>
+              <div className="w-full xl:w-5/12 lg:w-6/12 xl:pl-8">
+                <span className="text-sm font-semibold text-red-600 uppercase mb-6 block">
+                  <span className="w-16 h-0.5 bg-red-600 inline-block align-middle mr-4"></span>
+                  <Element
+                    id="restaurant-about-since-year"
+                    is={Text}
+                    text={sinceYear}
+                    tagName="span"
+                    fontSize="text-sm"
+                    fontWeight="font-semibold"
+                    color="text-red-600"
+                  />
+                </span>
+                
+                <Element
+                  id="restaurant-about-title"
+                  is={Text}
+                  text={title}
+                  tagName="h1"
+                  fontSize="text-4xl"
+                  fontWeight="font-bold"
+                  color="text-gray-800"
+                  className="mb-4"
+                />
+                
+                <Element
+                  id="restaurant-about-description"
+                  is={Text}
+                  text={description}
+                  tagName="p"
+                  fontSize="text-base"
+                  color="text-gray-600"
+                  className="mb-6 w-11/12"
+                />
+                
+                <div className="flex flex-wrap items-center mt-4">
+                  <a
+                    href={buttonLink}
+                    className="bg-gray-800 text-white px-8 py-4 text-lg font-semibold rounded-lg hover:bg-gray-700 transition-colors duration-300 mr-8 xs:mr-4 xs:mb-4"
+                  >
+                    <Element
+                      id="restaurant-about-button"
+                      is={Text}
+                      text={buttonText}
+                      tagName="span"
+                      fontSize="text-lg"
+                      fontWeight="font-semibold"
+                      color="text-white"
+                    />
                   </a>
+                  <div className="text-2xl font-bold text-gray-800 xs:mb-4">
+                    <i className="mr-2 text-red-600">📞</i>
+                    <a href={phoneLink} className="hover:text-red-600 transition-colors">
+                      <Element
+                        id="restaurant-about-phone"
+                        is={Text}
+                        text={phoneNumber}
+                        tagName="span"
+                        fontSize="text-2xl"
+                        fontWeight="font-bold"
+                        color="text-gray-800"
+                      />
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Features Grid */}
-          <div className="grid grid-cols-1 xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2 justify-center gap-8">
-            {features.map((feature, index) => (
-              <div key={index} className="flex items-center md:mb-12 sm:mb-8">
-                <div className="w-24 h-24 rounded-full bg-white shadow-lg mr-6 flex items-center justify-center">
-                  <span className="text-3xl">{feature.icon}</span>
+            {/* Features Grid */}
+            <div className="grid grid-cols-1 xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2 justify-center gap-8">
+              {features.map((feature, index) => (
+                <div key={index} className="flex items-center md:mb-12 sm:mb-8">
+                  <div className="w-24 h-24 rounded-full bg-white shadow-lg mr-6 flex items-center justify-center">
+                    <span className="text-3xl">{feature.icon}</span>
+                  </div>
+                  <div className="flex-grow">
+                    <span className="block text-2xl font-bold text-gray-800 mb-1">
+                      <Element
+                        id={`restaurant-about-feature-title-${index}`}
+                        is={Text}
+                        text={feature.title}
+                        tagName="span"
+                        fontSize="text-2xl"
+                        fontWeight="font-bold"
+                        color="text-gray-800"
+                      />
+                    </span>
+                    <p className="text-gray-600 leading-relaxed">
+                      <Element
+                        id={`restaurant-about-feature-description-${index}`}
+                        is={Text}
+                        text={feature.description}
+                        tagName="span"
+                        fontSize="text-base"
+                        color="text-gray-600"
+                      />
+                    </p>
+                  </div>
                 </div>
-                <div className="flex-grow">
-                  <span className="block text-2xl font-bold text-gray-800 mb-1">
-                    {feature.title}
-                  </span>
-                  <p className="text-gray-600 leading-relaxed">
-                    {feature.description}
-                  </p>
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
-    </Resizer>
+        </section>
+      </div>
+    </Element>
   );
 }
 
@@ -211,4 +262,5 @@ RestaurantAbout1.craft = {
     canMoveIn: () => true,
     canMoveOut: () => true,
   },
+  isCanvas: true,
 };

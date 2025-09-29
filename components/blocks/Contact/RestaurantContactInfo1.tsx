@@ -146,4 +146,5 @@ RestaurantContactInfo1.craft = {
     canMoveIn: () => true,
     canMoveOut: () => true,
   },
+  isCanvas: true,
 };

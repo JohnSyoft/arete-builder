@@ -1,5 +1,5 @@
 import React from "react";
-import { Node, useNode } from "@craftjs/core";
+import { Node, useNode, Element } from "@craftjs/core";
 import { BarChart3, Search, Target, Zap } from "lucide-react";
 
 export const SEOServices1 = () => {
@@ -60,9 +60,9 @@ export const SEOServices1 = () => {
       <div className="relative z-10 container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-8">
+          <Element is="h2" className="text-4xl lg:text-5xl font-bold text-gray-900 mb-8">
             Social marketing services
-          </h2>
+          </Element>
         </div>
         
         {/* Services Grid */}
@@ -71,14 +71,14 @@ export const SEOServices1 = () => {
             <div key={index} className="group cursor-pointer">
               <div className="bg-white rounded-lg p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100">
                 <div className={`w-16 h-16 ${service.bgColor} rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                  <service.icon className={`w-8 h-8 ${service.color}`} />
+                  <Element is={service.icon} className={`w-8 h-8 ${service.color}`} />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-4 text-center">
+                <Element is="h3" className="text-xl font-bold text-gray-900 mb-4 text-center">
                   {service.title}
-                </h3>
-                <p className="text-gray-600 text-center leading-relaxed">
+                </Element>
+                <Element is="p" className="text-gray-600 text-center leading-relaxed">
                   {service.description}
-                </p>
+                </Element>
               </div>
             </div>
           ))}

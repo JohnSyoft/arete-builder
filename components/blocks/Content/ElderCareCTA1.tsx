@@ -1,6 +1,12 @@
 import React from "react";
-import { useNode } from "@craftjs/core";
-import { Resizer } from "../Resizer";
+import { Element } from "@craftjs/core";
+import { Section } from "../Basic/Section";
+import { Box } from "../Basic/Box";
+import { Text } from "../Basic/Text";
+import { Button } from "../Basic/Button";
+import { Flex } from "../Basic/Flex";
+import { Icon } from "../Basic/Icon";
+import { Image } from "../Basic/Image";
 
 interface ElderCareCTA1Props {
   title?: string;
@@ -27,68 +33,81 @@ export function ElderCareCTA1({
   textColor = "#ffffff",
   nonEditable = true,
 }: ElderCareCTA1Props) {
-  const {
-    connectors: { connect, drag },
-    selected,
-    hovered,
-    actions: { setProp },
-  } = useNode((state) => ({
-    selected: state.events.selected,
-    hovered: state.events.hovered,
-  }));
-
   return (
-    <Resizer
-      propKey={{ width: "width", height: "height" }}
-      style={{
-        width: "100%",
-        height: "auto",
-        backgroundColor: backgroundColor,
-        color: textColor,
-      }}
-      minWidth={300}
-      minHeight={120}
-    >
-      <div
-        ref={(ref) => connect(drag(ref))}
-        className="py-8"
+    <Element id="eldercare-cta-container" is={Section} canvas>
+      <Element
+        id="eldercare-cta-background"
+        is={Box}
+        backgroundColor={backgroundColor}
+        width="100%"
+        minHeight="120px"
       >
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             {/* Left - Help Section */}
             <div className="flex items-center gap-6">
               <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center">
-                <i className={`${icon} text-2xl text-gray-800`}></i>
+                <Element
+                  id="eldercare-cta-avatar"
+                  is={Image}
+                  src="https://placehold.co/64x64/808080/FFFFFF?text=Icon"
+                  alt="Avatar"
+                  width="64px"
+                  height="64px"
+                  borderRadius="rounded-full"
+                />
               </div>
               <div>
-                <h5 className="text-xl font-bold text-white mb-1">{title}</h5>
-                <span className="text-lg text-white/60">
-                  Call now: <a href={phoneLink} className="text-white hover:text-blue-300">{phoneNumber}</a>
-                </span>
+                <Element
+                  id="eldercare-cta-title"
+                  is={Text}
+                  text={title}
+                  tagName="h5"
+                  fontSize="text-xl"
+                  fontWeight="font-bold"
+                  color="text-white"
+                  margin="mb-1"
+                />
+                <div className="text-lg text-white/60">
+                  Call now: <Element
+                    id="eldercare-cta-phone"
+                    is={Text}
+                    text={phoneNumber}
+                    tagName="span"
+                    fontSize="text-lg"
+                    color="text-white"
+                  />
+                </div>
               </div>
             </div>
 
             {/* Center - Description */}
             <div className="flex-1 text-center md:text-left">
-              <p className="text-white/60 max-w-md mx-auto md:mx-0">
-                {description}
-              </p>
+              <Element
+                id="eldercare-cta-description"
+                is={Text}
+                text={description}
+                tagName="p"
+                color="text-white/60"
+              />
             </div>
 
             {/* Right - Support Button */}
             <div className="flex-shrink-0">
-              <a
+              <Element
+                id="eldercare-cta-button"
+                is={Button}
+                text={buttonText}
                 href={buttonLink}
-                className="inline-flex items-center px-6 py-3 bg-transparent border-2 border-white text-white font-semibold rounded-full hover:bg-white hover:text-gray-800 transition-colors group"
-              >
-                <i className="feather icon-feather-gift mr-2"></i>
-                <span>{buttonText}</span>
-              </a>
+                variant="outline"
+                backgroundColor="bg-transparent"
+                textColor="text-white"
+              />
             </div>
           </div>
         </div>
-      </div>
-    </Resizer>
+      </Element>
+    </Element>
   );
 }
 
@@ -110,4 +129,5 @@ ElderCareCTA1.craft = {
     canMoveIn: () => true,
     canMoveOut: () => true,
   },
+  isCanvas: true,
 };

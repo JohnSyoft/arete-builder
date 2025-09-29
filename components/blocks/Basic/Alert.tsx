@@ -13,38 +13,72 @@ import { Resizer } from "../Resizer";
 
 interface AlertProps {
   title?: string;
+  content?: string;
   message?: string;
-  variant?: "info" | "success" | "warning" | "error" | "default";
-  size?: "small" | "medium" | "large";
+  variant?: "default" | "success" | "warning" | "error" | "info" | "destructive";
+  size?: "sm" | "default" | "lg";
   showIcon?: boolean;
+  icon?: string;
+  iconColor?: string;
+  iconSize?: string;
   dismissible?: boolean;
+  dismissText?: string;
+  dismissColor?: string;
   borderRadius?: string;
-  shadow?: "none" | "sm" | "md" | "lg";
+  boxShadow?: string;
   backgroundColor?: string;
+  color?: string;
   textColor?: string;
   borderColor?: string;
+  borderWidth?: string;
   padding?: string;
   margin?: string;
   width?: string;
   height?: string;
+  fontSize?: string;
+  fontWeight?: string;
+  lineHeight?: string;
+  animation?: string;
+  animationDuration?: string;
+  ariaLabel?: string;
+  role?: string;
+  ariaLive?: "off" | "polite" | "assertive";
+  className?: string;
 }
 
 export function Alert({
   title = "Alert Title",
+  content = "This is an alert message.",
   message = "This is an alert message.",
-  variant = "info",
-  size = "medium",
+  variant = "default",
+  size = "default",
   showIcon = true,
+  icon = "info",
+  iconColor = "currentColor",
+  iconSize = "1rem",
   dismissible = false,
-  borderRadius = "8px",
-  shadow = "none",
+  dismissText = "×",
+  dismissColor = "#6b7280",
+  borderRadius = "",
+  boxShadow = "",
   backgroundColor = "#f3f4f6",
-  textColor = "#374151",
+  color = "#111827",
+  textColor = "#111827",
   borderColor = "#d1d5db",
-  padding = "16px",
-  margin = "8px",
-  width = "auto",
-  height = "auto",
+  borderWidth = "",
+  padding = "",
+  margin = "",
+  width = "100%",
+  height = "",
+  fontSize = "",
+  fontWeight = "400",
+  lineHeight = "",
+  animation = "",
+  animationDuration = "300ms",
+  ariaLabel = "",
+  role = "alert",
+  ariaLive = "polite",
+  className = "",
 }: AlertProps) {
   const {
     connectors: { connect, drag },
@@ -162,12 +196,12 @@ export function Alert({
 
   const getSizeStyles = (alertSize: string) => {
     switch (alertSize) {
-      case "small":
-        return { padding: "8px 12px", fontSize: "14px", iconSize: 16 };
-      case "large":
-        return { padding: "20px 24px", fontSize: "18px", iconSize: 24 };
+      case "sm":
+        return { padding: "0.5rem", fontSize: "0.875rem", iconSize: "1rem" };
+      case "lg":
+        return { padding: "1.25rem", fontSize: "1.125rem", iconSize: "1.5rem" };
       default:
-        return { padding: "16px 20px", fontSize: "16px", iconSize: 20 };
+        return { padding: "1rem", fontSize: "1rem", iconSize: "1.25rem" };
     }
   };
 
@@ -177,53 +211,67 @@ export function Alert({
 
   const alertStyles = {
     backgroundColor: variant === "default" ? backgroundColor : variantColors.bg,
-    color: variant === "default" ? textColor : variantColors.text,
+    color: variant === "default" ? (color || textColor) : variantColors.text,
     borderColor: variant === "default" ? borderColor : variantColors.border,
-    borderRadius,
-    padding: variant === "default" ? padding : sizeStyles.padding,
+    borderRadius: borderRadius || "0.375rem",
+    padding: padding || sizeStyles.padding,
     margin,
-    border: "1px solid",
-    fontSize: sizeStyles.fontSize,
+    width,
+    height,
+    border: borderWidth ? `${borderWidth} solid` : "1px solid",
+    fontSize: fontSize || sizeStyles.fontSize,
+    fontWeight,
+    lineHeight,
+    boxShadow,
+    ...(animation && {
+      animation: `${animation} ${animationDuration}`,
+    }),
   };
 
   return (
     <Resizer
       propKey={{ width: "width", height: "height" }}
-      style={{
-        margin: margin,
-      }}
       className={`relative group ${selected ? "ring-2 ring-blue-500" : ""} ${
         hovered ? "ring-1 ring-blue-300" : ""
-      }`}
+      } ${className}`}
     >
       <div
         className={`flex items-start gap-3 ${getShadowClass(shadow)}`}
         style={alertStyles}
         onClick={handleShowProperties}
+        role={role}
+        aria-label={ariaLabel}
+        aria-live={ariaLive}
       >
         {showIcon && (
           <div className="flex-shrink-0 mt-0.5">
             <IconComponent
-              size={sizeStyles.iconSize}
+              size={parseInt(iconSize) || sizeStyles.iconSize}
               style={{
-                color: variant === "default" ? textColor : variantColors.icon,
+                color: variant === "default" ? iconColor : variantColors.icon,
               }}
             />
           </div>
         )}
 
         <div className="flex-1 min-w-0">
-          <h4 className="font-medium" style={{ margin: "0 0 4px 0" }}>
-            {title}
-          </h4>
+          {title && (
+            <h4 className="font-medium" style={{ margin: "0 0 4px 0" }}>
+              {title}
+            </h4>
+          )}
           <p className="opacity-90" style={{ margin: 0, lineHeight: "1.4" }}>
-            {message}
+            {content || message}
           </p>
         </div>
 
         {dismissible && (
-          <button className="flex-shrink-0 ml-2 opacity-70 hover:opacity-100 transition-opacity">
-            <X size={16} />
+          <button 
+            className="flex-shrink-0 ml-2 opacity-70 hover:opacity-100 transition-opacity"
+            style={{ color: dismissColor }}
+            aria-label="Dismiss alert"
+          >
+            {dismissText}
           </button>
         )}
       </div>
@@ -258,20 +306,37 @@ Alert.craft = {
   displayName: "Alert",
   props: {
     title: "Alert Title",
+    content: "This is an alert message.",
     message: "This is an alert message.",
-    variant: "info",
-    size: "medium",
+    variant: "default",
+    size: "default",
     showIcon: true,
+    icon: "info",
+    iconColor: "currentColor",
+    iconSize: "1rem",
     dismissible: false,
-    borderRadius: "8px",
-    shadow: "none",
+    dismissText: "×",
+    dismissColor: "#6b7280",
+    borderRadius: "",
+    boxShadow: "",
     backgroundColor: "#f3f4f6",
-    textColor: "#374151",
+    color: "#111827",
+    textColor: "#111827",
     borderColor: "#d1d5db",
-    padding: "16px",
-    margin: "8px",
-    width: "auto",
-    height: "auto",
+    borderWidth: "",
+    padding: "",
+    margin: "",
+    width: "100%",
+    height: "",
+    fontSize: "",
+    fontWeight: "400",
+    lineHeight: "",
+    animation: "",
+    animationDuration: "300ms",
+    ariaLabel: "",
+    role: "alert",
+    ariaLive: "polite",
+    className: "",
   },
   rules: {
     canDrag: () => true,

@@ -1,6 +1,10 @@
 import React, { useState } from "react";
-import { useNode } from "@craftjs/core";
-import { Resizer } from "../Resizer";
+import { Element } from "@craftjs/core";
+import { Section } from "../Basic/Section";
+import { Box } from "../Basic/Box";
+import { Text } from "../Basic/Text";
+import { Image } from "../Basic/Image";
+import { Button } from "../Basic/Button";
 
 interface MenuItem {
   image: string;
@@ -176,54 +180,76 @@ export function RestaurantMenu1({
   const activeCategory = categories.find(cat => cat.id === activeTab) || categories[0];
 
   return (
-    <Resizer
-      propKey={{ width: "width", height: "height" }}
-      style={{
-        width: "100%",
-        height: "auto",
-        backgroundColor: backgroundColor,
-        color: textColor,
-        backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-      }}
-      minWidth={300}
-      minHeight={400}
-    >
-      <section
-        ref={(ref) => connect(drag(ref))}
+    <Element id="restaurant-menu-container" is={Section} canvas>
+      <Element
+        id="restaurant-menu-background"
+        is={Box}
+        backgroundColor={backgroundColor}
+        width="100%"
+        minHeight="400px"
         className="py-16 lg:py-12"
+        style={{
+          backgroundImage: `url(${backgroundImage})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
       >
         <div className="container mx-auto px-4">
           {/* Header */}
           <div className="text-center mb-16">
-            <span className="text-sm font-semibold text-red-600 uppercase mb-4 block">
+            <div className="text-sm font-semibold text-red-600 uppercase mb-4 block">
               <span className="w-1 h-0.5 bg-red-600 inline-block align-middle mr-1"></span>
-              {subtitle}
+              <Element
+                id="restaurant-menu-subtitle"
+                is={Text}
+                text={subtitle}
+                tagName="span"
+                fontSize="text-sm"
+                fontWeight="font-semibold"
+                color="text-red-600"
+                textTransform="uppercase"
+              />
               <span className="w-1 h-0.5 bg-red-600 inline-block align-middle ml-1"></span>
-            </span>
-            <h2 className="text-4xl font-bold text-gray-800">
-              {title}
-            </h2>
+            </div>
+            <Element
+              id="restaurant-menu-title"
+              is={Text}
+              text={title}
+              tagName="h2"
+              fontSize="text-4xl"
+              fontWeight="font-bold"
+              color="text-gray-800"
+            />
           </div>
 
           {/* Tab Navigation */}
           <div className="mb-16">
             <div className="flex flex-wrap justify-center gap-4">
               {categories.map((category) => (
-                <button
+                <Element
                   key={category.id}
+                  id={`restaurant-menu-tab-${category.id}`}
+                  is={Button}
+                  text=""
+                  variant={activeTab === category.id ? "default" : "outline"}
+                  backgroundColor={activeTab === category.id ? "bg-red-600" : "bg-gray-100"}
+                  textColor={activeTab === category.id ? "text-white" : "text-gray-700"}
+                  borderRadius="rounded-lg"
+                  padding="p-4"
+                  className="flex flex-col items-center transition-all duration-300 hover:bg-gray-200"
                   onClick={() => setActiveTab(category.id)}
-                  className={`flex flex-col items-center p-4 rounded-lg transition-all duration-300 ${
-                    activeTab === category.id
-                      ? "bg-red-600 text-white"
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                  }`}
                 >
-                  <span className="text-2xl mb-2">{category.icon}</span>
-                  <span className="text-sm font-medium">{category.name}</span>
-                </button>
+                  <div className="text-2xl mb-2">{category.icon}</div>
+                  <Element
+                    id={`restaurant-menu-tab-name-${category.id}`}
+                    is={Text}
+                    text={category.name}
+                    tagName="span"
+                    fontSize="text-sm"
+                    fontWeight="font-medium"
+                  />
+                </Element>
               ))}
             </div>
           </div>
@@ -235,24 +261,47 @@ export function RestaurantMenu1({
               <div className="space-y-6">
                 {activeCategory?.items.slice(0, Math.ceil(activeCategory.items.length / 2)).map((item, index) => (
                   <div key={index} className="flex items-center space-x-4">
-                    <img
+                    <Element
+                      id={`restaurant-menu-item-image-left-${index}`}
+                      is={Image}
                       src={item.image}
                       alt={item.name}
-                      className="w-20 h-20 rounded-full object-cover flex-shrink-0"
+                      width="w-20"
+                      height="h-20"
+                      borderRadius="rounded-full"
+                      objectFit="object-cover"
+                      className="flex-shrink-0"
                     />
                     <div className="flex-grow">
                       <div className="flex items-center justify-between mb-1">
-                        <span className="text-lg font-semibold text-gray-800">
-                          {item.name}
-                        </span>
-                        <span className="text-lg font-semibold text-gray-800">
-                          {item.price}
-                        </span>
+                        <Element
+                          id={`restaurant-menu-item-name-left-${index}`}
+                          is={Text}
+                          text={item.name}
+                          tagName="span"
+                          fontSize="text-lg"
+                          fontWeight="font-semibold"
+                          color="text-gray-800"
+                        />
+                        <Element
+                          id={`restaurant-menu-item-price-left-${index}`}
+                          is={Text}
+                          text={item.price}
+                          tagName="span"
+                          fontSize="text-lg"
+                          fontWeight="font-semibold"
+                          color="text-gray-800"
+                        />
                       </div>
                       <div className="w-full h-px bg-gray-300 my-2"></div>
-                      <p className="text-gray-600 text-sm">
-                        {item.description}
-                      </p>
+                      <Element
+                        id={`restaurant-menu-item-description-left-${index}`}
+                        is={Text}
+                        text={item.description}
+                        tagName="p"
+                        fontSize="text-sm"
+                        color="text-gray-600"
+                      />
                     </div>
                   </div>
                 ))}
@@ -262,24 +311,47 @@ export function RestaurantMenu1({
               <div className="space-y-6">
                 {activeCategory?.items.slice(Math.ceil(activeCategory.items.length / 2)).map((item, index) => (
                   <div key={index} className="flex items-center space-x-4">
-                    <img
+                    <Element
+                      id={`restaurant-menu-item-image-right-${index}`}
+                      is={Image}
                       src={item.image}
                       alt={item.name}
-                      className="w-20 h-20 rounded-full object-cover flex-shrink-0"
+                      width="w-20"
+                      height="h-20"
+                      borderRadius="rounded-full"
+                      objectFit="object-cover"
+                      className="flex-shrink-0"
                     />
                     <div className="flex-grow">
                       <div className="flex items-center justify-between mb-1">
-                        <span className="text-lg font-semibold text-gray-800">
-                          {item.name}
-                        </span>
-                        <span className="text-lg font-semibold text-gray-800">
-                          {item.price}
-                        </span>
+                        <Element
+                          id={`restaurant-menu-item-name-right-${index}`}
+                          is={Text}
+                          text={item.name}
+                          tagName="span"
+                          fontSize="text-lg"
+                          fontWeight="font-semibold"
+                          color="text-gray-800"
+                        />
+                        <Element
+                          id={`restaurant-menu-item-price-right-${index}`}
+                          is={Text}
+                          text={item.price}
+                          tagName="span"
+                          fontSize="text-lg"
+                          fontWeight="font-semibold"
+                          color="text-gray-800"
+                        />
                       </div>
                       <div className="w-full h-px bg-gray-300 my-2"></div>
-                      <p className="text-gray-600 text-sm">
-                        {item.description}
-                      </p>
+                      <Element
+                        id={`restaurant-menu-item-description-right-${index}`}
+                        is={Text}
+                        text={item.description}
+                        tagName="p"
+                        fontSize="text-sm"
+                        color="text-gray-600"
+                      />
                     </div>
                   </div>
                 ))}
@@ -290,20 +362,34 @@ export function RestaurantMenu1({
           {/* Bottom Text */}
           <div className="text-center">
             <div className="inline-flex items-center space-x-2">
-              <div className="bg-red-600 text-white px-4 py-2 rounded-full text-sm font-medium">
-                Masterchef
-              </div>
+              <Element
+                id="restaurant-menu-badge"
+                is={Text}
+                text="Masterchef"
+                tagName="div"
+                fontSize="text-sm"
+                fontWeight="font-medium"
+                color="text-white"
+                backgroundColor="bg-red-600"
+                padding="px-4 py-2"
+                borderRadius="rounded-full"
+              />
               <div className="text-lg font-medium text-gray-800">
-                Unique and delicious dishes from the worlds{" "}
-                <span className="underline decoration-2 underline-offset-4 font-semibold">
-                  best masterchefs.
-                </span>
+                <Element
+                  id="restaurant-menu-bottom-text"
+                  is={Text}
+                  text="Unique and delicious dishes from the worlds best masterchefs."
+                  tagName="div"
+                  fontSize="text-lg"
+                  fontWeight="font-medium"
+                  color="text-gray-800"
+                />
               </div>
             </div>
           </div>
         </div>
-      </section>
-    </Resizer>
+      </Element>
+    </Element>
   );
 }
 
@@ -448,4 +534,5 @@ RestaurantMenu1.craft = {
     canMoveIn: () => true,
     canMoveOut: () => true,
   },
+  isCanvas: true,
 };

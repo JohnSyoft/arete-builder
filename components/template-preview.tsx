@@ -24,6 +24,12 @@ export function TemplatePreview({ template, onUseTemplate }: TemplatePreviewProp
         return "bg-green-500/10 text-green-400 border border-green-500/20 dark:bg-green-500/10 dark:text-green-400 dark:border-green-500/20"
       case "ecommerce":
         return "bg-purple-500/10 text-purple-400 border border-purple-500/20 dark:bg-purple-500/10 dark:text-purple-400 dark:border-purple-500/20"
+      case "healthcare":
+        return "bg-red-500/10 text-red-400 border border-red-500/20 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20"
+      case "business":
+        return "bg-orange-500/10 text-orange-400 border border-orange-500/20 dark:bg-orange-500/10 dark:text-orange-400 dark:border-orange-500/20"
+      case "portfolio":
+        return "bg-pink-500/10 text-pink-400 border border-pink-500/20 dark:bg-pink-500/10 dark:text-pink-400 dark:border-pink-500/20"
       default:
         return "bg-muted text-muted-foreground border border-border"
     }
@@ -37,6 +43,12 @@ export function TemplatePreview({ template, onUseTemplate }: TemplatePreviewProp
         return "📝"
       case "ecommerce":
         return "🛒"
+      case "healthcare":
+        return "🏥"
+      case "business":
+        return "💼"
+      case "portfolio":
+        return "🎨"
       default:
         return "🌐"
     }
@@ -100,7 +112,7 @@ export function TemplatePreview({ template, onUseTemplate }: TemplatePreviewProp
                 onClick={() => onUseTemplate(template)}
                 className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-6"
               >
-                Use Template
+                View Template
               </Button>
             </div>
           </div>
@@ -139,7 +151,7 @@ export function TemplatePreview({ template, onUseTemplate }: TemplatePreviewProp
                 onClick={() => onUseTemplate(template)}
                 className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium"
               >
-                Use This Template
+                View This Template
               </Button>
             </div>
           </div>

@@ -1,6 +1,11 @@
 import React from "react";
-import { useNode } from "@craftjs/core";
-import { Resizer } from "../Resizer";
+import { Element } from "@craftjs/core";
+import { Section } from "../Basic/Section";
+import { Box } from "../Basic/Box";
+import { Text } from "../Basic/Text";
+import { Image } from "../Basic/Image";
+import { Button } from "../Basic/Button";
+import { Icon } from "../Basic/Icon";
 
 interface FooterLink {
   text: string;
@@ -105,32 +110,9 @@ export function ElderCareFooter1({
   textColor = "#ffffff",
   nonEditable = true,
 }: ElderCareFooter1Props) {
-  const {
-    connectors: { connect, drag },
-    selected,
-    hovered,
-    actions: { setProp },
-  } = useNode((state) => ({
-    selected: state.events.selected,
-    hovered: state.events.hovered,
-  }));
-
   return (
-    <Resizer
-      propKey={{ width: "width", height: "height" }}
-      style={{
-        width: "100%",
-        height: "auto",
-        backgroundColor: backgroundColor,
-        color: textColor,
-      }}
-      minWidth={300}
-      minHeight={400}
-    >
-      <footer
-        ref={(ref) => connect(drag(ref))}
-        className="w-full"
-      >
+    <Element id="eldercare-footer-container" is={Section} canvas>
+      <footer className="w-full">
         {/* Top Section */}
         <div
           className="py-8"
@@ -145,32 +127,42 @@ export function ElderCareFooter1({
             <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
               {/* Left - Title with Icon */}
               <div className="flex items-center gap-6">
-                <img
+                <Element
+                  id="eldercare-footer-top-icon"
+                  is={Image}
                   src={topIcon}
                   alt="Support Icon"
-                  className="w-16 h-14 object-contain"
+                  width="64px"
+                  height="56px"
+                  objectFit="object-contain"
                 />
-                <h5 className="text-xl font-bold text-white">
-                  {topTitle}
-                </h5>
+                <Element
+                  id="eldercare-footer-top-title"
+                  is={Text}
+                  text={topTitle}
+                  tagName="h5"
+                  fontSize="text-xl"
+                  fontWeight="font-bold"
+                  color="text-white"
+                />
               </div>
 
               {/* Right - Buttons */}
               <div className="flex flex-col sm:flex-row gap-4">
-                <a
+                <Element
+                  id="eldercare-footer-call-button"
+                  is={Button}
+                  text={callButtonText}
                   href={callButtonLink}
                   className="inline-flex items-center px-6 py-3 bg-transparent border-2 border-white text-white font-semibold rounded-full hover:bg-white hover:text-gray-800 transition-colors group"
-                >
-                  <i className="bi bi-telephone mr-2"></i>
-                  <span>{callButtonText}</span>
-                </a>
-                <a
+                />
+                <Element
+                  id="eldercare-footer-contact-button"
+                  is={Button}
+                  text={contactButtonText}
                   href={contactButtonLink}
                   className="inline-flex items-center px-6 py-3 bg-white text-gray-800 font-semibold rounded-full hover:bg-gray-100 transition-colors group"
-                >
-                  <span className="mr-2">{contactButtonText}</span>
-                  <i className="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
-                </a>
+                />
               </div>
             </div>
           </div>
@@ -191,30 +183,60 @@ export function ElderCareFooter1({
               {/* Logo and Donation */}
               <div className="space-y-4">
                 <a href="#" className="inline-block">
-                  <img
+                  <Element
+                    id="eldercare-footer-logo"
+                    is={Image}
                     src={logoImage}
                     alt={logoAlt}
-                    className="h-12 w-auto"
+                    height="48px"
+                    className="w-auto"
                   />
                 </a>
                 <div>
-                  <span className="text-white text-sm">{donationText}</span>
-                  <h4 className="text-white text-2xl font-bold">{donationAmount}</h4>
+                  <Element
+                    id="eldercare-footer-donation-text"
+                    is={Text}
+                    text={donationText}
+                    tagName="span"
+                    fontSize="text-sm"
+                    color="text-white"
+                  />
+                  <Element
+                    id="eldercare-footer-donation-amount"
+                    is={Text}
+                    text={donationAmount}
+                    tagName="h4"
+                    fontSize="text-2xl"
+                    fontWeight="font-bold"
+                    color="text-white"
+                  />
                 </div>
               </div>
 
               {/* Care Types */}
               <div>
-                <h6 className="font-semibold text-white mb-4">{careTypesTitle}</h6>
+                <Element
+                  id="eldercare-footer-care-types-title"
+                  is={Text}
+                  text={careTypesTitle}
+                  tagName="h6"
+                  fontSize="text-base"
+                  fontWeight="font-semibold"
+                  color="text-white"
+                  margin="mb-4"
+                />
                 <ul className="space-y-2">
                   {careTypesLinks.map((link, index) => (
                     <li key={index}>
-                      <a
+                      <Element
+                        id={`eldercare-footer-care-link-${index}`}
+                        is={Text}
+                        text={link.text}
+                        tagName="a"
                         href={link.link}
-                        className="text-white/80 hover:text-white transition-colors"
-                      >
-                        {link.text}
-                      </a>
+                        color="text-white/80"
+                        className="hover:text-white transition-colors"
+                      />
                     </li>
                   ))}
                 </ul>
@@ -222,24 +244,58 @@ export function ElderCareFooter1({
 
               {/* Donation Info */}
               <div>
-                <h6 className="font-semibold text-white mb-4">{donationTitle}</h6>
-                <p className="text-white/80 mb-4 text-sm leading-relaxed">
-                  {donationDescription}
-                </p>
-                <a
+                <Element
+                  id="eldercare-footer-donation-title"
+                  is={Text}
+                  text={donationTitle}
+                  tagName="h6"
+                  fontSize="text-base"
+                  fontWeight="font-semibold"
+                  color="text-white"
+                  margin="mb-4"
+                />
+                <Element
+                  id="eldercare-footer-donation-description"
+                  is={Text}
+                  text={donationDescription}
+                  tagName="p"
+                  fontSize="text-sm"
+                  color="text-white/80"
+                  margin="mb-4"
+                  className="leading-relaxed"
+                />
+                <Element
+                  id="eldercare-footer-donation-link"
+                  is={Text}
+                  text={donationLinkText}
+                  tagName="a"
                   href={donationLink}
-                  className="text-white hover:text-blue-300 font-semibold underline"
-                >
-                  {donationLinkText}
-                </a>
+                  color="text-white"
+                  className="hover:text-blue-300 font-semibold underline"
+                />
               </div>
 
               {/* Newsletter */}
               <div>
-                <h6 className="font-semibold text-white mb-4">{newsletterTitle}</h6>
-                <p className="text-white/80 mb-4 text-sm">
-                  {newsletterDescription}
-                </p>
+                <Element
+                  id="eldercare-footer-newsletter-title"
+                  is={Text}
+                  text={newsletterTitle}
+                  tagName="h6"
+                  fontSize="text-base"
+                  fontWeight="font-semibold"
+                  color="text-white"
+                  margin="mb-4"
+                />
+                <Element
+                  id="eldercare-footer-newsletter-description"
+                  is={Text}
+                  text={newsletterDescription}
+                  tagName="p"
+                  fontSize="text-sm"
+                  color="text-white/80"
+                  margin="mb-4"
+                />
                 <form className="space-y-2">
                   <input
                     type="email"
@@ -250,7 +306,14 @@ export function ElderCareFooter1({
                     type="submit"
                     className="w-full px-4 py-2 bg-white/20 hover:bg-white/30 text-white rounded transition-colors"
                   >
-                    <i className="feather icon-feather-mail mr-2"></i>
+                    <Element
+                      id="eldercare-footer-newsletter-icon"
+                      is={Icon}
+                      iconName="mail"
+                      size={16}
+                      color="text-white"
+                      className="mr-2"
+                    />
                     Subscribe
                   </button>
                 </form>
@@ -262,9 +325,15 @@ export function ElderCareFooter1({
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
                 {/* Copyright */}
                 <div className="text-center lg:text-left">
-                  <p className="text-white/80 text-sm mb-2">
-                    {privacyText}
-                  </p>
+                  <Element
+                    id="eldercare-footer-privacy-text"
+                    is={Text}
+                    text={privacyText}
+                    tagName="p"
+                    fontSize="text-sm"
+                    color="text-white/80"
+                    margin="mb-2"
+                  />
                   <p className="text-white/80 text-sm">
                     {copyrightText.split("ThemeZaa").map((part, index) => (
                       <span key={index}>
@@ -286,31 +355,57 @@ export function ElderCareFooter1({
 
                 {/* Support */}
                 <div className="text-center">
-                  <span className="block text-white/80 text-sm">Need support?</span>
-                  <a
+                  <Element
+                    id="eldercare-footer-support-label"
+                    is={Text}
+                    text="Need support?"
+                    tagName="span"
+                    fontSize="text-sm"
+                    color="text-white/80"
+                    className="block"
+                  />
+                  <Element
+                    id="eldercare-footer-support-phone"
+                    is={Text}
+                    text={supportPhone}
+                    tagName="a"
                     href={supportPhoneLink}
-                    className="text-white font-medium hover:text-blue-300"
-                  >
-                    {supportPhone}
-                  </a>
+                    fontSize="text-base"
+                    fontWeight="font-medium"
+                    color="text-white"
+                    className="hover:text-blue-300"
+                  />
                 </div>
 
                 {/* Customer Care */}
                 <div className="text-center lg:text-right">
-                  <span className="block text-white/80 text-sm">Customer care</span>
-                  <a
+                  <Element
+                    id="eldercare-footer-customer-label"
+                    is={Text}
+                    text="Customer care"
+                    tagName="span"
+                    fontSize="text-sm"
+                    color="text-white/80"
+                    className="block"
+                  />
+                  <Element
+                    id="eldercare-footer-customer-email"
+                    is={Text}
+                    text={customerEmail}
+                    tagName="a"
                     href={customerEmailLink}
-                    className="text-white font-medium hover:text-blue-300"
-                  >
-                    {customerEmail}
-                  </a>
+                    fontSize="text-base"
+                    fontWeight="font-medium"
+                    color="text-white"
+                    className="hover:text-blue-300"
+                  />
                 </div>
               </div>
             </div>
           </div>
         </div>
       </footer>
-    </Resizer>
+    </Element>
   );
 }
 
@@ -371,4 +466,5 @@ ElderCareFooter1.craft = {
     canMoveIn: () => true,
     canMoveOut: () => true,
   },
+  isCanvas: true,
 };

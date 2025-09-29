@@ -1,6 +1,10 @@
 import React from "react";
-import { useNode } from "@craftjs/core";
-import { Resizer } from "../Resizer";
+import { Element } from "@craftjs/core";
+import { Section } from "../Basic/Section";
+import { Box } from "../Basic/Box";
+import { Text } from "../Basic/Text";
+import { Image } from "../Basic/Image";
+import { Button } from "../Basic/Button";
 
 interface FooterFeature {
   icon: string;
@@ -88,24 +92,20 @@ export function RestaurantFooter1({
   }));
 
   return (
-    <Resizer
-      propKey={{ width: "width", height: "height" }}
-      style={{
-        width: "100%",
-        height: "auto",
-        backgroundColor: backgroundColor,
-        color: textColor,
-        backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center top",
-        backgroundRepeat: "no-repeat",
-      }}
-      minWidth={300}
-      minHeight={400}
-    >
-      <footer
-        ref={(ref) => connect(drag(ref))}
+    <Element id="restaurant-footer-container" is={Section} canvas>
+      <Element
+        id="restaurant-footer-background"
+        is={Box}
+        backgroundColor={backgroundColor}
+        width="100%"
+        minHeight="400px"
         className="pb-0"
+        style={{
+          backgroundImage: `url(${backgroundImage})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center top",
+          backgroundRepeat: "no-repeat",
+        }}
       >
         <div className="container mx-auto px-4">
           {/* Features Grid */}
@@ -113,13 +113,39 @@ export function RestaurantFooter1({
             {features.map((feature, index) => (
               <div key={index} className="text-center md:mb-8">
                 <div className="p-8 lg:p-0 overflow-hidden">
-                  <div className="text-3xl mb-4">{feature.icon}</div>
+                  <Element
+                    id={`restaurant-footer-feature-icon-${index}`}
+                    is={Text}
+                    text={feature.icon}
+                    tagName="div"
+                    fontSize="text-3xl"
+                    margin="mb-4"
+                  />
                   <div className="text-gray-800">
-                    <span className="font-bold text-sm uppercase block mb-2">
-                      {feature.title}
-                    </span>
+                    <Element
+                      id={`restaurant-footer-feature-title-${index}`}
+                      is={Text}
+                      text={feature.title}
+                      tagName="span"
+                      fontSize="text-sm"
+                      fontWeight="font-bold"
+                      color="text-gray-800"
+                      textTransform="uppercase"
+                      className="block mb-2"
+                    />
                     <div className="text-sm text-gray-600 w-5/6 md:w-3/5 sm:w-4/5 xs:w-3/5 mx-auto">
-                      {feature.content}
+                      {typeof feature.content === 'string' ? (
+                        <Element
+                          id={`restaurant-footer-feature-content-${index}`}
+                          is={Text}
+                          text={feature.content}
+                          tagName="div"
+                          fontSize="text-sm"
+                          color="text-gray-600"
+                        />
+                      ) : (
+                        feature.content
+                      )}
                     </div>
                   </div>
                 </div>
@@ -135,14 +161,31 @@ export function RestaurantFooter1({
               {/* Copyright */}
               <div className="text-sm text-center text-sm-start order-3 order-sm-2 order-md-1 mb-4 md:mb-0">
                 <p>
-                  {copyrightText}{" "}
+                  <Element
+                    id="restaurant-footer-copyright"
+                    is={Text}
+                    text={copyrightText}
+                    tagName="span"
+                    fontSize="text-sm"
+                    color="text-gray-600"
+                  />
+                  {" "}
                   <a
                     href={poweredByLink}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="underline hover:text-red-600 transition-colors font-semibold"
                   >
-                    {poweredByText}
+                    <Element
+                      id="restaurant-footer-powered-by"
+                      is={Text}
+                      text={poweredByText}
+                      tagName="span"
+                      fontSize="text-sm"
+                      fontWeight="font-semibold"
+                      color="text-gray-600"
+                      className="underline hover:text-red-600 transition-colors"
+                    />
                   </a>
                 </p>
               </div>
@@ -150,10 +193,13 @@ export function RestaurantFooter1({
               {/* Logo */}
               <div className="text-center order-1 order-md-2 mb-4 md:mb-0">
                 <a href="#" className="inline-block">
-                  <img
+                  <Element
+                    id="restaurant-footer-logo"
+                    is={Image}
                     src={logoImage}
                     alt={logoAlt}
-                    className="h-12 w-auto"
+                    height="h-12"
+                    width="w-auto"
                   />
                 </a>
               </div>
@@ -170,7 +216,14 @@ export function RestaurantFooter1({
                         className="text-2xl hover:text-red-600 transition-colors"
                         title={social.platform}
                       >
-                        {social.icon}
+                        <Element
+                          id={`restaurant-footer-social-${index}`}
+                          is={Text}
+                          text={social.icon}
+                          tagName="span"
+                          fontSize="text-2xl"
+                          className="hover:text-red-600 transition-colors"
+                        />
                       </a>
                     </li>
                   ))}
@@ -179,8 +232,8 @@ export function RestaurantFooter1({
             </div>
           </div>
         </div>
-      </footer>
-    </Resizer>
+      </Element>
+    </Element>
   );
 }
 
@@ -239,4 +292,5 @@ RestaurantFooter1.craft = {
     canMoveIn: () => true,
     canMoveOut: () => true,
   },
+  isCanvas: true,
 };

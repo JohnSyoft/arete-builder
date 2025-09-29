@@ -4,25 +4,63 @@ import { usePropertiesPanelStore } from "@/lib/store/properties-panel-store";
 import { Resizer } from "../Resizer";
 
 interface ColumnsProps {
+  columns?: number;
   columnCount?: number;
   gap?: string;
   alignment?: "start" | "center" | "end" | "stretch";
+  alignItems?: "stretch" | "flex-start" | "flex-end" | "center" | "baseline";
+  justifyContent?: "start" | "end" | "center" | "space-between" | "space-around" | "space-evenly";
   minHeight?: string;
   padding?: string;
   margin?: string;
   width?: string;
   height?: string;
+  display?: "grid" | "flex" | "block" | "inline-block";
+  gridTemplateColumns?: string;
+  backgroundColor?: string;
+  borderColor?: string;
+  borderWidth?: string;
+  borderRadius?: string;
+  boxShadow?: string;
+  opacity?: number;
+  visibility?: "visible" | "hidden" | "collapse";
+  smColumns?: number;
+  mdColumns?: number;
+  lgColumns?: number;
+  xlColumns?: number;
+  ariaLabel?: string;
+  role?: string;
+  className?: string;
 }
 
 export function Columns({
+  columns = 2,
   columnCount = 2,
   gap = "gap-4",
   alignment = "stretch",
+  alignItems = "stretch",
+  justifyContent = "start",
   minHeight = "min-h-[200px]",
   padding = "p-4",
   margin = "my-4",
-  width = "auto",
+  width = "100%",
   height = "auto",
+  display = "grid",
+  gridTemplateColumns,
+  backgroundColor = "transparent",
+  borderColor = "transparent",
+  borderWidth,
+  borderRadius,
+  boxShadow,
+  opacity = 1,
+  visibility = "visible",
+  smColumns = 1,
+  mdColumns = 2,
+  lgColumns = 3,
+  xlColumns = 4,
+  ariaLabel,
+  role = "region",
+  className = "",
 }: ColumnsProps) {
   const {
     connectors: { connect, drag },
@@ -86,9 +124,29 @@ export function Columns({
         return "grid-cols-5";
       case 6:
         return "grid-cols-6";
+      case 7:
+        return "grid-cols-7";
+      case 8:
+        return "grid-cols-8";
+      case 9:
+        return "grid-cols-9";
+      case 10:
+        return "grid-cols-10";
+      case 11:
+        return "grid-cols-11";
+      case 12:
+        return "grid-cols-12";
       default:
         return "grid-cols-2";
     }
+  };
+
+  const getResponsiveGridCols = () => {
+    const sm = smColumns ? `sm:${getGridColsClass(smColumns).replace('grid-cols-', 'grid-cols-')}` : '';
+    const md = mdColumns ? `md:${getGridColsClass(mdColumns).replace('grid-cols-', 'grid-cols-')}` : '';
+    const lg = lgColumns ? `lg:${getGridColsClass(lgColumns).replace('grid-cols-', 'grid-cols-')}` : '';
+    const xl = xlColumns ? `xl:${getGridColsClass(xlColumns).replace('grid-cols-', 'grid-cols-')}` : '';
+    return `${getGridColsClass(columns || columnCount)} ${sm} ${md} ${lg} ${xl}`.trim();
   };
 
   const getItemsClass = (align: string) => {
@@ -106,12 +164,26 @@ export function Columns({
     }
   };
 
+  const containerStyle = {
+    backgroundColor,
+    borderColor,
+    borderWidth,
+    borderRadius,
+    boxShadow,
+    opacity,
+    visibility,
+    width,
+    height,
+    ...(gridTemplateColumns && { gridTemplateColumns }),
+  };
+
   return (
     <Resizer
       propKey={{ width: "width", height: "height" }}
       className={`relative group ${padding} ${margin} ${
         selected ? "ring-2 ring-blue-500" : ""
-      } ${hovered ? "ring-1 ring-blue-300" : ""}`}
+      } ${hovered ? "ring-1 ring-blue-300" : ""} ${className}`}
+      style={containerStyle}
     >
       <div
         ref={(ref) => {
@@ -119,13 +191,17 @@ export function Columns({
             connect(drag(ref));
           }
         }}
+        role={role}
+        aria-label={ariaLabel}
       >
         <div
-          className={`grid ${getGridColsClass(
-            columnCount
-          )} ${gap} ${getItemsClass(alignment)} ${minHeight}`}
+          className={`${display} ${getResponsiveGridCols()} ${gap} ${getItemsClass(alignment)} ${minHeight}`}
+          style={{
+            alignItems: display === 'flex' ? alignItems : undefined,
+            justifyContent: display === 'flex' ? justifyContent : undefined,
+          }}
         >
-          {Array.from({ length: columnCount }, (_, index) => (
+          {Array.from({ length: columns || columnCount }, (_, index) => (
             <Element
               key={index}
               id={`column-${index}`}
@@ -171,14 +247,33 @@ export function Columns({
 Columns.craft = {
   displayName: "Columns",
   props: {
+    columns: 2,
     columnCount: 2,
     gap: "gap-4",
     alignment: "stretch",
+    alignItems: "stretch",
+    justifyContent: "start",
     minHeight: "min-h-[200px]",
     padding: "p-4",
     margin: "my-4",
-    width: "auto",
+    width: "100%",
     height: "auto",
+    display: "grid",
+    gridTemplateColumns: "",
+    backgroundColor: "transparent",
+    borderColor: "transparent",
+    borderWidth: "",
+    borderRadius: "",
+    boxShadow: "",
+    opacity: 1,
+    visibility: "visible",
+    smColumns: 1,
+    mdColumns: 2,
+    lgColumns: 3,
+    xlColumns: 4,
+    ariaLabel: "",
+    role: "region",
+    className: "",
   },
   rules: {
     canDrag: () => true,

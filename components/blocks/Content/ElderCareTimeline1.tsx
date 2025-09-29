@@ -1,6 +1,10 @@
 import React from "react";
-import { useNode } from "@craftjs/core";
-import { Resizer } from "../Resizer";
+import { Element } from "@craftjs/core";
+import { Section } from "../Basic/Section";
+import { Box } from "../Basic/Box";
+import { Text } from "../Basic/Text";
+import { Image } from "../Basic/Image";
+import { Grid } from "../Basic/Grid";
 
 interface TimelineItem {
   year: string;
@@ -40,34 +44,17 @@ export function ElderCareTimeline1({
   textColor = "#333333",
   nonEditable = true,
 }: ElderCareTimeline1Props) {
-  const {
-    connectors: { connect, drag },
-    selected,
-    hovered,
-    actions: { setProp },
-  } = useNode((state) => ({
-    selected: state.events.selected,
-    hovered: state.events.hovered,
-  }));
-
   return (
-    <Resizer
-      propKey={{ width: "width", height: "height" }}
-      style={{
-        width: "100%",
-        height: "auto",
-        backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-        backgroundColor: backgroundColor,
-        color: textColor,
-      }}
-      minWidth={300}
-      minHeight={400}
-    >
-      <div
-        ref={(ref) => connect(drag(ref))}
+    <Element id="eldercare-timeline-container" is={Section} canvas>
+      <Element
+        id="eldercare-timeline-background"
+        is={Box}
+        backgroundImage={backgroundImage}
+        backgroundSize="cover"
+        backgroundPosition="center"
+        backgroundColor={backgroundColor}
+        width="100%"
+        minHeight="400px"
         className="py-16 relative"
       >
         {/* Overlay */}
@@ -77,27 +64,74 @@ export function ElderCareTimeline1({
           {/* Header */}
           <div className="flex flex-col lg:flex-row items-center justify-between mb-12">
             <div className="flex items-center gap-6 mb-6 lg:mb-0">
-              <img
+              <Element
+                id="eldercare-timeline-icon"
+                is={Image}
                 src={iconImage}
                 alt="Donation Icon"
-                className="w-16 h-14 object-contain"
+                width="64px"
+                height="56px"
+                objectFit="object-contain"
               />
               <div>
-                <h3 className="text-2xl font-bold text-gray-800 mb-2">{title}</h3>
-                <p className="text-gray-600">{description}</p>
+                <Element
+                  id="eldercare-timeline-title"
+                  is={Text}
+                  text={title}
+                  tagName="h3"
+                  fontSize="text-2xl"
+                  fontWeight="font-bold"
+                  color="text-gray-800"
+                  margin="mb-2"
+                />
+                <Element
+                  id="eldercare-timeline-description"
+                  is={Text}
+                  text={description}
+                  tagName="p"
+                  color="text-gray-600"
+                />
               </div>
             </div>
             
             <div className="text-center lg:text-right">
-              <h2 className="text-4xl font-semibold text-gray-800 mb-2">{totalAmount}</h2>
-              <p className="text-gray-600">{totalDescription}</p>
+              <Element
+                id="eldercare-timeline-total-amount"
+                is={Text}
+                text={totalAmount}
+                tagName="h2"
+                fontSize="text-4xl"
+                fontWeight="font-semibold"
+                color="text-gray-800"
+                margin="mb-2"
+              />
+              <Element
+                id="eldercare-timeline-total-description"
+                is={Text}
+                text={totalDescription}
+                tagName="p"
+                color="text-gray-600"
+              />
             </div>
           </div>
 
           {/* Timeline */}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {timelineItems.map((item, index) => (
-              <div key={index} className="text-center group hover:bg-white/10 rounded-lg p-4 transition-colors">
+              <Element
+                key={index}
+                id={`eldercare-timeline-item-${index}`}
+                is={Box}
+                className="text-center group rounded-lg p-4"
+                backgroundColor="transparent"
+                textColor="#333333"
+                hoverBackgroundColor="rgba(255, 255, 255, 0.1)"
+                hoverTextColor="#333333"
+                hoverScale="1.02"
+                transitionDuration="300ms"
+                borderRadius="8px"
+                padding="16px"
+              >
                 {/* Timeline Line */}
                 <div className="relative mb-6">
                   <div className="w-full h-px bg-gray-800 absolute top-1/2 left-0"></div>
@@ -107,14 +141,32 @@ export function ElderCareTimeline1({
                 </div>
                 
                 {/* Content */}
-                <h4 className="text-lg font-bold text-gray-800 mb-2">{item.year}</h4>
-                <p className="text-sm text-gray-600 max-w-20 mx-auto">{item.description}</p>
-              </div>
+                <Element
+                  id={`eldercare-timeline-year-${index}`}
+                  is={Text}
+                  text={item.year}
+                  tagName="h4"
+                  fontSize="text-lg"
+                  fontWeight="font-bold"
+                  color="text-gray-800"
+                  margin="mb-2"
+                />
+                {/* <div className="max-w-20 mx-auto"> */}
+                  <Element
+                    id={`eldercare-timeline-item-description-${index}`}
+                    is={Text}
+                    text={item.description}
+                    tagName="p"
+                    fontSize="text-sm"
+                    color="text-gray-600"
+                  />
+                {/* </div> */}
+              </Element>
             ))}
           </div>
         </div>
-      </div>
-    </Resizer>
+      </Element>
+    </Element>
   );
 }
 
@@ -143,4 +195,5 @@ ElderCareTimeline1.craft = {
     canMoveIn: () => true,
     canMoveOut: () => true,
   },
+  isCanvas: true,
 };

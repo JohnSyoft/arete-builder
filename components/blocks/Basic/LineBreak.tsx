@@ -7,12 +7,48 @@ interface LineBreakProps {
   height?: string;
   margin?: string;
   width?: string;
+  clear?: "none" | "left" | "right" | "both";
+  lineHeight?: string;
+  padding?: string;
+  backgroundColor?: string;
+  borderColor?: string;
+  borderWidth?: string;
+  borderStyle?: string;
+  borderRadius?: string;
+  opacity?: number;
+  visibility?: "visible" | "hidden" | "collapse";
+  display?: string;
+  position?: "static" | "relative" | "absolute" | "fixed" | "sticky";
+  zIndex?: number;
+  className?: string;
+  style?: string;
+  ariaLabel?: string;
+  role?: string;
+  tabIndex?: number;
 }
 
 export function LineBreak({
   height = "h-4", // Smaller default height for line breaks
   margin = "my-1",
   width = "w-full",
+  clear = "none",
+  lineHeight = "",
+  padding = "",
+  backgroundColor = "",
+  borderColor = "",
+  borderWidth = "",
+  borderStyle = "",
+  borderRadius = "",
+  opacity = 1,
+  visibility = "visible",
+  display = "",
+  position = "static",
+  zIndex = 0,
+  className = "",
+  style = "",
+  ariaLabel = "",
+  role = "",
+  tabIndex = 0,
 }: LineBreakProps) {
   const {
     connectors: { connect, drag },
@@ -29,7 +65,29 @@ export function LineBreak({
   const { actions } = useEditor();
   const { openPanel } = usePropertiesPanelStore();
 
-  const lineBreakProps = { height, margin };
+  const lineBreakProps = { 
+    height, 
+    margin, 
+    width, 
+    clear, 
+    lineHeight, 
+    padding, 
+    backgroundColor, 
+    borderColor, 
+    borderWidth, 
+    borderStyle, 
+    borderRadius, 
+    opacity, 
+    visibility, 
+    display, 
+    position, 
+    zIndex, 
+    className, 
+    style, 
+    ariaLabel, 
+    role, 
+    tabIndex 
+  };
 
   const updateProps = (newProps: Partial<LineBreakProps>) => {
     setProp((props: LineBreakProps) => {
@@ -44,7 +102,7 @@ export function LineBreak({
   return (
     <Resizer
       propKey={{ width: "width", height: "height" }}
-      className={`relative ${margin}`}
+      className={`relative ${margin} ${className}`}
     >
       <div
         ref={(ref) => {
@@ -55,13 +113,32 @@ export function LineBreak({
         className={`
           w-full 
           ${height} 
+          ${clear}
+          ${lineHeight}
+          ${padding}
+          ${backgroundColor}
+          ${borderRadius}
+          ${display}
+          ${position}
           ${selected ? "ring-2 ring-blue-500" : ""} 
           ${hovered ? "ring-1 ring-blue-300" : ""}
           cursor-pointer
           transition-all
           hover:bg-gray-50
         `}
+        style={{
+          borderColor: borderColor || undefined,
+          borderWidth: borderWidth || undefined,
+          borderStyle: borderStyle || undefined,
+          opacity: opacity !== 1 ? opacity : undefined,
+          visibility: visibility !== "visible" ? visibility : undefined,
+          zIndex: zIndex !== 0 ? zIndex : undefined,
+          ...(style && JSON.parse(style)),
+        }}
         onClick={handleOpenPanel}
+        role={role}
+        aria-label={ariaLabel}
+        tabIndex={tabIndex}
       >
         {/* Floating toolbar shown on hover/selection */}
         {(selected || hovered) && (
@@ -107,6 +184,24 @@ LineBreak.craft = {
     height: "h-4",
     margin: "my-1",
     width: "w-full",
+    clear: "none",
+    lineHeight: "",
+    padding: "",
+    backgroundColor: "",
+    borderColor: "",
+    borderWidth: "",
+    borderStyle: "",
+    borderRadius: "",
+    opacity: 1,
+    visibility: "visible",
+    display: "",
+    position: "static",
+    zIndex: 0,
+    className: "",
+    style: "",
+    ariaLabel: "",
+    role: "",
+    tabIndex: 0,
   },
   rules: {
     canDrag: () => true,

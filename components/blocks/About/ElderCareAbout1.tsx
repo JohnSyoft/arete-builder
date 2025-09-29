@@ -1,6 +1,13 @@
 import React from "react";
-import { useNode } from "@craftjs/core";
-import { Resizer } from "../Resizer";
+import { Element } from "@craftjs/core";
+import { Section } from "../Basic/Section";
+import { Box } from "../Basic/Box";
+import { Text } from "../Basic/Text";
+import { Button } from "../Basic/Button";
+import { Flex } from "../Basic/Flex";
+import { Grid } from "../Basic/Grid";
+import { Image } from "../Basic/Image";
+import { Icon } from "../Basic/Icon";
 
 interface ElderCareAbout1Props {
   badge?: string;
@@ -47,57 +54,55 @@ export function ElderCareAbout1({
   textColor = "#333333",
   nonEditable = true,
 }: ElderCareAbout1Props) {
-  const {
-    connectors: { connect, drag },
-    selected,
-    hovered,
-    actions: { setProp },
-  } = useNode((state) => ({
-    selected: state.events.selected,
-    hovered: state.events.hovered,
-  }));
-
   return (
-    <Resizer
-      propKey={{ width: "width", height: "height" }}
-      style={{
-        width: "100%",
-        height: "auto",
-        backgroundColor: backgroundColor,
-        color: textColor,
-      }}
-      minWidth={300}
-      minHeight={400}
-    >
-      <div
-        ref={(ref) => connect(drag(ref))}
-        className="py-16"
+    <Element id="eldercare-about-container" is={Section} canvas>
+      <Element
+        id="eldercare-about-background"
+        is={Box}
+        backgroundColor={backgroundColor}
+        width="100%"
+        minHeight="400px"
       >
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Left - Images */}
             <div className="relative">
               <div className="relative">
-                <img
+                <Element
+                  id="eldercare-about-main-image"
+                  is={Image}
                   src={mainImage}
                   alt="Elder Care"
-                  className="w-full rounded-lg shadow-lg"
+                  width="100%"
+                  height="auto"
+                  borderRadius="rounded-lg"
                 />
                 {/* Decoration Image 1 */}
                 <div className="absolute -right-16 top-16 hidden md:block">
-                  <img
+                  <Element
+                    id="eldercare-about-decoration-1"
+                    is={Image}
                     src={decorationImage1}
                     alt="Decoration"
-                    className="w-32 h-32 object-contain animate-spin-slow"
+                    width="128px"
+                    height="128px"
+                    objectFit="object-contain"
+                    animation="spin"
+                    animationDuration="10000ms"
                   />
                 </div>
               </div>
               {/* Decoration Image 2 */}
               <div className="absolute -right-4 -bottom-12 lg:-bottom-16 w-48 lg:w-56">
-                <img
+                <Element
+                  id="eldercare-about-decoration-2"
+                  is={Image}
                   src={decorationImage2}
                   alt="Decoration"
-                  className="w-full h-auto"
+                  width="100%"
+                  height="auto"
+                  animation="spin"
+                  animationDuration="10000ms"
                 />
               </div>
             </div>
@@ -105,14 +110,26 @@ export function ElderCareAbout1({
             {/* Right - Content */}
             <div className="space-y-8">
               {/* Badge */}
-              <span className="inline-block text-blue-600 font-semibold text-sm uppercase tracking-wide">
-                {badge}
-              </span>
+              <Element
+                id="eldercare-about-badge"
+                is={Text}
+                text={badge}
+                tagName="span"
+                fontSize="text-sm"
+                fontWeight="font-semibold"
+                color="text-blue-600"
+              />
 
               {/* Title */}
-              <h2 className="text-4xl lg:text-5xl font-bold text-gray-800 leading-tight">
-                {title}
-              </h2>
+              <Element
+                id="eldercare-about-title"
+                is={Text}
+                text={title}
+                tagName="h2"
+                fontSize="text-4xl lg:text-5xl"
+                fontWeight="font-bold"
+                color="text-gray-800"
+              />
 
               {/* Features */}
               <div className="space-y-6">
@@ -122,12 +139,23 @@ export function ElderCareAbout1({
                       <i className="fa-solid fa-check text-white text-sm"></i>
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold text-gray-800 mb-2">
-                        {feature.title}
-                      </h3>
-                      <p className="text-gray-600 max-w-md">
-                        {feature.description}
-                      </p>
+                      <Element
+                        id={`eldercare-about-feature-title-${index}`}
+                        is={Text}
+                        text={feature.title}
+                        tagName="h3"
+                        fontSize="text-xl"
+                        fontWeight="font-bold"
+                        color="text-gray-800"
+                        margin="mb-2"
+                      />
+                      <Element
+                        id={`eldercare-about-feature-description-${index}`}
+                        is={Text}
+                        text={feature.description}
+                        tagName="p"
+                        color="text-gray-600"
+                      />
                     </div>
                   </div>
                 ))}
@@ -135,35 +163,59 @@ export function ElderCareAbout1({
 
               {/* Buttons */}
               <div className="flex flex-col sm:flex-row gap-6 items-start">
-                <a
+                <Element
+                  id="eldercare-about-primary-button"
+                  is={Button}
+                  text={primaryButtonText}
                   href={primaryButtonLink}
-                  className="inline-flex items-center px-8 py-4 bg-gray-800 text-white font-semibold rounded-full hover:bg-gray-700 transition-colors group"
-                >
-                  <span className="mr-2">{primaryButtonText}</span>
-                  <i className="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
-                </a>
+                  backgroundColor="bg-gray-800"
+                  textColor="text-white"
+                  borderRadius="rounded-full"
+                  padding="px-8 py-4"
+                  showIcon={true}
+                  iconType="arrow-right"
+                  iconPosition="right"
+                  hoverEffect="none"
+                  transitionDuration="300ms"
+                />
 
                 {/* Call Section */}
                 <div className="flex items-center gap-4">
                   <div className="w-16 h-16 border-2 border-gray-300 rounded-full flex items-center justify-center">
-                    <i className="feather icon-feather-phone text-2xl text-gray-800"></i>
+                    <Element
+                      id="eldercare-about-phone-icon"
+                      is={Icon}
+                      iconName="phone"
+                      size={24}
+                      color="text-gray-800"
+                    />
                   </div>
                   <div>
-                    <span className="block text-sm text-gray-600">{callText}</span>
-                    <a
-                      href={phoneLink}
-                      className="text-xl font-semibold text-gray-800 hover:text-blue-600 transition-colors"
-                    >
-                      {phoneNumber}
-                    </a>
+                    <Element
+                      id="eldercare-about-call-text"
+                      is={Text}
+                      text={callText}
+                      tagName="span"
+                      fontSize="text-sm"
+                      color="text-gray-600"
+                    />
+                    <Element
+                      id="eldercare-about-phone"
+                      is={Text}
+                      text={phoneNumber}
+                      tagName="span"
+                      fontSize="text-xl"
+                      fontWeight="font-semibold"
+                      color="text-gray-800"
+                    />
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </Resizer>
+      </Element>
+    </Element>
   );
 }
 
@@ -198,4 +250,5 @@ ElderCareAbout1.craft = {
     canMoveIn: () => true,
     canMoveOut: () => true,
   },
+  isCanvas: true,
 };

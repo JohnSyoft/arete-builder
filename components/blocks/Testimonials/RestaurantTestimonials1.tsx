@@ -1,6 +1,10 @@
 import React, { useState } from "react";
-import { useNode } from "@craftjs/core";
-import { Resizer } from "../Resizer";
+import { Element } from "@craftjs/core";
+import { Section } from "../Basic/Section";
+import { Box } from "../Basic/Box";
+import { Text } from "../Basic/Text";
+import { Image } from "../Basic/Image";
+import { Button } from "../Basic/Button";
 
 interface Testimonial {
   quote: string;
@@ -62,19 +66,13 @@ export function RestaurantTestimonials1({
   };
 
   return (
-    <Resizer
-      propKey={{ width: "width", height: "height" }}
-      style={{
-        width: "100%",
-        height: "auto",
-        backgroundColor: backgroundColor,
-        color: textColor,
-      }}
-      minWidth={300}
-      minHeight={400}
-    >
-      <section
-        ref={(ref) => connect(drag(ref))}
+    <Element id="restaurant-testimonials-container" is={Section} canvas>
+      <Element
+        id="restaurant-testimonials-background"
+        is={Box}
+        backgroundColor={backgroundColor}
+        width="100%"
+        minHeight="400px"
         className="py-16 lg:py-12"
       >
         <div className="container mx-auto px-4">
@@ -84,20 +82,39 @@ export function RestaurantTestimonials1({
                 {/* Testimonial Content */}
                 <div className="text-center">
                   <div className="mb-8">
-                    <img
+                    <Element
+                      id={`restaurant-testimonial-avatar-${currentSlide}`}
+                      is={Image}
                       src={testimonials[currentSlide]?.avatar}
                       alt={testimonials[currentSlide]?.author}
-                      className="w-24 h-24 rounded-full mx-auto mb-8"
+                      width="w-24"
+                      height="h-24"
+                      borderRadius="rounded-full"
+                      className="mx-auto mb-8"
                     />
                   </div>
                   
-                  <h4 className="text-2xl lg:text-xl leading-relaxed text-gray-800 mb-4 font-medium">
-                    "{testimonials[currentSlide]?.quote}"
-                  </h4>
+                  <Element
+                    id={`restaurant-testimonial-quote-${currentSlide}`}
+                    is={Text}
+                    text={`"${testimonials[currentSlide]?.quote}"`}
+                    tagName="h4"
+                    fontSize="text-2xl lg:text-xl"
+                    fontWeight="font-medium"
+                    color="text-gray-800"
+                    className="leading-relaxed mb-4"
+                  />
                   
-                  <span className="text-xl font-medium text-red-600 block">
-                    {testimonials[currentSlide]?.author}
-                  </span>
+                  <Element
+                    id={`restaurant-testimonial-author-${currentSlide}`}
+                    is={Text}
+                    text={testimonials[currentSlide]?.author}
+                    tagName="span"
+                    fontSize="text-xl"
+                    fontWeight="font-medium"
+                    color="text-red-600"
+                    className="block"
+                  />
                 </div>
 
                 {/* Navigation Dots */}
@@ -132,8 +149,8 @@ export function RestaurantTestimonials1({
             </div>
           </div>
         </div>
-      </section>
-    </Resizer>
+      </Element>
+    </Element>
   );
 }
 
@@ -168,4 +185,5 @@ RestaurantTestimonials1.craft = {
     canMoveIn: () => true,
     canMoveOut: () => true,
   },
+  isCanvas: true,
 };

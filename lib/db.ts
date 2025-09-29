@@ -19,9 +19,16 @@ export interface Template {
   id: string
   name: string
   description: string
-  category: "landing" | "blog" | "ecommerce"
+  category: "landing" | "blog" | "ecommerce" | "healthcare" | "business" | "portfolio"
   thumbnail: string
   layout: any // Craft.js serialized state
+  featured?: boolean
+  pages: {
+    name: string
+    slug: string
+    layout: any
+    isHomePage: boolean
+  }[]
 }
 
 export interface Theme {
@@ -51,1531 +58,16 @@ export interface Theme {
   shadows: boolean
 }
 
-// Mock data storage
-let projects: Project[] = [
-  {
-    id: "1",
-    name: "My First Website",
-    createdAt: new Date("2024-01-01"),
-    updatedAt: new Date("2024-01-01"),
-    pages: [
-      {
-        id: "1",
-        projectId: "1",
-        name: "Home",
-        slug: "home",
-        layout: {
-    "ROOT": {
-        "type": {
-            "resolvedName": "Container"
-        },
-        "isCanvas": true,
-        "props": {},
-        "displayName": "Container",
-        "custom": {},
-        "hidden": false,
-        "nodes": [
-            "zS1sxNJuth",
-            "yR0IJIIqe_"
-        ],
-        "linkedNodes": {}
-    },
-    "zS1sxNJuth": {
-        "type": {
-            "resolvedName": "Hero1"
-        },
-        "isCanvas": false,
-        "props": {
-            "gradient": "linear-gradient(to right, #2563eb, #9333ea)",
-            "padding": "0",
-            "minHeight": "auto",
-            "overflow": "hidden",
-            "className": "text-white relative",
-            "hasOverlay": true,
-            "overlayColor": "#000000",
-            "overlayOpacity": "0.2",
-            "hasContentWrapper": true,
-            "contentMaxWidth": "7xl",
-            "contentPadding": "px-4 py-16 sm:px-6 sm:py-20 md:px-8 md:py-24 lg:px-8 lg:py-32"
-        },
-        "displayName": "Hero 1",
-        "custom": {},
-        "parent": "ROOT",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {
-            "heroContent": "x54PsjlJca"
-        }
-    },
-    "x54PsjlJca": {
-        "type": "div",
-        "isCanvas": true,
-        "props": {
-            "className": "text-center"
-        },
-        "displayName": "div",
-        "custom": {},
-        "parent": "zS1sxNJuth",
-        "hidden": false,
-        "nodes": [
-            "YYGuOy_Vb0",
-            "nG02RlxPIt",
-            "t0dStMJbuT"
-        ],
-        "linkedNodes": {}
-    },
-    "YYGuOy_Vb0": {
-        "type": "div",
-        "isCanvas": false,
-        "props": {
-            "className": "p-2 rounded"
-        },
-        "displayName": "div",
-        "custom": {},
-        "parent": "x54PsjlJca",
-        "hidden": false,
-        "nodes": [
-            "3kNS_QZ1ew"
-        ],
-        "linkedNodes": {}
-    },
-    "3kNS_QZ1ew": {
-        "type": "h1",
-        "isCanvas": false,
-        "props": {
-            "className": "text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 text-white leading-tight"
-        },
-        "displayName": "h1",
-        "custom": {},
-        "parent": "YYGuOy_Vb0",
-        "hidden": false,
-        "nodes": [
-            "Qes6S9scYf"
-        ],
-        "linkedNodes": {}
-    },
-    "Qes6S9scYf": {
-        "type": {
-            "resolvedName": "Text"
-        },
-        "isCanvas": false,
-        "props": {
-            "text": "Build Amazing Websites",
-            "fontSize": "",
-            "fontWeight": "",
-            "color": "",
-            "textAlign": "text-left",
-            "tagName": "span",
-            "margin": "",
-            "padding": "px-0 py-0"
-        },
-        "displayName": "Text",
-        "custom": {},
-        "parent": "3kNS_QZ1ew",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "nG02RlxPIt": {
-        "type": "div",
-        "isCanvas": false,
-        "props": {
-            "className": "p-2 rounded max-w-2xl sm:max-w-3xl mx-auto"
-        },
-        "displayName": "div",
-        "custom": {},
-        "parent": "x54PsjlJca",
-        "hidden": false,
-        "nodes": [
-            "AbXXDTv4_C"
-        ],
-        "linkedNodes": {}
-    },
-    "AbXXDTv4_C": {
-        "type": "p",
-        "isCanvas": false,
-        "props": {
-            "className": "text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 text-blue-100 leading-relaxed px-2"
-        },
-        "displayName": "p",
-        "custom": {},
-        "parent": "nG02RlxPIt",
-        "hidden": false,
-        "nodes": [
-            "3fdRfPUvhV"
-        ],
-        "linkedNodes": {}
-    },
-    "3fdRfPUvhV": {
-        "type": {
-            "resolvedName": "Text"
-        },
-        "isCanvas": false,
-        "props": {
-            "text": "Create stunning, professional websites with our powerful drag-and-drop builder. No coding required.",
-            "fontSize": "",
-            "fontWeight": "",
-            "color": "",
-            "textAlign": "text-left",
-            "tagName": "span",
-            "margin": "",
-            "padding": "px-0 py-0"
-        },
-        "displayName": "Text",
-        "custom": {},
-        "parent": "AbXXDTv4_C",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "t0dStMJbuT": {
-        "type": "div",
-        "isCanvas": true,
-        "props": {
-            "className": "flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center w-full max-w-md sm:max-w-none mx-auto"
-        },
-        "displayName": "div",
-        "custom": {},
-        "parent": "x54PsjlJca",
-        "hidden": false,
-        "nodes": [
-            "rlmdkeKgi4",
-            "XBA0bvV1AR"
-        ],
-        "linkedNodes": {}
-    },
-    "rlmdkeKgi4": {
-        "type": {
-            "resolvedName": "Button"
-        },
-        "isCanvas": false,
-        "props": {
-            "text": "Get Started Free",
-            "variant": "default",
-            "size": "lg",
-            "href": "#",
-            "target": "_self",
-            "backgroundColor": "#ffffff",
-            "textColor": "#2563eb",
-            "borderRadius": "8px",
-            "margin": "",
-            "padding": "px-6 py-3 sm:px-8 sm:py-3",
-            "width": "w-full sm:w-auto"
-        },
-        "displayName": "Button",
-        "custom": {},
-        "parent": "t0dStMJbuT",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "XBA0bvV1AR": {
-        "type": {
-            "resolvedName": "Button"
-        },
-        "isCanvas": false,
-        "props": {
-            "text": "Watch Demo",
-            "variant": "outline",
-            "size": "lg",
-            "href": "#",
-            "target": "_self",
-            "backgroundColor": "transparent",
-            "textColor": "#ffffff",
-            "borderRadius": "8px",
-            "margin": "",
-            "padding": "px-6 py-3 sm:px-8 sm:py-3",
-            "width": "w-full sm:w-auto"
-        },
-        "displayName": "Button",
-        "custom": {},
-        "parent": "t0dStMJbuT",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "yR0IJIIqe_": {
-        "type": {
-            "resolvedName": "Footer2"
-        },
-        "isCanvas": false,
-        "props": {
-            "backgroundColor": "#ffffff",
-            "padding": "32px",
-            "className": "border-t border-gray-200",
-            "hasContentWrapper": true,
-            "contentMaxWidth": "7xl",
-            "contentPadding": "px-4 sm:px-6 lg:px-8",
-            "backgroundImage": "",
-            "backgroundSize": "cover",
-            "backgroundPosition": "center",
-            "backgroundRepeat": "no-repeat",
-            "backgroundAttachment": "scroll",
-            "gradient": "",
-            "borderStyle": "solid",
-            "borderWidth": "0px",
-            "borderColor": "#e5e7eb",
-            "borderRadius": "0px",
-            "margin": "32px",
-            "width": "100%",
-            "height": "auto",
-            "minHeight": "200px",
-            "maxHeight": "none",
-            "boxShadow": "none",
-            "opacity": "1",
-            "overflow": "visible",
-            "hasOverlay": false,
-            "overlayColor": "#000000",
-            "overlayOpacity": "0.2"
-        },
-        "displayName": "Footer 2",
-        "custom": {},
-        "parent": "ROOT",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {
-            "footerContent": "eW2c3AGo3B"
-        }
-    },
-    "eW2c3AGo3B": {
-        "type": "div",
-        "isCanvas": true,
-        "props": {
-            "className": "space-y-12"
-        },
-        "displayName": "div",
-        "custom": {},
-        "parent": "yR0IJIIqe_",
-        "hidden": false,
-        "nodes": [
-            "OOAKXCGYBM",
-            "uSIe60g68E"
-        ],
-        "linkedNodes": {}
-    },
-    "OOAKXCGYBM": {
-        "type": "div",
-        "isCanvas": true,
-        "props": {
-            "className": "grid grid-cols-2 md:grid-cols-6 gap-8"
-        },
-        "displayName": "div",
-        "custom": {},
-        "parent": "eW2c3AGo3B",
-        "hidden": false,
-        "nodes": [
-            "Ofb66NqnR2",
-            "YM5lEm1xgD",
-            "sWMizycDc-",
-            "67dFmT4k2p",
-            "WZk5N4oBLA",
-            "2onDn_CHwP"
-        ],
-        "linkedNodes": {}
-    },
-    "Ofb66NqnR2": {
-        "type": "div",
-        "isCanvas": true,
-        "props": {
-            "className": "col-span-2 space-y-4"
-        },
-        "displayName": "div",
-        "custom": {},
-        "parent": "OOAKXCGYBM",
-        "hidden": false,
-        "nodes": [
-            "of9C7ssAt5",
-            "oHuwO_KdtN"
-        ],
-        "linkedNodes": {}
-    },
-    "of9C7ssAt5": {
-        "type": "div",
-        "isCanvas": false,
-        "props": {
-            "className": "flex items-center space-x-2"
-        },
-        "displayName": "div",
-        "custom": {},
-        "parent": "Ofb66NqnR2",
-        "hidden": false,
-        "nodes": [
-            "dr0pGtsSsq",
-            "VisAkB2GvR"
-        ],
-        "linkedNodes": {}
-    },
-    "dr0pGtsSsq": {
-        "type": "div",
-        "isCanvas": false,
-        "props": {
-            "className": "w-8 h-8 bg-blue-600 rounded-lg"
-        },
-        "displayName": "div",
-        "custom": {},
-        "parent": "of9C7ssAt5",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "VisAkB2GvR": {
-        "type": {
-            "resolvedName": "Text"
-        },
-        "isCanvas": false,
-        "props": {
-            "text": "WebBuilder",
-            "fontSize": "text-xl",
-            "fontWeight": "font-bold",
-            "color": "text-gray-900",
-            "textAlign": "text-left",
-            "tagName": "span",
-            "margin": "",
-            "padding": ""
-        },
-        "displayName": "Text",
-        "custom": {},
-        "parent": "of9C7ssAt5",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "oHuwO_KdtN": {
-        "type": "div",
-        "isCanvas": false,
-        "props": {
-            "className": "p-2 rounded"
-        },
-        "displayName": "div",
-        "custom": {},
-        "parent": "Ofb66NqnR2",
-        "hidden": false,
-        "nodes": [
-            "N5CMoSyifh"
-        ],
-        "linkedNodes": {}
-    },
-    "N5CMoSyifh": {
-        "type": {
-            "resolvedName": "Text"
-        },
-        "isCanvas": false,
-        "props": {
-            "text": "The easiest way to create professional websites without any coding knowledge.",
-            "fontSize": "text-base",
-            "fontWeight": "font-normal",
-            "color": "text-gray-600",
-            "textAlign": "text-left",
-            "tagName": "p",
-            "margin": "",
-            "padding": ""
-        },
-        "displayName": "Text",
-        "custom": {},
-        "parent": "oHuwO_KdtN",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "sWMizycDc-": {
-        "type": "div",
-        "isCanvas": true,
-        "props": {
-            "className": "space-y-4"
-        },
-        "displayName": "div",
-        "custom": {},
-        "parent": "OOAKXCGYBM",
-        "hidden": false,
-        "nodes": [
-            "rbD8aeJk2K",
-            "uP4IParl_x"
-        ],
-        "linkedNodes": {}
-    },
-    "rbD8aeJk2K": {
-        "type": {
-            "resolvedName": "Text"
-        },
-        "isCanvas": false,
-        "props": {
-            "text": "Platform",
-            "fontSize": "text-base",
-            "fontWeight": "font-semibold",
-            "color": "text-gray-900",
-            "textAlign": "text-left",
-            "tagName": "h3",
-            "margin": "mb-4",
-            "padding": ""
-        },
-        "displayName": "Text",
-        "custom": {},
-        "parent": "sWMizycDc-",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "uP4IParl_x": {
-        "type": "ul",
-        "isCanvas": true,
-        "props": {
-            "className": "space-y-2"
-        },
-        "displayName": "ul",
-        "custom": {},
-        "parent": "sWMizycDc-",
-        "hidden": false,
-        "nodes": [
-            "s8OaJo_3lR",
-            "K4AdiZ0CYr",
-            "uRMcHphQ2p"
-        ],
-        "linkedNodes": {}
-    },
-    "s8OaJo_3lR": {
-        "type": "li",
-        "isCanvas": false,
-        "props": {},
-        "displayName": "li",
-        "custom": {},
-        "parent": "uP4IParl_x",
-        "hidden": false,
-        "nodes": [
-            "PUnNFnDccS"
-        ],
-        "linkedNodes": {}
-    },
-    "PUnNFnDccS": {
-        "type": {
-            "resolvedName": "Link"
-        },
-        "isCanvas": false,
-        "props": {
-            "text": "Editor",
-            "href": "#",
-            "target": "_self",
-            "color": "text-gray-600 hover:text-gray-900",
-            "fontSize": "text-base",
-            "fontWeight": "font-normal",
-            "textDecoration": "no-underline",
-            "margin": "",
-            "padding": ""
-        },
-        "displayName": "Link",
-        "custom": {},
-        "parent": "s8OaJo_3lR",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "K4AdiZ0CYr": {
-        "type": "li",
-        "isCanvas": false,
-        "props": {},
-        "displayName": "li",
-        "custom": {},
-        "parent": "uP4IParl_x",
-        "hidden": false,
-        "nodes": [
-            "uNsm7D9EDj"
-        ],
-        "linkedNodes": {}
-    },
-    "uNsm7D9EDj": {
-        "type": {
-            "resolvedName": "Link"
-        },
-        "isCanvas": false,
-        "props": {
-            "text": "Templates",
-            "href": "#",
-            "target": "_self",
-            "color": "text-gray-600 hover:text-gray-900",
-            "fontSize": "text-base",
-            "fontWeight": "font-normal",
-            "textDecoration": "no-underline",
-            "margin": "",
-            "padding": ""
-        },
-        "displayName": "Link",
-        "custom": {},
-        "parent": "K4AdiZ0CYr",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "uRMcHphQ2p": {
-        "type": "li",
-        "isCanvas": false,
-        "props": {},
-        "displayName": "li",
-        "custom": {},
-        "parent": "uP4IParl_x",
-        "hidden": false,
-        "nodes": [
-            "ddCQuDtym6"
-        ],
-        "linkedNodes": {}
-    },
-    "ddCQuDtym6": {
-        "type": {
-            "resolvedName": "Link"
-        },
-        "isCanvas": false,
-        "props": {
-            "text": "Hosting",
-            "href": "#",
-            "target": "_self",
-            "color": "text-gray-600 hover:text-gray-900",
-            "fontSize": "text-base",
-            "fontWeight": "font-normal",
-            "textDecoration": "no-underline",
-            "margin": "",
-            "padding": ""
-        },
-        "displayName": "Link",
-        "custom": {},
-        "parent": "uRMcHphQ2p",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "67dFmT4k2p": {
-        "type": "div",
-        "isCanvas": true,
-        "props": {
-            "className": "space-y-4"
-        },
-        "displayName": "div",
-        "custom": {},
-        "parent": "OOAKXCGYBM",
-        "hidden": false,
-        "nodes": [
-            "_3UKHHNkaJ",
-            "uPza_hXpY0"
-        ],
-        "linkedNodes": {}
-    },
-    "_3UKHHNkaJ": {
-        "type": {
-            "resolvedName": "Text"
-        },
-        "isCanvas": false,
-        "props": {
-            "text": "Resources",
-            "fontSize": "text-base",
-            "fontWeight": "font-semibold",
-            "color": "text-gray-900",
-            "textAlign": "text-left",
-            "tagName": "h3",
-            "margin": "mb-4",
-            "padding": ""
-        },
-        "displayName": "Text",
-        "custom": {},
-        "parent": "67dFmT4k2p",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "uPza_hXpY0": {
-        "type": "ul",
-        "isCanvas": true,
-        "props": {
-            "className": "space-y-2"
-        },
-        "displayName": "ul",
-        "custom": {},
-        "parent": "67dFmT4k2p",
-        "hidden": false,
-        "nodes": [
-            "Skuc40MERv",
-            "Wnr2TKkGWA",
-            "RKQUdqC0lZ"
-        ],
-        "linkedNodes": {}
-    },
-    "Skuc40MERv": {
-        "type": "li",
-        "isCanvas": false,
-        "props": {},
-        "displayName": "li",
-        "custom": {},
-        "parent": "uPza_hXpY0",
-        "hidden": false,
-        "nodes": [
-            "sssHcIQTHG"
-        ],
-        "linkedNodes": {}
-    },
-    "sssHcIQTHG": {
-        "type": {
-            "resolvedName": "Link"
-        },
-        "isCanvas": false,
-        "props": {
-            "text": "Blog",
-            "href": "#",
-            "target": "_self",
-            "color": "text-gray-600 hover:text-gray-900",
-            "fontSize": "text-base",
-            "fontWeight": "font-normal",
-            "textDecoration": "no-underline",
-            "margin": "",
-            "padding": ""
-        },
-        "displayName": "Link",
-        "custom": {},
-        "parent": "Skuc40MERv",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "Wnr2TKkGWA": {
-        "type": "li",
-        "isCanvas": false,
-        "props": {},
-        "displayName": "li",
-        "custom": {},
-        "parent": "uPza_hXpY0",
-        "hidden": false,
-        "nodes": [
-            "N-xZBdrljz"
-        ],
-        "linkedNodes": {}
-    },
-    "N-xZBdrljz": {
-        "type": {
-            "resolvedName": "Link"
-        },
-        "isCanvas": false,
-        "props": {
-            "text": "Guides",
-            "href": "#",
-            "target": "_self",
-            "color": "text-gray-600 hover:text-gray-900",
-            "fontSize": "text-base",
-            "fontWeight": "font-normal",
-            "textDecoration": "no-underline",
-            "margin": "",
-            "padding": ""
-        },
-        "displayName": "Link",
-        "custom": {},
-        "parent": "Wnr2TKkGWA",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "RKQUdqC0lZ": {
-        "type": "li",
-        "isCanvas": false,
-        "props": {},
-        "displayName": "li",
-        "custom": {},
-        "parent": "uPza_hXpY0",
-        "hidden": false,
-        "nodes": [
-            "0FzGiAX2lx"
-        ],
-        "linkedNodes": {}
-    },
-    "0FzGiAX2lx": {
-        "type": {
-            "resolvedName": "Link"
-        },
-        "isCanvas": false,
-        "props": {
-            "text": "Help",
-            "href": "#",
-            "target": "_self",
-            "color": "text-gray-600 hover:text-gray-900",
-            "fontSize": "text-base",
-            "fontWeight": "font-normal",
-            "textDecoration": "no-underline",
-            "margin": "",
-            "padding": ""
-        },
-        "displayName": "Link",
-        "custom": {},
-        "parent": "RKQUdqC0lZ",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "WZk5N4oBLA": {
-        "type": "div",
-        "isCanvas": true,
-        "props": {
-            "className": "space-y-4"
-        },
-        "displayName": "div",
-        "custom": {},
-        "parent": "OOAKXCGYBM",
-        "hidden": false,
-        "nodes": [
-            "fgwWjhdJLf",
-            "Iws89otNgy"
-        ],
-        "linkedNodes": {}
-    },
-    "fgwWjhdJLf": {
-        "type": {
-            "resolvedName": "Text"
-        },
-        "isCanvas": false,
-        "props": {
-            "text": "Company",
-            "fontSize": "text-base",
-            "fontWeight": "font-semibold",
-            "color": "text-gray-900",
-            "textAlign": "text-left",
-            "tagName": "h3",
-            "margin": "mb-4",
-            "padding": ""
-        },
-        "displayName": "Text",
-        "custom": {},
-        "parent": "WZk5N4oBLA",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "Iws89otNgy": {
-        "type": "ul",
-        "isCanvas": true,
-        "props": {
-            "className": "space-y-2"
-        },
-        "displayName": "ul",
-        "custom": {},
-        "parent": "WZk5N4oBLA",
-        "hidden": false,
-        "nodes": [
-            "quOBoNVyqx",
-            "lp15NaCDWm",
-            "_JGUxwl9O8"
-        ],
-        "linkedNodes": {}
-    },
-    "quOBoNVyqx": {
-        "type": "li",
-        "isCanvas": false,
-        "props": {},
-        "displayName": "li",
-        "custom": {},
-        "parent": "Iws89otNgy",
-        "hidden": false,
-        "nodes": [
-            "bkechsjCbJ"
-        ],
-        "linkedNodes": {}
-    },
-    "bkechsjCbJ": {
-        "type": {
-            "resolvedName": "Link"
-        },
-        "isCanvas": false,
-        "props": {
-            "text": "About",
-            "href": "#",
-            "target": "_self",
-            "color": "text-gray-600 hover:text-gray-900",
-            "fontSize": "text-base",
-            "fontWeight": "font-normal",
-            "textDecoration": "no-underline",
-            "margin": "",
-            "padding": ""
-        },
-        "displayName": "Link",
-        "custom": {},
-        "parent": "quOBoNVyqx",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "lp15NaCDWm": {
-        "type": "li",
-        "isCanvas": false,
-        "props": {},
-        "displayName": "li",
-        "custom": {},
-        "parent": "Iws89otNgy",
-        "hidden": false,
-        "nodes": [
-            "Tge78SYo7v"
-        ],
-        "linkedNodes": {}
-    },
-    "Tge78SYo7v": {
-        "type": {
-            "resolvedName": "Link"
-        },
-        "isCanvas": false,
-        "props": {
-            "text": "Careers",
-            "href": "#",
-            "target": "_self",
-            "color": "text-gray-600 hover:text-gray-900",
-            "fontSize": "text-base",
-            "fontWeight": "font-normal",
-            "textDecoration": "no-underline",
-            "margin": "",
-            "padding": ""
-        },
-        "displayName": "Link",
-        "custom": {},
-        "parent": "lp15NaCDWm",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "_JGUxwl9O8": {
-        "type": "li",
-        "isCanvas": false,
-        "props": {},
-        "displayName": "li",
-        "custom": {},
-        "parent": "Iws89otNgy",
-        "hidden": false,
-        "nodes": [
-            "1tHhGnT145"
-        ],
-        "linkedNodes": {}
-    },
-    "1tHhGnT145": {
-        "type": {
-            "resolvedName": "Link"
-        },
-        "isCanvas": false,
-        "props": {
-            "text": "Contact",
-            "href": "#",
-            "target": "_self",
-            "color": "text-gray-600 hover:text-gray-900",
-            "fontSize": "text-base",
-            "fontWeight": "font-normal",
-            "textDecoration": "no-underline",
-            "margin": "",
-            "padding": ""
-        },
-        "displayName": "Link",
-        "custom": {},
-        "parent": "_JGUxwl9O8",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "2onDn_CHwP": {
-        "type": "div",
-        "isCanvas": true,
-        "props": {
-            "className": "space-y-4"
-        },
-        "displayName": "div",
-        "custom": {},
-        "parent": "OOAKXCGYBM",
-        "hidden": false,
-        "nodes": [
-            "tb5Zvc7W1e",
-            "XbdsBlQ6wy"
-        ],
-        "linkedNodes": {}
-    },
-    "tb5Zvc7W1e": {
-        "type": {
-            "resolvedName": "Text"
-        },
-        "isCanvas": false,
-        "props": {
-            "text": "Legal",
-            "fontSize": "text-base",
-            "fontWeight": "font-semibold",
-            "color": "text-gray-900",
-            "textAlign": "text-left",
-            "tagName": "h3",
-            "margin": "mb-4",
-            "padding": ""
-        },
-        "displayName": "Text",
-        "custom": {},
-        "parent": "2onDn_CHwP",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "XbdsBlQ6wy": {
-        "type": "ul",
-        "isCanvas": true,
-        "props": {
-            "className": "space-y-2"
-        },
-        "displayName": "ul",
-        "custom": {},
-        "parent": "2onDn_CHwP",
-        "hidden": false,
-        "nodes": [
-            "QL7Y_1nWzO",
-            "pgSPQUHRGQ",
-            "Atr3UDNdRH"
-        ],
-        "linkedNodes": {}
-    },
-    "QL7Y_1nWzO": {
-        "type": "li",
-        "isCanvas": false,
-        "props": {},
-        "displayName": "li",
-        "custom": {},
-        "parent": "XbdsBlQ6wy",
-        "hidden": false,
-        "nodes": [
-            "4hchAAR4TD"
-        ],
-        "linkedNodes": {}
-    },
-    "4hchAAR4TD": {
-        "type": {
-            "resolvedName": "Link"
-        },
-        "isCanvas": false,
-        "props": {
-            "text": "Privacy",
-            "href": "#",
-            "target": "_self",
-            "color": "text-gray-600 hover:text-gray-900",
-            "fontSize": "text-base",
-            "fontWeight": "font-normal",
-            "textDecoration": "no-underline",
-            "margin": "",
-            "padding": ""
-        },
-        "displayName": "Link",
-        "custom": {},
-        "parent": "QL7Y_1nWzO",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "pgSPQUHRGQ": {
-        "type": "li",
-        "isCanvas": false,
-        "props": {},
-        "displayName": "li",
-        "custom": {},
-        "parent": "XbdsBlQ6wy",
-        "hidden": false,
-        "nodes": [
-            "zlh1w0BDHd"
-        ],
-        "linkedNodes": {}
-    },
-    "zlh1w0BDHd": {
-        "type": {
-            "resolvedName": "Link"
-        },
-        "isCanvas": false,
-        "props": {
-            "text": "Terms",
-            "href": "#",
-            "target": "_self",
-            "color": "text-gray-600 hover:text-gray-900",
-            "fontSize": "text-base",
-            "fontWeight": "font-normal",
-            "textDecoration": "no-underline",
-            "margin": "",
-            "padding": ""
-        },
-        "displayName": "Link",
-        "custom": {},
-        "parent": "pgSPQUHRGQ",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "Atr3UDNdRH": {
-        "type": "li",
-        "isCanvas": false,
-        "props": {},
-        "displayName": "li",
-        "custom": {},
-        "parent": "XbdsBlQ6wy",
-        "hidden": false,
-        "nodes": [
-            "tC6wG4hgyd"
-        ],
-        "linkedNodes": {}
-    },
-    "tC6wG4hgyd": {
-        "type": {
-            "resolvedName": "Link"
-        },
-        "isCanvas": false,
-        "props": {
-            "text": "Security",
-            "href": "#",
-            "target": "_self",
-            "color": "text-gray-600 hover:text-gray-900",
-            "fontSize": "text-base",
-            "fontWeight": "font-normal",
-            "textDecoration": "no-underline",
-            "margin": "",
-            "padding": ""
-        },
-        "displayName": "Link",
-        "custom": {},
-        "parent": "Atr3UDNdRH",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "uSIe60g68E": {
-        "type": "div",
-        "isCanvas": true,
-        "props": {
-            "className": "border-t border-gray-200 pt-8 flex flex-col sm:flex-row justify-between items-center"
-        },
-        "displayName": "div",
-        "custom": {},
-        "parent": "eW2c3AGo3B",
-        "hidden": false,
-        "nodes": [
-            "c9ROkC3RUQ",
-            "oUumGXaDXB"
-        ],
-        "linkedNodes": {}
-    },
-    "c9ROkC3RUQ": {
-        "type": "div",
-        "isCanvas": false,
-        "props": {
-            "className": "p-2 rounded"
-        },
-        "displayName": "div",
-        "custom": {},
-        "parent": "uSIe60g68E",
-        "hidden": false,
-        "nodes": [
-            "qH0po5bnXE"
-        ],
-        "linkedNodes": {}
-    },
-    "qH0po5bnXE": {
-        "type": {
-            "resolvedName": "Text"
-        },
-        "isCanvas": false,
-        "props": {
-            "text": "© 2024 WebBuilder Inc. All rights reserved.",
-            "fontSize": "text-sm",
-            "fontWeight": "font-normal",
-            "color": "text-gray-500",
-            "textAlign": "text-left",
-            "tagName": "p",
-            "margin": "",
-            "padding": ""
-        },
-        "displayName": "Text",
-        "custom": {},
-        "parent": "c9ROkC3RUQ",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "oUumGXaDXB": {
-        "type": "div",
-        "isCanvas": true,
-        "props": {
-            "className": "flex space-x-6 mt-4 sm:mt-0"
-        },
-        "displayName": "div",
-        "custom": {},
-        "parent": "uSIe60g68E",
-        "hidden": false,
-        "nodes": [
-            "SvOyk4DBEs",
-            "S2zWwCQ7Bx"
-        ],
-        "linkedNodes": {}
-    },
-    "SvOyk4DBEs": {
-        "type": {
-            "resolvedName": "Link"
-        },
-        "isCanvas": false,
-        "props": {
-            "text": "Facebook",
-            "href": "#",
-            "target": "_self",
-            "color": "text-gray-400 hover:text-gray-500",
-            "fontSize": "text-base",
-            "fontWeight": "font-normal",
-            "textDecoration": "no-underline",
-            "margin": "",
-            "padding": ""
-        },
-        "displayName": "Link",
-        "custom": {},
-        "parent": "oUumGXaDXB",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "S2zWwCQ7Bx": {
-        "type": {
-            "resolvedName": "Link"
-        },
-        "isCanvas": false,
-        "props": {
-            "text": "Twitter",
-            "href": "#",
-            "target": "_self",
-            "color": "text-gray-400 hover:text-gray-500",
-            "fontSize": "text-base",
-            "fontWeight": "font-normal",
-            "textDecoration": "no-underline",
-            "margin": "",
-            "padding": ""
-        },
-        "displayName": "Link",
-        "custom": {},
-        "parent": "oUumGXaDXB",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    },
-    "YM5lEm1xgD": {
-        "type": {
-            "resolvedName": "Spacer"
-        },
-        "isCanvas": false,
-        "props": {
-            "height": "h-8",
-            "backgroundColor": "bg-transparent",
-            "margin": "my-0"
-        },
-        "displayName": "Spacer",
-        "custom": {},
-        "parent": "OOAKXCGYBM",
-        "hidden": false,
-        "nodes": [],
-        "linkedNodes": {}
-    }
-},
-        // layout:null,
-        // layout: {
-        //   ROOT: {
-        //     type: { resolvedName: "Container" },
-        //     isCanvas: true,
-        //     props: {},
-        //     displayName: "Container",
-        //     custom: {},
-        //     hidden: false,
-        //     nodes: ["hero-sample", "features-sample"],
-        //     linkedNodes: {},
-        //   },
-        //   "hero-sample": {
-        //     type: { resolvedName: "Hero1" },
-        //     isCanvas: false,
-        //     props: {},
-        //     displayName: "Hero",
-        //     custom: {},
-        //     parent: "ROOT",
-        //     hidden: false,
-        //     nodes: [],
-        //     linkedNodes: {},
-        //   },
-        //   "features-sample": {
-        //     type: { resolvedName: "Features1" },
-        //     isCanvas: false,
-        //     props: {},
-        //     displayName: "Features",
-        //     custom: {},
-        //     parent: "ROOT",
-        //     hidden: false,
-        //     nodes: [],
-        //     linkedNodes: {},
-        //   },
-        // },
-        isHomePage: true,
-      },
-      {
-        id: "2",
-        projectId: "1",
-        name: "About Us",
-        slug: "about",
-        layout: {
-          ROOT: {
-            type: { resolvedName: "Container" },
-            isCanvas: true,
-            props: {},
-            displayName: "Container",
-            custom: {},
-            hidden: false,
-            nodes: ["about-hero", "about-team"],
-            linkedNodes: {},
-          },
-          "about-hero": {
-            type: { resolvedName: "PageHeader1" },
-            isCanvas: false,
-            props: {},
-            displayName: "Page Header",
-            custom: {},
-            parent: "ROOT",
-            hidden: false,
-            nodes: [],
-            linkedNodes: {},
-          },
-          "about-team": {
-            type: { resolvedName: "Team1" },
-            isCanvas: false,
-            props: {},
-            displayName: "Team",
-            custom: {},
-            parent: "ROOT",
-            hidden: false,
-            nodes: [],
-            linkedNodes: {},
-          },
-        },
-        isHomePage: false,
-      },
-      {
-        id: "3",
-        projectId: "1",
-        name: "Contact",
-        slug: "contact",
-        layout: {
-          ROOT: {
-            type: { resolvedName: "Container" },
-            isCanvas: true,
-            props: {},
-            displayName: "Container",
-            custom: {},
-            hidden: false,
-            nodes: ["contact-header", "contact-form"],
-            linkedNodes: {},
-          },
-          "contact-header": {
-            type: { resolvedName: "PageHeader2" },
-            isCanvas: false,
-            props: {},
-            displayName: "Page Header",
-            custom: {},
-            parent: "ROOT",
-            hidden: false,
-            nodes: [],
-            linkedNodes: {},
-          },
-          "contact-form": {
-            type: { resolvedName: "Contact1" },
-            isCanvas: false,
-            props: {},
-            displayName: "Contact Form",
-            custom: {},
-            parent: "ROOT",
-            hidden: false,
-            nodes: [],
-            linkedNodes: {},
-          },
-        },
-        isHomePage: false,
-      },
-      {
-        id: "4",
-        projectId: "1",
-        name: "Blog",
-        slug: "blog",
-        layout: {
-          ROOT: {
-            type: { resolvedName: "Container" },
-            isCanvas: true,
-            props: {},
-            displayName: "Container",
-            custom: {},
-            hidden: false,
-            nodes: ["blog-header", "blog-grid"],
-            linkedNodes: {},
-          },
-          "blog-header": {
-            type: { resolvedName: "PageHeader3" },
-            isCanvas: false,
-            props: {},
-            displayName: "Page Header",
-            custom: {},
-            parent: "ROOT",
-            hidden: false,
-            nodes: [],
-            linkedNodes: {},
-          },
-          "blog-grid": {
-            type: { resolvedName: "BlogGrid1" },
-            isCanvas: false,
-            props: {},
-            displayName: "Blog Grid",
-            custom: {},
-            parent: "ROOT",
-            hidden: false,
-            nodes: [],
-            linkedNodes: {},
-          },
-        },
-        isHomePage: false,
-      },
-      {
-        id: "5",
-        projectId: "1",
-        name: "Blog Post",
-        slug: "blog-post",
-        layout: {
-          ROOT: {
-            type: { resolvedName: "Container" },
-            isCanvas: true,
-            props: {},
-            displayName: "Container",
-            custom: {},
-            hidden: false,
-            nodes: ["post-content"],
-            linkedNodes: {},
-          },
-          "post-content": {
-            type: { resolvedName: "BlogContent1" },
-            isCanvas: false,
-            props: {},
-            displayName: "Blog Content",
-            custom: {},
-            parent: "ROOT",
-            hidden: false,
-            nodes: [],
-            linkedNodes: {},
-          },
-        },
-        isHomePage: false,
-      },
-      {
-        id: "6",
-        projectId: "1",
-        name: "Products",
-        slug: "products",
-        layout: {
-          ROOT: {
-            type: { resolvedName: "Container" },
-            isCanvas: true,
-            props: {},
-            displayName: "Container",
-            custom: {},
-            hidden: false,
-            nodes: ["products-header", "products-grid"],
-            linkedNodes: {},
-          },
-          "products-header": {
-            type: { resolvedName: "PageHeader4" },
-            isCanvas: false,
-            props: {},
-            displayName: "Page Header",
-            custom: {},
-            parent: "ROOT",
-            hidden: false,
-            nodes: [],
-            linkedNodes: {},
-          },
-          "products-grid": {
-            type: { resolvedName: "Products1" },
-            isCanvas: false,
-            props: {},
-            displayName: "Products",
-            custom: {},
-            parent: "ROOT",
-            hidden: false,
-            nodes: [],
-            linkedNodes: {},
-          },
-        },
-        isHomePage: false,
-      },
-      {
-        id: "7",
-        projectId: "1",
-        name: "Product Detail",
-        slug: "product-detail",
-        layout: {
-          ROOT: {
-            type: { resolvedName: "Container" },
-            isCanvas: true,
-            props: {},
-            displayName: "Container",
-            custom: {},
-            hidden: false,
-            nodes: ["product-details"],
-            linkedNodes: {},
-          },
-          "product-details": {
-            type: { resolvedName: "ProductDetails1" },
-            isCanvas: false,
-            props: {},
-            displayName: "Product Details",
-            custom: {},
-            parent: "ROOT",
-            hidden: false,
-            nodes: [],
-            linkedNodes: {},
-          },
-        },
-        isHomePage: false,
-      },
-      {
-        id: "8",
-        projectId: "1",
-        name: "Pricing",
-        slug: "pricing",
-        layout: {
-          ROOT: {
-            type: { resolvedName: "Container" },
-            isCanvas: true,
-            props: {},
-            displayName: "Container",
-            custom: {},
-            hidden: false,
-            nodes: ["pricing-header", "pricing-table"],
-            linkedNodes: {},
-          },
-          "pricing-header": {
-            type: { resolvedName: "PageHeader5" },
-            isCanvas: false,
-            props: {},
-            displayName: "Page Header",
-            custom: {},
-            parent: "ROOT",
-            hidden: false,
-            nodes: [],
-            linkedNodes: {},
-          },
-          "pricing-table": {
-            type: { resolvedName: "Pricing1" },
-            isCanvas: false,
-            props: {},
-            displayName: "Pricing",
-            custom: {},
-            parent: "ROOT",
-            hidden: false,
-            nodes: [],
-            linkedNodes: {},
-          },
-        },
-        isHomePage: false,
-      },
-    ],
-  },
-]
 
 const templates: Template[] = [
   {
-    id: "1",
-    name: "Modern Landing Page",
-    description: "Clean and modern landing page template perfect for SaaS and tech companies",
-    category: "landing",
+    id: "elder-care",
+    name: "Elder Care Website",
+    description: "Complete elder care website template with multiple pages including home, about, services, blog, and contact",
+    category: "healthcare",
     thumbnail: "/placeholder.svg?height=200&width=300",
-    layout: {
+    featured: true,
+    layout: JSON.stringify({
       ROOT: {
         type: { resolvedName: "Container" },
         isCanvas: true,
@@ -1583,727 +75,877 @@ const templates: Template[] = [
         displayName: "Container",
         custom: {},
         hidden: false,
-        nodes: ["hero-1", "features-1", "cta-1", "footer-1"],
+        nodes: ["home-page"],
         linkedNodes: {},
       },
-      "hero-1": {
-        type: { resolvedName: "Hero1" },
+      "home-page": {
+        type: { resolvedName: "Page" },
         isCanvas: false,
-        props: {},
-        displayName: "Hero",
+        props: {
+          pageSlug: "home",
+          isHomePage: true
+        },
+        displayName: "Home Page",
         custom: {},
         parent: "ROOT",
         hidden: false,
         nodes: [],
         linkedNodes: {},
+      }
+    }),
+    pages: [
+      {
+        name: "Home",
+        slug: "home",
+        layout: JSON.stringify({
+          ROOT: {
+            type: { resolvedName: "Container" },
+            isCanvas: true,
+            props: {},
+            displayName: "Container",
+            custom: {},
+            hidden: false,
+            nodes: [
+              "elder-care-header",
+              "elder-care-hero",
+              "elder-care-features", 
+              "elder-care-about",
+              "elder-care-timeline",
+              "elder-care-services",
+              "elder-care-video",
+              "elder-care-faq",
+              "elder-care-blog",
+              "elder-care-footer"
+            ],
+            linkedNodes: {},
+          },
+          "elder-care-header": {
+            type: { resolvedName: "HeaderWrapper" },
+            isCanvas: false,
+            props: {
+              logoText: "Elder Care",
+              logoUrl: "https://placehold.co/150x50/4f46e5/ffffff?text=Elder+Care",
+              backgroundColor: "#ffffff",
+              textColor: "#1f2937",
+              logoSize: "medium",
+              navigationItems: [
+                { id: "home", label: "Home", href: "/" },
+                { id: "about", label: "About", href: "/about" },
+                { id: "services", label: "Services", href: "/services" },
+                { id: "moments", label: "Moments", href: "/moments-of-care" },
+                { id: "blog", label: "Blog", href: "/blog" },
+                { id: "contact", label: "Contact", href: "/contact" }
+              ],
+              flexDirection: "row",
+              gap: "gap-8",
+              justifyContent: "between",
+              alignItems: "center",
+              padding: "px-6 py-4",
+              margin: "mb-0"
+            },
+            displayName: "Elder Care Header",
+            custom: {},
+            parent: "ROOT",
+            hidden: false,
+            nodes: [],
+            linkedNodes: {},
+          },
+          "elder-care-hero": {
+            type: { resolvedName: "ElderCareHero1" },
+            isCanvas: false,
+            props: {
+              backgroundImage: "https://placehold.co/1920x1080/4f46e5/ffffff?text=Elder+Care+Hero",
+              title: "Welcome to our home.",
+              subtitle: "#1 Care for your loved ones",
+              description: "Our elder care services go beyond the traditional scope of nursing offering personalized support.",
+              primaryButtonText: "Get a free care",
+              primaryButtonLink: "#services",
+              secondaryButtonText: "Ask questions?",
+              secondaryButtonLink: "#contact",
+              statsText: "500+ Volunteers - Register as volunteers?",
+              statsLink: "#volunteer"
+            },
+            displayName: "Elder Care Hero",
+            custom: {},
+            parent: "ROOT",
+            hidden: false,
+            nodes: [],
+            linkedNodes: {},
+          },
+          "elder-care-features": {
+            type: { resolvedName: "ElderCareFeatures1" },
+            isCanvas: false,
+            props: {
+              backgroundColor: "#1f2937",
+              title: "Need some help?",
+              subtitle: "Call now: 1 800 222 000",
+              description: "Your generosity in whatever form it takes is deeply appreciated. Each act of kindness from you has a profound impact.",
+              buttonText: "Support us",
+              buttonLink: "#support"
+            },
+            displayName: "Elder Care Features",
+            custom: {},
+            parent: "ROOT",
+            hidden: false,
+            nodes: [],
+            linkedNodes: {},
+          },
+          "elder-care-about": {
+            type: { resolvedName: "ElderCareAbout1" },
+            isCanvas: false,
+            props: {
+              subtitle: "# Happy elder care",
+              title: "Provides the best services for you.",
+              description: "The place we call home is the place that feels most comfortable. A sense of home can especially.",
+              features: [
+                {
+                  title: "Professional care",
+                  description: "The place we call home is the place that feels most comfortable. A sense of home can especially."
+                },
+                {
+                  title: "Affordable price", 
+                  description: "There is no higher praise for us than the smile of happy patient, the thanks of engaged resident."
+                }
+              ],
+              buttonText: "Discover more",
+              buttonLink: "#about",
+              phoneText: "Call Anytime",
+              phoneNumber: "1 800 222 000"
+            },
+            displayName: "Elder Care About",
+            custom: {},
+            parent: "ROOT",
+            hidden: false,
+            nodes: [],
+            linkedNodes: {},
+          },
+          "elder-care-timeline": {
+            type: { resolvedName: "ElderCareTimeline1" },
+            isCanvas: false,
+            props: {
+              backgroundImage: "https://placehold.co/1920x700/3b82f6/ffffff?text=Timeline+Background",
+              title: "Donated money counts.",
+              subtitle: "Lorem ipsum dolor sit amet consectetur adipiscing.",
+              totalAmount: "$175,990",
+              totalDescription: "Collected in the many years",
+              timelineItems: [
+                { year: "1998", amount: "10k", description: "Total collected this year" },
+                { year: "2008", amount: "18k", description: "Total collected this year" },
+                { year: "2014", amount: "23k", description: "Total collected this year" },
+                { year: "2017", amount: "32k", description: "Total collected this year" },
+                { year: "2022", amount: "39k", description: "Total collected this year" },
+                { year: "2024", amount: "42k", description: "Total collected this year" }
+              ]
+            },
+            displayName: "Elder Care Timeline",
+            custom: {},
+            parent: "ROOT",
+            hidden: false,
+            nodes: [],
+            linkedNodes: {},
+          },
+          "elder-care-services": {
+            type: { resolvedName: "ElderCareServices1" },
+            isCanvas: false,
+            props: {
+              subtitle: "# Rise your hand",
+              title: "Our hospitality",
+              description: "Lorem ipsum is simply dummy text of the printing and typesetting industry lorem ipsum has been the industry's standard dummy text.",
+              services: [
+                {
+                  title: "Health facilities",
+                  description: "If you are going to use a passage lorem ipsum you need anything consectetur eiusm is tempor.",
+                  image: "https://placehold.co/600x400/10b981/ffffff?text=Health+Facilities",
+                  link: "#health-facilities"
+                },
+                {
+                  title: "Personal care",
+                  description: "If you are going to use a passage lorem ipsum you need anything consectetur eiusm is tempor.",
+                  image: "https://placehold.co/600x400/3b82f6/ffffff?text=Personal+Care",
+                  link: "#personal-care"
+                },
+                {
+                  title: "Medical checkup",
+                  description: "If you are going to use a passage lorem ipsum you need anything consectetur eiusm is tempor.",
+                  image: "https://placehold.co/600x400/f59e0b/ffffff?text=Medical+Checkup",
+                  link: "#medical-checkup"
+                },
+                {
+                  title: "Health consultation",
+                  description: "If you are going to use a passage lorem ipsum you need anything consectetur eiusm is tempor.",
+                  image: "https://placehold.co/600x400/ef4444/ffffff?text=Health+Consultation",
+                  link: "#health-consultation"
+                },
+                {
+                  title: "Skilled nursing",
+                  description: "If you are going to use a passage lorem ipsum you need anything consectetur eiusm is tempor.",
+                  image: "https://placehold.co/600x400/8b5cf6/ffffff?text=Skilled+Nursing",
+                  link: "#skilled-nursing"
+                },
+                {
+                  title: "Eldery nutrition",
+                  description: "If you are going to use a passage lorem ipsum you need anything consectetur eiusm is tempor.",
+                  image: "https://placehold.co/600x400/06b6d4/ffffff?text=Eldery+Nutrition",
+                  link: "#elderly-nutrition"
+                }
+              ]
+            },
+            displayName: "Elder Care Services",
+            custom: {},
+            parent: "ROOT",
+            hidden: false,
+            nodes: [],
+            linkedNodes: {},
+          },
+          "elder-care-video": {
+            type: { resolvedName: "ElderCareVideo1" },
+            isCanvas: false,
+            props: {
+              backgroundImage: "https://placehold.co/1920x700/1f2937/ffffff?text=Video+Background",
+              videoUrl: "https://www.youtube.com/watch?v=cfXHhfNy7tU",
+              playButtonText: "Play"
+            },
+            displayName: "Elder Care Video",
+            custom: {},
+            parent: "ROOT",
+            hidden: false,
+            nodes: [],
+            linkedNodes: {},
+          },
+          "elder-care-faq": {
+            type: { resolvedName: "ElderCareFAQ1" },
+            isCanvas: false,
+            props: {
+              subtitle: "# Frequently asked questions",
+              title: "A short brief of with our senior citizens.",
+              supportText: "Expert support available 24/7.",
+              faqs: [
+                {
+                  question: "What is senior living?",
+                  answer: "There are many variations of passages lorem ipsum available, but the majority have suffered alteration some form, injected humour, words which don't look even slightly believable."
+                },
+                {
+                  question: "How much does senior living cost?",
+                  answer: "There are many variations of passages lorem ipsum available, but the majority have suffered alteration some form, injected humour, words which don't look even slightly believable."
+                },
+                {
+                  question: "Is transportation available?",
+                  answer: "There are many variations of passages lorem ipsum available, but the majority have suffered alteration some form, injected humour, words which don't look even slightly believable."
+                }
+              ]
+            },
+            displayName: "Elder Care FAQ",
+            custom: {},
+            parent: "ROOT",
+            hidden: false,
+            nodes: [],
+            linkedNodes: {},
+          },
+          "elder-care-blog": {
+            type: { resolvedName: "ElderCareBlog1" },
+            isCanvas: false,
+            props: {
+              subtitle: "# Latest news",
+              title: "Top care articles",
+              buttonText: "Read articles",
+              buttonLink: "#blog",
+              posts: [
+                {
+                  title: "Beautiful with senior person",
+                  description: "Lorem ipsum is simply dummy text printing typesetting industry.",
+                  image: "https://placehold.co/600x430/10b981/ffffff?text=Senior+Person",
+                  category: "Health",
+                  date: "30 August 2024",
+                  author: "Den viliamson",
+                  likes: 25,
+                  link: "#blog-post-1"
+                },
+                {
+                  title: "Always happy and satisfied",
+                  description: "Lorem ipsum is simply dummy text printing typesetting industry.",
+                  image: "https://placehold.co/600x430/3b82f6/ffffff?text=Happy+Senior",
+                  category: "Care",
+                  date: "28 August 2024",
+                  author: "Hugh macleod",
+                  likes: 54,
+                  link: "#blog-post-2"
+                },
+                {
+                  title: "Good to talk & feel creative",
+                  description: "Lorem ipsum is simply dummy text printing typesetting industry.",
+                  image: "https://placehold.co/600x430/f59e0b/ffffff?text=Creative+Senior",
+                  category: "Bliss",
+                  date: "26 August 2024",
+                  author: "Walton smith",
+                  likes: 42,
+                  link: "#blog-post-3"
+                }
+              ]
+            },
+            displayName: "Elder Care Blog",
+            custom: {},
+            parent: "ROOT",
+            hidden: false,
+            nodes: [],
+            linkedNodes: {},
+          },
+          "elder-care-footer": {
+            type: { resolvedName: "ElderCareFooter1" },
+            isCanvas: false,
+            props: {
+              backgroundImage: "https://placehold.co/1920x400/1f2937/ffffff?text=Footer+Background",
+              title: "Need any consultations for senior caring please contact us.",
+              phoneButtonText: "Call us - 1 800 222 000",
+              contactButtonText: "Contact us",
+              phoneNumber: "1 800 222 000",
+              email: "info@domain.com",
+              logo: "https://placehold.co/150x50/ffffff/000000?text=Elder+Care",
+              risingMoney: "$90,320",
+              careTypes: [
+                "Senior citizen",
+                "Residential care", 
+                "Skilled nursing",
+                "Personal care"
+              ],
+              donationText: "Your donation supports mission cause. Every contribution matters, enabling us to goal.",
+              newsletterTitle: "Subscribe our newsletter",
+              newsletterDescription: "Subscribe our newsletter to get the latest news and updates.",
+              copyright: "© 2025 Crafto is Proudly Powered by ThemeZaa"
+            },
+            displayName: "Elder Care Footer",
+            custom: {},
+            parent: "ROOT",
+            hidden: false,
+            nodes: [],
+            linkedNodes: {},
+          }
+        }),
+        isHomePage: true
       },
-      "features-1": {
-        type: { resolvedName: "Features1" },
-        isCanvas: false,
-        props: {},
-        displayName: "Features",
-        custom: {},
-        parent: "ROOT",
-        hidden: false,
-        nodes: [],
-        linkedNodes: {},
+      {
+        name: "About",
+        slug: "about",
+        layout: JSON.stringify({
+          ROOT: {
+            type: { resolvedName: "Container" },
+            isCanvas: true,
+            props: {},
+            displayName: "Container",
+            custom: {},
+            hidden: false,
+            nodes: [
+              "elder-care-about-header",
+              "elder-care-about-hero",
+              "elder-care-about-content",
+              "elder-care-team",
+              "elder-care-values",
+              "elder-care-footer"
+            ],
+            linkedNodes: {},
+          },
+          "elder-care-about-header": {
+            type: { resolvedName: "HeaderWrapper" },
+            isCanvas: false,
+            props: {
+              logoText: "Elder Care",
+              logoUrl: "https://placehold.co/150x50/4f46e5/ffffff?text=Elder+Care",
+              backgroundColor: "#ffffff",
+              textColor: "#1f2937",
+              logoSize: "medium",
+              navigationItems: [
+                { id: "home", label: "Home", href: "/" },
+                { id: "about", label: "About", href: "/about" },
+                { id: "services", label: "Services", href: "/services" },
+                { id: "moments", label: "Moments", href: "/moments-of-care" },
+                { id: "blog", label: "Blog", href: "/blog" },
+                { id: "contact", label: "Contact", href: "/contact" }
+              ],
+              flexDirection: "row",
+              gap: "gap-8",
+              justifyContent: "between",
+              alignItems: "center",
+              padding: "px-6 py-4",
+              margin: "mb-0"
+            },
+            displayName: "Elder Care Header",
+            custom: {},
+            parent: "ROOT",
+            hidden: false,
+            nodes: [],
+            linkedNodes: {},
+          },
+          "elder-care-about-hero": {
+            type: { resolvedName: "ElderCareAbout1" },
+            isCanvas: false,
+            props: {
+              subtitle: "# About Us",
+              title: "Dedicated to providing exceptional elder care services.",
+              description: "We are committed to ensuring the comfort, dignity, and well-being of our senior residents through compassionate care and professional services.",
+              features: [
+                {
+                  title: "Experienced Team",
+                  description: "Our staff consists of highly trained professionals with years of experience in elder care."
+                },
+                {
+                  title: "24/7 Support", 
+                  description: "Round-the-clock care and support to ensure the safety and comfort of our residents."
+                }
+              ],
+              buttonText: "Learn More",
+              buttonLink: "#about-content",
+              phoneText: "Call Us",
+              phoneNumber: "1 800 222 000"
+            },
+            displayName: "About Hero",
+            custom: {},
+            parent: "ROOT",
+            hidden: false,
+            nodes: [],
+            linkedNodes: {},
+          },
+          "elder-care-about-content": {
+            type: { resolvedName: "ElderCareAbout1" },
+            isCanvas: false,
+            props: {
+              subtitle: "# Our Story",
+              title: "A legacy of compassionate care.",
+              description: "For over two decades, we have been providing exceptional elder care services, building a reputation for excellence and compassion in our community.",
+              features: [
+                {
+                  title: "Mission",
+                  description: "To provide compassionate, professional care that enhances the quality of life for our senior residents."
+                },
+                {
+                  title: "Vision", 
+                  description: "To be the leading provider of elder care services, setting the standard for excellence and innovation."
+                }
+              ],
+              buttonText: "Our Services",
+              buttonLink: "#services",
+              phoneText: "Contact Us",
+              phoneNumber: "1 800 222 000"
+            },
+            displayName: "About Content",
+            custom: {},
+            parent: "ROOT",
+            hidden: false,
+            nodes: [],
+            linkedNodes: {},
+          },
+          "elder-care-team": {
+            type: { resolvedName: "ElderCareServices1" },
+            isCanvas: false,
+            props: {
+              subtitle: "# Meet Our Team",
+              title: "Dedicated professionals",
+              description: "Our team of experienced caregivers and medical professionals work together to provide the highest quality of care.",
+              services: [
+                {
+                  title: "Medical Staff",
+                  description: "Licensed nurses and medical professionals available 24/7.",
+                  image: "https://placehold.co/600x400/10b981/ffffff?text=Medical+Staff",
+                  link: "#medical-staff"
+                },
+                {
+                  title: "Caregivers",
+                  description: "Compassionate caregivers trained in elder care best practices.",
+                  image: "https://placehold.co/600x400/3b82f6/ffffff?text=Caregivers",
+                  link: "#caregivers"
+                },
+                {
+                  title: "Support Staff",
+                  description: "Administrative and support staff ensuring smooth operations.",
+                  image: "https://placehold.co/600x400/f59e0b/ffffff?text=Support+Staff",
+                  link: "#support-staff"
+                }
+              ]
+            },
+            displayName: "Team Section",
+            custom: {},
+            parent: "ROOT",
+            hidden: false,
+            nodes: [],
+            linkedNodes: {},
+          },
+          "elder-care-values": {
+            type: { resolvedName: "ElderCareFeatures1" },
+            isCanvas: false,
+            props: {
+              backgroundColor: "#f8fafc",
+              title: "Our Values",
+              subtitle: "Compassion, Respect, Excellence",
+              description: "These core values guide everything we do and shape the culture of our organization.",
+              buttonText: "Join Our Team",
+              buttonLink: "#careers"
+            },
+            displayName: "Values Section",
+            custom: {},
+            parent: "ROOT",
+            hidden: false,
+            nodes: [],
+            linkedNodes: {},
+          },
+          "elder-care-footer": {
+            type: { resolvedName: "ElderCareFooter1" },
+            isCanvas: false,
+            props: {
+              backgroundImage: "https://placehold.co/1920x400/1f2937/ffffff?text=Footer+Background",
+              title: "Need any consultations for senior caring please contact us.",
+              phoneButtonText: "Call us - 1 800 222 000",
+              contactButtonText: "Contact us",
+              phoneNumber: "1 800 222 000",
+              email: "info@domain.com",
+              logo: "https://placehold.co/150x50/ffffff/000000?text=Elder+Care",
+              risingMoney: "$90,320",
+              careTypes: [
+                "Senior citizen",
+                "Residential care", 
+                "Skilled nursing",
+                "Personal care"
+              ],
+              donationText: "Your donation supports mission cause. Every contribution matters, enabling us to goal.",
+              newsletterTitle: "Subscribe our newsletter",
+              newsletterDescription: "Subscribe our newsletter to get the latest news and updates.",
+              copyright: "© 2025 Crafto is Proudly Powered by ThemeZaa"
+            },
+            displayName: "Elder Care Footer",
+            custom: {},
+            parent: "ROOT",
+            hidden: false,
+            nodes: [],
+            linkedNodes: {},
+          }
+        }),
+        isHomePage: false
       },
-      "cta-1": {
-        type: { resolvedName: "CTA1" },
-        isCanvas: false,
-        props: {},
-        displayName: "CTA",
-        custom: {},
-        parent: "ROOT",
-        hidden: false,
-        nodes: [],
-        linkedNodes: {},
+      {
+        name: "Services",
+        slug: "services",
+        layout: JSON.stringify({
+          ROOT: {
+            type: { resolvedName: "Container" },
+            isCanvas: true,
+            props: {},
+            displayName: "Container",
+            custom: {},
+            hidden: false,
+            nodes: [
+              "elder-care-services-header",
+              "elder-care-services-hero",
+              "elder-care-services-grid",
+              "elder-care-testimonials",
+              "elder-care-cta",
+              "elder-care-footer"
+            ],
+            linkedNodes: {},
+          },
+          "elder-care-services-header": {
+            type: { resolvedName: "HeaderWrapper" },
+            isCanvas: false,
+            props: {
+              logoText: "Elder Care",
+              logoUrl: "https://placehold.co/150x50/4f46e5/ffffff?text=Elder+Care",
+              backgroundColor: "#ffffff",
+              textColor: "#1f2937",
+              logoSize: "medium",
+              navigationItems: [
+                { id: "home", label: "Home", href: "/" },
+                { id: "about", label: "About", href: "/about" },
+                { id: "services", label: "Services", href: "/services" },
+                { id: "moments", label: "Moments", href: "/moments-of-care" },
+                { id: "blog", label: "Blog", href: "/blog" },
+                { id: "contact", label: "Contact", href: "/contact" }
+              ],
+              flexDirection: "row",
+              gap: "gap-8",
+              justifyContent: "between",
+              alignItems: "center",
+              padding: "px-6 py-4",
+              margin: "mb-0"
+            },
+            displayName: "Elder Care Header",
+            custom: {},
+            parent: "ROOT",
+            hidden: false,
+            nodes: [],
+            linkedNodes: {},
+          }
+        }),
+        isHomePage: false
       },
-      "footer-1": {
-        type: { resolvedName: "Footer1" },
-        isCanvas: false,
-        props: {},
-        displayName: "Footer",
-        custom: {},
-        parent: "ROOT",
-        hidden: false,
-        nodes: [],
-        linkedNodes: {},
+      {
+        name: "Services Details",
+        slug: "services-details",
+        layout: JSON.stringify({
+          ROOT: {
+            type: { resolvedName: "Container" },
+            isCanvas: true,
+            props: {},
+            displayName: "Container",
+            custom: {},
+            hidden: false,
+            nodes: [
+              "elder-care-service-detail-header",
+              "elder-care-service-detail-hero",
+              "elder-care-service-detail-content",
+              "elder-care-related-services",
+              "elder-care-footer"
+            ],
+            linkedNodes: {},
+          },
+          "elder-care-service-detail-header": {
+            type: { resolvedName: "HeaderWrapper" },
+            isCanvas: false,
+            props: {
+              logoText: "Elder Care",
+              logoUrl: "https://placehold.co/150x50/4f46e5/ffffff?text=Elder+Care",
+              backgroundColor: "#ffffff",
+              textColor: "#1f2937",
+              logoSize: "medium",
+              navigationItems: [
+                { id: "home", label: "Home", href: "/" },
+                { id: "about", label: "About", href: "/about" },
+                { id: "services", label: "Services", href: "/services" },
+                { id: "moments", label: "Moments", href: "/moments-of-care" },
+                { id: "blog", label: "Blog", href: "/blog" },
+                { id: "contact", label: "Contact", href: "/contact" }
+              ],
+              flexDirection: "row",
+              gap: "gap-8",
+              justifyContent: "between",
+              alignItems: "center",
+              padding: "px-6 py-4",
+              margin: "mb-0"
+            },
+            displayName: "Elder Care Header",
+            custom: {},
+            parent: "ROOT",
+            hidden: false,
+            nodes: [],
+            linkedNodes: {},
+          }
+        }),
+        isHomePage: false
       },
-    },
-  },
-  {
-    id: "2",
-    name: "Creative Agency",
-    description: "Bold and creative template for agencies and creative professionals",
-    category: "landing",
-    thumbnail: "/placeholder.svg?height=200&width=300",
-    layout: {
-      ROOT: {
-        type: { resolvedName: "Container" },
-        isCanvas: true,
-        props: {},
-        displayName: "Container",
-        custom: {},
-        hidden: false,
-        nodes: ["header-3", "hero-3", "features-3", "cta-2", "footer-3"],
-        linkedNodes: {},
+      {
+        name: "Moments of Care",
+        slug: "moments-of-care",
+        layout: JSON.stringify({
+          ROOT: {
+            type: { resolvedName: "Container" },
+            isCanvas: true,
+            props: {},
+            displayName: "Container",
+            custom: {},
+            hidden: false,
+            nodes: [
+              "elder-care-moments-header",
+              "elder-care-moments-hero",
+              "elder-care-moments-gallery",
+              "elder-care-moments-stories",
+              "elder-care-footer"
+            ],
+            linkedNodes: {},
+          },
+          "elder-care-moments-header": {
+            type: { resolvedName: "HeaderWrapper" },
+            isCanvas: false,
+            props: {
+              logoText: "Elder Care",
+              logoUrl: "https://placehold.co/150x50/4f46e5/ffffff?text=Elder+Care",
+              backgroundColor: "#ffffff",
+              textColor: "#1f2937",
+              logoSize: "medium",
+              navigationItems: [
+                { id: "home", label: "Home", href: "/" },
+                { id: "about", label: "About", href: "/about" },
+                { id: "services", label: "Services", href: "/services" },
+                { id: "moments", label: "Moments", href: "/moments-of-care" },
+                { id: "blog", label: "Blog", href: "/blog" },
+                { id: "contact", label: "Contact", href: "/contact" }
+              ],
+              flexDirection: "row",
+              gap: "gap-8",
+              justifyContent: "between",
+              alignItems: "center",
+              padding: "px-6 py-4",
+              margin: "mb-0"
+            },
+            displayName: "Elder Care Header",
+            custom: {},
+            parent: "ROOT",
+            hidden: false,
+            nodes: [],
+            linkedNodes: {},
+          }
+        }),
+        isHomePage: false
       },
-      "header-3": {
-        type: { resolvedName: "Header3" },
-        isCanvas: false,
-        props: {},
-        displayName: "Header",
-        custom: {},
-        parent: "ROOT",
-        hidden: false,
-        nodes: [],
-        linkedNodes: {},
+      {
+        name: "Blog",
+        slug: "blog",
+        layout: JSON.stringify({
+          ROOT: {
+            type: { resolvedName: "Container" },
+            isCanvas: true,
+            props: {},
+            displayName: "Container",
+            custom: {},
+            hidden: false,
+            nodes: [
+              "elder-care-blog-header",
+              "elder-care-blog-hero",
+              "elder-care-blog-grid",
+              "elder-care-blog-sidebar",
+              "elder-care-footer"
+            ],
+            linkedNodes: {},
+          },
+          "elder-care-blog-header": {
+            type: { resolvedName: "HeaderWrapper" },
+            isCanvas: false,
+            props: {
+              logoText: "Elder Care",
+              logoUrl: "https://placehold.co/150x50/4f46e5/ffffff?text=Elder+Care",
+              backgroundColor: "#ffffff",
+              textColor: "#1f2937",
+              logoSize: "medium",
+              navigationItems: [
+                { id: "home", label: "Home", href: "/" },
+                { id: "about", label: "About", href: "/about" },
+                { id: "services", label: "Services", href: "/services" },
+                { id: "moments", label: "Moments", href: "/moments-of-care" },
+                { id: "blog", label: "Blog", href: "/blog" },
+                { id: "contact", label: "Contact", href: "/contact" }
+              ],
+              flexDirection: "row",
+              gap: "gap-8",
+              justifyContent: "between",
+              alignItems: "center",
+              padding: "px-6 py-4",
+              margin: "mb-0"
+            },
+            displayName: "Elder Care Header",
+            custom: {},
+            parent: "ROOT",
+            hidden: false,
+            nodes: [],
+            linkedNodes: {},
+          }
+        }),
+        isHomePage: false
       },
-      "hero-3": {
-        type: { resolvedName: "Hero3" },
-        isCanvas: false,
-        props: {},
-        displayName: "Hero",
-        custom: {},
-        parent: "ROOT",
-        hidden: false,
-        nodes: [],
-        linkedNodes: {},
+      {
+        name: "Blog Single",
+        slug: "blog-single",
+        layout: JSON.stringify({
+          ROOT: {
+            type: { resolvedName: "Container" },
+            isCanvas: true,
+            props: {},
+            displayName: "Container",
+            custom: {},
+            hidden: false,
+            nodes: [
+              "elder-care-blog-single-header",
+              "elder-care-blog-single-hero",
+              "elder-care-blog-single-content",
+              "elder-care-blog-single-sidebar",
+              "elder-care-related-posts",
+              "elder-care-footer"
+            ],
+            linkedNodes: {},
+          },
+          "elder-care-blog-single-header": {
+            type: { resolvedName: "HeaderWrapper" },
+            isCanvas: false,
+            props: {
+              logoText: "Elder Care",
+              logoUrl: "https://placehold.co/150x50/4f46e5/ffffff?text=Elder+Care",
+              backgroundColor: "#ffffff",
+              textColor: "#1f2937",
+              logoSize: "medium",
+              navigationItems: [
+                { id: "home", label: "Home", href: "/" },
+                { id: "about", label: "About", href: "/about" },
+                { id: "services", label: "Services", href: "/services" },
+                { id: "moments", label: "Moments", href: "/moments-of-care" },
+                { id: "blog", label: "Blog", href: "/blog" },
+                { id: "contact", label: "Contact", href: "/contact" }
+              ],
+              flexDirection: "row",
+              gap: "gap-8",
+              justifyContent: "between",
+              alignItems: "center",
+              padding: "px-6 py-4",
+              margin: "mb-0"
+            },
+            displayName: "Elder Care Header",
+            custom: {},
+            parent: "ROOT",
+            hidden: false,
+            nodes: [],
+            linkedNodes: {},
+          }
+        }),
+        isHomePage: false
       },
-      "features-3": {
-        type: { resolvedName: "Features3" },
-        isCanvas: false,
-        props: {},
-        displayName: "Features",
-        custom: {},
-        parent: "ROOT",
-        hidden: false,
-        nodes: [],
-        linkedNodes: {},
-      },
-      "cta-2": {
-        type: { resolvedName: "CTA2" },
-        isCanvas: false,
-        props: {},
-        displayName: "CTA",
-        custom: {},
-        parent: "ROOT",
-        hidden: false,
-        nodes: [],
-        linkedNodes: {},
-      },
-      "footer-3": {
-        type: { resolvedName: "Footer3" },
-        isCanvas: false,
-        props: {},
-        displayName: "Footer",
-        custom: {},
-        parent: "ROOT",
-        hidden: false,
-        nodes: [],
-        linkedNodes: {},
-      },
-    },
-  },
-  {
-    id: "3",
-    name: "Business Professional",
-    description: "Professional template for corporate websites and business services",
-    category: "landing",
-    thumbnail: "/placeholder.svg?height=200&width=300",
-    layout: {
-      ROOT: {
-        type: { resolvedName: "Container" },
-        isCanvas: true,
-        props: {},
-        displayName: "Container",
-        custom: {},
-        hidden: false,
-        nodes: ["header-1", "hero-2", "features-2", "faq-1", "cta-1", "footer-2"],
-        linkedNodes: {},
-      },
-      "header-1": {
-        type: { resolvedName: "Header1" },
-        isCanvas: false,
-        props: {},
-        displayName: "Header",
-        custom: {},
-        parent: "ROOT",
-        hidden: false,
-        nodes: [],
-        linkedNodes: {},
-      },
-      "hero-2": {
-        type: { resolvedName: "Hero2" },
-        isCanvas: false,
-        props: {},
-        displayName: "Hero",
-        custom: {},
-        parent: "ROOT",
-        hidden: false,
-        nodes: [],
-        linkedNodes: {},
-      },
-      "features-2": {
-        type: { resolvedName: "Features2" },
-        isCanvas: false,
-        props: {},
-        displayName: "Features",
-        custom: {},
-        parent: "ROOT",
-        hidden: false,
-        nodes: [],
-        linkedNodes: {},
-      },
-      "faq-1": {
-        type: { resolvedName: "FAQ1" },
-        isCanvas: false,
-        props: {},
-        displayName: "FAQ",
-        custom: {},
-        parent: "ROOT",
-        hidden: false,
-        nodes: [],
-        linkedNodes: {},
-      },
-      "cta-1": {
-        type: { resolvedName: "CTA1" },
-        isCanvas: false,
-        props: {},
-        displayName: "CTA",
-        custom: {},
-        parent: "ROOT",
-        hidden: false,
-        nodes: [],
-        linkedNodes: {},
-      },
-      "footer-2": {
-        type: { resolvedName: "Footer2" },
-        isCanvas: false,
-        props: {},
-        displayName: "Footer",
-        custom: {},
-        parent: "ROOT",
-        hidden: false,
-        nodes: [],
-        linkedNodes: {},
-      },
-    },
-  },
-  {
-    id: "4",
-    name: "Startup Launch",
-    description: "Perfect for startups and product launches with conversion-focused design",
-    category: "landing",
-    thumbnail: "/placeholder.svg?height=200&width=300",
-    layout: {
-      ROOT: {
-        type: { resolvedName: "Container" },
-        isCanvas: true,
-        props: {},
-        displayName: "Container",
-        custom: {},
-        hidden: false,
-        nodes: ["header-4", "hero-4", "features-4", "cta-4", "footer-4"],
-        linkedNodes: {},
-      },
-      "header-4": {
-        type: { resolvedName: "Header4" },
-        isCanvas: false,
-        props: {},
-        displayName: "Header",
-        custom: {},
-        parent: "ROOT",
-        hidden: false,
-        nodes: [],
-        linkedNodes: {},
-      },
-      "hero-4": {
-        type: { resolvedName: "Hero4" },
-        isCanvas: false,
-        props: {},
-        displayName: "Hero",
-        custom: {},
-        parent: "ROOT",
-        hidden: false,
-        nodes: [],
-        linkedNodes: {},
-      },
-      "features-4": {
-        type: { resolvedName: "Features4" },
-        isCanvas: false,
-        props: {},
-        displayName: "Features",
-        custom: {},
-        parent: "ROOT",
-        hidden: false,
-        nodes: [],
-        linkedNodes: {},
-      },
-      "cta-4": {
-        type: { resolvedName: "CTA4" },
-        isCanvas: false,
-        props: {},
-        displayName: "CTA",
-        custom: {},
-        parent: "ROOT",
-        hidden: false,
-        nodes: [],
-        linkedNodes: {},
-      },
-      "footer-4": {
-        type: { resolvedName: "Footer4" },
-        isCanvas: false,
-        props: {},
-        displayName: "Footer",
-        custom: {},
-        parent: "ROOT",
-        hidden: false,
-        nodes: [],
-        linkedNodes: {},
-      },
-    },
-  },
-  {
-    id: "5",
-    name: "Eco-Friendly Business",
-    description: "Sustainable and eco-conscious template for green businesses",
-    category: "landing",
-    thumbnail: "/placeholder.svg?height=200&width=300",
-    layout: {
-      ROOT: {
-        type: { resolvedName: "Container" },
-        isCanvas: true,
-        props: {},
-        displayName: "Container",
-        custom: {},
-        hidden: false,
-        nodes: ["header-5", "hero-5", "features-5", "faq-5", "cta-5", "footer-5"],
-        linkedNodes: {},
-      },
-      "header-5": {
-        type: { resolvedName: "Header5" },
-        isCanvas: false,
-        props: {},
-        displayName: "Header",
-        custom: {},
-        parent: "ROOT",
-        hidden: false,
-        nodes: [],
-        linkedNodes: {},
-      },
-      "hero-5": {
-        type: { resolvedName: "Hero5" },
-        isCanvas: false,
-        props: {},
-        displayName: "Hero",
-        custom: {},
-        parent: "ROOT",
-        hidden: false,
-        nodes: [],
-        linkedNodes: {},
-      },
-      "features-5": {
-        type: { resolvedName: "Features5" },
-        isCanvas: false,
-        props: {},
-        displayName: "Features",
-        custom: {},
-        parent: "ROOT",
-        hidden: false,
-        nodes: [],
-        linkedNodes: {},
-      },
-      "faq-5": {
-        type: { resolvedName: "FAQ5" },
-        isCanvas: false,
-        props: {},
-        displayName: "FAQ",
-        custom: {},
-        parent: "ROOT",
-        hidden: false,
-        nodes: [],
-        linkedNodes: {},
-      },
-      "cta-5": {
-        type: { resolvedName: "CTA5" },
-        isCanvas: false,
-        props: {},
-        displayName: "CTA",
-        custom: {},
-        parent: "ROOT",
-        hidden: false,
-        nodes: [],
-        linkedNodes: {},
-      },
-      "footer-5": {
-        type: { resolvedName: "Footer5" },
-        isCanvas: false,
-        props: {},
-        displayName: "Footer",
-        custom: {},
-        parent: "ROOT",
-        hidden: false,
-        nodes: [],
-        linkedNodes: {},
-      },
-    },
-  },
-  {
-    id: "6",
-    name: "Personal Blog",
-    description: "Clean and minimal blog template for writers and content creators",
-    category: "blog",
-    thumbnail: "/placeholder.svg?height=200&width=300",
-    layout: {
-      ROOT: {
-        type: { resolvedName: "Container" },
-        isCanvas: true,
-        props: {},
-        displayName: "Container",
-        custom: {},
-        hidden: false,
-        nodes: ["header-2", "hero-2", "features-1", "faq-2", "footer-2"],
-        linkedNodes: {},
-      },
-      "header-2": {
-        type: { resolvedName: "Header2" },
-        isCanvas: false,
-        props: {},
-        displayName: "Header",
-        custom: {},
-        parent: "ROOT",
-        hidden: false,
-        nodes: [],
-        linkedNodes: {},
-      },
-      "hero-2": {
-        type: { resolvedName: "Hero2" },
-        isCanvas: false,
-        props: {},
-        displayName: "Hero",
-        custom: {},
-        parent: "ROOT",
-        hidden: false,
-        nodes: [],
-        linkedNodes: {},
-      },
-      "features-1": {
-        type: { resolvedName: "Features1" },
-        isCanvas: false,
-        props: {},
-        displayName: "Features",
-        custom: {},
-        parent: "ROOT",
-        hidden: false,
-        nodes: [],
-        linkedNodes: {},
-      },
-      "faq-2": {
-        type: { resolvedName: "FAQ2" },
-        isCanvas: false,
-        props: {},
-        displayName: "FAQ",
-        custom: {},
-        parent: "ROOT",
-        hidden: false,
-        nodes: [],
-        linkedNodes: {},
-      },
-      "footer-2": {
-        type: { resolvedName: "Footer2" },
-        isCanvas: false,
-        props: {},
-        displayName: "Footer",
-        custom: {},
-        parent: "ROOT",
-        hidden: false,
-        nodes: [],
-        linkedNodes: {},
-      },
-    },
-  },
-  {
-    id: "7",
-    name: "Tech Blog",
-    description: "Modern blog template for technology and development content",
-    category: "blog",
-    thumbnail: "/placeholder.svg?height=200&width=300",
-    layout: {
-      ROOT: {
-        type: { resolvedName: "Container" },
-        isCanvas: true,
-        props: {},
-        displayName: "Container",
-        custom: {},
-        hidden: false,
-        nodes: ["header-3", "hero-3", "features-3", "faq-3", "footer-3"],
-        linkedNodes: {},
-      },
-      "header-3": {
-        type: { resolvedName: "Header3" },
-        isCanvas: false,
-        props: {},
-        displayName: "Header",
-        custom: {},
-        parent: "ROOT",
-        hidden: false,
-        nodes: [],
-        linkedNodes: {},
-      },
-      "hero-3": {
-        type: { resolvedName: "Hero3" },
-        isCanvas: false,
-        props: {},
-        displayName: "Hero",
-        custom: {},
-        parent: "ROOT",
-        hidden: false,
-        nodes: [],
-        linkedNodes: {},
-      },
-      "features-3": {
-        type: { resolvedName: "Features3" },
-        isCanvas: false,
-        props: {},
-        displayName: "Features",
-        custom: {},
-        parent: "ROOT",
-        hidden: false,
-        nodes: [],
-        linkedNodes: {},
-      },
-      "faq-3": {
-        type: { resolvedName: "FAQ3" },
-        isCanvas: false,
-        props: {},
-        displayName: "FAQ",
-        custom: {},
-        parent: "ROOT",
-        hidden: false,
-        nodes: [],
-        linkedNodes: {},
-      },
-      "footer-3": {
-        type: { resolvedName: "Footer3" },
-        isCanvas: false,
-        props: {},
-        displayName: "Footer",
-        custom: {},
-        parent: "ROOT",
-        hidden: false,
-        nodes: [],
-        linkedNodes: {},
-      },
-    },
-  },
-  {
-    id: "8",
-    name: "Online Store",
-    description: "Complete e-commerce template with product showcase and checkout",
-    category: "ecommerce",
-    thumbnail: "/placeholder.svg?height=200&width=300",
-    layout: {
-      ROOT: {
-        type: { resolvedName: "Container" },
-        isCanvas: true,
-        props: {},
-        displayName: "Container",
-        custom: {},
-        hidden: false,
-        nodes: ["header-1", "hero-1", "features-2", "cta-1", "footer-1"],
-        linkedNodes: {},
-      },
-      "header-1": {
-        type: { resolvedName: "Header1" },
-        isCanvas: false,
-        props: {},
-        displayName: "Header",
-        custom: {},
-        parent: "ROOT",
-        hidden: false,
-        nodes: [],
-        linkedNodes: {},
-      },
-      "hero-1": {
-        type: { resolvedName: "Hero1" },
-        isCanvas: false,
-        props: {},
-        displayName: "Hero",
-        custom: {},
-        parent: "ROOT",
-        hidden: false,
-        nodes: [],
-        linkedNodes: {},
-      },
-      "features-2": {
-        type: { resolvedName: "Features2" },
-        isCanvas: false,
-        props: {},
-        displayName: "Features",
-        custom: {},
-        parent: "ROOT",
-        hidden: false,
-        nodes: [],
-        linkedNodes: {},
-      },
-      "cta-1": {
-        type: { resolvedName: "CTA1" },
-        isCanvas: false,
-        props: {},
-        displayName: "CTA",
-        custom: {},
-        parent: "ROOT",
-        hidden: false,
-        nodes: [],
-        linkedNodes: {},
-      },
-      "footer-1": {
-        type: { resolvedName: "Footer1" },
-        isCanvas: false,
-        props: {},
-        displayName: "Footer",
-        custom: {},
-        parent: "ROOT",
-        hidden: false,
-        nodes: [],
-        linkedNodes: {},
-      },
-    },
-  },
-]
-
-const themes: Theme[] = [
-  {
-    id: "minimal",
-    name: "Minimal",
-    description: "Clean, minimal design with lots of white space and subtle typography",
-    category: "minimal",
-    thumbnail: "/placeholder.svg?height=200&width=300",
-    colors: {
-      primary: "#000000",
-      secondary: "#6b7280",
-      accent: "#3b82f6",
-      background: "#ffffff",
-      foreground: "#000000",
-      muted: "#f9fafb"
-    },
-    typography: {
-      fontFamily: "Inter",
-      headingWeight: "font-light",
-      bodyWeight: "font-normal"
-    },
-    spacing: {
-      sectionPadding: "py-24",
-      elementSpacing: "space-y-8"
-    },
-    borderRadius: "rounded-none",
-    shadows: false
-  },
-  {
-    id: "modern",
-    name: "Modern",
-    description: "Contemporary design with bold typography and vibrant colors",
-    category: "modern",
-    thumbnail: "/placeholder.svg?height=200&width=300",
-    colors: {
-      primary: "#3b82f6",
-      secondary: "#8b5cf6",
-      accent: "#06b6d4",
-      background: "#ffffff",
-      foreground: "#1f2937",
-      muted: "#f8fafc"
-    },
-    typography: {
-      fontFamily: "Inter",
-      headingWeight: "font-bold",
-      bodyWeight: "font-medium"
-    },
-    spacing: {
-      sectionPadding: "py-20",
-      elementSpacing: "space-y-6"
-    },
-    borderRadius: "rounded-lg",
-    shadows: true
-  },
-  {
-    id: "creative",
-    name: "Creative",
-    description: "Artistic design with unique layouts and creative color combinations",
-    category: "creative",
-    thumbnail: "/placeholder.svg?height=200&width=300",
-    colors: {
-      primary: "#f59e0b",
-      secondary: "#ef4444",
-      accent: "#8b5cf6",
-      background: "#fef7ed",
-      foreground: "#78350f",
-      muted: "#fed7aa"
-    },
-    typography: {
-      fontFamily: "Poppins",
-      headingWeight: "font-extrabold",
-      bodyWeight: "font-normal"
-    },
-    spacing: {
-      sectionPadding: "py-16",
-      elementSpacing: "space-y-4"
-    },
-    borderRadius: "rounded-2xl",
-    shadows: true
-  },
-  {
-    id: "professional",
-    name: "Professional",
-    description: "Corporate design perfect for business and professional services",
-    category: "professional",
-    thumbnail: "/placeholder.svg?height=200&width=300",
-    colors: {
-      primary: "#1e40af",
-      secondary: "#374151",
-      accent: "#059669",
-      background: "#ffffff",
-      foreground: "#111827",
-      muted: "#f3f4f6"
-    },
-    typography: {
-      fontFamily: "Inter",
-      headingWeight: "font-semibold",
-      bodyWeight: "font-normal"
-    },
-    spacing: {
-      sectionPadding: "py-20",
-      elementSpacing: "space-y-6"
-    },
-    borderRadius: "rounded-md",
-    shadows: false
-  },
-  {
-    id: "eco-friendly",
-    name: "Eco-Friendly",
-    description: "Nature-inspired design with earth tones and organic shapes",
-    category: "eco-friendly",
-    thumbnail: "/placeholder.svg?height=200&width=300",
-    colors: {
-      primary: "#059669",
-      secondary: "#92400e",
-      accent: "#0d9488",
-      background: "#f0fdf4",
-      foreground: "#14532d",
-      muted: "#dcfce7"
-    },
-    typography: {
-      fontFamily: "Inter",
-      headingWeight: "font-medium",
-      bodyWeight: "font-normal"
-    },
-    spacing: {
-      sectionPadding: "py-24",
-      elementSpacing: "space-y-8"
-    },
-    borderRadius: "rounded-xl",
-    shadows: false
+      {
+        name: "Contact",
+        slug: "contact",
+        layout: JSON.stringify({
+          ROOT: {
+            type: { resolvedName: "Container" },
+            isCanvas: true,
+            props: {},
+            displayName: "Container",
+            custom: {},
+            hidden: false,
+            nodes: [
+              "elder-care-contact-header",
+              "elder-care-contact-hero",
+              "elder-care-contact-info",
+              "elder-care-contact-form",
+              "elder-care-contact-map",
+              "elder-care-footer"
+            ],
+            linkedNodes: {},
+          },
+          "elder-care-contact-header": {
+            type: { resolvedName: "HeaderWrapper" },
+            isCanvas: false,
+            props: {
+              logoText: "Elder Care",
+              logoUrl: "https://placehold.co/150x50/4f46e5/ffffff?text=Elder+Care",
+              backgroundColor: "#ffffff",
+              textColor: "#1f2937",
+              logoSize: "medium",
+              navigationItems: [
+                { id: "home", label: "Home", href: "/" },
+                { id: "about", label: "About", href: "/about" },
+                { id: "services", label: "Services", href: "/services" },
+                { id: "moments", label: "Moments", href: "/moments-of-care" },
+                { id: "blog", label: "Blog", href: "/blog" },
+                { id: "contact", label: "Contact", href: "/contact" }
+              ],
+              flexDirection: "row",
+              gap: "gap-8",
+              justifyContent: "between",
+              alignItems: "center",
+              padding: "px-6 py-4",
+              margin: "mb-0"
+            },
+            displayName: "Elder Care Header",
+            custom: {},
+            parent: "ROOT",
+            hidden: false,
+            nodes: [],
+            linkedNodes: {},
+          }
+        }),
+        isHomePage: false
+      }
+    ]
   }
 ]
 

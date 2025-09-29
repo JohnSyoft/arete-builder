@@ -1,6 +1,9 @@
 import React from "react";
-import { useNode } from "@craftjs/core";
-import { Resizer } from "../Resizer";
+import { Element } from "@craftjs/core";
+import { Section } from "../Basic/Section";
+import { Box } from "../Basic/Box";
+import { Text } from "../Basic/Text";
+import { Image } from "../Basic/Image";
 
 interface RestaurantMarquee1Props {
   words?: string[];
@@ -26,34 +29,32 @@ export function RestaurantMarquee1({
   }));
 
   return (
-    <Resizer
-      propKey={{ width: "width", height: "height" }}
-      style={{
-        width: "100%",
-        height: "auto",
-        backgroundColor: backgroundColor,
-        color: textColor,
-      }}
-      minWidth={300}
-      minHeight={200}
-    >
-      <section
-        ref={(ref) => connect(drag(ref))}
+    <Element id="restaurant-marquee-container" is={Section} canvas>
+      <Element
+        id="restaurant-marquee-background"
+        is={Box}
+        backgroundColor={backgroundColor}
+        width="100%"
+        minHeight="200px"
         className="py-16 lg:py-12 relative overflow-hidden"
       >
         {/* Decorative Images */}
         <div className="absolute left-32 xxl:left-12 mt-28 hidden xxl:block">
-          <img 
-            src="https://placehold.co/355x298/FFFFFF/333333?text=Decorative" 
-            alt="Decorative" 
-            className="animate-pulse"
+          <Element
+            id="restaurant-marquee-decorative-left"
+            is={Image}
+            src="https://placehold.co/355x298/FFFFFF/333333?text=Decorative"
+            alt="Decorative"
+            animation="pulse"
           />
         </div>
         <div className="absolute right-32 xxl:right-12 hidden xxl:block">
-          <img 
-            src="https://placehold.co/367x283/FFFFFF/333333?text=Decorative" 
-            alt="Decorative" 
-            className="animate-pulse"
+          <Element
+            id="restaurant-marquee-decorative-right"
+            is={Image}
+            src="https://placehold.co/367x283/FFFFFF/333333?text=Decorative"
+            alt="Decorative"
+            animation="pulse"
           />
         </div>
 
@@ -75,7 +76,15 @@ export function RestaurantMarquee1({
                       WebkitTextFillColor: index % 2 === 0 ? "transparent" : "inherit",
                     }}
                   >
-                    {word}
+                    <Element
+                      id={`restaurant-marquee-word-${index}`}
+                      is={Text}
+                      text={word}
+                      tagName="span"
+                      fontSize="text-8xl lg:text-6xl xs:text-5xl"
+                      fontWeight="font-bold"
+                      className="tracking-tight mr-16"
+                    />
                   </div>
                 ))}
               </div>
@@ -96,8 +105,8 @@ export function RestaurantMarquee1({
             animation: marquee 20s linear infinite;
           }
         `}</style>
-      </section>
-    </Resizer>
+      </Element>
+    </Element>
   );
 }
 
@@ -113,4 +122,5 @@ RestaurantMarquee1.craft = {
     canMoveIn: () => true,
     canMoveOut: () => true,
   },
+  isCanvas: true,
 };

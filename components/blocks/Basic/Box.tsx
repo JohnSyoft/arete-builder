@@ -33,7 +33,88 @@ interface BoxProps {
   backgroundPosition?: string;
   borderWidth?: string;
   borderStyle?: string;
+  className?: string;
+  hoverBackgroundColor?: string;
+  hoverTextColor?: string;
+  hoverBorderColor?: string;
+  hoverScale?: string;
+  hoverShadow?: string;
+  transitionDuration?: string;
   children?: React.ReactNode;
+  // Advanced layout
+  position?: string;
+  zIndex?: string;
+  top?: string;
+  right?: string;
+  bottom?: string;
+  left?: string;
+  overflow?: string;
+  // Advanced visual effects
+  boxShadow?: string;
+  textShadow?: string;
+  opacity?: string;
+  transform?: string;
+  filter?: string;
+  backdropFilter?: string;
+  // Advanced backgrounds
+  backgroundAttachment?: string;
+  backgroundRepeat?: string;
+  backgroundClip?: string;
+  // Advanced borders
+  borderTop?: string;
+  borderRight?: string;
+  borderBottom?: string;
+  borderLeft?: string;
+  borderTopLeftRadius?: string;
+  borderTopRightRadius?: string;
+  borderBottomLeftRadius?: string;
+  borderBottomRightRadius?: string;
+  // Advanced hover effects
+  hoverOpacity?: string;
+  hoverTransform?: string;
+  hoverFilter?: string;
+  hoverBackdropFilter?: string;
+  // Animation
+  animation?: string;
+  animationDuration?: string;
+  animationDelay?: string;
+  animationIteration?: string;
+  animationDirection?: string;
+  animationFillMode?: string;
+  animationPlayState?: string;
+  // Interaction
+  cursor?: string;
+  userSelect?: string;
+  pointerEvents?: string;
+  // Accessibility
+  ariaLabel?: string;
+  role?: string;
+  tabIndex?: number;
+  // Advanced flexbox
+  flex?: string;
+  flexGrow?: string;
+  flexShrink?: string;
+  flexBasis?: string;
+  flexWrap?: string;
+  alignContent?: string;
+  alignSelf?: string;
+  order?: string;
+  // Advanced grid
+  gridTemplateColumns?: string;
+  gridTemplateRows?: string;
+  gridTemplateAreas?: string;
+  gridColumn?: string;
+  gridRow?: string;
+  gridArea?: string;
+  gridGap?: string;
+  gridColumnGap?: string;
+  gridRowGap?: string;
+  justifyItems?: string;
+  alignItems?: string;
+  placeItems?: string;
+  justifySelf?: string;
+  alignSelf?: string;
+  placeSelf?: string;
 }
 
 export function Box({
@@ -58,8 +139,87 @@ export function Box({
   backgroundPosition = "center",
   borderWidth = "0px",
   borderStyle = "solid",
+  className = "",
+  hoverBackgroundColor = "",
+  hoverTextColor = "",
+  hoverBorderColor = "",
+  hoverScale = "1",
+  hoverShadow = "",
+  transitionDuration = "300ms",
   nonEditable = false,
   children,
+  // Advanced layout
+  position = "",
+  zIndex = "",
+  top = "",
+  right = "",
+  bottom = "",
+  left = "",
+  overflow = "",
+  // Advanced visual effects
+  boxShadow = "",
+  textShadow = "",
+  opacity = "",
+  transform = "",
+  filter = "",
+  backdropFilter = "",
+  // Advanced backgrounds
+  backgroundAttachment = "",
+  backgroundRepeat = "",
+  backgroundClip = "",
+  // Advanced borders
+  borderTop = "",
+  borderRight = "",
+  borderBottom = "",
+  borderLeft = "",
+  borderTopLeftRadius = "",
+  borderTopRightRadius = "",
+  borderBottomLeftRadius = "",
+  borderBottomRightRadius = "",
+  // Advanced hover effects
+  hoverOpacity = "",
+  hoverTransform = "",
+  hoverFilter = "",
+  hoverBackdropFilter = "",
+  // Animation
+  animation = "",
+  animationDuration = "1s",
+  animationDelay = "0s",
+  animationIteration = "1",
+  animationDirection = "normal",
+  animationFillMode = "",
+  animationPlayState = "",
+  // Interaction
+  cursor = "",
+  userSelect = "",
+  pointerEvents = "",
+  // Accessibility
+  ariaLabel = "",
+  role = "",
+  tabIndex,
+  // Advanced flexbox
+  flex = "",
+  flexGrow = "",
+  flexShrink = "",
+  flexBasis = "",
+  flexWrap = "",
+  alignContent = "",
+  alignSelf = "",
+  order = "",
+  // Advanced grid
+  gridTemplateColumns = "",
+  gridTemplateRows = "",
+  gridTemplateAreas = "",
+  gridColumn = "",
+  gridRow = "",
+  gridArea = "",
+  gridGap = "",
+  gridColumnGap = "",
+  gridRowGap = "",
+  justifyItems = "",
+  placeItems = "",
+  justifySelf = "",
+  placeSelf = "",
 }: BoxProps) {
   const {
     connectors: { connect, drag },
@@ -103,6 +263,12 @@ export function Box({
         backgroundPosition,
         borderWidth,
         borderStyle,
+        hoverBackgroundColor,
+        hoverTextColor,
+        hoverBorderColor,
+        hoverScale,
+        hoverShadow,
+        transitionDuration,
       },
       id,
       (newProps) => {
@@ -201,6 +367,59 @@ export function Box({
           ${getDisplayClass()}
           ${getFlexClasses()}
           ${getGapClass()}
+          ${className}
+          ${position}
+          ${zIndex}
+          ${overflow}
+          ${boxShadow}
+          ${textShadow}
+          ${opacity}
+          ${transform}
+          ${filter}
+          ${backdropFilter}
+          ${backgroundAttachment}
+          ${backgroundRepeat}
+          ${backgroundClip}
+          ${borderTop}
+          ${borderRight}
+          ${borderBottom}
+          ${borderLeft}
+          ${borderTopLeftRadius}
+          ${borderTopRightRadius}
+          ${borderBottomLeftRadius}
+          ${borderBottomRightRadius}
+          ${cursor}
+          ${userSelect}
+          ${pointerEvents}
+          ${flex}
+          ${flexGrow}
+          ${flexShrink}
+          ${flexBasis}
+          ${flexWrap}
+          ${alignContent}
+          ${alignSelf}
+          ${order}
+          ${gridTemplateColumns}
+          ${gridTemplateRows}
+          ${gridTemplateAreas}
+          ${gridColumn}
+          ${gridRow}
+          ${gridArea}
+          ${gridGap}
+          ${gridColumnGap}
+          ${gridRowGap}
+          ${justifyItems}
+          ${placeItems}
+          ${justifySelf}
+          ${placeSelf}
+          transition-all duration-300 ease-in-out
+          hover:scale-${hoverScale === "1.05" ? "105" : hoverScale === "1.1" ? "110" : hoverScale === "1.15" ? "115" : "100"}
+          ${hoverShadow && hoverShadow !== "none" ? `hover:${hoverShadow}` : ""}
+          ${hoverOpacity ? `hover:${hoverOpacity}` : ""}
+          ${hoverTransform ? `hover:${hoverTransform}` : ""}
+          ${hoverFilter ? `hover:${hoverFilter}` : ""}
+          ${hoverBackdropFilter ? `hover:${hoverBackdropFilter}` : ""}
+          ${animation ? `animate-${animation}` : ""}
           ${
             !children
               ? "border-2 border-dashed border-gray-300 bg-gray-50/50"
@@ -218,6 +437,9 @@ export function Box({
             backgroundImage || gradient ? backgroundSize : undefined,
           backgroundPosition:
             backgroundImage || gradient ? backgroundPosition : undefined,
+          backgroundAttachment: backgroundAttachment || undefined,
+          backgroundRepeat: backgroundRepeat || undefined,
+          backgroundClip: backgroundClip || undefined,
           color: textColor,
           padding: padding || undefined,
           borderRadius: borderRadius || undefined,
@@ -228,6 +450,83 @@ export function Box({
           width: "100%",
           height: height ?? "100%",
           minHeight: minHeight !== "auto" ? minHeight : undefined,
+          transitionDuration: transitionDuration || "300ms",
+          // Advanced layout
+          position: position || undefined,
+          zIndex: zIndex || undefined,
+          top: top || undefined,
+          right: right || undefined,
+          bottom: bottom || undefined,
+          left: left || undefined,
+          overflow: overflow || undefined,
+          // Advanced visual effects
+          boxShadow: boxShadow || undefined,
+          textShadow: textShadow || undefined,
+          opacity: opacity || undefined,
+          transform: transform || undefined,
+          filter: filter || undefined,
+          backdropFilter: backdropFilter || undefined,
+          // Animation
+          animation: animation ? `${animation} ${animationDuration} ${animationDelay} ${animationIteration} ${animationDirection}` : undefined,
+          animationFillMode: animationFillMode || undefined,
+          animationPlayState: animationPlayState || undefined,
+          // Advanced flexbox
+          flex: flex || undefined,
+          flexGrow: flexGrow || undefined,
+          flexShrink: flexShrink || undefined,
+          flexBasis: flexBasis || undefined,
+          flexWrap: flexWrap || undefined,
+          alignContent: alignContent || undefined,
+          alignSelf: alignSelf || undefined,
+          order: order || undefined,
+          // Advanced grid
+          gridTemplateColumns: gridTemplateColumns || undefined,
+          gridTemplateRows: gridTemplateRows || undefined,
+          gridTemplateAreas: gridTemplateAreas || undefined,
+          gridColumn: gridColumn || undefined,
+          gridRow: gridRow || undefined,
+          gridArea: gridArea || undefined,
+          gridGap: gridGap || undefined,
+          gridColumnGap: gridColumnGap || undefined,
+          gridRowGap: gridRowGap || undefined,
+          justifyItems: justifyItems || undefined,
+          placeItems: placeItems || undefined,
+          justifySelf: justifySelf || undefined,
+          placeSelf: placeSelf || undefined,
+          // Hover effects
+          "--hover-bg": hoverBackgroundColor || backgroundColor,
+          "--hover-text": hoverTextColor || textColor,
+          "--hover-border": hoverBorderColor || borderColor,
+          // Accessibility
+          ...(ariaLabel && { 'aria-label': ariaLabel }),
+          ...(role && { role }),
+          ...(tabIndex !== undefined && { tabIndex }),
+        } as React.CSSProperties & {
+          "--hover-bg": string;
+          "--hover-text": string;
+          "--hover-border": string;
+        }}
+        onMouseEnter={(e) => {
+          if (hoverBackgroundColor) {
+            e.currentTarget.style.backgroundColor = hoverBackgroundColor;
+          }
+          if (hoverTextColor) {
+            e.currentTarget.style.color = hoverTextColor;
+          }
+          if (hoverBorderColor && borderWidth !== "0px") {
+            e.currentTarget.style.borderColor = hoverBorderColor;
+          }
+        }}
+        onMouseLeave={(e) => {
+          if (hoverBackgroundColor) {
+            e.currentTarget.style.backgroundColor = gradient ? undefined : backgroundColor;
+          }
+          if (hoverTextColor) {
+            e.currentTarget.style.color = textColor;
+          }
+          if (hoverBorderColor && borderWidth !== "0px") {
+            e.currentTarget.style.borderColor = borderColor;
+          }
         }}
       >
         {children}
@@ -279,7 +578,86 @@ Box.craft = {
     backgroundPosition: "center",
     borderWidth: "0px",
     borderStyle: "solid",
+    className: "",
+    hoverBackgroundColor: "",
+    hoverTextColor: "",
+    hoverBorderColor: "",
+    hoverScale: "1",
+    hoverShadow: "none",
+    transitionDuration: "300ms",
     nonEditable: false,
+    // Advanced layout
+    position: "",
+    zIndex: "",
+    top: "",
+    right: "",
+    bottom: "",
+    left: "",
+    overflow: "",
+    // Advanced visual effects
+    boxShadow: "",
+    textShadow: "",
+    opacity: "",
+    transform: "",
+    filter: "",
+    backdropFilter: "",
+    // Advanced backgrounds
+    backgroundAttachment: "",
+    backgroundRepeat: "",
+    backgroundClip: "",
+    // Advanced borders
+    borderTop: "",
+    borderRight: "",
+    borderBottom: "",
+    borderLeft: "",
+    borderTopLeftRadius: "",
+    borderTopRightRadius: "",
+    borderBottomLeftRadius: "",
+    borderBottomRightRadius: "",
+    // Advanced hover effects
+    hoverOpacity: "",
+    hoverTransform: "",
+    hoverFilter: "",
+    hoverBackdropFilter: "",
+    // Animation
+    animation: "",
+    animationDuration: "1s",
+    animationDelay: "0s",
+    animationIteration: "1",
+    animationDirection: "normal",
+    animationFillMode: "",
+    animationPlayState: "",
+    // Interaction
+    cursor: "",
+    userSelect: "",
+    pointerEvents: "",
+    // Accessibility
+    ariaLabel: "",
+    role: "",
+    tabIndex: undefined,
+    // Advanced flexbox
+    flex: "",
+    flexGrow: "",
+    flexShrink: "",
+    flexBasis: "",
+    flexWrap: "",
+    alignContent: "",
+    alignSelf: "",
+    order: "",
+    // Advanced grid
+    gridTemplateColumns: "",
+    gridTemplateRows: "",
+    gridTemplateAreas: "",
+    gridColumn: "",
+    gridRow: "",
+    gridArea: "",
+    gridGap: "",
+    gridColumnGap: "",
+    gridRowGap: "",
+    justifyItems: "",
+    placeItems: "",
+    justifySelf: "",
+    placeSelf: "",
   },
   rules: {
     canDrag: () => true,

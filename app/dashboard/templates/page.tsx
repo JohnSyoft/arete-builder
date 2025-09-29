@@ -10,55 +10,68 @@ import { TemplatePreview } from "@/components/template-preview"
 import { db, type Template } from "@/lib/db"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
+import { toast } from "sonner"
 
 export default function TemplatesPage() {
   const [templates, setTemplates] = useState<Template[]>([])
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("all")
+  const [isLoading, setIsLoading] = useState(true)
   const router = useRouter()
 
   useEffect(() => {
-    setTemplates(db.templates.getAll())
+    const fetchTemplates = () => {
+      try {
+        setIsLoading(true)
+        const templates = db.templates.getAll()
+        setTemplates(templates)
+      } catch (error) {
+        console.error('Error fetching templates:', error)
+        toast.error('Failed to load templates')
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    
+    fetchTemplates()
   }, [])
 
-  const handleUseTemplate = (template: Template) => {
-    // Create a new project from template
-    const newProject = db.projects.create({
-      name: `${template.name} Project`,
-      pages: [
-        {
-          id: Date.now().toString(),
-          projectId: "", // Will be set after creation
-          name: "Home",
-          slug: "home",
-          layout: template.layout,
-          isHomePage: true,
-        },
-      ],
-    })
-
-    // Update the page's projectId
-    newProject.pages[0].projectId = newProject.id
-
-    router.push(`/editor/${newProject.id}/home`)
+  const handleViewTemplate = (template: Template) => {
+    router.push(`/templates/${template.id}`)
   }
 
   const categories = [
-    { key: "all", label: "All Templates", count: templates.length },
-    { key: "landing", label: "Landing Pages", count: templates.filter((t) => t.category === "landing").length },
-    { key: "blog", label: "Blog", count: templates.filter((t) => t.category === "blog").length },
-    { key: "ecommerce", label: "E-commerce", count: templates.filter((t) => t.category === "ecommerce").length },
+    { key: "all", label: "All Templates", count: templates?.length || 0 },
+    { key: "landing", label: "Landing Pages", count: templates?.filter((t) => t.category === "landing").length || 0 },
+    { key: "blog", label: "Blog", count: templates?.filter((t) => t.category === "blog").length || 0 },
+    { key: "ecommerce", label: "E-commerce", count: templates?.filter((t) => t.category === "ecommerce").length || 0 },
+    { key: "healthcare", label: "Healthcare", count: templates?.filter((t) => t.category === "healthcare").length || 0 },
+    { key: "business", label: "Business", count: templates?.filter((t) => t.category === "business").length || 0 },
+    { key: "portfolio", label: "Portfolio", count: templates?.filter((t) => t.category === "portfolio").length || 0 },
   ]
 
-  const filteredTemplates = templates.filter((template) => {
+  const filteredTemplates = templates?.filter((template) => {
     const matchesSearch =
       template.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       template.description.toLowerCase().includes(searchTerm.toLowerCase())
     const matchesCategory = selectedCategory === "all" || template.category === selectedCategory
     return matchesSearch && matchesCategory
-  })
+  }) || []
 
-  const featuredTemplates = templates.filter((t) => ["1", "4", "8"].includes(t.id))
+  const featuredTemplates = templates?.filter((t) => t.featured) || []
+
+  if (isLoading) {
+    return (
+      <DashboardLayout activeTab="templates">
+        <div className="space-y-8">
+          <div className="text-center py-12">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <p className="text-gray-600">Loading templates...</p>
+          </div>
+        </div>
+      </DashboardLayout>
+    )
+  }
 
   return (
     <DashboardLayout activeTab="templates">
@@ -126,7 +139,7 @@ export default function TemplatesPage() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {featuredTemplates.map((template) => (
-                <TemplatePreview key={template.id} template={template} onUseTemplate={handleUseTemplate} />
+                <TemplatePreview key={template.id} template={template} onUseTemplate={handleViewTemplate} />
               ))}
             </div>
           </div>
@@ -145,7 +158,7 @@ export default function TemplatesPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredTemplates.map((template) => (
-              <TemplatePreview key={template.id} template={template} onUseTemplate={handleUseTemplate} />
+              <TemplatePreview key={template.id} template={template} onUseTemplate={handleViewTemplate} />
             ))}
           </div>
         </div>
@@ -172,29 +185,6 @@ export default function TemplatesPage() {
           </div>
         )}
 
-        {/* Bottom CTA Section */}
-        <div className="bg-gradient-to-r from-muted/50 via-muted to-muted/50 rounded-2xl p-8 border border-border">
-          <div className="text-center space-y-4">
-            <h3 className="text-2xl font-bold text-foreground">Ready to build something amazing?</h3>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Choose from our collection of professionally designed templates and customize them to match your brand.
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-foreground mb-2">{templates.length}+</div>
-                <div className="text-muted-foreground">Professional Templates</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-foreground mb-2">50K+</div>
-                <div className="text-muted-foreground">Websites Created</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-foreground mb-2">4.9★</div>
-                <div className="text-muted-foreground">Average Rating</div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </DashboardLayout>
   )
