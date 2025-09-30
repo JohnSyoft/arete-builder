@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { db, type Template } from "@/lib/db";
 import { useViewportStore } from "@/lib/store/viewport-store";
 import { toast } from "sonner";
+import { projectsApi } from "@/lib/api/projects";
 
 export default function TemplatePreviewPage() {
   const params = useParams();
@@ -86,24 +87,17 @@ console.log({template, templateId, currentPageSlug, currentPage: template?.pages
     if (!template) return;
     
     setIsUsingTemplate(true);
-    
+    alert(templateId)
     try {
-      // Create a new project from template using frontend db
-      const newProject = db.projects.create({
+      // Create a new project from template using backend API
+      const response = await projectsApi.createProjectFromTemplate(templateId, {
         name: `${template.name} Project`,
-        pages: template.pages.map(page => ({
-          id: Date.now().toString() + Math.random().toString(36).substr(2, 9), // Generate unique ID
-          projectId: '', // Will be set by the create function
-          name: page.name,
-          slug: page.slug,
-          layout: page.layout,
-          isHomePage: page.isHomePage
-        }))
+        description: `Project created from ${template.name} template`
       });
       
       toast.success('Project created successfully!');
       // Navigate to editor with the new project
-      router.push(`/editor/${newProject.id}/home`);
+      router.push(`/editor/${response.data.project._id}/home`);
     } catch (error) {
       console.error("Error creating project from template:", error);
       toast.error('Failed to create project from template');

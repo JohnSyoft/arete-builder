@@ -62,7 +62,6 @@ export function DashboardLayout({ children, activeTab = "projects" }: DashboardL
   const navigation = [
     { name: "Projects", href: "/dashboard", icon: FolderOpen, key: "projects" },
     { name: "Templates", href: "/dashboard/templates", icon: Template, key: "templates" },
-    { name: "Themes", href: "/dashboard/themes", icon: Palette, key: "themes" },
     { name: "Settings", href: "/dashboard/settings", icon: Settings, key: "settings" },
   ]
 

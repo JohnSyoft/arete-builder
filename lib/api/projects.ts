@@ -83,6 +83,11 @@ export interface CreateProjectRequest {
   theme?: string;
 }
 
+export interface CreateProjectFromTemplateRequest {
+  name?: string;
+  description?: string;
+}
+
 export interface UpdateProjectRequest {
   name?: string;
   description?: string;
@@ -110,6 +115,10 @@ export const projectsApi = {
 
   createProject: async (projectData: CreateProjectRequest): Promise<ProjectResponse> => {
     return await apiClient.post("/projects", projectData);
+  },
+
+  createProjectFromTemplate: async (templateId: string, projectData: CreateProjectFromTemplateRequest = {}): Promise<ProjectResponse> => {
+    return await apiClient.post(`/projects/from-template/${templateId}`, projectData);
   },
 
   updateProject: async (id: string, projectData: UpdateProjectRequest): Promise<ProjectResponse> => {
